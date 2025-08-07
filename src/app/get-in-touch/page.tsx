@@ -5,7 +5,7 @@ export default function GetInTouch() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Get in Touch</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to start your project? Let's discuss how we can help transform your business.
+            Ready to start your project? Let&apos;s discuss how we can help transform your business.
           </p>
         </div>
 

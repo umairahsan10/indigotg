@@ -64,7 +64,7 @@ export default function News() {
               <div className="text-sm text-gray-500 mb-2">November 20, 2024</div>
               <h3 className="text-xl font-bold mb-3">Digital Transformation Trends</h3>
               <p className="text-gray-600 mb-4">
-                Exploring the latest trends in digital transformation and how they're reshaping business operations.
+                Exploring the latest trends in digital transformation and how they&apos;re reshaping business operations.
               </p>
               <a href="#" className="text-indigo-600 font-semibold hover:underline">Read More →</a>
             </div>

@@ -5,7 +5,7 @@ export default function SuccessStories() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Success Stories</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover how we've helped businesses transform and achieve their goals
+            Discover how we&apos;ve helped businesses transform and achieve their goals
           </p>
         </div>
 
@@ -13,7 +13,7 @@ export default function SuccessStories() {
           <div className="bg-white p-8 rounded-lg shadow-md border">
             <h3 className="text-2xl font-bold mb-4">Healthcare Provider</h3>
             <p className="text-gray-600 mb-4">
-              "IndigoTG transformed our patient management system, improving efficiency by 40% and enhancing patient satisfaction."
+              &quot;IndigoTG transformed our patient management system, improving efficiency by 40% and enhancing patient satisfaction.&quot;
             </p>
             <div className="text-sm text-gray-500">
               <strong>Results:</strong> 40% efficiency improvement, 95% patient satisfaction
@@ -23,7 +23,7 @@ export default function SuccessStories() {
           <div className="bg-white p-8 rounded-lg shadow-md border">
             <h3 className="text-2xl font-bold mb-4">Financial Institution</h3>
             <p className="text-gray-600 mb-4">
-              "Their digital banking solution helped us increase customer engagement and reduce operational costs significantly."
+              &quot;Their digital banking solution helped us increase customer engagement and reduce operational costs significantly.&quot;
             </p>
             <div className="text-sm text-gray-500">
               <strong>Results:</strong> 60% customer engagement increase, 30% cost reduction
@@ -33,7 +33,7 @@ export default function SuccessStories() {
           <div className="bg-white p-8 rounded-lg shadow-md border">
             <h3 className="text-2xl font-bold mb-4">E-commerce Platform</h3>
             <p className="text-gray-600 mb-4">
-              "The new platform increased our sales by 150% and provided a seamless shopping experience for our customers."
+              &quot;The new platform increased our sales by 150% and provided a seamless shopping experience for our customers.&quot;
             </p>
             <div className="text-sm text-gray-500">
               <strong>Results:</strong> 150% sales increase, 99.9% uptime
@@ -43,7 +43,7 @@ export default function SuccessStories() {
           <div className="bg-white p-8 rounded-lg shadow-md border">
             <h3 className="text-2xl font-bold mb-4">Manufacturing Company</h3>
             <p className="text-gray-600 mb-4">
-              "Smart factory implementation reduced production time by 25% and improved quality control by 90%."
+              &quot;Smart factory implementation reduced production time by 25% and improved quality control by 90%.&quot;
             </p>
             <div className="text-sm text-gray-500">
               <strong>Results:</strong> 25% production time reduction, 90% quality improvement
@@ -54,7 +54,7 @@ export default function SuccessStories() {
         <section className="bg-indigo-600 text-white py-12 rounded-lg text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Write Your Success Story?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Let's work together to achieve similar results for your business.
+            Let&apos;s work together to achieve similar results for your business.
           </p>
           <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
             Start Your Project
