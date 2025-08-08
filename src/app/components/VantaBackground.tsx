@@ -2,7 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const HaloBackground: React.FC = () => {
+type HaloBackgroundProps = {
+  background?: string;
+  particleColor?: string;
+  shapeColor?: string;
+  lineColor?: string;
+};
+
+const HaloBackground: React.FC<HaloBackgroundProps> = ({
+  background = '#140079',
+  particleColor = 'rgba(255,255,255,0.95)',
+  shapeColor = 'rgba(255,255,255,0.25)',
+  lineColor = 'rgba(255,255,255,0.1)',
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,7 +52,7 @@ const HaloBackground: React.FC = () => {
         this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * 2 + 1;
         this.opacity = Math.random() * 0.5 + 0.3;
-        this.color = `rgba(255, 165, 0, ${this.opacity})`; // Orange
+        this.color = particleColor;
       }
 
       update() {
@@ -81,7 +93,7 @@ const HaloBackground: React.FC = () => {
         this.rotationSpeed = (Math.random() - 0.5) * 0.02;
         this.type = ['triangle', 'square', 'hexagon'][Math.floor(Math.random() * 3)] as any;
         this.opacity = Math.random() * 0.3 + 0.1;
-        this.color = `rgba(255, 165, 0, ${this.opacity})`; // Orange
+        this.color = shapeColor;
       }
 
       update() {
@@ -145,7 +157,8 @@ const HaloBackground: React.FC = () => {
 
     // Animation loop
     const animate = () => {
-      ctx.fillStyle = 'rgba(30, 27, 75, 0.1)'; // Indigo with fade effect
+      // subtle trail effect tinting towards the background color
+      ctx.fillStyle = 'rgba(20, 0, 121, 0.08)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Update and draw particles
@@ -161,7 +174,7 @@ const HaloBackground: React.FC = () => {
       });
 
       // Draw connecting lines between nearby particles
-      ctx.strokeStyle = 'rgba(255, 165, 0, 0.1)';
+      ctx.strokeStyle = lineColor;
       ctx.lineWidth = 0.5;
       
       for (let i = 0; i < particles.length; i++) {
@@ -189,18 +202,18 @@ const HaloBackground: React.FC = () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [background, particleColor, shapeColor, lineColor]);
 
   return (
     <div className="absolute inset-0 z-0">
       <canvas
         ref={canvasRef}
         className="w-full h-full"
-        style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)' }}
+        style={{ background }}
       />
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-16 h-16 border-4 border-orange-400 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-white/80 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
     </div>
