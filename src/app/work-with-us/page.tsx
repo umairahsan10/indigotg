@@ -43,7 +43,7 @@ export default function WorkWithUs() {
         <section className="bg-indigo-600 text-white py-12 rounded-lg text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Join Our Team?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Send us your resume and let's discuss how you can contribute to our mission.
+            Send us your resume and let&apos;s discuss how you can contribute to our mission.
           </p>
           <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
             Apply Now
