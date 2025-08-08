@@ -6,6 +6,7 @@ export default function SuccessStories() {
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Success Stories</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Discover how we&apos;ve helped businesses transform and achieve their goals
+            Discover how we&apos;ve helped businesses transform and achieve their goals
           </p>
         </div>
 
@@ -54,6 +55,7 @@ export default function SuccessStories() {
         <section className="bg-indigo-600 text-white py-12 rounded-lg text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Write Your Success Story?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Let&apos;s work together to achieve similar results for your business.
             Let&apos;s work together to achieve similar results for your business.
           </p>
           <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">

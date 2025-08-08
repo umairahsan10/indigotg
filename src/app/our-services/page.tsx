@@ -174,8 +174,8 @@ export default function OurServices() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
             Want to know more?
           </h2>
-          <p className="text-lg md:text-xl mb-10 text-gray-200 leading-relaxed">
-            Get in touch to discover how we can partner to design, deploy, and support your digital infrastructure.
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Let&apos;s discuss how our services can help transform your business and drive growth.
           </p>
           <div className="flex justify-center">
             <button className="bg-gradient-to-r from-orange-400 to-yellow-400 text-black px-8 py-4 rounded-lg font-semibold text-lg hover:from-orange-300 hover:to-yellow-300 transition-all duration-300 transform hover:scale-105">
