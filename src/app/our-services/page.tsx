@@ -1,141 +1,463 @@
+'use client';
+
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import HaloBackground from '../components/VantaBackground';
+
+interface Slide {
+  id: number;
+  imageSrc: string;
+  title: string;
+  url: string;
+  description: string;
+  buttonText: string;
+}
+
+const DigitalCarousel: React.FC = () => {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  // Refs
+  const containerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number | undefined>(undefined);
+  const lastWheelTime = useRef(0);
+  const [slideRowHeight, setSlideRowHeight] = useState<number>(144);
+
+  // Slides (use images from public/services)
+  const slides: Slide[] = useMemo(() => [
+    {
+      id: 1,
+      imageSrc: '/services/img-1.jpg',
+      title: 'Design',
+      url: '/services/design',
+      description:
+        'Transform your vision into stunning digital experiences with our cutting-edge design solutions.',
+      buttonText: 'Explore Design',
+    },
+    {
+      id: 2,
+      imageSrc: '/services/img-2.jpg',
+      title: 'Deploy',
+      url: '/services/deploy',
+      description:
+        'Seamlessly launch and scale your applications with our robust deployment infrastructure.',
+      buttonText: 'Start Deployment',
+    },
+    {
+      id: 3,
+      imageSrc: '/services/img-3.jpg',
+      title: 'Support',
+      url: '/services/support',
+      description:
+        'Get 24/7 expert support and maintenance to keep your systems running smoothly.',
+      buttonText: 'Get Support',
+    },
+  ], []);
+
+  // Animation utilities
+  const easeInOutCubic = (t: number): number => {
+    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  };
+
+  const animate = useCallback(
+    (
+      element: HTMLElement | SVGElement,
+      properties: Record<string, { from: number; to: number; unit?: string }>,
+      duration: number = 1000,
+      onComplete?: () => void,
+    ) => {
+      const startTime = Date.now();
+      const animateStep = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeInOutCubic(progress);
+
+        Object.entries(properties).forEach(([prop, { from, to, unit = '' }]) => {
+          const value = from + (to - from) * easedProgress;
+          if (prop === 'transform' && element instanceof HTMLElement) {
+            element.style.transform = `translateY(${value}${unit})`;
+          } else if (element instanceof HTMLElement) {
+            (element.style as any)[prop] = `${value}${unit}`;
+          }
+        });
+
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(animateStep);
+        } else {
+          onComplete?.();
+        }
+      };
+
+      animateStep();
+    },
+    [],
+  );
+
+  // Title animation
+  const animateTitle = useCallback(() => {
+    if (!titleRef.current || typeof window === 'undefined') return;
+    const titleElement = titleRef.current;
+    const targetY = -currentSlideIndex * slideRowHeight;
+    const currentY = parseFloat(titleElement.style.transform.replace(/[^\d.-]/g, '') || '0');
+    animate(titleElement, { transform: { from: currentY, to: targetY, unit: 'px' } }, 800);
+  }, [currentSlideIndex, animate, slideRowHeight]);
+
+  // Slide transition
+  const transitionToSlide = useCallback(
+    (newIndex: number) => {
+      if (isAnimating || newIndex === currentSlideIndex) return;
+      setIsAnimating(true);
+      setCurrentSlideIndex(newIndex);
+      animateTitle();
+      setTimeout(() => setIsAnimating(false), 800);
+    },
+    [currentSlideIndex, isAnimating, animateTitle],
+  );
+
+  // Navigation functions
+  const goToNextSlide = useCallback(() => {
+    if (currentSlideIndex < slides.length - 1) {
+      transitionToSlide(currentSlideIndex + 1);
+    }
+  }, [currentSlideIndex, slides.length, transitionToSlide]);
+
+  const goToPrevSlide = useCallback(() => {
+    if (currentSlideIndex > 0) {
+      transitionToSlide(currentSlideIndex - 1);
+    }
+  }, [currentSlideIndex, transitionToSlide]);
+
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (index >= 0 && index < slides.length && index !== currentSlideIndex) {
+        transitionToSlide(index);
+      }
+    },
+    [currentSlideIndex, slides.length, transitionToSlide],
+  );
+
+  // Wheel handler for slide navigation when in view
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      if (!isInView || isAnimating) return;
+
+      const now = Date.now();
+      if (now - lastWheelTime.current < 600) return;
+      lastWheelTime.current = now;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (e.deltaY > 0) {
+        goToNextSlide();
+      } else {
+        goToPrevSlide();
+      }
+    },
+    [isInView, isAnimating, goToNextSlide, goToPrevSlide],
+  );
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (!isInView || isAnimating) return;
+      
+      switch (e.key) {
+        case 'ArrowUp':
+        case 'ArrowLeft':
+          e.preventDefault();
+          goToPrevSlide();
+          break;
+        case 'ArrowDown':
+        case 'ArrowRight':
+          e.preventDefault();
+          goToNextSlide();
+          break;
+        case ' ':
+          e.preventDefault();
+          goToNextSlide();
+          break;
+        default:
+          if (e.key >= '1' && e.key <= '3') {
+            const index = parseInt(e.key) - 1;
+            if (index < slides.length) goToSlide(index);
+          }
+      }
+    },
+    [isInView, isAnimating, goToNextSlide, goToPrevSlide, goToSlide, slides.length],
+  );
+
+  // Auto-play functionality
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  useEffect(() => {
+    if (!isAutoPlaying || !isInView) return;
+    const interval = setInterval(() => {
+      if (!isAnimating) {
+        if (currentSlideIndex < slides.length - 1) {
+          goToNextSlide();
+        } else {
+          goToSlide(0);
+        }
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, isInView, isAnimating, goToNextSlide, goToSlide, currentSlideIndex, slides.length]);
+
+  // Intersection Observer for viewport detection
+  useEffect(() => {
+    if (!containerRef.current || typeof window === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.8, // 80% of the carousel must be visible
+        rootMargin: '0px'
+      }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Event listeners
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    };
+  }, [handleWheel, handleKeyDown]);
+
+  // Compute slide row height and update on resize
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const compute = () => {
+      const w = window.innerWidth;
+      setSlideRowHeight(w < 768 ? 96 : w < 1024 ? 128 : 144);
+    };
+    compute();
+    window.addEventListener('resize', compute);
+    return () => window.removeEventListener('resize', compute);
+  }, []);
+
+  // Preload images
+  useEffect(() => {
+    const preloadImages = async () => {
+      try {
+        await Promise.all(
+          slides.map(slide => {
+            return new Promise((resolve, reject) => {
+              const img = new Image();
+              img.onload = resolve;
+              img.onerror = reject;
+              img.src = slide.imageSrc;
+            });
+          })
+        );
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to load some images');
+        setIsLoading(false);
+      }
+    };
+    preloadImages();
+  }, [slides]);
+
+  const currentSlide = slides[currentSlideIndex];
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Error Loading Carousel</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full h-screen overflow-hidden bg-black select-none"
+      role="region"
+      aria-label="Image carousel"
+      tabIndex={0}
+    >
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-black z-50 flex items-center justify-center">
+          <div className="w-16 h-16 border-4 border-orange-400 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {/* Background slides */}
+      <div className="absolute inset-0">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlideIndex ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              backgroundImage: `url(${slide.imageSrc})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 z-10" />
+
+      {/* Main title and content */}
+      <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 z-20 text-center">
+        <div className="flex items-center gap-4 text-orange-400 mb-8">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase tracking-wider">Our</h1>
+          <div className="relative h-24 md:h-32 lg:h-36 overflow-hidden">
+            <div
+              ref={titleRef}
+              className="transition-transform duration-1000 ease-out"
+              style={{ transform: `translateY(${-currentSlideIndex * slideRowHeight}px)` }}
+            >
+              {slides.map((slide) => (
+                <div
+                  key={slide.id}
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase tracking-wider h-24 md:h-32 lg:h-36 flex items-center"
+                >
+                  {slide.title}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <p className="text-white text-lg md:text-xl lg:text-2xl leading-relaxed opacity-90">{currentSlide.description}</p>
+        </div>
+
+        {/* Button */}
+        <div className="flex justify-center">
+          <a
+            href={currentSlide.url}
+            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-400 to-orange-500 text-black font-bold text-lg uppercase tracking-wider rounded-lg hover:from-orange-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-black"
+          >
+            {currentSlide.buttonText}
+          </a>
+        </div>
+      </div>
+
+      {/* Slide indicators */}
+      <div className="absolute right-8 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 z-30">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`w-12 h-0.5 bg-orange-400 transition-all duration-500 origin-right ${index === currentSlideIndex ? 'scale-x-100 opacity-100' : 'scale-x-50 opacity-60'} hover:scale-x-75 focus:outline-none focus:scale-x-75`}
+            aria-label={`Go to slide ${index + 1}: ${slides[index].title}`}
+          />
+        ))}
+      </div>
+
+
+
+      {/* Navigation hint */}
+      <div className="absolute bottom-8 left-8 text-orange-400/60 text-sm z-30">
+        <p>Scroll • Arrow keys • Click indicators</p>
+        <p className="text-xs mt-1">Press 1-3 for quick navigation</p>
+      </div>
+
+      {/* Slide counter */}
+      <div className="absolute top-8 left-8 text-orange-400 font-mono text-lg z-30">
+        <span className="text-2xl font-bold">{String(currentSlideIndex + 1).padStart(2, '0')}</span>
+        <span className="opacity-60"> / {String(slides.length).padStart(2, '0')}</span>
+      </div>
+
+
+    </div>
+  );
+};
+
 export default function OurServices() {
   return (
-    <div className="min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+    <div className="min-h-screen overflow-x-hidden">
+      {/* Hero Section - Full Screen */}
+      <section className="h-screen relative flex items-center justify-center overflow-hidden">
+        {/* Halo-style Background */}
+        <HaloBackground />
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/20 z-10"></div>
+        
+        {/* Content */}
+        <div className="relative z-20 text-center text-white px-4">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
             Our Services
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive technology solutions tailored to your business needs
+          <p className="text-xl md:text-2xl max-w-4xl mx-auto mb-8 text-gray-200">
+            Transforming ideas into digital reality with cutting-edge technology solutions
           </p>
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {/* Web Development */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Web Development</h3>
-            <p className="text-gray-600 mb-4">
-              Custom web applications and websites built with modern technologies and best practices.
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• React & Next.js Applications</li>
-              <li>• E-commerce Solutions</li>
-              <li>• Content Management Systems</li>
-            </ul>
-          </div>
-
-          {/* Mobile Development */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Mobile Development</h3>
-            <p className="text-gray-600 mb-4">
-              Native and cross-platform mobile applications for iOS and Android platforms.
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• iOS & Android Apps</li>
-              <li>• React Native Development</li>
-              <li>• App Store Optimization</li>
-            </ul>
-          </div>
-
-          {/* Cloud Solutions */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Cloud Solutions</h3>
-            <p className="text-gray-600 mb-4">
-              Scalable cloud infrastructure and migration services for modern businesses.
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• AWS & Azure Services</li>
-              <li>• Cloud Migration</li>
-              <li>• DevOps & CI/CD</li>
-            </ul>
-          </div>
-
-          {/* Data Analytics */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Data Analytics</h3>
-            <p className="text-gray-600 mb-4">
-              Transform your data into actionable insights with advanced analytics solutions.
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Business Intelligence</li>
-              <li>• Data Visualization</li>
-              <li>• Predictive Analytics</li>
-            </ul>
-          </div>
-
-          {/* Cybersecurity */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Cybersecurity</h3>
-            <p className="text-gray-600 mb-4">
-              Protect your digital assets with comprehensive security solutions and consulting.
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Security Audits</li>
-              <li>• Penetration Testing</li>
-              <li>• Compliance Consulting</li>
-            </ul>
-          </div>
-
-          {/* Consulting */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
-            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Technology Consulting</h3>
-            <p className="text-gray-600 mb-4">
-              Strategic technology consulting to help you make informed decisions and optimize your IT infrastructure.
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Technology Strategy</li>
-              <li>• Digital Transformation</li>
-              <li>• IT Optimization</li>
-            </ul>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-lg font-semibold text-lg hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105">
+              Explore Services
+            </button>
+            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-black transition-all duration-300">
+              Get Started
+            </button>
           </div>
         </div>
+      </section>
 
-        {/* CTA Section */}
-        <section className="bg-indigo-600 text-white py-12 rounded-lg text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Get Started?
+      {/* Carousel Section */}
+      <DigitalCarousel />
+
+      {/* Contact Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&crop=center")'
+          }}
+        />
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        
+        {/* Content */}
+        <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
+            Want to know more?
           </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Let's discuss how our services can help transform your business and drive growth.
+          
+          <p className="text-xl md:text-2xl mb-12 text-gray-200 max-w-3xl mx-auto leading-relaxed">
+            Get in touch to discover how we can partner to design, deploy, and support your digital infrastructure.
           </p>
-          <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-            Contact Us Today
-          </button>
-        </section>
-      </div>
+          
+          {/* CTA Button */}
+          <div className="flex justify-center">
+            <button className="bg-gradient-to-r from-orange-400 to-yellow-400 text-black px-8 py-4 rounded-lg font-semibold text-lg hover:from-orange-300 hover:to-yellow-300 transition-all duration-300 transform hover:scale-105">
+              Get in Touch with Indigo
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
