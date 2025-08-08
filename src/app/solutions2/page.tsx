@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -87,7 +87,9 @@ function horizontalLoop(items: HTMLElement[], config?: HorizontalLoopConfig): gs
 }
 
 // Main component
-export default function CapsulesStickyCards() {
+export default function Solutions2() {
+  const [showNav, setShowNav] = useState(false);
+
   useEffect(() => {
     gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -249,16 +251,16 @@ export default function CapsulesStickyCards() {
   return (
     <>
       <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
+        /* Override main layout styles for this page */
         body {
           font-family: "Inter", sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+
+        /* Hide navigation for full-screen experience */
+        nav {
+          display: ${showNav ? 'block' : 'none'};
         }
 
         img {
@@ -420,6 +422,14 @@ export default function CapsulesStickyCards() {
       `}</style>
 
       <main>
+        {/* Navigation toggle button */}
+        <button 
+          onClick={() => setShowNav(!showNav)}
+          className="fixed top-4 right-4 z-50 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-lg border border-white/20 hover:bg-white/20 transition-all"
+        >
+          {showNav ? 'Hide Nav' : 'Show Nav'}
+        </button>
+        
         <section className="intro">
           <h1>We design spaces that don't just exist.</h1>
         </section>
