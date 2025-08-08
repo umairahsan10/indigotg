@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CustomEase } from 'gsap/CustomEase';
 import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
@@ -29,7 +30,7 @@ const Navigation = () => {
     { href: '/solutions2', label: 'Solutions' },
     { href: '/work-with-us', label: 'Work With Us' },
     { href: '/success-stories', label: 'Success Stories' },
-    { href: '/news', label: 'News' },
+    { href: '/get-in-touch', label: 'Get In Touch' },
   ];
 
   const menuTags: { text: string; href: string }[] = [];
@@ -44,11 +45,15 @@ const Navigation = () => {
     window.addEventListener('resize', checkMobile);
     
     // Register GSAP plugins
-    gsap.registerPlugin(CustomEase, SplitText);
+    gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
     CustomEase.create("hop", ".87,0,.13,1");
 
     // Initialize Lenis
     lenisRef.current = new Lenis();
+    if (lenisRef.current) {
+      // Sync GSAP ScrollTrigger with Lenis scroll events
+      lenisRef.current.on("scroll", () => ScrollTrigger.update());
+    }
     function raf(time: number) {
       if (lenisRef.current) {
         lenisRef.current.raf(time);
@@ -174,6 +179,19 @@ const Navigation = () => {
         );
       }
 
+      // Fade in overlay content
+      if (menuOverlayContainerRef.current) {
+        tl.to(
+          menuOverlayContainerRef.current,
+          {
+            opacity: 1,
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          "-=0.75"
+        );
+      }
+
 
 
       if (menuMediaWrapperRef.current) {
@@ -259,6 +277,19 @@ const Navigation = () => {
         );
       }
 
+      // Fade out overlay content (faster)
+      if (menuOverlayContainerRef.current) {
+        tl.to(
+          menuOverlayContainerRef.current,
+          {
+            opacity: 0,
+            duration: 0.1,
+            ease: "power2.inOut",
+          },
+          "-=0.9"
+        );
+      }
+
 
 
       // Then slide the entire page content back up
@@ -330,13 +361,26 @@ const Navigation = () => {
         :global(#page-content) {
           position: relative;
           z-index: 1;
-          will-change: transform;
-          transform: translateY(0);
+          /* Will be transformed only when menu opens */
         }
 
         :global(body.menu-open) {
           overflow: hidden;
           touch-action: none;
+          background-color: #000 !important;
+        }
+
+        :global(body.menu-open) footer {
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none;
+          display: none !important; /* Ensure footer cannot be seen under any circumstance */
+        }
+
+        /* Hide underlying page content completely while menu is open */
+        :global(body.menu-open) #page-content {
+          opacity: 0 !important;
+          visibility: hidden !important;
         }
 
         * {
@@ -412,7 +456,7 @@ const Navigation = () => {
         }
 
         .menu-bar {
-          position: fixed;
+          position: fixed; /* always visible */
           top: 0;
           left: 0;
           width: 100vw;
@@ -423,6 +467,7 @@ const Navigation = () => {
           pointer-events: all;
           color: #ffffff;
           z-index: 10002;
+          background: transparent;
         }
 
         .menu-logo {
@@ -539,12 +584,30 @@ const Navigation = () => {
           z-index: 9998;
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.1s ease-out;
         }
 
         .menu-backdrop.active {
           opacity: 1;
           pointer-events: all;
+        }
+
+        /* Global black mask that activates with body.menu-open to prevent any background bleed */
+        .menu-global-mask {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100svh;
+          background-color: #000;
+          z-index: 10000; /* Below overlay (10001) but above page/footer */
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.1s ease-out;
+        }
+
+        :global(body.menu-open) .menu-global-mask {
+          opacity: 1;
         }
 
         .menu-overlay-content {
@@ -554,6 +617,7 @@ const Navigation = () => {
           background-color: var(--menu-bg);
           position: relative;
           z-index: 1;
+          opacity: 0; /* start hidden for fade-in */
         }
 
         .menu-media-wrapper {
@@ -570,6 +634,7 @@ const Navigation = () => {
           flex: 3;
           position: relative;
           display: flex;
+          background-color: var(--menu-bg);
         }
 
         .menu-content-main {
@@ -586,6 +651,7 @@ const Navigation = () => {
           display: flex;
           align-items: flex-end;
           gap: 2rem;
+          background-color: var(--menu-bg);
         }
 
         .menu-col {
@@ -739,6 +805,7 @@ const Navigation = () => {
 
           .menu-content-main {
             width: 100%;
+            background-color: var(--menu-bg);
           }
 
           .menu-content-main {
@@ -843,6 +910,8 @@ const Navigation = () => {
             </div>
           </div>
         </div>
+        {/* Black mask that turns on instantly via body.menu-open to fully cover page/footer */}
+        <div className="menu-global-mask" />
         <div className="menu-overlay" ref={menuOverlayRef}>
           <div className="menu-overlay-content" ref={menuOverlayContainerRef}>
             <div className="menu-media-wrapper" ref={menuMediaWrapperRef}>
