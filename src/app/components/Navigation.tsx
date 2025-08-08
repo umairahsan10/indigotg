@@ -9,6 +9,7 @@ import Lenis from 'lenis';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   
@@ -17,32 +18,31 @@ const Navigation = () => {
   const menuOverlayContainerRef = useRef<HTMLDivElement>(null);
   const menuMediaWrapperRef = useRef<HTMLDivElement>(null);
   const copyContainersRef = useRef<HTMLDivElement>(null);
-  const menuToggleLabelRef = useRef<HTMLParagraphElement>(null);
   const hamburgerIconRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
   type SplitResult = { lines: HTMLElement[] };
   const splitTextByContainerRef = useRef<SplitResult[][]>([]);
 
   const navItems = [
-    { href: '/', label: 'Home' },
     { href: '/who-we-are', label: 'Who We Are' },
     { href: '/our-services', label: 'Our Services' },
     { href: '/solutions', label: 'Solutions' },
     { href: '/work-with-us', label: 'Work With Us' },
     { href: '/success-stories', label: 'Success Stories' },
     { href: '/news', label: 'News' },
-    { href: '/resources', label: 'Resources' },
-    { href: '/get-in-touch', label: 'Get In Touch' },
-    { href: '/responsibilities', label: 'Responsibilities' },
   ];
 
-  const menuTags = [
-    { text: 'Web Development', href: '/our-services' },
-    { text: 'Mobile Solutions', href: '/our-services' },
-    { text: 'Cloud Services', href: '/our-services' },
-  ];
+  const menuTags: { text: string; href: string }[] = [];
 
   useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 1000);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     // Register GSAP plugins
     gsap.registerPlugin(CustomEase, SplitText);
     CustomEase.create("hop", ".87,0,.13,1");
@@ -104,6 +104,7 @@ const Navigation = () => {
       if (lenisRef.current) {
         lenisRef.current.destroy();
       }
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -173,17 +174,7 @@ const Navigation = () => {
         );
       }
 
-      if (menuToggleLabelRef.current) {
-        tl.to(
-          menuToggleLabelRef.current,
-          {
-            y: "-110%",
-            duration: 1,
-            ease: "hop",
-          },
-          "-=1"
-        );
-      }
+
 
       if (menuMediaWrapperRef.current) {
         tl.to(
@@ -205,9 +196,9 @@ const Navigation = () => {
           copyLines,
           {
             y: "0%",
-            duration: 2,
+            duration: 1.2,
             ease: "hop",
-            stagger: -0.075,
+            stagger: -0.05,
           },
           "-=0.5"
         );
@@ -268,17 +259,7 @@ const Navigation = () => {
         );
       }
 
-      if (menuToggleLabelRef.current) {
-        tl.to(
-          menuToggleLabelRef.current,
-          {
-            y: "0%",
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        );
-      }
+
 
       // Then slide the entire page content back up
       const pageContent = document.querySelector('#page-content') as HTMLElement | null;
@@ -440,7 +421,7 @@ const Navigation = () => {
           justify-content: space-between;
           align-items: center;
           pointer-events: all;
-          color: var(--menu-fg-secondary);
+          color: #ffffff;
           z-index: 10002;
         }
 
@@ -474,27 +455,36 @@ const Navigation = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          gap: 0.3rem;
-          border: 1px solid var(--hamburger-icon-border);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 100%;
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.05);
         }
 
         .menu-hamburger-icon span {
           position: absolute;
-          width: 15px;
-          height: 1.25px;
-          background-color: var(--fg);
+          width: 18px;
+          height: 2px;
+          background-color: #ffffff;
           transition: all 0.75s cubic-bezier(0.87, 0, 0.13, 1);
           transform-origin: center;
           will-change: transform;
+          left: 50%;
+          top: 50%;
+          margin-left: -9px;
+          margin-top: -1px;
         }
 
         .menu-hamburger-icon span:nth-child(1) {
-          transform: translateY(-3px);
+          transform: translateY(-8px);
         }
 
         .menu-hamburger-icon span:nth-child(2) {
-          transform: translateY(3px);
+          transform: translateY(0);
+        }
+
+        .menu-hamburger-icon span:nth-child(3) {
+          transform: translateY(8px);
         }
 
         .menu-hamburger-icon.active span:nth-child(1) {
@@ -502,6 +492,11 @@ const Navigation = () => {
         }
 
         .menu-hamburger-icon.active span:nth-child(2) {
+          transform: translateY(0) scaleX(0);
+          opacity: 0;
+        }
+
+        .menu-hamburger-icon.active span:nth-child(3) {
           transform: translateY(0) rotate(-45deg) scaleX(1.05);
         }
 
@@ -567,8 +562,8 @@ const Navigation = () => {
           will-change: opacity;
         }
 
-        .menu-media-wrapper img {
-          opacity: 0.25;
+        .menu-media-wrapper video {
+          opacity: 1;
         }
 
         .menu-content-wrapper {
@@ -600,12 +595,8 @@ const Navigation = () => {
           opacity: 1;
         }
 
-        .menu-col:nth-child(1) {
-          flex: 3;
-        }
-
-        .menu-col:nth-child(2) {
-          flex: 2;
+        .menu-col {
+          flex: 1;
         }
 
         .menu-link {
@@ -613,10 +604,103 @@ const Navigation = () => {
         }
 
         .menu-link a {
-          font-size: 3.5rem;
-          font-weight: 500;
-          line-height: 1.2;
+          font-size: 3rem !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
           opacity: 1;
+          color: var(--fg) !important;
+          position: relative;
+          display: inline-block;
+        }
+
+        /* Underline animation */
+        .menu-link a::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.15em;
+          width: 0%;
+          height: 2px;
+          background-color: var(--fg);
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        .menu-link a:hover::after {
+          width: 100%;
+        }
+
+        /* Ensure SplitText-generated lines inherit the same styling */
+        .menu-link .line {
+          position: relative;
+          font-size: 3rem !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: var(--fg) !important;
+        }
+
+        /* Underline animation for SplitText lines */
+        .menu-link .line::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.15em;
+          width: 0%;
+          height: 2px;
+          background-color: var(--fg);
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        .menu-link .line:hover::after {
+          width: 100%;
+        }
+
+        /* Additional specificity for menu links */
+        .menu-content-main .menu-col .menu-link a {
+          font-size: 3rem !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: var(--fg) !important;
+        }
+
+        /* Override global a styles for menu links */
+        nav .menu-overlay .menu-content-main .menu-col .menu-link a {
+          font-size: 3rem !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: var(--fg) !important;
+        }
+
+        /* Maximum specificity override for menu links */
+        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
+          font-size: 3rem !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: var(--fg) !important;
+        }
+
+        /* Override for SplitText lines with maximum specificity */
+        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
+          position: relative;
+          font-size: 3rem !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: var(--fg) !important;
+        }
+
+        /* Underline animation for maximum specificity SplitText lines */
+        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.15em;
+          width: 0%;
+          height: 2px;
+          background-color: var(--fg);
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
+          width: 100%;
         }
 
         .menu-tag {
@@ -665,7 +749,70 @@ const Navigation = () => {
           }
 
           .menu-link a {
-            font-size: 3rem;
+            font-size: 2rem !important;
+            position: relative;
+            display: inline-block;
+          }
+
+          /* Mobile underline animation */
+          .menu-link a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -0.15em;
+            width: 0%;
+            height: 2px;
+            background-color: var(--fg);
+            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+          }
+
+          .menu-link a:hover::after {
+            width: 100%;
+          }
+
+          /* Maximum specificity override for mobile menu links */
+          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
+            font-size: 2rem !important;
+            position: relative;
+            display: inline-block;
+          }
+
+          /* Mobile maximum specificity underline animation */
+          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -0.15em;
+            width: 0%;
+            height: 2px;
+            background-color: var(--fg);
+            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+          }
+
+          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a:hover::after {
+            width: 100%;
+          }
+
+          /* Override for SplitText lines with maximum specificity on mobile */
+          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
+            position: relative;
+            font-size: 2rem !important;
+          }
+
+          /* Mobile SplitText lines underline animation */
+          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -0.15em;
+            width: 0%;
+            height: 2px;
+            background-color: var(--fg);
+            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+          }
+
+          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
+            width: 100%;
           }
 
           .menu-tag a {
@@ -677,15 +824,20 @@ const Navigation = () => {
       <nav>
         <div className="menu-bar">
           <div className="menu-logo">
-            <Link href="/">
+            <Link 
+              href="/"
+              onClick={() => {
+                if (isMenuOpen) {
+                  handleMenuToggle();
+                }
+              }}
+            >
               <span className="text-xl font-bold text-white">IndigoTG</span>
             </Link>
           </div>
           <div className="menu-toggle-btn" ref={menuToggleBtnRef} onClick={handleMenuToggle}>
-            <div className="menu-toggle-label">
-              <p ref={menuToggleLabelRef}>Menu</p>
-            </div>
             <div className="menu-hamburger-icon" ref={hamburgerIconRef}>
+              <span></span>
               <span></span>
               <span></span>
             </div>
@@ -694,22 +846,56 @@ const Navigation = () => {
         <div className="menu-overlay" ref={menuOverlayRef}>
           <div className="menu-overlay-content" ref={menuOverlayContainerRef}>
             <div className="menu-media-wrapper" ref={menuMediaWrapperRef}>
-              <img src="/menu-media.jpg" alt="" />
+              <video 
+                src="/Glass &quotKnot_ _ Motion graphics design Graphic design background texture Learning graphic design.mp4" 
+                autoPlay 
+                muted 
+                loop 
+                playsInline
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: 1
+                }}
+              />
             </div>
             <div className="menu-content-wrapper">
               <div className="menu-content-main" ref={copyContainersRef}>
                 <div className="menu-col">
                   {navItems.map((item, index) => (
                     <div key={index} className="menu-link">
-                      <Link href={item.href}>{item.label}</Link>
+                      <Link 
+                        href={item.href}
+                        onClick={() => {
+                          if (isMenuOpen) {
+                            handleMenuToggle();
+                          }
+                        }}
+                        style={{
+                          fontSize: isMobile ? '2rem' : '3rem',
+                          fontWeight: '500',
+                          lineHeight: '1.2',
+                          color: 'var(--fg)',
+                          textDecoration: 'none'
+                        }}
+                      >
+                        {item.label}
+                      </Link>
                     </div>
                   ))}
-                </div>
-
-                <div className="menu-col">
                   {menuTags.map((tag, index) => (
                     <div key={index} className="menu-tag">
-                      <Link href={tag.href}>{tag.text}</Link>
+                      <Link 
+                        href={tag.href}
+                        onClick={() => {
+                          if (isMenuOpen) {
+                            handleMenuToggle();
+                          }
+                        }}
+                      >
+                        {tag.text}
+                      </Link>
                     </div>
                   ))}
                 </div>
