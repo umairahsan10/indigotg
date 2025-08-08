@@ -129,7 +129,7 @@ export default function OurServices() {
             Ready to Get Started?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Let's discuss how our services can help transform your business and drive growth.
+            Let&apos;s discuss how our services can help transform your business and drive growth.
           </p>
           <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
             Contact Us Today
