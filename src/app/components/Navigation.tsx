@@ -113,6 +113,9 @@ const Navigation = () => {
     if (!isMenuOpen) {
       isAnimatingRef.current = true;
 
+      // Store current scroll position first
+      scrollYRef.current = typeof window !== 'undefined' ? window.scrollY : 0;
+      
       if (lenisRef.current) {
         lenisRef.current.stop();
       }
@@ -126,15 +129,17 @@ const Navigation = () => {
       // First, slide the entire page content down (regardless of current scroll)
       const pageContent = document.querySelector('#page-content') as HTMLElement | null;
       if (pageContent) {
-        // Store current scroll position
-        scrollYRef.current = typeof window !== 'undefined' ? window.scrollY : 0;
-        
-        // Set initial transform to maintain current scroll position
-        gsap.set(pageContent, { y: -scrollYRef.current });
-        
-        // Calculate the target position to slide the content completely off screen
-        // We need to slide it down by the current scroll position plus the viewport height
-        const targetY = scrollYRef.current + window.innerHeight;
+        // Freeze the current viewport by fixing the page content in place
+        gsap.set(pageContent, {
+          position: "fixed",
+          top: -scrollYRef.current,
+          left: 0,
+          width: "100%",
+          y: 0,
+        });
+
+        // Slide the (now fixed) page content downward until it is completely out of view
+        const targetY = scrollYRef.current + window.innerHeight + 100;
         
         tl.to(pageContent, {
           y: targetY,
@@ -279,13 +284,14 @@ const Navigation = () => {
       const pageContent = document.querySelector('#page-content') as HTMLElement | null;
       if (pageContent) {
         tl.to(pageContent, {
-          y: -scrollYRef.current,
+          y: 0,
           duration: 1,
           ease: 'hop',
         }, '-=0.5');
       }
 
       tl.call(() => {
+        // Reset menu text animations
         splitTextByContainerRef.current.forEach((containerSplits) => {
           const copyLines = containerSplits.flatMap((split) => split.lines);
           gsap.set(copyLines, { y: "-110%" });
@@ -298,15 +304,20 @@ const Navigation = () => {
           gsap.set(menuMediaWrapperRef.current, { opacity: 0 });
         }
 
-        // Restore page content and scroll position
-        if (pageContent) {
-          gsap.set(pageContent, { y: 0 });
+
+
+        // Reset the inline styles we added when opening the menu
+        const pageContentEl = document.querySelector('#page-content') as HTMLElement | null;
+        if (pageContentEl) {
+          gsap.set(pageContentEl, { clearProps: 'all' });
         }
 
+        // Restore original scroll position after resetting styles
         if (typeof window !== 'undefined') {
           window.scrollTo(0, scrollYRef.current || 0);
         }
 
+        // Complete the animation sequence
         isAnimatingRef.current = false;
         if (lenisRef.current) {
           lenisRef.current.start();
