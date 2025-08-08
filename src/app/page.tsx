@@ -1,6 +1,8 @@
 "use client";
 
 import Hero from "./components/Hero";
+import ConnectedSolutions from "./components/ConnectedSolutions";
+import BrandsSection from "./components/brands";
 
 export default function Home() {
   return (
@@ -50,6 +52,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Connected Solutions */}
+      <ConnectedSolutions />
+
+      {/* Brands Marquee */}
+      <BrandsSection />
     </div>
   );
 }
