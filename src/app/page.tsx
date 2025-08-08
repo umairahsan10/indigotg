@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { BrandsSection } from "./components/brands";
+import ConnectedSolutions from "./components/ConnectedSolutions";
 
 type LenisWithDestroy = {
   destroy?: () => void;
@@ -263,6 +265,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Connected Solutions */}
+      <ConnectedSolutions />
+
+      {/* Brands Marquee */}
+      <BrandsSection />
 
       <style jsx global>{`
         /* Scoped hero styles */
