@@ -2,7 +2,7 @@
 
 import Hero from "./components/Hero";
 import ConnectedSolutions from "./components/ConnectedSolutions";
-import BrandsSection from "./components/brands";
+import { BrandsSection } from "./components/brands";
 
 export default function Home() {
   return (
