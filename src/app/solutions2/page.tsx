@@ -5,7 +5,7 @@ import Image from 'next/image';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import Lenis from "lenis";
+
 
 // Marquee animation function
 function setupMarqueeAnimation(): void {
@@ -92,10 +92,7 @@ export default function Solutions2() {
   useEffect(() => {
     gsap.registerPlugin(SplitText, ScrollTrigger);
 
-    const lenis = new Lenis();
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
+    // Lenis instance is managed globally in Navigation component
 
     const cards = gsap.utils.toArray(".card") as HTMLElement[];
     const introCard = cards[0];
@@ -300,7 +297,6 @@ export default function Solutions2() {
     setupMarqueeAnimation();
 
     return () => {
-      lenis.destroy();
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
@@ -309,6 +305,9 @@ export default function Solutions2() {
     <>
       <style jsx global>{`
         /* Override main layout styles for this page */
+        html, body {
+          overflow-x: hidden;
+        }
         body {
           font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
           margin: 0;
@@ -345,7 +344,8 @@ export default function Solutions2() {
 
         section {
           position: relative;
-          width: 100vw;
+          width: 100%;
+          max-width: 100%;
           background-color: #ffffff;
           color: #1e3a8a;
         }
@@ -559,6 +559,7 @@ export default function Solutions2() {
           flex-direction: column;
           gap: 25svh;
           background-color: #f8fafc;
+          overflow-x: hidden;
         }
 
         .card-marquee {
@@ -567,7 +568,7 @@ export default function Solutions2() {
           position: absolute;
           top: 0;
           left: 0;
-          overflow: visible;
+          overflow: hidden;
           background: url('/back.jpg');
           background-size: cover;
           background-position: center;
@@ -610,10 +611,12 @@ export default function Solutions2() {
 
         .card {
           position: relative;
-          width: 100vw;
+          width: 100%;
+          max-width: 100%;
           height: 100svh;
           padding: 1.5em;
           background-color: #ffffff;
+          overflow: hidden;
         }
 
         .card-wrapper {
