@@ -6,11 +6,15 @@ import InteractiveMap from "./components/InteractiveMap";
 import GetInTouchForm from "./components/GetInTouchForm";
 import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";
+import ScrollAnimation from "./components/ScrollAnimation";
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-hidden">
-      <Hero />
+    <div className="overflow-x-hidden">
+      {/* ScrollAnimation at the top */}
+      <ScrollAnimation />
+      
+      {/* <Hero /> */}
 
       {/* Features Section (kept) */}
       <section className="py-16 bg-gray-50">
