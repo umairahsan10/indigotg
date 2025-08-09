@@ -2,11 +2,14 @@
 
 import Hero from "./components/Hero";
 import ConnectedSolutions from "./components/ConnectedSolutions";
+import InteractiveMap from "./components/InteractiveMap";
+import GetInTouchForm from "./components/GetInTouchForm";
+import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Hero />
 
       {/* Features Section (kept) */}
@@ -58,6 +61,23 @@ export default function Home() {
 
       {/* Brands Marquee */}
       <BrandsSection />
+
+      {/* Interactive Map */}
+      <section className="py-16 bg-[#0b0e1a]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className={`${orbitron.className} text-center text-4xl md:text-4xl lg:text-6xl font-extrabold tracking-wide text-white mb-6`}>
+            Our Global Offices
+          </h2>
+          <InteractiveMap />
+        </div>
+      </section>
+
+      {/* Get In Touch */}
+      <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <GetInTouchForm />
+        </div>
+      </section>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 export default function GetInTouchForm() {
   return (
     <div className="animate-fade-in-slide-up">
-      <div className="rounded-3xl p-8 lg:p-12 border-4 border-blue-700 bg-blue-700">
+      <div className="rounded-3xl p-8 lg:p-12 bg-[#140079]">
         <h2 className="text-3xl font-bold text-white mb-2">Get In Touch!</h2>
         <p className="text-white mb-8">
           Ready to discuss your technology needs? Send us a message and we'll get back to you within 24 hours.

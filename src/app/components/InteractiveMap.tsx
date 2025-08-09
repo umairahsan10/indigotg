@@ -122,15 +122,15 @@ export default function InteractiveMap() {
         className: 'custom-popup'
       });
 
-      // Add hover effects
-      marker.on('mouseover', function() {
-        this.setRadius(12);
-        this.setStyle({ fillOpacity: 1 });
+      // Add hover effects (use lexical marker instead of `this` to satisfy TS)
+      marker.on('mouseover', () => {
+        marker.setRadius(12);
+        marker.setStyle({ fillOpacity: 1 });
       });
 
-      marker.on('mouseout', function() {
-        this.setRadius(8);
-        this.setStyle({ fillOpacity: 0.8 });
+      marker.on('mouseout', () => {
+        marker.setRadius(8);
+        marker.setStyle({ fillOpacity: 0.8 });
       });
 
       marker.addTo(map);
@@ -176,7 +176,7 @@ export default function InteractiveMap() {
   }, []);
 
   return (
-    <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl">
+    <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl bg-[#0b0e1a] border border-white/10">
       <div 
         ref={mapRef} 
         className="w-full h-full min-h-[400px]"
