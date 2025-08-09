@@ -1,0 +1,33 @@
+/* src/dataLines.css */
+
+/* Subtle shimmer for headline gradient text */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  .animate-shimmer {
+    background-size: 400% 100%;
+    animation: shimmer 6s linear infinite;
+  }
+  
+  /* Optional: make the SVG dots slightly glow */
+  svg circle.dot {
+    filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.35));
+    transform-box: fill-box;
+  }
+  
+  /* Ensure background SVG scales nicely */
+  section svg {
+    width: 120%;
+    height: 100%;
+    transform: translateX(-10%);
+  }
+  
+  /* small responsive tweaks */
+  @media (max-width: 640px) {
+    section svg {
+      display: none; /* optional: hide heavy background on very small screens */
+    }
+  }
+  

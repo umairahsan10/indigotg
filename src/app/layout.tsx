@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { orbitron } from "./fonts";
 import "./globals.css";
 import Navigation from "./components/Navigation";
+import Footer from "./components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +14,7 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
 
 export const metadata: Metadata = {
   title: "IndigoTG",
@@ -26,12 +29,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
       >
         <Navigation />
-        <main className="min-h-screen">
+        <main id="page-content">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

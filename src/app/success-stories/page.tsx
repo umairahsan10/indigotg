@@ -1,11 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { motion, useTransform, useScroll } from "framer-motion";
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FiSend, FiArrowUpRight } from "react-icons/fi";
 
 interface CompanyStory {
@@ -366,7 +363,7 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
       >
         <RevealLinks />
         <p className="text-lg text-white/90 max-w-2xl mx-auto mt-8 text-center" style={{ fontFamily: 'var(--font-geist-sans)' }}>
-          Our engineers work with some of the world's leading brands to create new and better experiences for their customers.
+          Our engineers work with some of the world&apos;s leading brands to create new and better experiences for their customers.
         </p>
       </motion.div>
     );
@@ -742,11 +739,9 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
 
 // Main Success Stories Page Component
 export default function SuccessStories() {
-  const [isVisible, setIsVisible] = useState(false);
-  const lenisRef = useRef<any>(null);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    setIsVisible(true);
     
     // Initialize Lenis for smooth scrolling
     const initLenis = () => {
