@@ -193,7 +193,7 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export function ServicesScrollSetup() {
+function ServicesScrollSetup() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 

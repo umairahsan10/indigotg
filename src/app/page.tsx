@@ -2,7 +2,9 @@
 
 import Hero from "./components/Hero";
 import ConnectedSolutions from "./components/ConnectedSolutions";
-import InteractiveMap from "./components/InteractiveMap";
+import dynamic from "next/dynamic";
+
+const InteractiveMap = dynamic(() => import("./components/InteractiveMap"), { ssr: false });
 import GetInTouchForm from "./components/GetInTouchForm";
 import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";

@@ -1,6 +1,8 @@
 'use client';
 
-import InteractiveMap from "../components/InteractiveMap";
+import dynamic from "next/dynamic";
+
+const InteractiveMap = dynamic(() => import("../components/InteractiveMap"), { ssr: false });
 import Image from "next/image";
 import GetInTouchForm from "../components/GetInTouchForm";
 
