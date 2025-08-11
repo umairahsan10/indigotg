@@ -32,8 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
       >
         <Navigation />
-        <main id="page-content">
-          {children}
+        <main id="page-content" style={{ position: 'relative', zIndex: 1 }}>          {children}
         </main>
         <Footer />
       </body>
