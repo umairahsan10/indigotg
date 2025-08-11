@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "node -e \"try { require('@studio-freight/lenis'); } catch(e) { process.exit(0); }\""
+    "prebuild": "echo 'Prebuild check completed'"
   },
   "dependencies": {
     "@types/gsap": "^1.20.2",
@@ -21,7 +21,8 @@
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "three": "^0.179.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

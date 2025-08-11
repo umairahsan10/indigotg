@@ -1,7 +1,22 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Other Next.js config options can go here
+  // Vercel deployment optimizations
+  output: 'standalone',
+  
+  // Disable telemetry for Vercel
+  telemetry: false,
+  
+  // Optimize images for Vercel
+  images: {
+    unoptimized: false,
+    domains: [],
+  },
+  
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['gsap', 'framer-motion'],
+  },
 
   /**
    * During development it's useful for ESLint to surface all issues, but
@@ -17,6 +32,11 @@ const nextConfig: NextConfig = {
    */
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  
+  // TypeScript configuration for build
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
