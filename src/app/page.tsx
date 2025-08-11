@@ -8,11 +8,14 @@ const InteractiveMap = dynamic(() => import("./components/InteractiveMap"), { ss
 import GetInTouchForm from "./components/GetInTouchForm";
 import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";
+import ScrollAnimation from "./components/ScrollAnimation";
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-hidden">
-      <Hero />
+    <div className="overflow-x-hidden">
+      {/* <Hero /> */}
+      <ScrollAnimation />
+
 
       {/* Features Section (kept) */}
       <section className="py-16 bg-gray-50">
