@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Hero from "./components/Hero";
 import ConnectedSolutions from "./components/ConnectedSolutions";
 import dynamic from "next/dynamic";
@@ -10,56 +11,131 @@ import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";
 import ScrollAnimation from "./components/ScrollAnimation";
 
+// TypeScript declarations for Vanta.js
+declare global {
+  interface Window {
+    VANTA: {
+      RINGS: (config: any) => any;
+      destroy?: () => void;
+    };
+    THREE: any;
+  }
+}
+
 export default function Home() {
+  useEffect(() => {
+    let vantaEffect: any = null;
+
+    const initVanta = async () => {
+      try {
+        // Load Three.js first (Vanta.js dependency)
+        const loadThreeJS = () => {
+          return new Promise((resolve, reject) => {
+            if (window.THREE) {
+              resolve(true);
+              return;
+            }
+            
+            const threeScript = document.createElement('script');
+            threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+            threeScript.onload = () => resolve(true);
+            threeScript.onerror = reject;
+            document.head.appendChild(threeScript);
+          });
+        };
+
+        // Load Vanta.js after Three.js
+        const loadVantaJS = () => {
+          return new Promise((resolve, reject) => {
+            const vantaScript = document.createElement('script');
+            vantaScript.src = 'https://unpkg.com/vanta@latest/dist/vanta.rings.min.js';
+            vantaScript.onload = () => resolve(true);
+            vantaScript.onerror = reject;
+            document.head.appendChild(vantaScript);
+          });
+        };
+
+        // Load libraries in sequence
+        await loadThreeJS();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await loadVantaJS();
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        if (window.VANTA && window.VANTA.RINGS) {
+          const vantaElement = document.getElementById('vanta-background');
+          if (vantaElement && vantaElement.offsetWidth > 0 && vantaElement.offsetHeight > 0) {
+            try {
+              vantaEffect = window.VANTA.RINGS({
+                el: "#vanta-background",
+                backgroundColor: 0xf9f4eb,
+                color: 0x1e40af,
+                color2: 0x3b82f6,
+                color3: 0x60a5fa,
+                size: 4.00,
+                rings: 10,
+                maxDistance: 25,
+                spacing: 15,
+                showLines: false,
+                THREE: window.THREE
+              });
+            } catch (error) {
+              console.error('Vanta.js initialization error:', error);
+            }
+          } else {
+            console.warn('Vanta container not ready, retrying...');
+            // Retry after a short delay
+            setTimeout(() => {
+              if (window.VANTA && window.VANTA.RINGS) {
+                const retryElement = document.getElementById('vanta-background');
+                if (retryElement && retryElement.offsetWidth > 0 && retryElement.offsetHeight > 0) {
+                  try {
+                    vantaEffect = window.VANTA.RINGS({
+                      el: "#vanta-background",
+                      backgroundColor: 0xf9f4eb,
+                      color: 0x1e40af,
+                      color2: 0x3b82f6,
+                      color3: 0x60a5fa,
+                      size: 4.00,
+                      rings: 10,
+                      maxDistance: 25,
+                      spacing: 15,
+                      showLines: false,
+                      THREE: window.THREE
+                    });
+                  } catch (error) {
+                    console.error('Vanta.js retry initialization error:', error);
+                  }
+                }
+              }
+            }, 500);
+          }
+        }
+        
+      } catch (error) {
+        console.error('Vanta.js failed to load:', error);
+      }
+    };
+
+    // Start after a delay
+    const timer = setTimeout(initVanta, 2000);
+
+    return () => {
+      clearTimeout(timer);
+      if (vantaEffect && vantaEffect.destroy) {
+        vantaEffect.destroy();
+      }
+    };
+  }, []);
+
   return (
     <div className="overflow-x-hidden">
-      {/* <Hero /> */}
+      <div id="vanta-background" className="relative bg-[#fefbf4] w-full h-screen min-h-screen" style={{ border: 'none', width: '100vw', height: '100vh' }}>
+        <Hero /> 
+        
+      </div>
+      
       <ScrollAnimation />
-
-
-      {/* Features Section (kept) */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose IndigoTG?</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We deliver cutting-edge technology solutions that drive business growth and innovation
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Innovation</h3>
-              <p className="text-gray-600">Cutting-edge solutions that keep you ahead of the competition</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Reliability</h3>
-              <p className="text-gray-600">Trusted solutions that work when you need them most</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 009.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 114 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Expert Team</h3>
-              <p className="text-gray-600">Experienced professionals dedicated to your success</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Connected Solutions */}
       <ConnectedSolutions />

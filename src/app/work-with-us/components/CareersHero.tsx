@@ -57,7 +57,7 @@ export default function CareersHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex overflow-hidden bg-black">
+    <section className="relative min-h-screen flex overflow-hidden bg-black pt-10">
       {/* Enhanced Animated Background */}
       <div className="absolute inset-0">
         {/* Dynamic Gradient Mesh */}
@@ -136,8 +136,7 @@ export default function CareersHero() {
            <p className={`text-xl text-white/90 mb-10 leading-relaxed transition-all duration-1000 delay-300 mt-8 ${
              isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
            }`}>
-             Looking to set your skills in motion and fulfil your potential? Join us and discover a 
-             <span className="text-yellow-300 font-medium"> dynamic career</span> that values your talents as part of an ambitious and committed team working as one to deliver the future of digital infrastructure.
+             Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
            </p>
           
                      {/* Enhanced CTA Buttons */}

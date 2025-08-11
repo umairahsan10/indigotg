@@ -11,6 +11,7 @@ import Lenis from 'lenis';
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   
@@ -25,6 +26,7 @@ const Navigation = () => {
   const splitTextByContainerRef = useRef<SplitResult[][]>([]);
 
   const navItems = [
+    { href: '/', label: 'Home' },
     { href: '/who-we-are', label: 'Who We Are' },
     { href: '/our-services', label: 'Our Services' },
     { href: '/solutions2', label: 'Solutions' },
@@ -44,6 +46,17 @@ const Navigation = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
+    // Handle scroll for background color change
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
+    
+    // Check initial scroll position
+    handleScroll();
+    
+    window.addEventListener('scroll', handleScroll);
+    
     // Register GSAP plugins
     gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
     CustomEase.create("hop", ".87,0,.13,1");
@@ -52,7 +65,10 @@ const Navigation = () => {
     lenisRef.current = new Lenis();
     if (lenisRef.current) {
       // Sync GSAP ScrollTrigger with Lenis scroll events
-      lenisRef.current.on("scroll", () => ScrollTrigger.update());
+      lenisRef.current.on("scroll", () => {
+        ScrollTrigger.update();
+        handleScroll();
+      });
     }
     function raf(time: number) {
       if (lenisRef.current) {
@@ -110,6 +126,7 @@ const Navigation = () => {
         lenisRef.current.destroy();
       }
       window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -460,7 +477,7 @@ const Navigation = () => {
           top: 0;
           left: 0;
           width: 100vw;
-          padding: 2rem;
+          padding: 1rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -468,11 +485,42 @@ const Navigation = () => {
           color: #ffffff;
           z-index: 10002;
           background: transparent;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .menu-bar.scrolled {
+          background-color: #f9f4eb;
+          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+          color: #140079;
+        }
+
+        .menu-bar.scrolled .menu-hamburger-icon span {
+          background-color: #140079;
+        }
+
+        .menu-bar.scrolled .menu-hamburger-icon {
+          border-color: rgba(20, 0, 121, 0.2);
         }
 
         .menu-logo {
-          width: 2rem;
+          width: auto;
           height: 2rem;
+          display: flex;
+          align-items: center;
+        }
+
+        .menu-logo img {
+          height: 100%;
+          width: auto;
+          object-fit: contain;
+          max-width: 150px;
+        }
+
+        .menu-logo img:not([src]), 
+        .menu-logo img[src=""],
+        .menu-logo img[src*="undefined"],
+        .menu-logo img[src*="null"] {
+          display: none;
         }
 
         .menu-toggle-btn {
@@ -494,23 +542,20 @@ const Navigation = () => {
 
         .menu-hamburger-icon {
           position: relative;
-          width: 3rem;
-          height: 3rem;
+          width: 2.5rem;
+          height: 2.5rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 100%;
           cursor: pointer;
-          background-color: rgba(255, 255, 255, 0.05);
         }
 
         .menu-hamburger-icon span {
           position: absolute;
           width: 18px;
           height: 2px;
-          background-color: #ffffff;
+          background-color: #000000;
           transition: all 0.75s cubic-bezier(0.87, 0, 0.13, 1);
           transform-origin: center;
           will-change: transform;
@@ -530,6 +575,10 @@ const Navigation = () => {
 
         .menu-hamburger-icon span:nth-child(3) {
           transform: translateY(8px);
+        }
+
+        .menu-hamburger-icon.active span {
+          background-color: #ffffff;
         }
 
         .menu-hamburger-icon.active span:nth-child(1) {
@@ -674,7 +723,7 @@ const Navigation = () => {
           font-weight: 500 !important;
           line-height: 1.2 !important;
           opacity: 1;
-          color: var(--fg) !important;
+          color: #ffffff !important;
           position: relative;
           display: inline-block;
         }
@@ -687,7 +736,7 @@ const Navigation = () => {
           bottom: -0.15em;
           width: 0%;
           height: 2px;
-          background-color: var(--fg);
+          background-color: #ffffff;
           transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
@@ -701,7 +750,7 @@ const Navigation = () => {
           font-size: 3rem !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
-          color: var(--fg) !important;
+          color: #ffffff !important;
         }
 
         /* Underline animation for SplitText lines */
@@ -712,7 +761,7 @@ const Navigation = () => {
           bottom: -0.15em;
           width: 0%;
           height: 2px;
-          background-color: var(--fg);
+          background-color: #ffffff;
           transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
@@ -725,7 +774,7 @@ const Navigation = () => {
           font-size: 3rem !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
-          color: var(--fg) !important;
+          color: #ffffff !important;
         }
 
         /* Override global a styles for menu links */
@@ -733,7 +782,7 @@ const Navigation = () => {
           font-size: 3rem !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
-          color: var(--fg) !important;
+          color: #ffffff !important;
         }
 
         /* Maximum specificity override for menu links */
@@ -741,16 +790,24 @@ const Navigation = () => {
           font-size: 3rem !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
-          color: var(--fg) !important;
+          color: #ffffff !important;
+          position: relative !important;
+          display: inline-block !important;
         }
 
         /* Override for SplitText lines with maximum specificity */
         nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
-          position: relative;
+          position: relative !important;
           font-size: 3rem !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
-          color: var(--fg) !important;
+          color: #ffffff !important;
+        }
+
+        /* Additional override to ensure white text */
+        .menu-overlay .menu-content-main .menu-col .menu-link a,
+        .menu-overlay .menu-content-main .menu-col .menu-link .line {
+          color: #ffffff !important;
         }
 
         /* Underline animation for maximum specificity SplitText lines */
@@ -761,12 +818,35 @@ const Navigation = () => {
           bottom: -0.15em;
           width: 0%;
           height: 2px;
-          background-color: var(--fg);
+          background-color: #ffffff !important;
           transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
         nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
           width: 100%;
+        }
+
+        /* Remove any conflicting color declarations */
+        .menu-link a {
+          color: #ffffff !important;
+        }
+
+        .menu-link .line {
+          color: #ffffff !important;
+        }
+
+        /* Override any global styles */
+        nav a {
+          color: #ffffff !important;
+        }
+
+        /* Ensure menu content is white */
+        .menu-content-main a {
+          color: #ffffff !important;
+        }
+
+        .menu-content-main .line {
+          color: #ffffff !important;
         }
 
         .menu-tag {
@@ -829,7 +909,7 @@ const Navigation = () => {
             bottom: -0.15em;
             width: 0%;
             height: 2px;
-            background-color: var(--fg);
+            background-color: #ffffff;
             transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
           }
 
@@ -852,7 +932,7 @@ const Navigation = () => {
             bottom: -0.15em;
             width: 0%;
             height: 2px;
-            background-color: var(--fg);
+            background-color: #ffffff !important;
             transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
           }
 
@@ -864,6 +944,7 @@ const Navigation = () => {
           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
             position: relative;
             font-size: 2rem !important;
+            color: #ffffff !important;
           }
 
           /* Mobile SplitText lines underline animation */
@@ -874,12 +955,21 @@ const Navigation = () => {
             bottom: -0.15em;
             width: 0%;
             height: 2px;
-            background-color: var(--fg);
+            background-color: #ffffff !important;
             transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
           }
 
           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
             width: 100%;
+          }
+
+          /* Additional mobile overrides */
+          .menu-link a {
+            color: #ffffff !important;
+          }
+
+          .menu-link .line {
+            color: #ffffff !important;
           }
 
           .menu-tag a {
@@ -889,7 +979,7 @@ const Navigation = () => {
       `}</style>
 
       <nav>
-        <div className="menu-bar">
+        <div className={`menu-bar ${isScrolled ? 'scrolled' : ''}`}>
           <div className="menu-logo">
             <Link 
               href="/"
@@ -899,7 +989,14 @@ const Navigation = () => {
                 }
               }}
             >
-              <span className="text-xl font-bold text-white">IndigoTG</span>
+              <img src="/logo-blue.svg" alt="IndigoTG Logo" onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const fallback = document.createElement('span');
+                fallback.textContent = 'IndigoTG';
+                fallback.className = 'text-xl font-bold text-white';
+                target.parentNode?.appendChild(fallback);
+              }} />
             </Link>
           </div>
           <div className="menu-toggle-btn" ref={menuToggleBtnRef} onClick={handleMenuToggle}>
@@ -945,7 +1042,7 @@ const Navigation = () => {
                           fontSize: isMobile ? '2rem' : '3rem',
                           fontWeight: '500',
                           lineHeight: '1.2',
-                          color: 'var(--fg)',
+                          color: '#ffffff',
                           textDecoration: 'none'
                         }}
                       >

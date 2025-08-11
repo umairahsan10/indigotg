@@ -1,12 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { motion, useTransform, useScroll } from "framer-motion";
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiSend } from "react-icons/fi";
+import { FiSend, FiArrowUpRight } from "react-icons/fi";
 
 interface CompanyStory {
   id: number;
@@ -158,7 +155,7 @@ const companyStories: CompanyStory[] = [
 // Reveal Links Component
 const RevealLinks = () => {
   return (
-    <div className="grid place-content-center gap-2 text-white">
+    <div className="grid place-content-center gap-2 text-white text-center">
       <FlipLink href="#">SUCCESS</FlipLink>
       <FlipLink href="#">STORIES</FlipLink>
     </div>
@@ -224,22 +221,206 @@ const FlipLink = ({ children, href }: { children: string; href: string }) => {
             {l}
           </motion.span>
         ))}
-      </div>
+            </div>
     </motion.a>
   );
 };
 
-// // Drag Cards Component
-// const DragCards = () => {
-//   return (
-//     <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-white">
-//       <h2 className="relative z-0 text-[20vw] font-black text-gray-200 md:text-[200px]">
-//         SUCCESS<span className="text-blue-900">.</span>
-//       </h2>
-//       <Cards />
-//     </section>
-//   );
-// };
+// Text Parallax Components
+const TextParallaxContentExample = () => {
+  return (
+    <div className="bg-white">
+      <TextParallaxContent
+        imgUrl="/images/success_stories/success_storybg.png"
+        subheading="SUCCESS"
+        heading="STORIES"
+        isHero={true}
+      >
+        <ExampleContent 
+          title="Real Results, Real Impact"
+          description="Discover how we've helped leading telecommunications and technology companies transform their network infrastructure and achieve remarkable growth."
+          buttonText="View Success Stories"
+        />
+      </TextParallaxContent>
+      <TextParallaxContent
+        imgUrl="/images/success_stories/success_storybg1234.png"
+        subheading="Network Excellence"
+        heading="From Design to Deployment"
+      >
+        <ExampleContent 
+          title="End-to-End Network Solutions"
+          description="From LightSpeed Networks to Cellnex, we've delivered comprehensive network infrastructure projects that drive operational efficiency and customer satisfaction."
+          buttonText="Explore Case Studies"
+        />
+      </TextParallaxContent>
+      <TextParallaxContent
+        imgUrl="/images/success_stories/net2.png"
+        subheading="Global Reach"
+        heading="Connecting Communities"
+      >
+        <ExampleContent 
+          title="Infrastructure That Matters"
+          description="Our work with NBI, CityFibre, and SIRO demonstrates our commitment to building networks that connect rural communities and enable digital transformation."
+          buttonText="Read Our Stories"
+        />
+      </TextParallaxContent>
+      <TextParallaxContent
+        imgUrl="/images/success_stories/image4.png"
+        subheading="Innovation"
+        heading="Future-Ready Networks"
+      >
+        <ExampleContent 
+          title="Cutting-Edge Technology"
+          description="Partnering with companies like Netomnia and Orange, we're building the next generation of network infrastructure that powers tomorrow's digital economy."
+          buttonText="Partner With Us"
+        />
+      </TextParallaxContent>
+        </div>
+  );
+};
+
+const IMG_PADDING = 12;
+
+const TextParallaxContent = ({ imgUrl, subheading, heading, children, isHero = false }: {
+  imgUrl: string;
+  subheading: string;
+  heading: string;
+  children: React.ReactNode;
+  isHero?: boolean;
+}) => {
+  return (
+    <div
+      style={{
+        paddingLeft: IMG_PADDING,
+        paddingRight: IMG_PADDING,
+      }}
+    >
+      <div className="relative h-[150vh]">
+        <StickyImage imgUrl={imgUrl} />
+        <OverlayCopy heading={heading} subheading={subheading} isHero={isHero} />
+      </div>
+      {children}
+    </div>
+  );
+};
+
+const StickyImage = ({ imgUrl }: { imgUrl: string }) => {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["end end", "end start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
+  return (
+    <motion.div
+      style={{
+        backgroundImage: `url(${imgUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: `calc(100vh - ${IMG_PADDING * 2}px)`,
+        top: IMG_PADDING,
+        scale,
+      }}
+      ref={targetRef}
+      className="sticky z-0 overflow-hidden rounded-3xl"
+    >
+      <motion.div
+        className="absolute inset-0 bg-neutral-950/70"
+        style={{
+          opacity,
+        }}
+      />
+    </motion.div>
+  );
+};
+
+const OverlayCopy = ({ subheading, heading, isHero = false }: { 
+  subheading: string; 
+  heading: string; 
+  isHero?: boolean;
+}) => {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [250, -250]);
+  const opacity = useTransform(scrollYProgress, [0.25, 0.5, 0.75], [0, 1, 0]);
+
+  if (isHero) {
+    return (
+      <motion.div
+        style={{
+          y,
+          opacity,
+        }}
+        ref={targetRef}
+        className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
+      >
+        <RevealLinks />
+        <p className="text-lg text-white/90 max-w-2xl mx-auto mt-8 text-center" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+          Our engineers work with some of the world&apos;s leading brands to create new and better experiences for their customers.
+        </p>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      style={{
+        y,
+        opacity,
+      }}
+      ref={targetRef}
+      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
+    >
+      <p className="mb-2 text-center text-xl md:mb-4 md:text-3xl">
+        {subheading}
+      </p>
+      <p className="text-center text-4xl font-bold md:text-7xl">{heading}</p>
+    </motion.div>
+  );
+};
+
+const ExampleContent = ({ title, description, buttonText }: {
+  title: string;
+  description: string;
+  buttonText: string;
+}) => (
+  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
+    <h2 className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900">
+      {title}
+    </h2>
+    <div className="col-span-1 md:col-span-8">
+      <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
+        {description}
+      </p>
+      <p className="mb-8 text-xl text-neutral-600 md:text-2xl">
+        From telecommunications infrastructure to enterprise networks, we deliver solutions that drive digital transformation and enable sustainable growth for our partners.
+      </p>
+      <button className="w-full rounded bg-blue-900 px-9 py-4 text-xl text-white transition-colors hover:bg-blue-700 md:w-fit">
+        {buttonText} <FiArrowUpRight className="inline" />
+      </button>
+            </div>
+          </div>
+);
+
+// Drag Cards Component (Commented Out)
+/*
+const DragCards = () => {
+  return (
+    <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-white">
+      <h2 className="relative z-0 text-[20vw] font-black text-gray-200 md:text-[200px]">
+        SUCCESS<span className="text-blue-900">.</span>
+      </h2>
+      <Cards />
+    </section>
+  );
+};
 
 const Cards = () => {
   const containerRef = useRef(null);
@@ -354,7 +535,7 @@ const Cards = () => {
         left="55%"
         className="w-32 md:w-48"
       />
-    </div>
+          </div>
   );
 };
 
@@ -405,6 +586,7 @@ const Card = ({ containerRef, src, alt, top, left, rotate, className }: {
     />
   );
 };
+*/
 
 // Automatic Carousel Component
 const HorizontalScrollCarousel = () => {
@@ -429,7 +611,7 @@ const HorizontalScrollCarousel = () => {
       <section className="relative min-h-screen bg-[#141414] py-20 overflow-x-hidden">
         <div className="flex flex-col items-center justify-center gap-8 h-full">
           <div className="text-white text-lg">Loading...</div>
-        </div>
+            </div>
       </section>
     );
   }
@@ -487,7 +669,7 @@ const HorizontalScrollCarousel = () => {
             <StoryCard story={story} key={`row3-${story.id}-${index}`} />
           ))}
         </motion.div>
-      </div>
+          </div>
     </section>
   );
 };
@@ -531,7 +713,7 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
             <span className="text-xs text-white/60" style={{ fontFamily: 'var(--font-geist-sans)' }}>
               {story.region} • {story.size}
             </span>
-        </div>
+          </div>
 
           <button
             className={`
@@ -549,19 +731,17 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
             <FiSend />
             <span>Read Story</span>
           </button>
-        </div>
             </div>
           </div>
+        </div>
   );
 };
 
 // Main Success Stories Page Component
 export default function SuccessStories() {
-  const [isVisible, setIsVisible] = useState(false);
-  const lenisRef = useRef<any>(null);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    setIsVisible(true);
     
     // Initialize Lenis for smooth scrolling
     const initLenis = () => {
@@ -593,29 +773,10 @@ export default function SuccessStories() {
 
   return (
     <div className="min-h-screen bg-white">
-            {/* Header Section */}
-      <section className="relative text-white py-20 overflow-hidden">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(/images/success_stories/success_storybg.png)'
-          }}
-        ></div>
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center">
-            <RevealLinks />
-            <p className="text-lg text-white/90 max-w-2xl mx-auto mt-8" style={{ fontFamily: 'var(--font-geist-sans)' }}>
-              Our engineers work with some of the world's leading brands to create new and better experiences for their customers.
-            </p>
-            </div>
-          </div>
-      </section>
+      {/* Text Parallax Section - Now starts the page */}
+      <TextParallaxContentExample />
 
-      {/* Drag Cards Section */}
+      {/* Drag Cards Section (Commented Out) */}
       {/* <DragCards /> */}
 
       
@@ -648,12 +809,12 @@ export default function SuccessStories() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-            </button>
-            </div>
+          </button>
+      </div>
           </div>
       </section>
 
-      <style jsx>{`
+      <style>{`
         /* Line clamp utility */
         .line-clamp-2 {
           display: -webkit-box;
