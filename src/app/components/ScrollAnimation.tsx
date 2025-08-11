@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { orbitron } from '../fonts';
 
 const ScrollAnimation = () => {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -249,12 +250,12 @@ const ScrollAnimation = () => {
   }, []);
 
   return (
-    <div ref={componentRef} className="scroll-animation-container">
+    <div ref={componentRef} className={`scroll-animation-container ${orbitron.className}`}>
       <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,100..900;1,100..900&display=swap");
 
         .scroll-animation-container {
-          --scroll-dark: #000;
+          --scroll-dark: #0f172a;
           --scroll-light: #f9f4eb;
           --scroll-light2: #e8e0d5;
           --scroll-accent-1: #e5d9f6;
@@ -263,6 +264,7 @@ const ScrollAnimation = () => {
           --scroll-accent-1-dark: #d4c1ed;
           --scroll-accent-2-dark: #ffbfeb;
           --scroll-accent-3-dark: #fbce8f;
+          --font-orbitron: ${orbitron.style.fontFamily};
         }
 
         .scroll-animation-container * {
@@ -272,24 +274,34 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container {
-          font-family: "DM Sans";
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         .scroll-animation-container h1 {
-          font-size: 1.5rem;
-          font-weight: 500;
+          font-size: 2.25rem;
+          font-weight: 900;
+          font-family: var(--font-orbitron), "Orbitron", monospace;
         }
 
         .scroll-animation-container p {
-          font-size: 1.1rem;
-          font-weight: 500;
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.6;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        @media (min-width: 768px) {
+          .scroll-animation-container h1 {
+            font-size: 3rem;
+          }
         }
 
         .scroll-animation-container span {
           text-transform: uppercase;
-          font-family: "DM Mono";
+          font-family: "Inter", "DM Mono", monospace;
           font-size: 0.75rem;
           font-weight: 500;
+          letter-spacing: 0.05em;
         }
 
         .scroll-animation-container nav {
@@ -323,8 +335,14 @@ const ScrollAnimation = () => {
           position: relative;
           width: 100vw;
           height: 100svh;
-          padding: 2rem;
+          padding: 5rem 1.5rem;
           overflow: hidden;
+        }
+
+        @media (min-width: 1024px) {
+          .scroll-animation-container section {
+            padding: 5rem 6rem;
+          }
         }
 
         .scroll-animation-container .hero {
@@ -340,16 +358,24 @@ const ScrollAnimation = () => {
           width: 100%;
           text-align: center;
           z-index: 1;
+          margin-bottom: 2.5rem;
         }
 
         .scroll-animation-container .hero-header h1 {
-          font-size: 3.5rem;
-          font-weight: 700;
-          color: var(--scroll-dark);
+          font-size: 3rem;
+          font-weight: 900;
+          color: #140079;
           margin: 0;
           line-height: 1.1;
-          max-width: 800px;
+          max-width: 72rem;
           margin: 0 auto;
+          font-family: var(--font-orbitron), "Orbitron", monospace;
+        }
+
+        @media (min-width: 768px) {
+          .scroll-animation-container .hero-header h1 {
+            font-size: 4rem;
+          }
         }
 
         .scroll-animation-container .about,
@@ -384,21 +410,31 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .about-content h1 {
-          font-size: 3.5rem;
-          margin-bottom: 2rem;
+          font-size: 2.25rem;
+          margin-bottom: 2.5rem;
           line-height: 1.2;
           background: linear-gradient(135deg, var(--scroll-light), var(--scroll-accent-1));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          font-family: var(--font-orbitron), "Orbitron", monospace;
+          font-weight: 800;
+        }
+
+        @media (min-width: 768px) {
+          .scroll-animation-container .about-content h1 {
+            font-size: 3rem;
+          }
         }
 
         .scroll-animation-container .about-content p {
-          font-size: 1.6rem;
+          font-size: 1rem;
           margin-bottom: 3rem;
           line-height: 1.6;
           opacity: 0.9;
           font-weight: 400;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          max-width: 42rem;
         }
 
         .scroll-animation-container .about-features {
@@ -635,7 +671,7 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .card-center h2 {
-          font-size: clamp(1.5rem, 4vw, 3.6rem);
+          font-size: clamp(1.25rem, 3vw, 2.5rem);
           font-weight: 700;
           color: white;
           margin: 0;
@@ -647,6 +683,7 @@ const ScrollAnimation = () => {
           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
           transform-origin: center;
           transition: transform 0.1s ease-out;
+          font-family: var(--font-orbitron), "Orbitron", monospace;
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-1 {
@@ -699,10 +736,18 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .services-header h1 {
           font-size: 3rem;
-          font-weight: 600;
-          color: var(--scroll-dark);
+          font-weight: 900;
+          color: #140079;
           margin: 0;
+          margin-top: 2rem;
           line-height: 1.2;
+          font-family: var(--font-orbitron), "Orbitron", monospace;
+        }
+
+        @media (min-width: 768px) {
+          .scroll-animation-container .services-header h1 {
+            font-size: 4rem;
+          }
         }
 
         .scroll-animation-container .outro-header {
@@ -714,11 +759,18 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .outro-header h1 {
-          font-size: 3rem;
-          font-weight: 600;
+          font-size: 2.25rem;
+          font-weight: 800;
           color: var(--scroll-light);
           margin: 0;
           line-height: 1.2;
+          font-family: var(--font-orbitron), "Orbitron", monospace;
+        }
+
+        @media (min-width: 768px) {
+          .scroll-animation-container .outro-header h1 {
+            font-size: 3rem;
+          }
         }
 
         .scroll-animation-container .cards {
@@ -1056,7 +1108,9 @@ const ScrollAnimation = () => {
         <div className="about-content">
           <div className="about-text">
             <h1>Indigo Overview</h1>
-            <p>Find out how Indigo designs, deploys and supports digital infrastructure enhancing network performance now and into the future.</p>
+            <p className="mt-4 max-w-2xl text-gray-600">
+              Find out how Indigo designs, deploys and supports digital infrastructure enhancing network performance now and into the future.
+            </p>
             <div className="about-features">
               <div className="feature">
                 <span>Explore Services</span>
@@ -1331,11 +1385,11 @@ const ScrollAnimation = () => {
         </div>
       </section>
 
-      <section className="outro">
+      {/* <section className="outro">
         <div className="outro-header">
           <h1>Global team ensuring high-performance connectivity</h1>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
