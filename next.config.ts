@@ -12,11 +12,6 @@ const nextConfig: NextConfig = {
     unoptimized: false,
     domains: [],
   },
-  
-  // Experimental features for better performance
-  experimental: {
-    optimizePackageImports: ['gsap', 'framer-motion'],
-  },
 
   /**
    * During development it's useful for ESLint to surface all issues, but
