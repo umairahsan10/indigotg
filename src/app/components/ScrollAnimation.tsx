@@ -1108,7 +1108,7 @@ const ScrollAnimation = () => {
         <div className="about-content">
           <div className="about-text">
             <h1>Indigo Overview</h1>
-            <p className="mt-4 max-w-2xl text-gray-600">
+            <p className="mt-4 max-w-2xl text-gray-200">
               Find out how Indigo designs, deploys and supports digital infrastructure enhancing network performance now and into the future.
             </p>
             <div className="about-features">

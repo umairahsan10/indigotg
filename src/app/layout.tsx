@@ -4,6 +4,7 @@ import { orbitron } from "./fonts";
 import "./globals.css";
 import Navigation from "./components/Navigation";
 import Footer from "./components/footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +15,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "IndigoTG",
@@ -31,8 +31,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
       >
+        <ScrollToTop />
         <Navigation />
-        <main id="page-content" style={{ position: 'relative', zIndex: 1 }}>          {children}
+        <main id="page-content" style={{ position: 'relative', zIndex: 1 }}>
+          {children}
         </main>
         <Footer />
       </body>

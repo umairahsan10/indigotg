@@ -178,8 +178,8 @@ export default function WhoWeAre() {
               </div>
               
               <h1 className="text-5xl lg:text-7xl font-light leading-tight">
-                <span className="font-thin text-gray-600">We are</span>
-                <span className="block font-bold bg-gradient-to-r from-[#140079] to-blue-600 bg-clip-text text-transparent">
+                <span className="font-thin text-gray-600">We are </span>
+                <span className="font-bold bg-gradient-to-r from-[#140079] to-blue-600 bg-clip-text text-transparent">
                   Indigo
                 </span>
               </h1>

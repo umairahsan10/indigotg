@@ -386,7 +386,7 @@ export default function Solutions2() {
         }
 
         .outro h1 {
-          color:#010a14;
+          color:#ffffff;
           font-size: 2.5rem;
           font-weight: 600;
           margin-bottom: 1.5rem;
@@ -394,7 +394,7 @@ export default function Solutions2() {
         }
 
         .outro p {
-          color:#010e14;
+          color:#ffffff;
           font-size: 1.1rem;
           line-height: 1.6;
           margin-bottom: 2rem;
@@ -531,7 +531,7 @@ export default function Solutions2() {
           color: #e0e0e0;
           margin: 0;
           opacity: 0;
-          text-align: left;
+          text-align: center;
           animation: introParagraphAppear 1.2s ease-out 1s forwards;
           text-shadow: 0 0 15px rgba(224, 224, 224, 0.2);
           transition: all 0.3s ease;
@@ -820,7 +820,7 @@ export default function Solutions2() {
         <section className="cards">
           <div className="card">
             <div className="card-marquee">
-              <div className="marquee">
+              <div className="marquee text-white">
                 <h1>Design Beyond Boundaries</h1>
                 <h1>Built for Tomorrow</h1>
                 <h1>Real Impact</h1>

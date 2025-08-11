@@ -63,13 +63,53 @@ export default function Home() {
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         if (window.VANTA && window.VANTA.RINGS) {
-          vantaEffect = window.VANTA.RINGS({
-            el: "#vanta-background",
-            backgroundColor: 0xf9f4eb,
-            color: 0x140079,
-            size: 4.00,
-            rings: 10
-          });
+          const vantaElement = document.getElementById('vanta-background');
+          if (vantaElement && vantaElement.offsetWidth > 0 && vantaElement.offsetHeight > 0) {
+            try {
+              vantaEffect = window.VANTA.RINGS({
+                el: "#vanta-background",
+                backgroundColor: 0xf9f4eb,
+                color: 0x1e40af,
+                color2: 0x3b82f6,
+                color3: 0x60a5fa,
+                size: 4.00,
+                rings: 10,
+                maxDistance: 25,
+                spacing: 15,
+                showLines: false,
+                THREE: window.THREE
+              });
+            } catch (error) {
+              console.error('Vanta.js initialization error:', error);
+            }
+          } else {
+            console.warn('Vanta container not ready, retrying...');
+            // Retry after a short delay
+            setTimeout(() => {
+              if (window.VANTA && window.VANTA.RINGS) {
+                const retryElement = document.getElementById('vanta-background');
+                if (retryElement && retryElement.offsetWidth > 0 && retryElement.offsetHeight > 0) {
+                  try {
+                    vantaEffect = window.VANTA.RINGS({
+                      el: "#vanta-background",
+                      backgroundColor: 0xf9f4eb,
+                      color: 0x1e40af,
+                      color2: 0x3b82f6,
+                      color3: 0x60a5fa,
+                      size: 4.00,
+                      rings: 10,
+                      maxDistance: 25,
+                      spacing: 15,
+                      showLines: false,
+                      THREE: window.THREE
+                    });
+                  } catch (error) {
+                    console.error('Vanta.js retry initialization error:', error);
+                  }
+                }
+              }
+            }, 500);
+          }
         }
         
       } catch (error) {
@@ -90,8 +130,9 @@ export default function Home() {
 
   return (
     <div className="overflow-x-hidden">
-      <div id="vanta-background" className="relative bg-transparent w-full h-screen" style={{ border: 'none' }}>
-        <Hero />
+      <div id="vanta-background" className="relative bg-[#fefbf4] w-full h-screen min-h-screen" style={{ border: 'none', width: '100vw', height: '100vh' }}>
+        <Hero /> 
+        
       </div>
       
       <ScrollAnimation />
