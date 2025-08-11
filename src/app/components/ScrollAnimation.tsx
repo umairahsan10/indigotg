@@ -362,14 +362,30 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .about-content {
-          text-align: center;
-          max-width: 800px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          max-width: 1400px;
           padding: 2rem;
+          gap: 2rem;
+          width: 100%;
+        }
+
+        .scroll-animation-container .about-text {
+          flex: 1;
+          text-align: left;
+          min-width: 500px;
+        }
+
+        .scroll-animation-container .about-video {
+          flex: 1;
+          position: relative;
+          min-width: 600px;
         }
 
         .scroll-animation-container .about-content h1 {
-          font-size: 2.5rem;
-          margin-bottom: 1.5rem;
+          font-size: 3.5rem;
+          margin-bottom: 2rem;
           line-height: 1.2;
           background: linear-gradient(135deg, var(--scroll-light), var(--scroll-accent-1));
           -webkit-background-clip: text;
@@ -378,8 +394,8 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .about-content p {
-          font-size: 1.3rem;
-          margin-bottom: 2.5rem;
+          font-size: 1.6rem;
+          margin-bottom: 3rem;
           line-height: 1.6;
           opacity: 0.9;
           font-weight: 400;
@@ -387,13 +403,13 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .about-features {
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           gap: 2rem;
           flex-wrap: wrap;
         }
 
         .scroll-animation-container .feature {
-          padding: 0.75rem 1.5rem;
+          padding: 1rem 2rem;
           background: rgba(255, 255, 255, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 2rem;
@@ -411,6 +427,170 @@ const ScrollAnimation = () => {
           font-size: 0.9rem;
           font-weight: 500;
           color: var(--scroll-light);
+        }
+
+        /* YouTube Video Styles */
+        .scroll-animation-container .youtube-container {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16/9;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+          min-height: 400px;
+        }
+
+        .scroll-animation-container .youtube-container iframe {
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+
+        .scroll-animation-container .youtube-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .scroll-animation-container .youtube-container:hover .youtube-overlay {
+          opacity: 1;
+        }
+
+        .scroll-animation-container .channel-info {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background: rgba(0, 0, 0, 0.8);
+          padding: 8px 12px;
+          border-radius: 8px;
+          backdrop-filter: blur(10px);
+          pointer-events: auto;
+        }
+
+        .scroll-animation-container .channel-avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #065fd4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .scroll-animation-container .avatar-icon {
+          width: 16px;
+          height: 16px;
+          background: white;
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .scroll-animation-container .channel-details {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+
+        .scroll-animation-container .channel-name {
+          color: white;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .scroll-animation-container .subscriber-count {
+          color: #aaa;
+          font-size: 12px;
+        }
+
+        .scroll-animation-container .subscribe-btn {
+          background: white;
+          color: black;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 18px;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        }
+
+        .scroll-animation-container .subscribe-btn:hover {
+          background: #f0f0f0;
+        }
+
+        .scroll-animation-container .copy-link {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          background: rgba(0, 0, 0, 0.8);
+          padding: 8px;
+          border-radius: 8px;
+          backdrop-filter: blur(10px);
+          pointer-events: auto;
+        }
+
+        .scroll-animation-container .copy-icon {
+          width: 20px;
+          height: 20px;
+          background: white;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
+          mask-size: contain;
+        }
+
+        .scroll-animation-container .copy-link span {
+          color: white;
+          font-size: 12px;
+          font-weight: 500;
+        }
+
+        .scroll-animation-container .watch-youtube {
+          position: absolute;
+          bottom: 31px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(0, 0, 0, 0.8);
+          padding: 8px 12px;
+          backdrop-filter: blur(10px);
+          pointer-events: auto;
+        }
+
+        .scroll-animation-container .watch-youtube span {
+          color: white;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .scroll-animation-container .youtube-logo {
+          width: 20px;
+          height: 14px;
+          background: #ff0000;
+          border-radius: 2px;
+          position: relative;
+        }
+
+        .scroll-animation-container .youtube-logo::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 0;
+          height: 0;
+          border-left: 6px solid white;
+          border-top: 4px solid transparent;
+          border-bottom: 4px solid transparent;
         }
 
         .scroll-animation-container .hero-cards {
@@ -741,8 +921,34 @@ const ScrollAnimation = () => {
             font-size: 2rem;
           }
 
+          .scroll-animation-container .about-content {
+            flex-direction: column;
+            gap: 3rem;
+            text-align: center;
+            padding: 2rem;
+          }
+
+          .scroll-animation-container .about-text {
+            text-align: center;
+            min-width: auto;
+          }
+
+          .scroll-animation-container .about-content h1 {
+            font-size: 2.5rem;
+          }
+
           .scroll-animation-container .about-content p {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
+          }
+
+          .scroll-animation-container .about-video {
+            min-width: auto;
+          }
+
+          .scroll-animation-container .youtube-container {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 200px;
           }
 
           .scroll-animation-container .about-features {
@@ -848,11 +1054,45 @@ const ScrollAnimation = () => {
 
       <section className="about">
         <div className="about-content">
-          <h1>Indigo Overview</h1>
-          <p>Find out how Indigo designs, deploys and supports digital infrastructure enhancing network performance now and into the future.</p>
-          <div className="about-features">
-            <div className="feature">
-              <span>Explore Services</span>
+          <div className="about-text">
+            <h1>Indigo Overview</h1>
+            <p>Find out how Indigo designs, deploys and supports digital infrastructure enhancing network performance now and into the future.</p>
+            <div className="about-features">
+              <div className="feature">
+                <span>Explore Services</span>
+              </div>
+            </div>
+          </div>
+          <div className="about-video">
+            <div className="youtube-container">
+              <iframe
+                src="https://www.youtube.com/embed/v0AgTz_DTZ8?rel=0&modestbranding=1&showinfo=0"
+                title="Indigo Corporate Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+              {/* <div className="youtube-overlay"> */}
+                {/* <div className="channel-info">
+                  <div className="channel-avatar">
+                    <div className="avatar-icon"></div>
+                  </div>
+                  <div className="channel-details">
+                    <div className="channel-name">Indigo</div>
+                    <div className="subscriber-count">55 subscribers</div>
+                  </div>
+                  <button className="subscribe-btn">Subscribe</button>
+                </div> */}
+                {/* <div className="copy-link">
+                  <div className="copy-icon"></div>
+                  <span>Copy link</span>
+                </div> */}
+                {/* <div className="watch-youtube">
+                  <span>Watch on</span>
+                  <div className="youtube-logo"></div>
+                  <span>YouTube</span>
+                </div> */}
+              {/* </div> */}
             </div>
           </div>
         </div>
