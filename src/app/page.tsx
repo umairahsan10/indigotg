@@ -130,10 +130,7 @@ export default function Home() {
 
   return (
     <div className="overflow-x-hidden">
-      <div id="vanta-background" className="relative bg-[#fefbf4] w-full h-screen min-h-screen" style={{ border: 'none', width: '100vw', height: '100vh' }}>
-        <Hero /> 
-        
-      </div>
+      <Hero /> 
       
       <ScrollAnimation />
 
