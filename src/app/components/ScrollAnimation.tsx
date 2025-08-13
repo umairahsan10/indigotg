@@ -348,16 +348,47 @@ const ScrollAnimation = () => {
         .scroll-animation-container .hero {
           background-color: var(--scroll-light);
           color: var(--scroll-dark);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .scroll-animation-container .hero-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+        }
+
+        .scroll-animation-container .hero-background::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(249, 244, 235, 0);
+          z-index: 1;
+        }
+
+        .scroll-animation-container .hero-bg-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          opacity: 1;
+          filter: brightness(1.1) contrast(1.1);
         }
 
         .scroll-animation-container .hero-header {
           position: absolute;
-          top: 20%;
+          top: 15%;
           left: 50%;
           transform: translateX(-50%);
           width: 100%;
           text-align: center;
-          z-index: 1;
+          z-index: 2;
           margin-bottom: 2.5rem;
         }
 
@@ -370,6 +401,7 @@ const ScrollAnimation = () => {
           max-width: 72rem;
           margin: 0 auto;
           font-family: var(--font-orbitron), "Orbitron", monospace;
+          text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         @media (min-width: 768px) {
@@ -383,7 +415,7 @@ const ScrollAnimation = () => {
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: var(--scroll-dark);
+          background-color: #000000;
           color: var(--scroll-light);
         }
 
@@ -406,7 +438,7 @@ const ScrollAnimation = () => {
         .scroll-animation-container .about-video {
           flex: 1;
           position: relative;
-          min-width: 600px;
+          min-width: 500px;
         }
 
         .scroll-animation-container .about-content h1 {
@@ -465,21 +497,65 @@ const ScrollAnimation = () => {
           color: var(--scroll-light);
         }
 
-        /* YouTube Video Styles */
-        .scroll-animation-container .youtube-container {
+        /* Circle Video Styles */
+        .scroll-animation-container .circle-video-container {
           position: relative;
           width: 100%;
           aspect-ratio: 16/9;
           border-radius: 16px;
           overflow: hidden;
           box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-          min-height: 400px;
+          min-height: 500px;
         }
 
-        .scroll-animation-container .youtube-container iframe {
+        .scroll-animation-container .circle-video-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 16px;
+          z-index: 1;
+        }
+
+        .scroll-animation-container .circle-video-container::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 16px;
+          z-index: 3;
+          pointer-events: none;
+        }
+
+        .scroll-animation-container .circle-video {
           width: 100%;
           height: 100%;
-          border: none;
+          object-fit: cover;
+          border-radius: 16px;
+          position: relative;
+          z-index: 4;
+        }
+
+        .scroll-animation-container .circle-video-container video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 16px;
+          position: relative;
+          z-index: 4;
+        }
+
+        .scroll-animation-container .circle-video-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 16px;
         }
 
         .scroll-animation-container .youtube-overlay {
@@ -580,7 +656,7 @@ const ScrollAnimation = () => {
           width: 20px;
           height: 20px;
           background: white;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E3C/svg%3E") no-repeat center;
           mask-size: contain;
         }
 
@@ -631,13 +707,14 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .hero-cards {
           position: absolute;
-          top: 50%;
+          top: 60%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 35%;
+          width: 55%;
           display: flex;
           justify-content: center;
           gap: 1rem;
+          z-index: 2;
         }
 
         .scroll-animation-container .hero-cards .card {
@@ -652,14 +729,34 @@ const ScrollAnimation = () => {
           container-type: inline-size;
         }
 
+        .scroll-animation-container .hero-cards .card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 0.5rem;
+          z-index: 1;
+        }
+
         .scroll-animation-container .card-title {
           width: 100%;
           display: flex;
           justify-content: space-between;
+          position: relative;
+          z-index: 2;
+        }
+
+        .scroll-animation-container .flip-card-back .card-title {
+          z-index: 3;
         }
 
         .scroll-animation-container .hero-cards .card span {
           font-size: 0.7rem;
+          position: relative;
+          z-index: 2;
         }
 
         .scroll-animation-container .card-center {
@@ -687,18 +784,27 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-1 {
-          background-color: var(--scroll-accent-1);
+          background-image: url('/card/card1.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
           transform-origin: top right;
           z-index: 2;
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-2 {
-          background-color: var(--scroll-accent-2);
+          background-image: url('/card/card2.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
           z-index: 1;
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-3 {
-          background-color: var(--scroll-accent-3);
+          background-image: url('/card/card3.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
           transform-origin: top left;
           z-index: 0;
         }
@@ -724,6 +830,21 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .services {
           padding: 8rem 2rem;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .scroll-animation-container .services-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+        }
+
+        .scroll-animation-container .services-bg-image {
+          display: none;
         }
 
         .scroll-animation-container .services-header {
@@ -732,6 +853,7 @@ const ScrollAnimation = () => {
           text-align: center;
           transform: translateY(400%);
           will-change: transform;
+          z-index: 2;
         }
 
         .scroll-animation-container .services-header h1 {
@@ -742,6 +864,7 @@ const ScrollAnimation = () => {
           margin-top: 2rem;
           line-height: 1.2;
           font-family: var(--font-orbitron), "Orbitron", monospace;
+          text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         @media (min-width: 768px) {
@@ -783,6 +906,21 @@ const ScrollAnimation = () => {
           justify-content: center;
           z-index: -1;
           background-color: var(--scroll-light);
+          background-image: url('/card/page2.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .scroll-animation-container .cards::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(249, 244, 235, 0);
+          z-index: 0;
         }
 
         .scroll-animation-container .cards-container {
@@ -811,6 +949,7 @@ const ScrollAnimation = () => {
           width: 100%;
           height: 100%;
           animation: scroll-animation-floating 2s infinite ease-in-out;
+          z-index: 1001;
         }
 
         @keyframes scroll-animation-floating {
@@ -842,6 +981,7 @@ const ScrollAnimation = () => {
           width: 100%;
           height: 100%;
           transform-style: preserve-3d;
+          z-index: 1002;
         }
 
         .scroll-animation-container .flip-card-front,
@@ -863,15 +1003,24 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container #card-1 .flip-card-front {
-          background-color: var(--scroll-accent-1);
+          background-image: url('/card/card1.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-2 .flip-card-front {
-          background-color: var(--scroll-accent-2);
+          background-image: url('/card/card2.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-3 .flip-card-front {
-          background-color: var(--scroll-accent-3);
+          background-image: url('/card/card3.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .scroll-animation-container .flip-card-back {
@@ -881,30 +1030,57 @@ const ScrollAnimation = () => {
           justify-content: space-between;
           gap: 2rem;
           transform: rotateY(180deg);
+          position: relative;
+        }
+
+        .scroll-animation-container .flip-card-back::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.6);
+          z-index: 1;
         }
 
         .scroll-animation-container #card-1 .flip-card-back {
-          background-color: var(--scroll-accent-1);
+          background-image: url('/card/card1.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-2 .flip-card-back {
-          background-color: var(--scroll-accent-2);
+          background-image: url('/card/card2.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-3 .flip-card-back {
-          background-color: var(--scroll-accent-3);
+          background-image: url('/card/card3.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-1 .flip-card-back .card-heading {
-          background-color: var(--scroll-accent-1-dark);
+          background-color: transparent;
+          position: relative;
+          z-index: 2;
         }
 
         .scroll-animation-container #card-2 .flip-card-back .card-heading {
-          background-color: var(--scroll-accent-2-dark);
+          background-color: transparent;
+          position: relative;
+          z-index: 2;
         }
 
         .scroll-animation-container #card-3 .flip-card-back .card-heading {
-          background-color: var(--scroll-accent-3-dark);
+          background-color: transparent;
+          position: relative;
+          z-index: 2;
         }
 
         .scroll-animation-container .card-copy {
@@ -913,6 +1089,8 @@ const ScrollAnimation = () => {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
+          position: relative;
+          z-index: 2;
         }
 
         .scroll-animation-container .card-copy p {
@@ -920,20 +1098,22 @@ const ScrollAnimation = () => {
           display: flex;
           justify-content: center;
           align-items: center;
-          font-size: 1rem;
+          font-size: 1.25rem;
           border-radius: 0.25rem;
+          color: white;
+          font-weight: 500;
         }
 
         .scroll-animation-container #card-1 .flip-card-back .card-copy p {
-          background-color: var(--scroll-accent-1-dark);
+          background-color: transparent;
         }
 
         .scroll-animation-container #card-2 .flip-card-back .card-copy p {
-          background-color: var(--scroll-accent-2-dark);
+          background-color: transparent;
         }
 
         .scroll-animation-container #card-3 .flip-card-back .card-copy p {
-          background-color: var(--scroll-accent-3-dark);
+          background-color: transparent;
         }
 
         .scroll-animation-container .cards #card-1 {
@@ -953,10 +1133,13 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .cards .cards-container .card {
           opacity: 0;
+          z-index: 1000;
         }
 
         .scroll-animation-container .mobile-cards {
           display: none;
+          position: relative;
+          z-index: 2;
         }
 
         @media (max-width: 1000px) {
@@ -966,7 +1149,7 @@ const ScrollAnimation = () => {
           }
 
           .scroll-animation-container .hero-cards {
-            width: calc(100% - 4rem);
+            width: calc(100% - 1rem);
           }
 
           .scroll-animation-container .about-content h1 {
@@ -997,11 +1180,11 @@ const ScrollAnimation = () => {
             min-width: auto;
           }
 
-          .scroll-animation-container .youtube-container {
-            max-width: 600px;
-            margin: 0 auto;
-            min-height: 200px;
-          }
+                                                                                                                                                                                                                                                                                                                                                               .scroll-animation-container .circle-video-container {
+               max-width: 600px;
+               margin: 0 auto;
+               min-height: 500px;
+             }
 
           .scroll-animation-container .about-features {
             gap: 1rem;
@@ -1032,21 +1215,68 @@ const ScrollAnimation = () => {
             margin: 4rem auto;
           }
 
-          .scroll-animation-container .mobile-cards .cards-container .card {
+          .scroll-animation-container .mobile-cards .card {
             margin-bottom: 2rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
           }
 
           .scroll-animation-container .mobile-cards .cards-container .card-wrapper {
             animation: none;
           }
 
-          .scroll-animation-container .mobile-cards .card .flip-card-front {
-            transform: rotateY(180deg);
-          }
+                  .scroll-animation-container .mobile-cards .card .flip-card-front {
+          transform: rotateY(180deg);
+          background-color: white;
+        }
 
-          .scroll-animation-container .mobile-cards .flip-card-back {
-            transform: rotateY(0deg);
-          }
+        .scroll-animation-container #mobile-card-1 .flip-card-front {
+          background-image: url('/card/card1.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .scroll-animation-container #mobile-card-2 .flip-card-front {
+          background-image: url('/card/card2.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .scroll-animation-container #mobile-card-3 .flip-card-front {
+          background-image: url('/card/card3.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+                  .scroll-animation-container .mobile-cards .flip-card-back {
+          transform: rotateY(0deg);
+          background-color: white;
+        }
+
+        .scroll-animation-container #mobile-card-1 .flip-card-back {
+          background-image: url('/card/card1.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .scroll-animation-container #mobile-card-2 .flip-card-back {
+          background-image: url('/card/card2.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .scroll-animation-container #mobile-card-3 .flip-card-back {
+          background-image: url('/card/card3.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
         }
       `}</style>
 
@@ -1056,6 +1286,13 @@ const ScrollAnimation = () => {
       </nav>
 
       <section className="hero">
+        <div className="hero-background">
+          <img 
+            src="/card/page1.png" 
+            alt="Network Solutions Background" 
+            className="hero-bg-image"
+          />
+        </div>
         <div className="hero-header">
           <h1>Network Solutions</h1>
         </div>
@@ -1117,42 +1354,33 @@ const ScrollAnimation = () => {
               </div>
             </div>
           </div>
-          <div className="about-video">
-            <div className="youtube-container">
-              <iframe
-                src="https://www.youtube.com/embed/v0AgTz_DTZ8?rel=0&modestbranding=1&showinfo=0"
-                title="Indigo Corporate Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-              {/* <div className="youtube-overlay"> */}
-                {/* <div className="channel-info">
-                  <div className="channel-avatar">
-                    <div className="avatar-icon"></div>
-                  </div>
-                  <div className="channel-details">
-                    <div className="channel-name">Indigo</div>
-                    <div className="subscriber-count">55 subscribers</div>
-                  </div>
-                  <button className="subscribe-btn">Subscribe</button>
-                </div> */}
-                {/* <div className="copy-link">
-                  <div className="copy-icon"></div>
-                  <span>Copy link</span>
-                </div> */}
-                {/* <div className="watch-youtube">
-                  <span>Watch on</span>
-                  <div className="youtube-logo"></div>
-                  <span>YouTube</span>
-                </div> */}
-              {/* </div> */}
+                                           <div className="about-video">
+              <div className="circle-video-container">
+                <video
+                  src="/card/circle-video.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="circle-video"
+                >
+                  <source src="/card/circle-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
             </div>
-          </div>
         </div>
       </section>
 
       <section className="services">
+        <div className="services-background">
+          <img 
+            src="/card/page2.png" 
+            alt="Services Background" 
+            className="services-bg-image"
+          />
+        </div>
         <div className="services-header">
           <h1>Expert design, deployment, and support services</h1>
         </div>
@@ -1216,7 +1444,7 @@ const ScrollAnimation = () => {
                       <p>Infrastructure Build</p>
                       <p>Project Management</p>
                       <p>Equipment Installation</p>
-                      <p>Testing & Commissioning</p>
+                      <p>Testing</p>
                       <p>Logistics</p>
                       <p>Site Access</p>
                     </div>
@@ -1332,7 +1560,7 @@ const ScrollAnimation = () => {
                     <p>Infrastructure Build</p>
                     <p>Project Management</p>
                     <p>Equipment Installation</p>
-                    <p>Testing & Commissioning</p>
+                    <p>Testing</p>
                     <p>Logistics</p>
                     <p>Site Access</p>
                   </div>

@@ -7,7 +7,7 @@ export default function Hero() {
     <section className="w-screen h-screen bg-transparent flex items-center justify-center px-16 relative z-10">
       <div className="flex items-center gap-16 bg-transparent max-w-[1400px] w-full">
         
-        <div className="flex-1 pl-8 -mt-50">
+        <div className="flex-1 pl-8 -mt-48">
           <h1 className={`${orbitron.className} font-black text-[clamp(4rem,8vw,7rem)] leading-[0.9] mb-8 text-[#140079] tracking-tight`}>
             IndigoTG
           </h1>
