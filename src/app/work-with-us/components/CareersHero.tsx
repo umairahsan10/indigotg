@@ -15,11 +15,11 @@ export default function CareersHero() {
 
   useEffect(() => {
     setIsLoaded(true);
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
@@ -29,25 +29,25 @@ export default function CareersHero() {
       const duration = 2000; // 2 seconds
       const steps = 60;
       const stepDuration = duration / steps;
-      
+
       const finalValues = { team: 500, countries: 50, roles: 15 };
-      
+
       let currentStep = 0;
       const interval = setInterval(() => {
         currentStep++;
         const progress = currentStep / steps;
-        
+
         setCounts({
           team: Math.floor(finalValues.team * progress),
           countries: Math.floor(finalValues.countries * progress),
           roles: Math.floor(finalValues.roles * progress)
         });
-        
+
         if (currentStep >= steps) {
           clearInterval(interval);
         }
       }, stepDuration);
-      
+
       return () => clearInterval(interval);
     }
   }, [isLoaded]);
@@ -63,9 +63,9 @@ export default function CareersHero() {
         {/* Dynamic Gradient Mesh */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f2e] via-[#1e1b4b] to-[#312e81] opacity-95"></div>
         <div className="absolute inset-0 bg-gradient-to-tr from-[#4338ca]/30 via-transparent to-[#7c3aed]/20"></div>
-        
+
         {/* Interactive Floating Elements */}
-        <div 
+        <div
           className="absolute w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"
           style={{
             top: '20%',
@@ -73,7 +73,7 @@ export default function CareersHero() {
             transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`
           }}
         ></div>
-        <div 
+        <div
           className="absolute w-64 h-64 bg-gradient-to-br from-yellow-400/30 to-orange-500/20 rounded-full blur-2xl animate-pulse"
           style={{
             bottom: '30%',
@@ -82,13 +82,13 @@ export default function CareersHero() {
             animationDelay: '2s'
           }}
         ></div>
-        
+
         {/* Geometric Elements */}
-        <div className="absolute top-20 left-20 w-32 h-32 border border-white/10 rounded-full animate-spin" style={{animationDuration: '30s'}}></div>
-        <div className="absolute top-40 right-32 w-16 h-16 bg-gradient-to-br from-yellow-400/40 to-orange-500/40 rounded-full animate-bounce" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-20 left-20 w-32 h-32 border border-white/10 rounded-full animate-spin" style={{ animationDuration: '30s' }}></div>
+        <div className="absolute top-40 right-32 w-16 h-16 bg-gradient-to-br from-yellow-400/40 to-orange-500/40 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-32 left-1/4 w-24 h-24 border-2 border-yellow-400/30 rounded-lg rotate-45 animate-pulse"></div>
         <div className="absolute top-1/2 left-10 w-8 h-8 bg-blue-400/30 rounded-full animate-ping"></div>
-        
+
         {/* Enhanced Grid Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="w-full h-full" style={{
@@ -99,31 +99,30 @@ export default function CareersHero() {
             backgroundSize: '50px 50px'
           }}></div>
         </div>
-        
+
         {/* Particle Effect */}
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-white/30 rounded-full animate-ping"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
+              top: `${5 + (i * 5)}%`,
+              left: `${5 + (i * 5)}%`,
+              animationDelay: `${i * 0.15}s`,
+              animationDuration: `${2 + (i * 0.1)}s`
             }}
           ></div>
         ))}
       </div>
 
-             {/* Enhanced Left Section */}
-       <div className="w-1/2 relative flex items-center justify-center p-16 z-10 -mt-20">
+      {/* Enhanced Left Section */}
+      <div className="w-1/2 relative flex items-center justify-center p-16 z-10 -mt-20">
         <div className="max-w-lg">
 
-          
-                     {/* Enhanced Animated Title */}
-           <h1 className={`text-7xl font-black text-white mb-8 transition-all duration-1000 mt-8 ${
-             isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-           }`}>
+
+          {/* Enhanced Animated Title */}
+          <h1 className={`text-7xl font-black text-white mb-8 transition-all duration-1000 mt-8 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
+            }`}>
             <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-blue-200 bg-clip-text text-transparent leading-tight block">
               Careers
             </span>
@@ -131,106 +130,98 @@ export default function CareersHero() {
               Shape the Future
             </span>
           </h1>
-          
-                     {/* Enhanced Description */}
-           <p className={`text-xl text-white/90 mb-10 leading-relaxed transition-all duration-1000 delay-300 mt-8 ${
-             isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-           }`}>
-             Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
-           </p>
-          
-                     {/* Enhanced CTA Buttons */}
-           <div className={`flex gap-4 transition-all duration-1000 delay-600 ${
-             isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-           }`}>
+
+          {/* Enhanced Description */}
+          <p className={`text-xl text-white/90 mb-10 leading-relaxed transition-all duration-1000 delay-300 mt-8 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
+            }`}>
+            Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
+          </p>
+
+          {/* Enhanced CTA Buttons */}
+          <div className={`flex gap-4 transition-all duration-1000 delay-600 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
+            }`}>
             <button className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:from-yellow-300 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center gap-3 relative overflow-hidden">
               <span className="relative z-10">Open Positions</span>
               <span className="text-xl group-hover:translate-x-1 transition-transform duration-300 relative z-10">→</span>
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
-            
+
             <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3">
               <span>Learn More</span>
               <span className="text-lg group-hover:rotate-45 transition-transform duration-300">↗</span>
             </button>
           </div>
-          
-                                {/* Stats Section */}
-           <div className={`flex gap-8 mt-12 transition-all duration-1000 delay-900 ${
-             isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-           }`}>
-             <div className="text-center">
-               <div className="text-2xl font-bold text-yellow-400">{counts.team}+</div>
-               <div className="text-white/60 text-sm">Team Members</div>
-             </div>
-             <div className="text-center">
-               <div className="text-2xl font-bold text-blue-400">{counts.countries}+</div>
-               <div className="text-white/60 text-sm">Countries</div>
-             </div>
-             <div className="text-center">
-               <div className="text-2xl font-bold text-purple-400">{counts.roles}+</div>
-               <div className="text-white/60 text-sm">Open Roles</div>
-             </div>
-           </div>
+
+          {/* Stats Section */}
+          <div className={`flex gap-8 mt-12 ml-8 transition-all duration-1000 delay-900 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
+            }`}>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-yellow-400">{counts.team}+</div>
+              <div className="text-white/60 text-sm">Team Members</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-400">{counts.countries}+</div>
+              <div className="text-white/60 text-sm">Countries</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400">{counts.roles}+</div>
+              <div className="text-white/60 text-sm">Open Roles</div>
+            </div>
+          </div>
         </div>
-        
+
         {/* Enhanced Floating Elements */}
         <div className="absolute top-1/4 right-8 w-3 h-3 bg-yellow-400 rounded-full animate-ping"></div>
         <div className="absolute bottom-1/3 left-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
         <div className="absolute top-1/3 left-8 w-1 h-12 bg-gradient-to-b from-yellow-400/60 to-transparent"></div>
       </div>
 
-             {/* Enhanced Right Section - Video Player */}
-       <div className="w-1/2 relative flex items-center justify-center z-10 p-8 -mt-20">
-                 <div className={`relative w-full max-w-2xl transition-all duration-1000 delay-300 ${
-           isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
-         }`}>
-           {/* Enhanced Glassmorphism Container */}
-           <div className="relative">
+      {/* Enhanced Right Section - Video Player */}
+      <div className="w-1/2 relative flex items-center justify-center z-10 p-8 -mt-20">
+        <div className={`relative w-full max-w-2xl transition-all duration-1000 delay-300 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
+          }`}>
+          {/* Enhanced Glassmorphism Container */}
+          <div className="relative">
             {/* Glow Effect */}
             <div className="absolute -inset-4 bg-gradient-to-br from-yellow-400/20 via-blue-500/10 to-purple-500/20 rounded-3xl blur-xl opacity-60"></div>
-            
-                         {/* Main Container */}
-             <div className="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl">
-               {/* Video Container */}
-               <div className="relative w-full h-80 bg-black rounded-3xl overflow-hidden shadow-2xl group">
+
+            {/* Main Container */}
+            <div className="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl">
+              {/* Video Container */}
+              <div className="relative w-full h-80 bg-black rounded-3xl overflow-hidden shadow-2xl group">
                 {!isVideoPlaying ? (
                   <>
                     {/* Thumbnail Background */}
-                    <div 
+                    <div
                       className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${thumbnailUrl})` }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30"></div>
                     </div>
-                    
+
                     {/* Play Button with Enhanced Effects */}
-                    <div 
+                    <div
                       className="absolute inset-0 flex items-center justify-center cursor-pointer"
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
                       onClick={handleVideoClick}
                     >
                       {/* Outer Glow Ring */}
-                      <div className={`absolute w-32 h-32 border-2 border-white/30 rounded-full transition-all duration-500 ${
-                        isHovered ? 'scale-110 border-yellow-400/60' : ''
-                      }`}></div>
-                      
-                      {/* Play Button */}
-                      <div className={`relative w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
-                        isHovered ? 'scale-110 bg-yellow-400' : ''
-                      }`}>
-                        <div className={`w-0 h-0 border-l-[14px] border-t-[9px] border-b-[9px] border-t-transparent border-b-transparent ml-1 transition-colors duration-300 ${
-                          isHovered ? 'border-l-black' : 'border-l-black'
+                      <div className={`absolute w-32 h-32 border-2 border-white/30 rounded-full transition-all duration-500 ${isHovered ? 'scale-110 border-yellow-400/60' : ''
                         }`}></div>
+
+                      {/* Play Button */}
+                      <div className={`relative w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${isHovered ? 'scale-110 bg-yellow-400' : ''
+                        }`}>
+                        <div className={`w-0 h-0 border-l-[14px] border-t-[9px] border-b-[9px] border-t-transparent border-b-transparent ml-1 transition-colors duration-300 ${isHovered ? 'border-l-black' : 'border-l-black'
+                          }`}></div>
                       </div>
-                      
+
                       {/* Pulse Effect */}
-                      <div className={`absolute w-20 h-20 bg-yellow-400/20 rounded-full transition-all duration-1000 ${
-                        isHovered ? 'scale-150 opacity-0' : 'scale-100 opacity-100'
-                      }`}></div>
+                      <div className={`absolute w-20 h-20 bg-yellow-400/20 rounded-full transition-all duration-1000 ${isHovered ? 'scale-150 opacity-0' : 'scale-100 opacity-100'
+                        }`}></div>
                     </div>
-                    
+
                     {/* Video Info Overlay */}
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                       <div className="bg-black/70 backdrop-blur-sm rounded-lg px-4 py-2">
@@ -243,19 +234,19 @@ export default function CareersHero() {
                     </div>
                   </>
                 ) : (
-                                     /* Embedded YouTube Video */
-                   <iframe
-                     src={embedUrl}
-                     className="w-full h-full rounded-3xl"
-                     frameBorder="0"
-                     allowFullScreen
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                     title="Meet the Indigo Team"
-                   ></iframe>
+                  /* Embedded YouTube Video */
+                  <iframe
+                    src={embedUrl}
+                    className="w-full h-full rounded-3xl"
+                    frameBorder="0"
+                    allowFullScreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    title="Meet the Indigo Team"
+                  ></iframe>
                 )}
               </div>
-              
-                             
+
+
             </div>
           </div>
         </div>
@@ -263,7 +254,7 @@ export default function CareersHero() {
         {/* Enhanced Decorative Elements */}
         <div className="absolute right-8 top-1/4 w-32 h-1 bg-gradient-to-r from-transparent via-yellow-400/60 to-transparent"></div>
         <div className="absolute right-12 bottom-1/3 w-24 h-1 bg-gradient-to-r from-transparent via-blue-400/60 to-transparent"></div>
-        
+
         {/* Floating Particles */}
         {[...Array(8)].map((_, i) => (
           <div
@@ -279,7 +270,7 @@ export default function CareersHero() {
         ))}
       </div>
 
-      
+
       {/* Corner Accent */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-yellow-400/10 to-transparent"></div>
       <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-transparent"></div>
