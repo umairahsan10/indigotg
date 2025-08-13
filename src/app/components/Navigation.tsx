@@ -12,8 +12,12 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
+  const lastScrollY = useRef(0);
+  const scrollThreshold = 10; // Minimum scroll distance before hiding nav
+  const navHideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   const menuToggleBtnRef = useRef<HTMLDivElement>(null);
   const menuOverlayRef = useRef<HTMLDivElement>(null);
@@ -22,6 +26,7 @@ const Navigation = () => {
   const copyContainersRef = useRef<HTMLDivElement>(null);
   const hamburgerIconRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
+  const navRef = useRef<HTMLElement>(null);
   type SplitResult = { lines: HTMLElement[] };
   const splitTextByContainerRef = useRef<SplitResult[][]>([]);
 
@@ -46,16 +51,14 @@ const Navigation = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
-    // Handle scroll for background color change
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
+
     
-    // Check initial scroll position
-    handleScroll();
-    
-    window.addEventListener('scroll', handleScroll);
+         // Check initial scroll position
+     if (lenisRef.current) {
+       const initialScroll = lenisRef.current.scroll;
+       setIsScrolled(initialScroll > 20);
+       lastScrollY.current = initialScroll;
+     }
     
     // Register GSAP plugins
     gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
@@ -65,9 +68,35 @@ const Navigation = () => {
     lenisRef.current = new Lenis();
     if (lenisRef.current) {
       // Sync GSAP ScrollTrigger with Lenis scroll events
-      lenisRef.current.on("scroll", () => {
+      lenisRef.current.on("scroll", (e: any) => {
         ScrollTrigger.update();
-        handleScroll();
+        // Use Lenis scroll position for more accurate detection
+        const scrollTop = e.scroll;
+        const scrollDelta = scrollTop - lastScrollY.current;
+        
+
+        
+        setIsScrolled(scrollTop > 20);
+        
+        // Hide nav immediately when scrolling down, show when scrolling up or at top
+        if (scrollTop <= 20) {
+          // At top - always show nav
+          setIsNavVisible(true);
+        } else if (scrollDelta < 0) {
+          // Scrolling up - show nav
+          setIsNavVisible(true);
+        } else if (scrollDelta > 0) {
+          // Scrolling down (any positive movement) - hide nav immediately
+          setIsNavVisible(false);
+        } else if (scrollTop > 20) {
+          // If we're not at top and not actively scrolling up, hide nav
+          // This catches cases where scrollDelta is 0 but we're still not at top
+          setIsNavVisible(false);
+        }
+        
+
+        
+        lastScrollY.current = scrollTop;
       });
     }
     function raf(time: number) {
@@ -125,8 +154,10 @@ const Navigation = () => {
       if (lenisRef.current) {
         lenisRef.current.destroy();
       }
+      if (navHideTimeoutRef.current) {
+        clearTimeout(navHideTimeoutRef.current);
+      }
       window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -472,6 +503,14 @@ const Navigation = () => {
           z-index: 9999;
         }
 
+
+
+        .menu-bar.nav-hidden {
+          transform: translateY(-100%);
+          pointer-events: none;
+          opacity: 0.8;
+        }
+
         .menu-bar {
           position: fixed; /* always visible */
           top: 0;
@@ -485,7 +524,7 @@ const Navigation = () => {
           color: #ffffff;
           z-index: 10002;
           background: transparent;
-          transition: background-color 0.3s ease, color 0.3s ease;
+          transition: background-color 0.3s ease, color 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
         }
 
         .menu-bar.scrolled {
@@ -978,8 +1017,8 @@ const Navigation = () => {
         }
       `}</style>
 
-      <nav>
-        <div className={`menu-bar ${isScrolled ? 'scrolled' : ''}`}>
+      <nav ref={navRef}>
+        <div className={`menu-bar ${isScrolled ? 'scrolled' : ''} ${!isNavVisible ? 'nav-hidden' : ''}`}>
           <div className="menu-logo">
             <Link 
               href="/"
