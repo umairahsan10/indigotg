@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -70,21 +70,43 @@ const officeLocations: OfficeLocation[] = [
 export default function InteractiveMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
+  // Load expanded state from localStorage on mount
   useEffect(() => {
-    if (!mapRef.current || mapInstanceRef.current) return;
+    const savedState = localStorage.getItem('mapExpanded');
+    if (savedState !== null) {
+      setIsExpanded(JSON.parse(savedState));
+    }
+  }, []);
 
-    // Initialize map
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('mapExpanded', JSON.stringify(isExpanded));
+  }, [isExpanded]);
+
+  // Function to initialize map
+  const initializeMap = () => {
+    if (!mapRef.current) return;
+
+    // Remove existing map if it exists
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+    }
+
+    // Initialize map with current expanded state
     const map = L.map(mapRef.current, {
       center: [30, 0], // Center between all locations
       zoom: 2,
       zoomControl: true,
-      scrollWheelZoom: true,
+      scrollWheelZoom: isExpanded, // Enable scroll zoom only when expanded
       doubleClickZoom: true,
       boxZoom: true,
       keyboard: true,
-      dragging: true,
-      touchZoom: true,
+      dragging: true, // Keep dragging enabled in both states
+      touchZoom: isExpanded, // Enable touch zoom only when expanded
     });
 
     // Add OpenStreetMap tiles
@@ -156,15 +178,160 @@ export default function InteractiveMap() {
 
     // Store map instance
     mapInstanceRef.current = map;
+    
+    // Immediately set zoom controls based on current state
+    if (isExpanded) {
+      map.scrollWheelZoom.enable();
+      map.touchZoom.enable();
+      console.log('Map initialized with ENABLED zoom controls (expanded)');
+    } else {
+      map.scrollWheelZoom.disable();
+      map.touchZoom.disable();
+      console.log('Map initialized with DISABLED zoom controls (minimized)');
+    }
+  };
 
-    // Add fade-in animation
-    mapRef.current.style.opacity = '0';
-    setTimeout(() => {
-      if (mapRef.current) {
-        mapRef.current.style.transition = 'opacity 0.8s ease-in-out';
-        mapRef.current.style.opacity = '1';
+  // Function to update map zoom controls based on expanded state
+  const updateMapZoomControls = () => {
+    if (mapInstanceRef.current) {
+      // Update scroll wheel zoom
+      if (isExpanded) {
+        mapInstanceRef.current.scrollWheelZoom.enable();
+        mapInstanceRef.current.touchZoom.enable();
+        console.log('Map zoom controls ENABLED - expanded state');
+      } else {
+        mapInstanceRef.current.scrollWheelZoom.disable();
+        mapInstanceRef.current.touchZoom.disable();
+        console.log('Map zoom controls DISABLED - minimized state');
       }
-    }, 100);
+    } else {
+      console.log('Map instance not ready yet');
+    }
+  };
+
+  const toggleMapSize = () => {
+    if (isAnimating) return; // Prevent rapid clicking during animation
+    
+    setIsAnimating(true);
+    const newExpandedState = !isExpanded;
+    setIsExpanded(newExpandedState);
+    
+    // Wait for CSS transition to complete, then reinitialize map
+    setTimeout(() => {
+      setIsAnimating(false);
+      // Reinitialize map with new size and zoom controls using the new state
+      initializeMapWithState(newExpandedState);
+    }, 300); // Match CSS transition duration
+  };
+
+  // Function to initialize map with specific expanded state
+  const initializeMapWithState = (expandedState: boolean) => {
+    if (!mapRef.current) return;
+
+    // Remove existing map if it exists
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+    }
+
+    // Initialize map with the provided expanded state
+    const map = L.map(mapRef.current, {
+      center: [30, 0], // Center between all locations
+      zoom: 2,
+      zoomControl: true,
+      scrollWheelZoom: expandedState, // Use the provided state
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      dragging: true, // Keep dragging enabled in both states
+      touchZoom: expandedState, // Use the provided state
+    });
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Create bounds to fit all markers
+    const bounds = L.latLngBounds([]);
+
+    // Add markers for each office with drop animation
+    officeLocations.forEach((office, index) => {
+      // Create custom circle marker
+      const marker = L.circleMarker(office.coordinates, {
+        radius: 8,
+        fillColor: '#4f46e5', // Indigo color
+        color: '#ffffff',
+        weight: 2,
+        opacity: 0, // Start invisible
+        fillOpacity: 0, // Start invisible
+      });
+
+      // Create popup content
+      const popupContent = `
+        <div class="p-3">
+          <h3 class="font-bold text-lg text-gray-900 mb-2">${office.name}</h3>
+          <p class="text-gray-600 text-sm mb-2">${office.address}</p>
+          ${office.phone ? `<p class="text-indigo-600 font-semibold text-sm">${office.phone}</p>` : ''}
+        </div>
+      `;
+
+      marker.bindPopup(popupContent, {
+        maxWidth: 300,
+        className: 'custom-popup'
+      });
+
+      // Add hover effects (use lexical marker instead of `this` to satisfy TS)
+      marker.on('mouseover', () => {
+        marker.setRadius(12);
+        marker.setStyle({ fillOpacity: 1 });
+      });
+
+      marker.on('mouseout', () => {
+        marker.setRadius(8);
+        marker.setStyle({ fillOpacity: 0.8 });
+      });
+
+      marker.addTo(map);
+      bounds.extend(office.coordinates);
+
+      // Add drop animation with staggered timing
+      setTimeout(() => {
+        marker.setStyle({
+          opacity: 1,
+          fillOpacity: 0.8
+        });
+        
+        // Add bounce effect
+        marker.setRadius(12);
+        setTimeout(() => {
+          marker.setRadius(8);
+        }, 150);
+      }, 200 + (index * 150)); // Stagger each marker by 150ms
+    });
+
+    // Fit map to show all markers with some padding
+    map.fitBounds(bounds, { padding: [20, 20] });
+
+    // Store map instance
+    mapInstanceRef.current = map;
+    
+    // Immediately set zoom controls based on the provided state
+    if (expandedState) {
+      map.scrollWheelZoom.enable();
+      map.touchZoom.enable();
+      console.log('Map initialized with ENABLED zoom controls (expanded)');
+    } else {
+      map.scrollWheelZoom.disable();
+      map.touchZoom.disable();
+      console.log('Map initialized with DISABLED zoom controls (minimized)');
+    }
+  };
+
+  // Initialize map on mount
+  useEffect(() => {
+    initializeMapWithState(isExpanded);
 
     // Cleanup function
     return () => {
@@ -175,12 +342,51 @@ export default function InteractiveMap() {
     };
   }, []);
 
+  // Update map zoom controls when expanded state changes
+  useEffect(() => {
+    // Add a small delay to ensure map is ready
+    const timer = setTimeout(() => {
+      updateMapZoomControls();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [isExpanded]);
+
   return (
-    <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl bg-[#0b0e1a] border border-white/10">
+    <div className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-[#0b0e1a] border border-white/10">
+      {/* Expand/Collapse Button */}
+      <button
+        onClick={toggleMapSize}
+        disabled={isAnimating}
+        className="absolute top-4 right-4 z-[9999] bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-3 shadow-2xl border-2 border-white/20 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+        title={isExpanded ? "Minimize Map" : "Expand Map"}
+        style={{ 
+          zIndex: 9999,
+          position: 'absolute',
+          pointerEvents: 'auto'
+        }}
+      >
+        {isExpanded ? (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+        )}
+      </button>
+
+      {/* Map Container */}
       <div 
         ref={mapRef} 
-        className="w-full h-full min-h-[400px]"
-        style={{ opacity: 0 }}
+        className={`w-full transition-all duration-300 ease-in-out ${
+          isExpanded ? 'min-h-[400px] h-[400px]' : 'min-h-[250px] h-[250px]'
+        }`}
+        style={{ 
+          height: isExpanded ? '400px' : '250px',
+          minHeight: isExpanded ? '400px' : '250px'
+        }}
       />
     </div>
   );
