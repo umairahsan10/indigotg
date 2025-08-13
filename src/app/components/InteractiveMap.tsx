@@ -151,7 +151,7 @@ export default function InteractiveMap() {
         marker.closePopup();
         
         // Smooth fly-to animation to the clicked location
-        map.flyTo(office.coordinates, 8, {
+        map.flyTo(office.coordinates, 12, {
           duration: 2, // 2 seconds smooth animation
           easeLinearity: 0.25
         });
