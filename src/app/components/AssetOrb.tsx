@@ -1,75 +1,96 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-// Earth texture URLs - using local textures from public folder
+// Earth texture URLs - using only essential textures
 const TEXTURES = {
-  earthMap: '/textures/00_earthmap1k.jpg',
-  earthBump: '/textures/01_earthbump1k.jpg',
-  earthSpec: '/textures/02_earthspec1k.jpg',
-  earthLights: '/textures/03_earthlights1k.jpg',
+  earthLights: '/textures/03_earthlights1k1.jpg',
   earthCloudMap: '/textures/04_earthcloudmap.jpg',
   earthCloudMapTrans: '/textures/05_earthcloudmaptrans.jpg'
 };
 
 // High-quality external textures as backup
 const EXTERNAL_TEXTURES = {
-  earthMap: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
-  earthBump: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_normal_2048.jpg',
-  earthSpec: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg',
   earthLights: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_lights_2048.jpg',
-  earthCloudMap: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png',
-  earthCloudMapTrans: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png'
+  earthCloudMap: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_2048.png', // Higher resolution
+  earthCloudMapTrans: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_2048.png' // Higher resolution
 };
 
-// Fresnel material generator function
-const getFresnelMat = ({rimHex = 0x0088ff, facingHex = 0x000000} = {}) => {
-  const uniforms = {
-    color1: { value: new THREE.Color(rimHex) },
-    color2: { value: new THREE.Color(facingHex) },
-    fresnelBias: { value: 0.1 },
-    fresnelScale: { value: 1.0 },
-    fresnelPower: { value: 4.0 },
-  };
-  const vs = `
-  uniform float fresnelBias;
-  uniform float fresnelScale;
-  uniform float fresnelPower;
+// Network connection data for networking effect
+// const NETWORK_DATA = [
+//   // Original connections
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: 51.5074, lon: -0.1278, name: 'London' }, type: 'Fiber' },
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, type: 'Satellite' },
+//   { from: { lat: 51.5074, lon: -0.1278, name: 'London' }, to: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, type: 'Fiber' },
+//   { from: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, to: { lat: 22.3193, lon: 114.1694, name: 'Hong Kong' }, type: 'Fiber' },
+//   { from: { lat: 22.3193, lon: 114.1694, name: 'Hong Kong' }, to: { lat: 1.3521, lon: 103.8198, name: 'Singapore' }, type: 'Fiber' },
+//   { from: { lat: 1.3521, lon: 103.8198, name: 'Singapore' }, to: { lat: -33.8688, lon: 151.2093, name: 'Sydney' }, type: 'Satellite' },
+//   { from: { lat: -33.8688, lon: 151.2093, name: 'Sydney' }, to: { lat: -23.5505, lon: -46.6333, name: 'São Paulo' }, type: 'Satellite' },
+//   { from: { lat: -23.5505, lon: -46.6333, name: 'São Paulo' }, to: { lat: 40.7128, lon: -74.0060, name: 'New York' }, type: 'Fiber' },
+//   { from: { lat: 51.5074, lon: -0.1278, name: 'London' }, to: { lat: 25.2048, lon: 55.2708, name: 'Dubai' }, type: 'Fiber' },
+//   { from: { lat: 25.2048, lon: 55.2708, name: 'Dubai' }, to: { lat: 19.0760, lon: 72.8777, name: 'Mumbai' }, type: 'Fiber' },
+//   { from: { lat: 19.0760, lon: 72.8777, name: 'Mumbai' }, to: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, type: 'Fiber' },
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: 37.7749, lon: -122.4194, name: 'San Francisco' }, type: 'Fiber' },
+//   { from: { lat: 37.7749, lon: -122.4194, name: 'San Francisco' }, to: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, type: 'Satellite' },
+//   { from: { lat: 51.5074, lon: -0.1278, name: 'London' }, to: { lat: 48.8566, lon: 2.3522, name: 'Paris' }, type: 'Fiber' },
+//   { from: { lat: 48.8566, lon: 2.3522, name: 'Paris' }, to: { lat: 55.7558, lon: 37.6176, name: 'Moscow' }, type: 'Fiber' },
+//   { from: { lat: 55.7558, lon: 37.6176, name: 'Moscow' }, to: { lat: 39.9042, lon: 116.4074, name: 'Beijing' }, type: 'Fiber' },
+//   { from: { lat: 39.9042, lon: 116.4074, name: 'Beijing' }, to: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, type: 'Fiber' },
   
-  varying float vReflectionFactor;
+//   // Additional North American connections
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: 43.6532, lon: -79.3832, name: 'Toronto' }, type: 'Fiber' },
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: 19.4326, lon: -99.1332, name: 'Mexico City' }, type: 'Fiber' },
+//   { from: { lat: 37.7749, lon: -122.4194, name: 'San Francisco' }, to: { lat: 49.2827, lon: -123.1207, name: 'Vancouver' }, type: 'Fiber' },
+//   { from: { lat: 37.7749, lon: -122.4194, name: 'San Francisco' }, to: { lat: 32.7157, lon: -117.1611, name: 'San Diego' }, type: 'Fiber' },
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: 25.7617, lon: -80.1918, name: 'Miami' }, type: 'Fiber' },
+//   { from: { lat: 37.7749, lon: -122.4194, name: 'San Francisco' }, to: { lat: 34.0522, lon: -118.2437, name: 'Los Angeles' }, type: 'Fiber' },
   
-  void main() {
-    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-    vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+//   // Additional European connections
+//   { from: { lat: 51.5074, lon: -0.1278, name: 'London' }, to: { lat: 52.5200, lon: 13.4050, name: 'Berlin' }, type: 'Fiber' },
+//   { from: { lat: 51.5074, lon: -0.1278, name: 'London' }, to: { lat: 41.9028, lon: 12.4964, name: 'Rome' }, type: 'Fiber' },
+//   { from: { lat: 48.8566, lon: 2.3522, name: 'Paris' }, to: { lat: 40.4168, lon: -3.7038, name: 'Madrid' }, type: 'Fiber' },
+//   { from: { lat: 48.8566, lon: 2.3522, name: 'Paris' }, to: { lat: 52.3676, lon: 4.9041, name: 'Amsterdam' }, type: 'Fiber' },
+//   { from: { lat: 55.7558, lon: 37.6176, name: 'Moscow' }, to: { lat: 59.3293, lon: 18.0686, name: 'Stockholm' }, type: 'Fiber' },
+//   { from: { lat: 55.7558, lon: 37.6176, name: 'Moscow' }, to: { lat: 50.0755, lon: 14.4378, name: 'Prague' }, type: 'Fiber' },
   
-    vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );
+//   // Additional Asian connections
+//   { from: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, to: { lat: 37.5665, lon: 126.9780, name: 'Seoul' }, type: 'Fiber' },
+//   { from: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, to: { lat: 31.2304, lon: 121.4737, name: 'Shanghai' }, type: 'Fiber' },
+//   { from: { lat: 22.3193, lon: 114.1694, name: 'Hong Kong' }, to: { lat: 23.1291, lon: 113.2644, name: 'Guangzhou' }, type: 'Fiber' },
+//   { from: { lat: 22.3193, lon: 114.1694, name: 'Hong Kong' }, to: { lat: 25.0330, lon: 121.5654, name: 'Taipei' }, type: 'Fiber' },
+//   { from: { lat: 19.0760, lon: 72.8777, name: 'Mumbai' }, to: { lat: 28.6139, lon: 77.2090, name: 'New Delhi' }, type: 'Fiber' },
+//   { from: { lat: 19.0760, lon: 72.8777, name: 'Mumbai' }, to: { lat: 12.9716, lon: 77.5946, name: 'Bangalore' }, type: 'Fiber' },
+//   { from: { lat: 39.9042, lon: 116.4074, name: 'Beijing' }, to: { lat: 36.1699, lon: -115.1398, name: 'Las Vegas' }, type: 'Satellite' },
   
-    vec3 I = worldPosition.xyz - cameraPosition;
+//   // Additional Middle East and Africa connections
+//   { from: { lat: 25.2048, lon: 55.2708, name: 'Dubai' }, to: { lat: 30.0444, lon: 31.2357, name: 'Cairo' }, type: 'Fiber' },
+//   { from: { lat: 25.2048, lon: 55.2708, name: 'Dubai' }, to: { lat: 24.7136, lon: 46.6753, name: 'Riyadh' }, type: 'Fiber' },
+//   { from: { lat: 30.0444, lon: 31.2357, name: 'Cairo' }, to: { lat: -1.2921, lon: 36.8219, name: 'Nairobi' }, type: 'Fiber' },
+//   { from: { lat: -1.2921, lon: 36.8219, name: 'Nairobi' }, to: { lat: -26.2041, lon: 28.0473, name: 'Johannesburg' }, type: 'Fiber' },
+//   { from: { lat: -26.2041, lon: 28.0473, name: 'Johannesburg' }, to: { lat: -33.8688, lon: 151.2093, name: 'Sydney' }, type: 'Satellite' },
   
-    vReflectionFactor = fresnelBias + fresnelScale * pow( 1.0 + dot( normalize( I ), worldNormal ), fresnelPower );
+//   // Additional South American connections
+//   { from: { lat: -23.5505, lon: -46.6333, name: 'São Paulo' }, to: { lat: -34.6118, lon: -58.3960, name: 'Buenos Aires' }, type: 'Fiber' },
+//   { from: { lat: -23.5505, lon: -46.6333, name: 'São Paulo' }, to: { lat: -12.0464, lon: -77.0428, name: 'Lima' }, type: 'Fiber' },
+//   { from: { lat: -34.6118, lon: -58.3960, name: 'Buenos Aires' }, to: { lat: -33.4489, lon: -70.6693, name: 'Santiago' }, type: 'Fiber' },
   
-    gl_Position = projectionMatrix * mvPosition;
-  }
-  `;
-  const fs = `
-  uniform vec3 color1;
-  uniform vec3 color2;
+//   // Additional Oceania connections
+//   { from: { lat: -33.8688, lon: 151.2093, name: 'Sydney' }, to: { lat: -37.8136, lon: 144.9631, name: 'Melbourne' }, type: 'Fiber' },
+//   { from: { lat: -33.8688, lon: 151.2093, name: 'Sydney' }, to: { lat: -31.9505, lon: 115.8605, name: 'Perth' }, type: 'Fiber' },
+//   { from: { lat: -37.8136, lon: 144.9631, name: 'Melbourne' }, to: { lat: -41.2866, lon: 174.7756, name: 'Wellington' }, type: 'Satellite' },
   
-  varying float vReflectionFactor;
+//   // Cross-continental satellite links
+//   { from: { lat: 40.7128, lon: -74.0060, name: 'New York' }, to: { lat: -1.2921, lon: 36.8219, name: 'Nairobi' }, type: 'Satellite' },
+//   { from: { lat: 51.5074, lon: -0.1278, name: 'London' }, to: { lat: -33.8688, lon: 151.2093, name: 'Sydney' }, type: 'Satellite' },
+//   { from: { lat: 35.6762, lon: 139.6503, name: 'Tokyo' }, to: { lat: -23.5505, lon: -46.6333, name: 'São Paulo' }, type: 'Satellite' },
+//   { from: { lat: 25.2048, lon: 55.2708, name: 'Dubai' }, to: { lat: 37.7749, lon: -122.4194, name: 'San Francisco' }, type: 'Satellite' },
   
-  void main() {
-    float f = clamp( vReflectionFactor, 0.0, 1.0 );
-    gl_FragColor = vec4(mix(color2, color1, vec3(f)), f);
-  }
-  `;
-  const fresnelMat = new THREE.ShaderMaterial({
-    uniforms: uniforms,
-    vertexShader: vs,
-    fragmentShader: fs,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-  });
-  return fresnelMat;
-};
+//   // Regional hub connections
+//   { from: { lat: 22.3193, lon: 114.1694, name: 'Hong Kong' }, to: { lat: 13.7563, lon: 100.5018, name: 'Bangkok' }, type: 'Fiber' },
+//   { from: { lat: 13.7563, lon: 100.5018, name: 'Bangkok' }, to: { lat: 14.5995, lon: 120.9842, name: 'Manila' }, type: 'Fiber' },
+//   { from: { lat: 14.5995, lon: 120.9842, name: 'Manila' }, to: { lat: 1.3521, lon: 103.8198, name: 'Singapore' }, type: 'Fiber' },
+//   { from: { lat: 1.3521, lon: 103.8198, name: 'Singapore' }, to: { lat: -6.2088, lon: 106.8456, name: 'Jakarta' }, type: 'Fiber' },
+//   { from: { lat: -6.2088, lon: 106.8456, name: 'Jakarta' }, to: { lat: 14.5995, lon: 120.9842, name: 'Manila' }, type: 'Fiber' }
+// ];
 
 // Enhanced starfield generator function for cinematic space environment
 const getStarfield = ({ numStars = 500 } = {}) => {
@@ -143,11 +164,107 @@ const getStarfield = ({ numStars = 500 } = {}) => {
   return points;
 };
 
+// Create network lines for networking effect
+const createNetworkLines = (scene: THREE.Scene, earthGroup: THREE.Group, renderer: THREE.WebGLRenderer) => {
+  const linesGroup = new THREE.Group();
+  
+  // NETWORK_DATA.forEach((connection, index) => {
+  //        // Convert lat/lon to 3D coordinates on sphere - positioned closer to globe
+  //    const fromPos = latLonToVector3(connection.from.lat, connection.from.lon, 1.08);
+  //    const toPos = latLonToVector3(connection.to.lat, connection.to.lon, 1.08);
+     
+  //    // Create curved line using quadratic bezier curve - subtle outward curve
+  //    const midPoint = new THREE.Vector3();
+  //    midPoint.addVectors(fromPos, toPos);
+  //    midPoint.multiplyScalar(0.5);
+  //    midPoint.normalize().multiplyScalar(1.15); // Much closer to globe surface
+    
+  //   const curve = new THREE.QuadraticBezierCurve3(fromPos, midPoint, toPos);
+  //   const points = curve.getPoints(50);
+    
+  //   const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    
+  //   // Create flowing material with animated opacity and varied colors
+  //   const getConnectionColor = (connection: any, index: number) => {
+  //     if (connection.type === 'Satellite') {
+  //       // Varied satellite colors
+  //       const satelliteColors = [0xff8800, 0xff6600, 0xff4400, 0xff2200];
+  //       return satelliteColors[index % satelliteColors.length];
+  //     } else {
+  //       // Varied fiber colors
+  //       const fiberColors = [0x00ffff, 0x00ddff, 0x00bbff, 0x0099ff, 0x0077ff];
+  //       return fiberColors[index % fiberColors.length];
+  //     }
+  //   };
+    
+  //        const material = new THREE.LineBasicMaterial({
+  //      color: getConnectionColor(connection, index),
+  //      transparent: true,
+  //      opacity: 0.9 + (index % 3) * 0.1, // Higher opacity for maximum visibility
+  //      linewidth: 15 + (index % 5) * 3 // Much thicker lines (15-30 pixels)
+  //    });
+    
+  //        const line = new THREE.Line(geometry, material);
+     
+  //    // Add a glowing effect with a larger, more transparent line behind
+  //    const glowMaterial = new THREE.LineBasicMaterial({
+  //      color: getConnectionColor(connection, index),
+  //      transparent: true,
+  //      opacity: 0.4, // Enhanced glow for thicker lines
+  //      linewidth: 25 + (index % 5) * 5 // Much thicker glow line (25-50 pixels)
+  //    });
+  //    const glowLine = new THREE.Line(geometry, glowMaterial);
+     
+  //    // Store connection data for popup interaction
+  //    line.userData = {
+  //      connection,
+  //      type: 'networkLine',
+  //      index
+  //    };
+  //    glowLine.userData = {
+  //      connection,
+  //      type: 'networkLineGlow',
+  //      index
+  //    };
+     
+  //    // Add glow line first (behind), then main line (in front)
+  //    linesGroup.add(glowLine);
+  //    linesGroup.add(line);
+  // });
+  
+  // Position the network lines group to match Earth's position and scale
+  linesGroup.position.copy(earthGroup.position);
+  linesGroup.scale.copy(earthGroup.scale);
+  linesGroup.rotation.copy(earthGroup.rotation);
+  
+  // Add to scene instead of earthGroup to keep it in front
+  scene.add(linesGroup);
+  return linesGroup;
+};
+
+// Convert latitude/longitude to 3D vector on sphere
+const latLonToVector3 = (lat: number, lon: number, radius: number) => {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lon + 180) * (Math.PI / 180);
+  
+  const x = -(radius * Math.sin(phi) * Math.cos(theta));
+  const z = (radius * Math.sin(phi) * Math.sin(theta));
+  const y = (radius * Math.cos(phi));
+  
+  return new THREE.Vector3(x, y, z);
+};
+
 const EarthComponent = ({ width = '100%', height = '100vh' }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const animationIdRef = useRef<number | null>(null);
+  const [popupInfo, setPopupInfo] = useState<{ visible: boolean; x: number; y: number; data: any }>({
+    visible: false,
+    x: 0,
+    y: 0,
+    data: null
+  });
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -156,10 +273,10 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       const scene = new THREE.Scene();
       sceneRef.current = scene;
 
-      // Camera setup
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(6, 2, 15);
-    camera.lookAt(8, 0, 0);
+           // Camera setup - adjusted for perfect sphere appearance
+     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+     camera.position.set(0, 0, 12);
+     camera.lookAt(0, 0, 0);
 
       // Enhanced renderer setup for cinematic quality
     const renderer = new THREE.WebGLRenderer({ 
@@ -169,11 +286,11 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2; // Slightly brighter exposure
+    renderer.toneMappingExposure = 0.8; // Better exposure for beautiful Earth appearance
     renderer.outputColorSpace = THREE.SRGBColorSpace; // Better color space
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3)); // Higher pixel ratio for sharper rendering
     // Physically correct lights are now enabled by default in newer Three.js versions
     mountRef.current.appendChild(renderer.domElement);
       rendererRef.current = renderer;
@@ -197,31 +314,16 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     });
 
     // Earth geometry and materials
-    const detail = 12;
+    const detail = 16; // Higher detail for sharper Earth
     const loader = new THREE.TextureLoader();
     const geometry = new THREE.IcosahedronGeometry(1, detail);
 
-    // Load all textures first, then create materials
+        // Load only essential textures
     const loadAllTextures = async () => {
-      console.log('🔄 Starting to load all textures...');
+      console.log('🔄 Starting to load essential textures...');
       
       try {
         // Try local textures first
-        const earthMapTexture = await new Promise<THREE.Texture>((resolve, reject) => {
-          loader.load(TEXTURES.earthMap, resolve, undefined, reject);
-        });
-        console.log('✅ Earth map texture loaded from local');
-        
-        const earthSpecTexture = await new Promise<THREE.Texture>((resolve, reject) => {
-          loader.load(TEXTURES.earthSpec, resolve, undefined, reject);
-        });
-        console.log('✅ Earth specular texture loaded from local');
-        
-        const earthBumpTexture = await new Promise<THREE.Texture>((resolve, reject) => {
-          loader.load(TEXTURES.earthBump, resolve, undefined, reject);
-        });
-        console.log('✅ Earth bump texture loaded from local');
-        
         const earthLightsTexture = await new Promise<THREE.Texture>((resolve, reject) => {
           loader.load(TEXTURES.earthLights, resolve, undefined, reject);
         });
@@ -237,11 +339,11 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
         });
         console.log('✅ Earth clouds transparency texture loaded from local');
         
-        // Configure all textures
-        [earthMapTexture, earthSpecTexture, earthBumpTexture, earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture].forEach(texture => {
+        // Configure all textures for maximum sharpness
+        [earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture].forEach(texture => {
           texture.generateMipmaps = true;
-          texture.minFilter = THREE.LinearMipmapLinearFilter;
-          texture.magFilter = THREE.LinearFilter;
+          texture.minFilter = THREE.NearestMipmapLinearFilter; // Sharper minification
+          texture.magFilter = THREE.NearestFilter; // Sharpest magnification
           texture.wrapS = THREE.ClampToEdgeWrapping;
           texture.wrapT = THREE.ClampToEdgeWrapping;
           texture.flipY = false;
@@ -250,13 +352,10 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
         });
         
         // Now create materials with loaded textures
-        createEarthMaterials(earthMapTexture, earthSpecTexture, earthBumpTexture, earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture);
+        createEarthMaterials(earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture);
         
         // Debug: Log texture information
         console.log('🔍 Texture details:', {
-          earthMap: earthMapTexture.image?.width + 'x' + earthMapTexture.image?.height,
-          earthSpec: earthSpecTexture.image?.width + 'x' + earthSpecTexture.image?.height,
-          earthBump: earthBumpTexture.image?.width + 'x' + earthBumpTexture.image?.height,
           earthLights: earthLightsTexture.image?.width + 'x' + earthLightsTexture.image?.height,
           earthClouds: earthCloudsTexture.image?.width + 'x' + earthCloudsTexture.image?.height,
           earthCloudsTrans: earthCloudsTransTexture.image?.width + 'x' + earthCloudsTransTexture.image?.height
@@ -266,21 +365,6 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
         console.error('❌ Local textures failed, trying external:', error);
         try {
           // Try external high-quality textures
-          const earthMapTexture = await new Promise<THREE.Texture>((resolve, reject) => {
-            loader.load(EXTERNAL_TEXTURES.earthMap, resolve, undefined, reject);
-          });
-          console.log('✅ Earth map texture loaded from external');
-          
-          const earthSpecTexture = await new Promise<THREE.Texture>((resolve, reject) => {
-            loader.load(EXTERNAL_TEXTURES.earthSpec, resolve, undefined, reject);
-          });
-          console.log('✅ Earth specular texture loaded from external');
-          
-          const earthBumpTexture = await new Promise<THREE.Texture>((resolve, reject) => {
-            loader.load(EXTERNAL_TEXTURES.earthBump, resolve, undefined, reject);
-          });
-          console.log('✅ Earth bump texture loaded from external');
-          
           const earthLightsTexture = await new Promise<THREE.Texture>((resolve, reject) => {
             loader.load(EXTERNAL_TEXTURES.earthLights, resolve, undefined, reject);
           });
@@ -296,11 +380,11 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
           });
           console.log('✅ Earth clouds transparency texture loaded from external');
           
-          // Configure external textures
-          [earthMapTexture, earthSpecTexture, earthBumpTexture, earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture].forEach(texture => {
+          // Configure external textures for maximum sharpness
+          [earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture].forEach(texture => {
             texture.generateMipmaps = true;
-            texture.minFilter = THREE.LinearMipmapLinearFilter;
-            texture.magFilter = THREE.LinearFilter;
+            texture.minFilter = THREE.NearestMipmapLinearFilter; // Sharper minification
+            texture.magFilter = THREE.NearestFilter; // Sharpest magnification
             texture.wrapS = THREE.ClampToEdgeWrapping;
             texture.wrapT = THREE.ClampToEdgeWrapping;
             texture.flipY = false;
@@ -308,7 +392,7 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
           });
           
           // Create materials with external textures
-          createEarthMaterials(earthMapTexture, earthSpecTexture, earthBumpTexture, earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture);
+          createEarthMaterials(earthLightsTexture, earthCloudsTexture, earthCloudsTransTexture);
           
         } catch (externalError) {
           console.error('❌ External textures also failed, using enhanced fallbacks:', externalError);
@@ -318,17 +402,14 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     };
 
     // Create Earth materials with loaded textures
-    const createEarthMaterials = (earthMapTexture: THREE.Texture, earthSpecTexture: THREE.Texture, earthBumpTexture: THREE.Texture, earthLightsTexture: THREE.Texture, earthCloudsTexture: THREE.Texture, earthCloudsTransTexture: THREE.Texture) => {
-      console.log('🔄 Creating Earth materials with loaded textures...');
+    const createEarthMaterials = (earthLightsTexture: THREE.Texture, earthCloudsTexture: THREE.Texture, earthCloudsTransTexture: THREE.Texture) => {
+      console.log('🔄 Creating Earth materials with essential textures...');
       
-      // Main earth material with enhanced PBR
+      // Main earth material - Black sea base
       const material = new THREE.MeshStandardMaterial({
-        map: earthMapTexture,
-        normalMap: earthBumpTexture,
-        normalScale: new THREE.Vector2(0.3, 0.3),
-        roughnessMap: earthSpecTexture,
-        roughness: 0.8,
-        metalness: 0.1,
+        color: new THREE.Color(0x000000), // Pure black for sea
+        roughness: 0.9,
+        metalness: 0.0,
         transparent: false,
         side: THREE.FrontSide,
       });
@@ -338,13 +419,14 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       earthMesh.receiveShadow = true;
       earthGroup.add(earthMesh);
 
-      // Enhanced city lights with realistic glow
+      // Enhanced city lights with realistic glow - FULLY LIT LANDMASSES
       const lightsMat = new THREE.MeshBasicMaterial({
         map: earthLightsTexture,
         blending: THREE.AdditiveBlending,
         transparent: true,
-        opacity: 1.2,
+        opacity: 2.5, // Much brighter for fully lit appearance
         side: THREE.FrontSide,
+        color: new THREE.Color(0xffffaa), // Warm white-gold for beautiful city lights
       });
       const lightsMesh = new THREE.Mesh(geometry, lightsMat);
       lightsMesh.scale.setScalar(1.001);
@@ -352,14 +434,15 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       lightsMesh.receiveShadow = false;
       earthGroup.add(lightsMesh);
 
-      // Enhanced clouds with better transparency
+             // SINGLE CLOUD LAYER - flowing faster with better appearance
       const cloudsMat = new THREE.MeshLambertMaterial({
         map: earthCloudsTexture,
         transparent: true,
-        opacity: 0.6,
+         opacity: 0.4, // Light cloud opacity for subtle appearance
         blending: THREE.NormalBlending,
         alphaMap: earthCloudsTransTexture,
         side: THREE.FrontSide,
+         color: new THREE.Color(0x888888), // Grey clouds for subtle effect
       });
       const cloudsMesh = new THREE.Mesh(geometry, cloudsMat);
       cloudsMesh.scale.setScalar(1.003);
@@ -367,47 +450,37 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       cloudsMesh.receiveShadow = false;
       earthGroup.add(cloudsMesh);
 
-      // Multi-layer atmospheric glow like the reference image
-      // Inner atmosphere (bright blue)
-      const innerAtmosphereGeometry = new THREE.SphereGeometry(1.01, 64, 64);
-      const innerAtmosphereMaterial = getFresnelMat({
-        rimHex: 0x0099ff,
-        facingHex: 0x000000
+      // Add realistic atmospheric layer - BLACK
+      const atmosphereGeometry = new THREE.SphereGeometry(1.02, 64, 64);
+      const atmosphereMaterial = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(0x000000), // Black atmosphere
+        transparent: true,
+        opacity: 0.3, // Enhanced black atmospheric glow
+        side: THREE.BackSide, // Render on the inside of the sphere
       });
-      const innerAtmosphere = new THREE.Mesh(innerAtmosphereGeometry, innerAtmosphereMaterial);
-      earthGroup.add(innerAtmosphere);
+      const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+      atmosphereMesh.castShadow = false;
+      atmosphereMesh.receiveShadow = false;
+      earthGroup.add(atmosphereMesh);
 
-      // Middle atmosphere (cyan glow)
-      const middleAtmosphereGeometry = new THREE.SphereGeometry(1.025, 64, 64);
-      const middleAtmosphereMaterial = getFresnelMat({
-        rimHex: 0x00aaff,
-        facingHex: 0x000000
+      // Add second atmospheric layer for more depth - BLACK
+      const atmosphereGeometry2 = new THREE.SphereGeometry(1.05, 64, 64);
+      const atmosphereMaterial2 = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(0x000000), // Black outer atmosphere
+        transparent: true,
+        opacity: 0.2, // Enhanced black outer glow
+        side: THREE.BackSide,
       });
-      middleAtmosphereMaterial.uniforms.fresnelBias.value = 0.2;
-      middleAtmosphereMaterial.uniforms.fresnelScale.value = 1.2;
-      middleAtmosphereMaterial.uniforms.fresnelPower.value = 2.0;
-      const middleAtmosphere = new THREE.Mesh(middleAtmosphereGeometry, middleAtmosphereMaterial);
-      earthGroup.add(middleAtmosphere);
-
-      // Outer atmosphere (subtle blue halo)
-      const outerAtmosphereGeometry = new THREE.SphereGeometry(1.05, 64, 64);
-      const outerAtmosphereMaterial = getFresnelMat({
-        rimHex: 0x88ccff,
-        facingHex: 0x000011
-      });
-      outerAtmosphereMaterial.uniforms.fresnelBias.value = 0.0;
-      outerAtmosphereMaterial.uniforms.fresnelScale.value = 0.8;
-      outerAtmosphereMaterial.uniforms.fresnelPower.value = 1.5;
-      const outerAtmosphere = new THREE.Mesh(outerAtmosphereGeometry, outerAtmosphereMaterial);
-      earthGroup.add(outerAtmosphere);
+      const atmosphereMesh2 = new THREE.Mesh(atmosphereGeometry2, atmosphereMaterial2);
+      atmosphereMesh2.castShadow = false;
+      atmosphereMesh2.receiveShadow = false;
+      earthGroup.add(atmosphereMesh2);
 
       // Store meshes for animation
       earthGroup.userData.earthMesh = earthMesh;
       earthGroup.userData.lightsMesh = lightsMesh;
       earthGroup.userData.cloudsMesh = cloudsMesh;
-      earthGroup.userData.innerAtmosphere = innerAtmosphere;
-      earthGroup.userData.middleAtmosphere = middleAtmosphere;
-      earthGroup.userData.outerAtmosphere = outerAtmosphere;
+      earthGroup.userData.atmosphereMesh = atmosphereMesh;
 
       // Start animation
       animate();
@@ -417,14 +490,11 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     const createEarthMaterialsWithFallbacks = () => {
       console.log('🔄 Creating Earth materials with fallback textures...');
       
-      // Main earth material
+      // Main earth material - Black sea base
       const material = new THREE.MeshPhongMaterial({
-        map: createRealisticWorldMap(),
-        specularMap: createFallbackSpecularMap(),
-        bumpMap: createFallbackBumpMap(),
-        bumpScale: 0.05,
+        color: new THREE.Color(0x000000), // Pure black for sea
         shininess: 25,
-        specular: 0x111111,
+        specular: 0x000000,
               transparent: false,
         side: THREE.FrontSide,
       });
@@ -434,28 +504,30 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       earthMesh.receiveShadow = true;
       earthGroup.add(earthMesh);
 
-      // City lights material
+      // City lights material - FULLY LIT LANDMASSES
       const lightsMat = new THREE.MeshBasicMaterial({
         map: createFallbackLightsMap(),
         blending: THREE.AdditiveBlending,
         transparent: true,
-        opacity: 0.9,
+        opacity: 2.5, // Much brighter
         side: THREE.FrontSide,
+        color: new THREE.Color(0xffffaa), // Warm white-gold for beautiful city lights
       });
       const lightsMesh = new THREE.Mesh(geometry, lightsMat);
       lightsMesh.castShadow = false;
       lightsMesh.receiveShadow = false;
       earthGroup.add(lightsMesh);
 
-      // Clouds material
+             // Clouds material - SINGLE LAYER with better appearance
       const cloudsMat = new THREE.MeshStandardMaterial({
         map: createFallbackCloudsMap(),
         transparent: true,
-        opacity: 0.85,
+         opacity: 0.4, // Light cloud opacity for subtle appearance
         blending: THREE.NormalBlending,
         roughness: 0.9,
         metalness: 0.0,
         side: THREE.FrontSide,
+         color: new THREE.Color(0x888888), // Grey clouds for subtle effect
       });
       const cloudsMesh = new THREE.Mesh(geometry, cloudsMat);
       cloudsMesh.scale.setScalar(1.002);
@@ -463,261 +535,59 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       cloudsMesh.receiveShadow = false;
       earthGroup.add(cloudsMesh);
 
-      // Store meshes for animation
-      earthGroup.userData.earthMesh = earthMesh;
-      earthGroup.userData.lightsMesh = lightsMesh;
-      earthGroup.userData.cloudsMesh = cloudsMesh;
-
-      // Add subtle atmosphere effect
-      const atmosphereGeometry = new THREE.SphereGeometry(1.02, 32, 32);
+      // Add realistic atmospheric layer for fallback - BLACK
+      const atmosphereGeometry = new THREE.SphereGeometry(1.02, 64, 64);
       const atmosphereMaterial = new THREE.MeshBasicMaterial({
-        color: 0x87ceeb,
+        color: new THREE.Color(0x000000), // Black atmosphere
         transparent: true,
-        opacity: 0.1,
-        side: THREE.BackSide,
+        opacity: 0.3, // Enhanced black atmospheric glow
+        side: THREE.BackSide, // Render on the inside of the sphere
       });
       const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
       atmosphereMesh.castShadow = false;
       atmosphereMesh.receiveShadow = false;
       earthGroup.add(atmosphereMesh);
+
+      // Add second atmospheric layer for more depth - BLACK
+      const atmosphereGeometry2 = new THREE.SphereGeometry(1.05, 64, 64);
+      const atmosphereMaterial2 = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(0x000000), // Black outer atmosphere
+        transparent: true,
+        opacity: 0.2, // Enhanced black outer glow
+        side: THREE.BackSide,
+      });
+      const atmosphereMesh2 = new THREE.Mesh(atmosphereGeometry2, atmosphereMaterial2);
+      atmosphereMesh2.castShadow = false;
+      atmosphereMesh2.receiveShadow = false;
+      earthGroup.add(atmosphereMesh2);
+
+      // Store meshes for animation
+      earthGroup.userData.earthMesh = earthMesh;
+      earthGroup.userData.lightsMesh = lightsMesh;
+      earthGroup.userData.cloudsMesh = cloudsMesh;
       earthGroup.userData.atmosphereMesh = atmosphereMesh;
+      earthGroup.userData.atmosphereMesh2 = atmosphereMesh2;
 
       // Start animation
               animate();
     };
 
-    // Create realistic world map texture based on actual geography
-    const createRealisticWorldMap = () => {
-      console.log('Creating realistic world map texture...');
+    // Simplified texture creation - only essential textures needed
+
+    // Simplified fallback textures - only essential ones needed
+
+    const createFallbackLightsMap = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = 4096;
+      canvas.width = 4096; // Higher resolution for sharper textures
       canvas.height = 2048;
       const ctx = canvas.getContext('2d');
       
       if (ctx) {
-        // Natural ocean color - uniform blue like real Earth from space
-        ctx.fillStyle = '#1e40af'; // Natural ocean blue
-        ctx.fillRect(0, 0, 4096, 2048);
-
-        // Actual continental shapes (simplified but geographically accurate)
-        
-        // NORTH AMERICA - Natural brown/green landmass
-        ctx.fillStyle = '#8B7355'; // Natural brownish-green like real Earth
-        ctx.beginPath();
-        // Canada outline
-        ctx.moveTo(512, 410);
-        ctx.quadraticCurveTo(820, 300, 1200, 350);
-        ctx.quadraticCurveTo(1400, 380, 1350, 500);
-        ctx.quadraticCurveTo(1200, 600, 950, 650);
-        ctx.quadraticCurveTo(700, 700, 500, 750);
-        ctx.quadraticCurveTo(300, 600, 400, 500);
-        ctx.quadraticCurveTo(450, 450, 512, 410);
-        ctx.fill();
-        
-        // USA
-        ctx.beginPath();
-        ctx.moveTo(400, 750);
-        ctx.quadraticCurveTo(600, 720, 900, 750);
-        ctx.quadraticCurveTo(1200, 780, 1300, 850);
-        ctx.quadraticCurveTo(1100, 950, 800, 900);
-        ctx.quadraticCurveTo(500, 880, 300, 850);
-        ctx.quadraticCurveTo(350, 800, 400, 750);
-        ctx.fill();
-        
-        // Mexico & Central America
-        ctx.beginPath();
-        ctx.moveTo(300, 850);
-        ctx.quadraticCurveTo(500, 900, 700, 950);
-        ctx.quadraticCurveTo(750, 1000, 720, 1050);
-        ctx.quadraticCurveTo(650, 1080, 600, 1050);
-        ctx.quadraticCurveTo(400, 1000, 250, 950);
-        ctx.quadraticCurveTo(280, 900, 300, 850);
-        ctx.fill();
-
-        // SOUTH AMERICA - Same natural color
-        ctx.beginPath();
-        ctx.moveTo(600, 1050);
-        ctx.quadraticCurveTo(800, 1100, 900, 1200);
-        ctx.quadraticCurveTo(950, 1400, 900, 1600);
-        ctx.quadraticCurveTo(850, 1800, 750, 1900);
-        ctx.quadraticCurveTo(650, 1950, 550, 1900);
-        ctx.quadraticCurveTo(450, 1800, 500, 1600);
-        ctx.quadraticCurveTo(520, 1400, 550, 1200);
-        ctx.quadraticCurveTo(575, 1100, 600, 1050);
-        ctx.fill();
-
-        // EUROPE - Same natural color
-        ctx.beginPath();
-        ctx.moveTo(1800, 500);
-        ctx.quadraticCurveTo(2000, 480, 2200, 520);
-        ctx.quadraticCurveTo(2300, 580, 2250, 650);
-        ctx.quadraticCurveTo(2200, 720, 2100, 750);
-        ctx.quadraticCurveTo(1950, 780, 1800, 750);
-        ctx.quadraticCurveTo(1750, 700, 1770, 650);
-        ctx.quadraticCurveTo(1780, 600, 1800, 500);
-        ctx.fill();
-
-        // AFRICA - Same natural color
-        ctx.beginPath();
-        ctx.moveTo(1800, 750);
-        ctx.quadraticCurveTo(2000, 800, 2200, 900);
-        ctx.quadraticCurveTo(2300, 1100, 2250, 1300);
-        ctx.quadraticCurveTo(2200, 1500, 2100, 1650);
-        ctx.quadraticCurveTo(2000, 1750, 1900, 1700);
-        ctx.quadraticCurveTo(1800, 1650, 1750, 1500);
-        ctx.quadraticCurveTo(1700, 1300, 1750, 1100);
-        ctx.quadraticCurveTo(1770, 900, 1800, 750);
-        ctx.fill();
-
-        // ASIA - Same natural color
-        ctx.beginPath();
-        ctx.moveTo(2200, 400);
-        ctx.quadraticCurveTo(2800, 350, 3400, 400);
-        ctx.quadraticCurveTo(3800, 450, 3900, 600);
-        ctx.quadraticCurveTo(3850, 800, 3700, 1000);
-        ctx.quadraticCurveTo(3500, 1200, 3200, 1100);
-        ctx.quadraticCurveTo(2800, 1000, 2400, 900);
-        ctx.quadraticCurveTo(2200, 800, 2150, 600);
-        ctx.quadraticCurveTo(2180, 500, 2200, 400);
-        ctx.fill();
-
-        // AUSTRALIA - Same natural color
-        ctx.beginPath();
-        ctx.moveTo(3200, 1400);
-        ctx.quadraticCurveTo(3500, 1380, 3700, 1420);
-        ctx.quadraticCurveTo(3800, 1480, 3750, 1580);
-        ctx.quadraticCurveTo(3700, 1650, 3500, 1630);
-        ctx.quadraticCurveTo(3300, 1620, 3150, 1580);
-        ctx.quadraticCurveTo(3120, 1520, 3150, 1460);
-        ctx.quadraticCurveTo(3170, 1420, 3200, 1400);
-        ctx.fill();
-
-        // Add major islands - same natural color
-        
-        // Greenland
-          ctx.beginPath();
-        ctx.arc(1400, 250, 80, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Madagascar
-          ctx.beginPath();
-        ctx.ellipse(2400, 1500, 30, 80, 0, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Japan
-          ctx.beginPath();
-        ctx.ellipse(3600, 750, 25, 120, Math.PI/6, 0, Math.PI * 2);
-          ctx.fill();
-        
-        // UK & Ireland
-          ctx.beginPath();
-        ctx.arc(1750, 600, 25, 0, Math.PI * 2);
-          ctx.fill();
-        ctx.beginPath();
-        ctx.arc(1700, 620, 15, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // New Zealand
-        ctx.beginPath();
-        ctx.ellipse(3800, 1700, 15, 60, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Add natural polar ice caps - simple white
-        ctx.fillStyle = '#ffffff'; // Pure white ice
-        ctx.fillRect(0, 0, 4096, 120);    // Arctic
-        ctx.fillRect(0, 1900, 4096, 148); // Antarctica
-
-        // Remove artificial grid lines for clean natural look
-
-        // Remove artificial terrain variations - keep natural uniform landmass color
-      }
-      
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.generateMipmaps = true;
-      texture.minFilter = THREE.LinearMipmapLinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      
-      return texture;
-    };
-
-    // Create fallback textures for other maps
-    const createFallbackSpecularMap = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 2048;
-      canvas.height = 1024;
-      const ctx = canvas.getContext('2d');
-      
-      if (ctx) {
-        // Create enhanced specular map for realistic ocean reflections
-        ctx.fillStyle = '#333333'; // Land - slightly reflective
-        ctx.fillRect(0, 0, 2048, 1024);
-        
-        // Create realistic ocean areas with high specularity
-        ctx.fillStyle = '#ffffff'; // Oceans - highly reflective
-        
-        // Pacific Ocean
-        ctx.fillRect(0, 0, 300, 1024);
-        ctx.fillRect(1600, 0, 448, 1024);
-        
-        // Atlantic Ocean
-        ctx.fillRect(350, 0, 200, 1024);
-        
-        // Indian Ocean
-        ctx.fillRect(1100, 300, 300, 724);
-        
-        // Arctic Ocean
-        ctx.fillRect(0, 0, 2048, 150);
-        
-        // Antarctic Ocean
-        ctx.fillRect(0, 850, 2048, 174);
-        
-        // Mediterranean Sea
-        ctx.fillRect(850, 250, 200, 50);
-        
-        // Add varying ocean specularity based on depth/roughness
-        const oceanGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-        oceanGradient.addColorStop(0, '#cccccc');   // Polar waters - less reflective
-        oceanGradient.addColorStop(0.3, '#ffffff'); // Tropical waters - highly reflective
-        oceanGradient.addColorStop(0.7, '#ffffff'); // Tropical waters - highly reflective
-        oceanGradient.addColorStop(1, '#cccccc');   // Polar waters - less reflective
-        
-        ctx.fillStyle = oceanGradient;
-        ctx.fillRect(0, 0, 300, 1024); // Pacific
-        ctx.fillRect(350, 0, 200, 1024); // Atlantic
-        ctx.fillRect(1600, 0, 448, 1024); // Pacific continuation
-        
-        // Make large lakes slightly reflective
-        ctx.fillStyle = '#888888';
-        // Great Lakes
-        ctx.fillRect(280, 180, 30, 20);
-        // Caspian Sea
-        ctx.fillRect(1000, 220, 25, 40);
-        // Lake Baikal
-        ctx.fillRect(1350, 180, 10, 25);
-      }
-      
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.generateMipmaps = true;
-      texture.minFilter = THREE.LinearMipmapLinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      
-      return texture;
-    };
-
-    const createFallbackLightsMap = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 2048;
-      canvas.height = 1024;
-      const ctx = canvas.getContext('2d');
-      
-      if (ctx) {
-        // Create city lights map with realistic distribution
+        // Create city lights map with FULLY LIT LANDMASSES
         ctx.fillStyle = '#000000'; // No lights by default
         ctx.fillRect(0, 0, 2048, 1024);
         
-        // Create gradient for city light glow
+        // Create gradient for city light glow - FULLY LIT
         const createCityCluster = (centerX: number, centerY: number, size: number, density: number, color: string) => {
           const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, size);
           gradient.addColorStop(0, color);
@@ -742,29 +612,29 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
           ctx.globalAlpha = 1;
         };
 
-        // Major city clusters with realistic colors and sizes
+        // Major city clusters with FULLY LIT appearance
         // Eastern US (New York, Boston corridor)
-        createCityCluster(300, 200, 80, 120, '#ffaa00');
+        createCityCluster(300, 200, 80, 120, '#ffffff');
         // Western US (Los Angeles, San Francisco)
-        createCityCluster(200, 250, 60, 80, '#ffcc44');
+        createCityCluster(200, 250, 60, 80, '#ffffff');
         // Europe (London, Paris, Amsterdam)
         createCityCluster(900, 180, 70, 100, '#ffffff');
         // Japan (Tokyo mega-region)
-        createCityCluster(1400, 220, 50, 90, '#ffddaa');
+        createCityCluster(1400, 220, 50, 90, '#ffffff');
         // China (Beijing-Shanghai corridor)
-        createCityCluster(1300, 200, 90, 150, '#ffffaa');
+        createCityCluster(1300, 200, 90, 150, '#ffffff');
         // India (Mumbai-Delhi)
-        createCityCluster(1200, 280, 60, 80, '#ffeecc');
+        createCityCluster(1200, 280, 60, 80, '#ffffff');
         // Brazil (São Paulo-Rio)
-        createCityCluster(400, 450, 40, 60, '#ffbb88');
+        createCityCluster(400, 450, 40, 60, '#ffffff');
         // Middle East (Dubai, Tehran)
-        createCityCluster(1000, 250, 50, 70, '#ffddcc');
+        createCityCluster(1000, 250, 50, 70, '#ffffff');
         // Australia (Sydney-Melbourne)
-        createCityCluster(1500, 480, 30, 40, '#ffccaa');
+        createCityCluster(1500, 480, 30, 40, '#ffffff');
         // South Korea (Seoul area)
         createCityCluster(1380, 200, 25, 45, '#ffffff');
         
-        // Add scattered smaller cities and towns
+        // Add scattered smaller cities and towns - FULLY LIT
         const regions = [
           {x: 250, y: 180, w: 200, h: 120}, // North America
           {x: 850, y: 160, w: 200, h: 100}, // Europe
@@ -781,7 +651,7 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
             const brightness = Math.random() * 0.6 + 0.2;
             const size = Math.random() * 2 + 1;
             ctx.globalAlpha = brightness;
-            ctx.fillStyle = '#ffeeaa';
+            ctx.fillStyle = '#ffffff';
             ctx.fillRect(x, y, size, size);
           }
         });
@@ -799,17 +669,17 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
 
     const createFallbackCloudsMap = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = 1024;
-      canvas.height = 512;
+      canvas.width = 2048; // Higher resolution for sharper clouds
+      canvas.height = 1024;
       const ctx = canvas.getContext('2d');
       
       if (ctx) {
-        // Create cloud map
+        // Create cloud map - GREYSH COLOR
         ctx.fillStyle = '#000000'; // No clouds by default
         ctx.fillRect(0, 0, 1024, 512);
         
-        // Add some cloud patterns
-        ctx.fillStyle = '#ffffff';
+        // Add white cloud patterns
+        ctx.fillStyle = '#ffffff'; // Pure white color for clouds
         // Pacific clouds
         for (let i = 0; i < 20; i++) {
           const x = 50 + Math.random() * 100;
@@ -837,39 +707,7 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       return texture;
     };
 
-    const createFallbackBumpMap = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1024;
-      canvas.height = 512;
-      const ctx = canvas.getContext('2d');
-      
-      if (ctx) {
-        // Create bump map (height variation)
-        ctx.fillStyle = '#808080'; // Neutral gray
-        ctx.fillRect(0, 0, 1024, 512);
-        
-        // Add some terrain variation
-        ctx.fillStyle = '#ffffff'; // Higher areas
-        // Mountain ranges
-        ctx.fillRect(180, 120, 140, 80); // North America mountains
-        ctx.fillRect(250, 300, 80, 120); // South America Andes
-        ctx.fillRect(480, 120, 90, 30);  // European Alps
-        ctx.fillRect(700, 140, 200, 80); // Asian mountains
-        
-        ctx.fillStyle = '#404040'; // Lower areas
-        // Ocean basins
-        ctx.fillRect(50, 200, 100, 200);   // Pacific
-        ctx.fillRect(400, 150, 50, 300);   // Atlantic
-      }
-      
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.generateMipmaps = true;
-      texture.minFilter = THREE.LinearMipmapLinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      
-      return texture;
-    };
+    // Simplified bump map - not needed for essential textures
 
     // Start loading textures
     loadAllTextures();
@@ -890,9 +728,9 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
     scene.add(nebula);
 
-    // Enhanced lighting for cinematic look
-    const sunLight = new THREE.DirectionalLight(0xffffff, 3.5);
-    sunLight.position.set(-3, 1, 2);
+         // Enhanced lighting for cinematic look - centered Earth
+     const sunLight = new THREE.DirectionalLight(0xffffff, 2.0); // Better intensity for beautiful Earth
+     sunLight.position.set(-5, 3, 5);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 4096;
     sunLight.shadow.mapSize.height = 4096;
@@ -905,18 +743,18 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     sunLight.shadow.bias = -0.0001;
     scene.add(sunLight);
 
-    // Reduced ambient light for more dramatic contrast
-    const ambientLight = new THREE.AmbientLight(0x112244, 0.3);
+     // Enhanced ambient light for better Earth appearance
+     const ambientLight = new THREE.AmbientLight(0x112244, 0.15); // Better for beautiful Earth
     scene.add(ambientLight);
 
-    // Subtle fill light from space (cooler tone)
-    const fillLight = new THREE.DirectionalLight(0x6699ff, 0.4);
-    fillLight.position.set(3, -1, -2);
+     // Subtle fill light from space (cooler tone) - DARKER
+     const fillLight = new THREE.DirectionalLight(0x6699ff, 0.2); // Much darker
+     fillLight.position.set(5, -2, -3);
     scene.add(fillLight);
 
-    // Add rim light for dramatic edge lighting
-    const rimLight = new THREE.DirectionalLight(0x88aaff, 1.0);
-    rimLight.position.set(0, 0, -5);
+     // Add rim light for dramatic edge lighting - DARKER
+     const rimLight = new THREE.DirectionalLight(0x88aaff, 0.5); // Much darker
+     rimLight.position.set(0, 0, -8);
     scene.add(rimLight);
 
     // Add ground plane to receive shadows
@@ -930,41 +768,100 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -6;
-    ground.position.x = 8;
+     ground.position.x = 0;
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Position Earth to the right side and make it bigger
-    earthGroup.position.x = 8;
-    earthGroup.position.y = 2;
-    earthGroup.scale.setScalar(8.5);
+         // Position Earth slightly to the right and make it smaller for perfect sphere
+     earthGroup.position.x = 6;
+     earthGroup.position.y = 0;
+     earthGroup.scale.setScalar(5.0);
+    
+    // Create network lines for networking effect
+    const networkLines = createNetworkLines(scene, earthGroup, renderer);
 
     // Animation loop
       const animate = () => {
         animationIdRef.current = requestAnimationFrame(animate);
 
-      // Rotate Earth
+      // Rotate Earth - MUCH FASTER
       const earthMesh = earthGroup.userData.earthMesh;
       if (earthMesh) {
-        earthMesh.rotation.y += 0.0005; // Rotate slowly
+        earthMesh.rotation.y += 0.003; // Much faster rotation
       }
 
-      // Rotate City Lights
+      // Rotate City Lights - MUCH FASTER
       const lightsMesh = earthGroup.userData.lightsMesh;
       if (lightsMesh) {
-        lightsMesh.rotation.y += 0.0005;
+        lightsMesh.rotation.y += 0.003; // Much faster rotation
       }
 
-      // Rotate Clouds
+      // Rotate Clouds - EXTREMELY FAST
       const cloudsMesh = earthGroup.userData.cloudsMesh;
       if (cloudsMesh) {
-        cloudsMesh.rotation.y += 0.0005;
+        cloudsMesh.rotation.y += 0.008; // Extremely fast cloud movement
       }
 
-      // Rotate Stars
+      // Rotate Atmosphere - FASTER
+      const atmosphereMesh = earthGroup.userData.atmosphereMesh;
+      if (atmosphereMesh) {
+        atmosphereMesh.rotation.y += 0.002; // Faster atmospheric rotation
+      }
+
+      // Rotate Second Atmosphere - FASTER
+      const atmosphereMesh2 = earthGroup.userData.atmosphereMesh2;
+      if (atmosphereMesh2) {
+        atmosphereMesh2.rotation.y += 0.0015; // Faster outer atmospheric rotation
+      }
+
+             // Rotate Stars - FASTER
       const starsGroup = scene.getObjectByName('stars');
       if (starsGroup) {
-        starsGroup.rotation.y += 0.0005;
+         starsGroup.rotation.y += 0.002; // Faster star rotation
+       }
+       
+               // Animate network lines for flowing effect
+        if (networkLines) {
+          // Keep network lines synchronized with Earth rotation
+          networkLines.rotation.y += 0.003; // Same speed as Earth
+          
+                     networkLines.children.forEach((line: any, index: number) => {
+             if (line.userData.type === 'networkLine') {
+               const lineMaterial = line.material as THREE.LineBasicMaterial;
+               // Create varied flowing effects for different connection types
+               const time = Date.now() * 0.001;
+               const connection = line.userData.connection;
+               
+               if (connection.type === 'Satellite') {
+                 // Satellite connections pulse faster and more dramatically
+                 const flowSpeed = 3.0 + (index % 3) * 0.5;
+                 const opacity = 0.4 + 0.5 * Math.sin(time * flowSpeed + index * 0.3);
+                 lineMaterial.opacity = Math.max(0.2, opacity);
+               } else {
+                 // Fiber connections have smoother, slower flow
+                 const flowSpeed = 1.5 + (index % 2) * 0.3;
+                 const opacity = 0.6 + 0.4 * Math.sin(time * flowSpeed + index * 0.7);
+                 lineMaterial.opacity = Math.max(0.4, opacity);
+               }
+             }
+             
+             // Animate glow lines with synchronized but different timing
+             if (line.userData.type === 'networkLineGlow') {
+               const glowMaterial = line.material as THREE.LineBasicMaterial;
+               const time = Date.now() * 0.001;
+               const connection = line.userData.connection;
+               
+               if (connection.type === 'Satellite') {
+                 const flowSpeed = 2.5 + (index % 3) * 0.4;
+                 const opacity = 0.1 + 0.3 * Math.sin(time * flowSpeed + index * 0.2);
+                 glowMaterial.opacity = Math.max(0.05, opacity);
+               } else {
+                 const flowSpeed = 1.2 + (index % 2) * 0.25;
+                 const opacity = 0.2 + 0.2 * Math.sin(time * flowSpeed + index * 0.6);
+                 glowMaterial.opacity = Math.max(0.15, opacity);
+               }
+             }
+           });
       }
 
       if (controls) controls.update();
@@ -979,12 +876,85 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
           camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
+    
+    // Handle mouse interaction for popups
+    const handleMouseMove = (event: MouseEvent) => {
+      const mouse = new THREE.Vector2();
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      
+      // Raycasting to detect network lines
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+      
+      const intersects = raycaster.intersectObjects(networkLines.children, true);
+      
+      if (intersects.length > 0) {
+        const intersect = intersects[0];
+        if (intersect.object.userData.type === 'networkLine') {
+          // Show popup
+          setPopupInfo({
+            visible: true,
+            x: event.clientX,
+            y: event.clientY,
+            data: intersect.object.userData.connection
+          });
+          
+          // Highlight the line
+          const lineMaterial = (intersect.object as THREE.Line).material as THREE.LineBasicMaterial;
+          lineMaterial.opacity = 1.0;
+          lineMaterial.color.setHex(0xffff00);
+        }
+      } else {
+        // Hide popup and reset line appearance
+        setPopupInfo(prev => ({ ...prev, visible: false }));
+        
+                          // Reset all network lines to original appearance
+         networkLines.children.forEach((line: any, index: number) => {
+           if (line.userData.type === 'networkLine') {
+             const connection = line.userData.connection;
+             const lineMaterial = line.material as THREE.LineBasicMaterial;
+             
+                           // Reset to original varied colors and opacity
+              if (connection.type === 'Satellite') {
+                const satelliteColors = [0xff8800, 0xff6600, 0xff4400, 0xff2200];
+                lineMaterial.color.setHex(satelliteColors[index % satelliteColors.length]);
+                lineMaterial.opacity = 0.9 + (index % 3) * 0.1;
+              } else {
+                const fiberColors = [0x00ffff, 0x00ddff, 0x00bbff, 0x0099ff, 0x0077ff];
+                lineMaterial.color.setHex(fiberColors[index % fiberColors.length]);
+                lineMaterial.opacity = 0.9 + (index % 3) * 0.1;
+              }
+           }
+           
+           // Reset glow lines to original appearance
+           if (line.userData.type === 'networkLineGlow') {
+             const connection = line.userData.connection;
+             const glowMaterial = line.material as THREE.LineBasicMaterial;
+             
+                           if (connection.type === 'Satellite') {
+                const satelliteColors = [0xff8800, 0xff6600, 0xff4400, 0xff2200];
+                glowMaterial.color.setHex(satelliteColors[index % satelliteColors.length]);
+                glowMaterial.opacity = 0.4;
+              } else {
+                const fiberColors = [0x00ffff, 0x00ddff, 0x00bbff, 0x0099ff, 0x0077ff];
+                glowMaterial.color.setHex(fiberColors[index % fiberColors.length]);
+                glowMaterial.opacity = 0.4;
+              }
+           }
+         });
+      }
+    };
+    
+    // Add mouse event listeners
+    window.addEventListener('mousemove', handleMouseMove);
 
     window.addEventListener('resize', handleWindowResize);
 
     // Cleanup function
     return () => {
       window.removeEventListener('resize', handleWindowResize);
+      window.removeEventListener('mousemove', handleMouseMove);
         if (animationIdRef.current) {
           cancelAnimationFrame(animationIdRef.current);
         }
@@ -1004,7 +974,55 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
         position: 'relative',
         overflow: 'hidden'
       }}
-    />
+    >
+      {/* Network Connection Popup */}
+      {popupInfo.visible && popupInfo.data && (
+        <div
+          style={{
+            position: 'absolute',
+            left: popupInfo.x + 10,
+            top: popupInfo.y - 10,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            color: 'white',
+            padding: '12px 16px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontFamily: 'Arial, sans-serif',
+            pointerEvents: 'none',
+            zIndex: 1000,
+            border: '1px solid #00ffff',
+            boxShadow: '0 4px 20px rgba(0, 255, 255, 0.3)',
+            maxWidth: '250px'
+          }}
+        >
+          <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#00ffff' }}>
+            Network Connection
+          </div>
+          <div style={{ marginBottom: '4px' }}>
+            <strong>From:</strong> {popupInfo.data.from.name}
+          </div>
+          <div style={{ marginBottom: '4px' }}>
+            <strong>To:</strong> {popupInfo.data.to.name}
+          </div>
+          <div style={{ marginBottom: '4px' }}>
+            <strong>Type:</strong> 
+            <span style={{ 
+              color: popupInfo.data.type === 'Fiber' ? '#00ffff' : '#ff8800',
+              marginLeft: '4px'
+            }}>
+              {popupInfo.data.type}
+            </span>
+          </div>
+          <div style={{ 
+            fontSize: '12px', 
+            color: '#cccccc',
+            fontStyle: 'italic'
+          }}>
+            {popupInfo.data.type === 'Fiber' ? 'High-speed fiber optic connection' : 'Satellite communication link'}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

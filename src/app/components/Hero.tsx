@@ -5,7 +5,7 @@ import EarthComponent from "./AssetOrb";
 
 export default function Hero() {
   return (
-    <section className="w-screen h-screen bg-transparent flex items-center justify-center px-16 relative z-10 overflow-hidden">
+    <section className="w-screen h-screen bg-black flex items-center justify-center px-16 relative z-10 overflow-hidden">
       {/* Full background Earth globe */}
       <div className="absolute inset-0 w-full h-full">
         <EarthComponent width="100%" height="100%" />
