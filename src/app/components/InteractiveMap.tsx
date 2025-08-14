@@ -115,91 +115,93 @@ export default function InteractiveMap() {
     // Create bounds to fit all markers
     const bounds = L.latLngBounds([]);
 
-    // Add markers for each office with drop animation
-    officeLocations.forEach((office, index) => {
-      // Create custom circle marker
+    // Create marker for each office location
+    officeLocations.forEach((office) => {
       const marker = L.circleMarker(office.coordinates, {
         radius: 8,
-        fillColor: '#4f46e5', // Indigo color
+        fillColor: '#4f46e5',
         color: '#ffffff',
         weight: 2,
-        opacity: 0, // Start invisible
-        fillOpacity: 0, // Start invisible
+        opacity: 1,
+        fillOpacity: 0.8,
       });
 
       // Create popup content
-      const popupContent = `
-        <div class="p-1">
-          <h3 class="font-bold text-base text-gray-900 mb-1">${office.name}</h3>
-          <p class="text-gray-600 text-xs mb-1">${office.address}</p>
-          ${office.phone ? `<p class="text-indigo-600 font-semibold text-xs">${office.phone}</p>` : ''}
-        </div>
+      const popupContent = document.createElement('div');
+      popupContent.className = 'p-1';
+      popupContent.innerHTML = `
+        <h3 class="text-base font-semibold text-gray-800 mb-1">${office.name}</h3>
+        <p class="text-xs text-gray-600 mb-1">${office.address}</p>
+        ${office.phone ? `<p class="text-xs text-gray-600 mb-1">${office.phone}</p>` : ''}
       `;
 
-      marker.bindPopup(popupContent, {
-        maxWidth: 200,
-        className: 'custom-popup'
+      // Add hover events to popup content to keep it open
+      popupContent.addEventListener('mouseenter', () => {
+        marker.openPopup();
       });
 
-      // Add hover effects (use lexical marker instead of `this` to satisfy TS)
+      popupContent.addEventListener('mouseleave', () => {
+        // Only close if cursor is not over the marker
+        setTimeout(() => {
+          if (!marker.getElement()?.matches(':hover')) {
+            marker.closePopup();
+          }
+        }, 100);
+      });
+
+      // Bind popup to marker
+      marker.bindPopup(popupContent, {
+        maxWidth: 200,
+        closeButton: false,
+        autoClose: false,
+        closeOnClick: false,
+      });
+
+      // Store marker reference
+      markersRef.current.push(marker);
+
+      // Add hover events to marker
       marker.on('mouseover', () => {
-        marker.setRadius(12);
-        marker.setStyle({ fillOpacity: 1 });
-        // Show popup on hover
         marker.openPopup();
       });
 
       marker.on('mouseout', () => {
-        marker.setRadius(8);
-        marker.setStyle({ fillOpacity: 0.8 });
-        // Hide popup when mouse leaves
-        marker.closePopup();
+        // Only close if cursor is not over the popup
+        setTimeout(() => {
+          const popupElement = marker.getPopup()?.getElement();
+          if (!popupElement?.matches(':hover')) {
+            marker.closePopup();
+          }
+        }, 100);
       });
 
-      // Add click event for auto-zoom (without popup)
+      // Add click event to zoom to location
       marker.on('click', () => {
-        // Remove all markers immediately
+        // Remove all markers during zoom animation
         removeAllMarkers();
         
-        // Close any open popup first
-        marker.closePopup();
-        
-        // Smooth fly-to animation to the clicked location
-        map.flyTo(office.coordinates, 12, {
-          duration: 2, // 2 seconds smooth animation
-          easeLinearity: 0.25
+        // Fly to the clicked location
+        map.flyTo(office.coordinates, 12, { 
+          duration: 2, 
+          easeLinearity: 0.25 
         });
         
-        // Recreate all markers after animation completes
+        // After animation, recreate markers without zooming out
         setTimeout(() => {
-          recreateAllMarkers(map, false); // Don't fit bounds, keep zoomed in
-        }, 2100); // Slightly longer than animation duration
+          recreateAllMarkers(map, false);
+        }, 2000);
       });
 
-      marker.addTo(map);
-      bounds.extend(office.coordinates);
+      // Add marker to map
+      map.addLayer(marker);
       
-      // Store marker reference for later use
-      markersRef.current.push(marker);
-
-      // Add drop animation with staggered timing
-      setTimeout(() => {
-        marker.setStyle({
-          opacity: 1,
-          fillOpacity: 0.8
-        });
-        
-        // Add bounce effect
-        marker.setRadius(12);
-        setTimeout(() => {
-          marker.setRadius(8);
-        }, 150);
-      }, 200 + (index * 150)); // Stagger each marker by 150ms
+      // Extend bounds with this marker's coordinates
+      bounds.extend(office.coordinates);
     });
 
     // Only fit bounds if explicitly requested (for initial load)
-    if (shouldFitBounds) {
-    map.fitBounds(bounds, { padding: [20, 20] });
+    if (shouldFitBounds && bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [20, 20] });
     }
   };
 
@@ -255,7 +257,7 @@ export default function InteractiveMap() {
     mapInstanceRef.current = map;
 
     // Create all markers using the recreation function
-    recreateAllMarkers(map);
+    recreateAllMarkers(map, true);
     
     // Immediately set zoom controls based on the provided state
     if (expandedState) {
