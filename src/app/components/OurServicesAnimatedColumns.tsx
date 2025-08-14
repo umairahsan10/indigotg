@@ -312,13 +312,13 @@ export default function CGCapsulesAnimatedColumns() {
           <div className="col col-1">
             <div className="col-content">
               <div className="col-content-wrapper">
-                                 <h1>
-                   We design digital infrastructure that powers the future.
-                 </h1>
-                 <p>
-                   Survey, acquisition, design and planning for fixed line, subsea, 
-                   data centres and wireless networks with precision engineering.
-                 </p>
+                <h1>
+                  We design digital infrastructure that powers the future.
+                </h1>
+                <p>
+                  Survey, acquisition, design and planning for fixed line, subsea,
+                  data centres and wireless networks with precision engineering.
+                </p>
               </div>
             </div>
           </div>
@@ -340,23 +340,23 @@ export default function CGCapsulesAnimatedColumns() {
                 We deploy networks that connect the world seamlessly.
               </h1>
               <p>
-                Build, install, test and optimize telecoms networks and data centres 
+                Build, install, test and optimize telecoms networks and data centres
                 with cutting-edge technology and expert craftsmanship.
-              </p>
-            </div>
-            <div className="col-content-wrapper">
-              <h1>
-                We support and maintain the digital backbone of tomorrow.
-              </h1>
-              <p>
-                Monitor, maintain, upgrade and decommission digital infrastructure 
-                with 24/7 support and proactive maintenance strategies.
               </p>
             </div>
           </div>
           <div className="col col-4">
             <div className="col-img">
               <div className="col-img-wrapper">
+                <div className="col-content-wrapper">
+                  <h1>
+                    We support and maintain the digital backbone of tomorrow.
+                  </h1>
+                  <p>
+                    Monitor, maintain, upgrade and decommission digital infrastructure
+                    with 24/7 support and proactive maintenance strategies.
+                  </p>
+                </div>
                 <img src="/services/img-3.jpg" alt="Support Services" />
               </div>
             </div>
