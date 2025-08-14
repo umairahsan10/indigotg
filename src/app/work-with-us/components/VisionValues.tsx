@@ -33,16 +33,17 @@ export default function VisionValues() {
           }`}>
             <div>
               <img 
-                src="/careers/vision.png" 
+                src="/careers/v_v.png" 
                 alt="Vision & Values" 
-                className="w-full h-auto max-w-2xl rounded-3xl shadow-lg"
+                className="w-full h-auto max-w-2xl animate-breathe"
+                style={{ animationDuration: '4s' }}
               />
             </div>
           </div>
 
           {/* Right Column - Text Content */}
           <div className="md:col-span-2">
-            <h2 className={`text-5xl font-bold text-indigo-800 mb-8 transition-all duration-1000 delay-400 ${
+            <h2 className={`text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent  mb-8 transition-all duration-1000 delay-400 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
             }`}>Vision & Values</h2>
             <p className={`text-lg text-gray-700 mb-8 leading-relaxed transition-all duration-1000 delay-600 ${
@@ -50,7 +51,7 @@ export default function VisionValues() {
             }`}>
               Our vision and values keep us ahead of the curve and make us the partner of choice for the world's most ambitious companies and projects.
             </p>
-            <button className={`bg-yellow-400 text-gray-800 px-8 py-4 rounded-lg font-semibold hover:bg-indigo-800 hover:text-white transition-all duration-300 flex items-center gap-2 w-fit ${
+            <button className={`bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-2 w-fit ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
               Explore
@@ -59,6 +60,21 @@ export default function VisionValues() {
           </div>
         </div>
       </div>
+      
+      <style jsx global>{`
+        @keyframes breathe {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+        
+        .animate-breathe {
+          animation: breathe 4s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }

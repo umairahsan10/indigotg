@@ -20,7 +20,7 @@ export default function WorkWithUs() {
       <EmployeeBenefits />
       <UnifiedWorkforce />
       <VisionValues />
-      <CanDoAttitude />
+      {/* <CanDoAttitude /> */}
       <ArmedForcesCovenant />
     </div>
   );
