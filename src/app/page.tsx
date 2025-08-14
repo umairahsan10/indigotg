@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import Hero from "./components/Hero";
 import ConnectedSolutions from "./components/ConnectedSolutions";
 import dynamic from "next/dynamic";
+import { LogosSection } from "./components/logos";
 
 const InteractiveMap = dynamic(() => import("./components/InteractiveMap"), { ssr: false });
 import GetInTouchForm from "./components/GetInTouchForm";
@@ -11,123 +11,7 @@ import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";
 import ScrollAnimation from "./components/ScrollAnimation";
 
-// TypeScript declarations for Vanta.js
-declare global {
-  interface Window {
-    VANTA: {
-      RINGS: (config: any) => any;
-      destroy?: () => void;
-    };
-    THREE: any;
-  }
-}
-
 export default function Home() {
-  useEffect(() => {
-    let vantaEffect: any = null;
-
-    const initVanta = async () => {
-      try {
-        // Load Three.js first (Vanta.js dependency)
-        const loadThreeJS = () => {
-          return new Promise((resolve, reject) => {
-            if (window.THREE) {
-              resolve(true);
-              return;
-            }
-            
-            const threeScript = document.createElement('script');
-            threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-            threeScript.onload = () => resolve(true);
-            threeScript.onerror = reject;
-            document.head.appendChild(threeScript);
-          });
-        };
-
-        // Load Vanta.js after Three.js
-        const loadVantaJS = () => {
-          return new Promise((resolve, reject) => {
-            const vantaScript = document.createElement('script');
-            vantaScript.src = 'https://unpkg.com/vanta@latest/dist/vanta.rings.min.js';
-            vantaScript.onload = () => resolve(true);
-            vantaScript.onerror = reject;
-            document.head.appendChild(vantaScript);
-          });
-        };
-
-        // Load libraries in sequence
-        await loadThreeJS();
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        await loadVantaJS();
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        if (window.VANTA && window.VANTA.RINGS) {
-          const vantaElement = document.getElementById('vanta-background');
-          if (vantaElement && vantaElement.offsetWidth > 0 && vantaElement.offsetHeight > 0) {
-            try {
-              vantaEffect = window.VANTA.RINGS({
-                el: "#vanta-background",
-                backgroundColor: 0xf9f4eb,
-                color: 0x1e40af,
-                color2: 0x3b82f6,
-                color3: 0x60a5fa,
-                size: 4.00,
-                rings: 10,
-                maxDistance: 25,
-                spacing: 15,
-                showLines: false,
-                THREE: window.THREE
-              });
-            } catch (error) {
-              console.error('Vanta.js initialization error:', error);
-            }
-          } else {
-            console.warn('Vanta container not ready, retrying...');
-            // Retry after a short delay
-            setTimeout(() => {
-              if (window.VANTA && window.VANTA.RINGS) {
-                const retryElement = document.getElementById('vanta-background');
-                if (retryElement && retryElement.offsetWidth > 0 && retryElement.offsetHeight > 0) {
-                  try {
-                    vantaEffect = window.VANTA.RINGS({
-                      el: "#vanta-background",
-                      backgroundColor: 0xf9f4eb,
-                      color: 0x1e40af,
-                      color2: 0x3b82f6,
-                      color3: 0x60a5fa,
-                      size: 4.00,
-                      rings: 10,
-                      maxDistance: 25,
-                      spacing: 15,
-                      showLines: false,
-                      THREE: window.THREE
-                    });
-                  } catch (error) {
-                    console.error('Vanta.js retry initialization error:', error);
-                  }
-                }
-              }
-            }, 500);
-          }
-        }
-        
-      } catch (error) {
-        console.error('Vanta.js failed to load:', error);
-      }
-    };
-
-    // Start after a delay
-    const timer = setTimeout(initVanta, 2000);
-
-    return () => {
-      clearTimeout(timer);
-      if (vantaEffect && vantaEffect.destroy) {
-        vantaEffect.destroy();
-      }
-    };
-  }, []);
-
   return (
     <div className="overflow-x-hidden">
       <Hero /> 
@@ -149,6 +33,8 @@ export default function Home() {
           <InteractiveMap />
         </div>
       </section>
+
+      <LogosSection />
 
       {/* Get In Touch */}
       <section className="py-16 bg-white">
