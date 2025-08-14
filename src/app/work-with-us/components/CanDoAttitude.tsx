@@ -45,9 +45,9 @@ export default function CanDoAttitude() {
           }`}>
             <div>
               <img 
-                src="/careers/canDoAttitude.png" 
+                src="/careers/canndoo.png" 
                 alt="Can-do Attitude" 
-                className="w-full h-auto max-w-sm max-h-150 object-cover rounded-3xl shadow-lg"
+                className="w-full h-auto max-w-sm "
               />
             </div>
           </div>
