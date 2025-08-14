@@ -74,6 +74,9 @@ export default function InteractiveMap() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isZooming, setIsZooming] = useState(false); // Track zoom animation state
   const markersRef = useRef<L.CircleMarker[]>([]); // Store references to all markers
+  // State for map type (street or satellite)
+  const [mapType, setMapType] = useState<'street' | 'satellite'>('satellite');
+  const tileLayersRef = useRef<{ street: L.TileLayer | null; satellite: L.TileLayer | null }>({ street: null, satellite: null });
 
   // Load expanded state from localStorage on mount
   useEffect(() => {
@@ -81,12 +84,23 @@ export default function InteractiveMap() {
     if (savedState !== null) {
       setIsExpanded(JSON.parse(savedState));
     }
+    
+    // Load map type preference
+    const savedMapType = localStorage.getItem('mapType');
+    if (savedMapType === 'satellite') {
+      setMapType('satellite');
+    }
   }, []);
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('mapExpanded', JSON.stringify(isExpanded));
   }, [isExpanded]);
+
+  // Save map type to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('mapType', mapType);
+  }, [mapType]);
 
   // Function to remove all markers during animation
   const removeAllMarkers = () => {
@@ -115,15 +129,15 @@ export default function InteractiveMap() {
 
       // Create popup content
       const popupContent = `
-        <div class="p-3">
-          <h3 class="font-bold text-lg text-gray-900 mb-2">${office.name}</h3>
-          <p class="text-gray-600 text-sm mb-2">${office.address}</p>
-          ${office.phone ? `<p class="text-indigo-600 font-semibold text-sm">${office.phone}</p>` : ''}
+        <div class="p-1">
+          <h3 class="font-bold text-base text-gray-900 mb-1">${office.name}</h3>
+          <p class="text-gray-600 text-xs mb-1">${office.address}</p>
+          ${office.phone ? `<p class="text-indigo-600 font-semibold text-xs">${office.phone}</p>` : ''}
         </div>
       `;
 
       marker.bindPopup(popupContent, {
-        maxWidth: 300,
+        maxWidth: 200,
         className: 'custom-popup'
       });
 
@@ -185,7 +199,7 @@ export default function InteractiveMap() {
 
     // Only fit bounds if explicitly requested (for initial load)
     if (shouldFitBounds) {
-      map.fitBounds(bounds, { padding: [20, 20] });
+    map.fitBounds(bounds, { padding: [20, 20] });
     }
   };
 
@@ -215,15 +229,31 @@ export default function InteractiveMap() {
       touchZoom: expandedState, // Use the provided state
     });
 
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Create both tile layers
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19,
-    }).addTo(map);
+    });
+    
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+      maxZoom: 19,
+    });
+    
+    // Store tile layer references
+    tileLayersRef.current.street = streetLayer;
+    tileLayersRef.current.satellite = satelliteLayer;
+    
+    // Show the appropriate layer based on current preference
+    if (mapType === 'satellite') {
+      satelliteLayer.addTo(map);
+    } else {
+      streetLayer.addTo(map);
+    }
 
     // Store map instance
     mapInstanceRef.current = map;
-    
+
     // Create all markers using the recreation function
     recreateAllMarkers(map);
     
@@ -293,6 +323,33 @@ export default function InteractiveMap() {
     }, 300); // Match CSS transition duration
   };
 
+  // Function to toggle between street and satellite view
+  const toggleMapType = () => {
+    if (!mapInstanceRef.current) return;
+    
+    const newMapType = mapType === 'street' ? 'satellite' : 'street';
+    setMapType(newMapType);
+    
+    // Switch tile layers
+    if (newMapType === 'satellite') {
+      // Show satellite, hide street
+      if (tileLayersRef.current.street) {
+        tileLayersRef.current.street.remove();
+      }
+      if (tileLayersRef.current.satellite) {
+        tileLayersRef.current.satellite.addTo(mapInstanceRef.current);
+      }
+    } else {
+      // Show street, hide satellite
+      if (tileLayersRef.current.satellite) {
+        tileLayersRef.current.satellite.remove();
+      }
+      if (tileLayersRef.current.street) {
+        tileLayersRef.current.street.addTo(mapInstanceRef.current);
+      }
+    }
+  };
+
   return (
     <div className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-[#0b0e1a] border border-white/10">
       {/* Expand/Collapse Button */}
@@ -331,7 +388,7 @@ export default function InteractiveMap() {
             });
           }
         }}
-        className="absolute top-4 left-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
+        className="absolute bottom-4 left-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
         title="Back to Overview"
         style={{ 
           zIndex: 9999,
@@ -342,6 +399,28 @@ export default function InteractiveMap() {
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
         </svg>
+      </button>
+
+      {/* Map Type Toggle Button */}
+      <button
+        onClick={toggleMapType}
+        className="absolute bottom-4 right-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
+        title={mapType === 'street' ? 'Switch to Satellite View' : 'Switch to Street View'}
+        style={{ 
+          zIndex: 9999,
+          position: 'absolute',
+          pointerEvents: 'auto'
+        }}
+      >
+        {mapType === 'street' ? (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+          </svg>
+        ) : (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4-2m-4 2V5m-4 2l4-2m-4 2v12" />
+          </svg>
+        )}
       </button>
 
       {/* Map Container */}
