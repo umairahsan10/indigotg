@@ -351,8 +351,7 @@ export default function Solutions2() {
           color: #1e3a8a;
         }
 
-        .intro,
-        .outro {
+        .intro {
           min-height: 100vh;
           padding: 1.5em;
           display: flex;
@@ -363,7 +362,14 @@ export default function Solutions2() {
         }
 
         .outro {
-          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/back.jpg');
+          height: 70vh;
+          padding: 1.5em;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/solutions/handshake.jpg');
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
@@ -377,13 +383,11 @@ export default function Solutions2() {
         }
 
         .outro-content {
-          background:rgba(63, 75, 88, 0.62);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(1, 43, 88, 0.62);;
+          background: transparent;
+          border: none;
           border-radius: 150px;
           padding: 3rem 2rem;
           text-align: center;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);  
         }
 
         .outro h1 {
@@ -392,6 +396,10 @@ export default function Solutions2() {
           font-weight: 600;
           margin-bottom: 1.5rem;
           line-height: 1.2;
+          text-align: center !important;
+          width: 100%;
+          margin-left: auto !important;
+          margin-right: auto !important;
         }
 
         .outro p {
@@ -405,8 +413,8 @@ export default function Solutions2() {
         }
 
         .contact-button {
-          background: rgba(30, 58, 138, 0.9);
-          border: 1px solid rgba(30, 58, 138, 0.3);
+          background: #140079;
+          border: 1px solid #140079;
           color: #ffffff;
           padding: 12px 32px;
           font-size: 1rem;
@@ -417,13 +425,12 @@ export default function Solutions2() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          backdrop-filter: blur(10px);
           font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
         .contact-button:hover {
-          background: rgba(30, 58, 138, 1);
-          border-color: rgba(30, 58, 138, 0.5);
+          background: #0f0066;
+          border-color: #0f0066;
           transform: translateY(-2px);
         }
 
@@ -1059,6 +1066,7 @@ export default function Solutions2() {
           .outro-content {
             padding: 2rem 1.5rem;
             margin: 0 1rem;
+            text-align: center;
           }
 
           .contact-button {

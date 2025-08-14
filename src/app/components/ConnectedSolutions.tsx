@@ -19,25 +19,25 @@ const cards: Card[] = [
     key: "fixed",
     title: "Fixed Line",
     description: "Expert end-to-end connections from pre-planning to upgrades",
-    imageSrc: "/card-images-1.jpg",
+    imageSrc: "/solutions/card-images-1.jpg",
   },
   {
     key: "subsea",
     title: "Subsea",
     description: "System operator support for modern submarine networks",
-    imageSrc: "/card-images-2.jpg",
+    imageSrc: "/solutions/card-images-2.jpg",
   },
   {
     key: "data",
     title: "Data Centres",
     description: "Comprehensive solutions for leading edge and legacy infrastructure",
-    imageSrc: "/card-images-3.jpg",
+    imageSrc: "/solutions/card-images-3.jpg",
   },
   {
     key: "wireless",
     title: "Wireless",
     description: "Resilient and reliable wireless services for next-generation networks",
-    imageSrc: "/card-images-4.jpg",
+    imageSrc: "/solutions/card-images-4.jpg",
   },
 ];
 

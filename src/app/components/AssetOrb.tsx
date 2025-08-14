@@ -595,24 +595,24 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
         // Add major islands - same natural color
         
         // Greenland
-        ctx.beginPath();
+          ctx.beginPath();
         ctx.arc(1400, 250, 80, 0, Math.PI * 2);
         ctx.fill();
         
         // Madagascar
-        ctx.beginPath();
+          ctx.beginPath();
         ctx.ellipse(2400, 1500, 30, 80, 0, 0, Math.PI * 2);
         ctx.fill();
         
         // Japan
-        ctx.beginPath();
+          ctx.beginPath();
         ctx.ellipse(3600, 750, 25, 120, Math.PI/6, 0, Math.PI * 2);
-        ctx.fill();
+          ctx.fill();
         
         // UK & Ireland
-        ctx.beginPath();
+          ctx.beginPath();
         ctx.arc(1750, 600, 25, 0, Math.PI * 2);
-        ctx.fill();
+          ctx.fill();
         ctx.beginPath();
         ctx.arc(1700, 620, 15, 0, Math.PI * 2);
         ctx.fill();

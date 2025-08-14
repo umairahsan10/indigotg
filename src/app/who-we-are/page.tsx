@@ -216,15 +216,12 @@ export default function WhoWeAre() {
               </div>
             </div>
 
-                                                   <div className={`relative ${isVisible[0] ? 'animate-fadeIn' : 'opacity-0'}`}>
+              <div className={`relative ${isVisible[0] ? 'animate-fadeIn' : 'opacity-0'}`}>
                 <div className="relative w-full h-[600px] flex items-center justify-center">
-                  {/* Professional Geometric Shape */}
-                  <div className="absolute w-80 h-80 rounded-full bg-gradient-to-br from-[#140079] to-blue-600 opacity-90" style={{ animation: 'gentleFloatSlow 6s ease-in-out infinite' }}></div>
-                  
                   {/* Hero Image */}
-                  <div className="relative z-10 w-96 h-96 rounded-lg overflow-hidden shadow-2xl" style={{ animation: 'gentleFloat 4s ease-in-out infinite' }}>
+                  <div className="relative z-10 w-120 h-120" style={{ animation: 'gentleFloat 4s ease-in-out infinite' }}>
                     <img 
-                      src="/who-we-are/img-1.jpeg" 
+                      src="/who-we-are/whoweare.png" 
                       alt="Indigo Digital Infrastructure" 
                       className="w-full h-full object-cover"
                     />
@@ -244,8 +241,6 @@ export default function WhoWeAre() {
           <div className="grid lg:grid-cols-2 gap-20 items-center">
                                                    <div className={`relative ${isVisible[1] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
                 <div className="relative">
-                  <div className="w-72 h-72 bg-gradient-to-br from-[#140079] to-blue-600 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ animation: 'gentleFloatSlow 7s ease-in-out infinite' }}></div>
-                  
                   {/* About Us Image */}
                   <div className="relative z-10 w-full h-96 rounded-lg overflow-hidden shadow-2xl" style={{ animation: 'gentleFloat 5s ease-in-out infinite' }}>
                     <img 
