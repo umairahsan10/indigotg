@@ -110,7 +110,7 @@ const ScrollAnimation = () => {
               position: "absolute",
               top: servicesTop,
               left: 0,
-              width: "100vw",
+              width: "100%",
               height: "100vh",
             });
           }
@@ -306,7 +306,7 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container nav {
           position: fixed;
-          width: 100vw;
+          width: 100%;
           padding: 2rem;
           display: none; /* Hidden to prevent conflict with main Navigation */
           justify-content: space-between;
@@ -333,7 +333,7 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container section {
           position: relative;
-          width: 100vw;
+          width: 100%;
           height: 100svh;
           padding: 5rem 1.5rem;
           overflow: hidden;
@@ -900,7 +900,7 @@ const ScrollAnimation = () => {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100vw;
+          width: 100%;
           height: 100svh;
           display: flex;
           justify-content: center;
