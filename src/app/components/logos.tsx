@@ -19,7 +19,7 @@ export const LogosSection = () => {
   return (
     <section className="py-16 bg-[#f2f7ff]">
       <div className="container mx-auto text-[#010a14] flex flex-col items-center text-center">
-        <h2 className={`font-sans text-4xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>We work with</h2>
+        <h2 className={`font-roboto text-4xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>We work with</h2>
 
         {/* Horizontal scrolling logos */}
         <div className="mt-8 lg:mt-12 overflow-hidden w-full [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">

@@ -175,7 +175,7 @@ export const BrandsSection = () => {
   return (
     <section className="py-32 bg-white">
       <div className="container mx-auto flex flex-col items-center text-center">
-        <h2 className={`mb-8 font-sans text-4xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>Our Partnerships</h2>
+        <h2 className={`mb-8 font-roboto text-4xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>Our Partnerships</h2>
 
         <div className="flex flex-col items-center justify-center gap-8 h-full mt-8">
           {/* First row - Right to Left */}

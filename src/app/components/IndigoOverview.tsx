@@ -43,10 +43,10 @@ const IndigoOverview = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Section - Text Content */}
           <div ref={textRef} className="space-y-8 text-content">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#140079] leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-roboto font-bold text-[#140079] leading-tight">
               Indigo Overview
             </h2>
-            <p className="text-lg md:text-xl text-[#140079] leading-relaxed">
+            <p className="text-lg font-roboto md:text-xl text-[#140079] leading-relaxed">
               Find out how Indigo <span className="font-bold">designs</span>, <span className="font-bold">deploys</span> and <span className="font-bold">supports</span> digital infrastructure enhancing network performance now and into the future.
             </p>
             
@@ -56,7 +56,7 @@ const IndigoOverview = () => {
                 <span className="circle">
                   <span className="icon arrow"></span>
                 </span>
-                <span className="button-text">Explore Services</span>
+                <span className="button-text font-roboto">Explore Services</span>
               </button>
             </Link>
           </div>

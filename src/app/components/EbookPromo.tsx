@@ -50,10 +50,10 @@ const EbookPromo = () => {
 
           {/* Right Section - Text Content */}
           <div ref={textRef} className="space-y-8 text-content">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#140079] leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-roboto font-bold text-[#140079] leading-tight">
               Free eBook
             </h2>
-            <p className="text-lg md:text-xl text-[#140079] leading-relaxed">
+            <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
               Whether you are a traditional telco, tech company or data centre, this eBook will help you maximise uptime in your network.
             </p>
             
@@ -62,8 +62,8 @@ const EbookPromo = () => {
               <span className="circle">
                 <span className="icon arrow"></span>
               </span>
-              <span className="button-text">Download eBook</span>
-            </button>
+              <span className="button-text font-roboto">Download eBook</span>
+            </button> 
           </div>
         </div>
       </div>

@@ -19,25 +19,25 @@ const cards: Card[] = [
     key: "fixed",
     title: "Fixed Line",
     description: "Expert end-to-end connections from pre-planning to upgrades",
-    imageSrc: "/solutions/card-images-1.jpg",
+    imageSrc: "/home/sol-1.jpg",
   },
   {
     key: "subsea",
     title: "Subsea",
     description: "System operator support for modern submarine networks",
-    imageSrc: "/solutions/card-images-2.jpg",
+    imageSrc: "/home/sol-2.png",
   },
   {
     key: "data",
     title: "Data Centres",
     description: "Comprehensive solutions for leading edge and legacy infrastructure",
-    imageSrc: "/solutions/card-images-3.jpg",
+    imageSrc: "/home/sol-3.jpg",
   },
   {
     key: "wireless",
     title: "Wireless",
     description: "Resilient and reliable wireless services for next-generation networks",
-    imageSrc: "/solutions/card-images-4.jpg",
+    imageSrc: "/home/sol-4.jpg",
   },
 ];
 
@@ -81,10 +81,10 @@ export default function ConnectedSolutions() {
     <section ref={sectionRef} className="relative overflow-hidden py-20 px-6 lg:px-24 bg-[#f2f7ff]">
       {/* Headline */}
       <div className="max-w-6xl mx-auto text-center mb-10">
-        <h2 className="font-sans text-4xl md:text-5xl font-semibold leading-tight text-[#04048b]">
+        <h2 className="font-roboto text-4xl md:text-5xl font-semibold leading-tight text-[#04048b]">
           Advanced solutions for a connected future
         </h2>
-        <p className="mt-4 max-w-3xl mx-auto font-sans text-xl text-[#04048b]">
+        <p className="mt-4 max-w-3xl mx-auto font-roboto text-xl text-[#04048b]">
           Live data-driven solutions — modern UI with subtle motion to show connectivity, throughput and reliability.
         </p>
       </div>
