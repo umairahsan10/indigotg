@@ -274,7 +274,7 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
         }
 
         .scroll-animation-container h1 {
@@ -287,7 +287,7 @@ const ScrollAnimation = () => {
           font-size: 1rem;
           font-weight: 400;
           line-height: 1.6;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
         }
 
         @media (min-width: 768px) {
@@ -359,26 +359,7 @@ const ScrollAnimation = () => {
           width: 100%;
           height: 100%;
           z-index: 0;
-        }
-
-        .scroll-animation-container .hero-background::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(249, 244, 235, 0);
-          z-index: 1;
-        }
-
-        .scroll-animation-container .hero-bg-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-          opacity: 1;
-          filter: brightness(1.1) contrast(1.1);
+          background-color: white;
         }
 
         .scroll-animation-container .hero-header {
@@ -394,13 +375,13 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .hero-header h1 {
           font-size: 3rem;
-          font-weight: 900;
+          font-weight: 500;
           color: #140079;
           margin: 0;
           line-height: 1.1;
           max-width: 72rem;
           margin: 0 auto;
-          font-family: var(--font-orbitron), "Orbitron", monospace;
+          font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
           text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
 
@@ -465,7 +446,7 @@ const ScrollAnimation = () => {
           line-height: 1.6;
           opacity: 0.9;
           font-weight: 400;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
           max-width: 42rem;
         }
 
@@ -713,7 +694,7 @@ const ScrollAnimation = () => {
           width: 55%;
           display: flex;
           justify-content: center;
-          gap: 1rem;
+          gap: 4rem;
           z-index: 2;
         }
 
@@ -722,24 +703,14 @@ const ScrollAnimation = () => {
           position: relative;
           aspect-ratio: 5/7;
           padding: 0.75rem;
-          border-radius: 0.5rem;
+          border-radius: 1rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           container-type: inline-size;
         }
 
-        .scroll-animation-container .hero-cards .card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.3);
-          border-radius: 0.5rem;
-          z-index: 1;
-        }
+
 
         .scroll-animation-container .card-title {
           width: 100%;
@@ -753,10 +724,12 @@ const ScrollAnimation = () => {
           z-index: 3;
         }
 
-        .scroll-animation-container .hero-cards .card span {
+        .scroll-animation-container .hero-cards .card span,
+        .scroll-animation-container .cards .card span {
           font-size: 0.7rem;
           position: relative;
           z-index: 2;
+          color: white;
         }
 
         .scroll-animation-container .card-center {
@@ -784,7 +757,7 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-1 {
-          background-image: url('/card/card1.png');
+          background-image: url('/card/card-1.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -793,7 +766,7 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-2 {
-          background-image: url('/card/card2.png');
+          background-image: url('/card/card-2.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -801,7 +774,7 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .hero-cards .card#hero-card-3 {
-          background-image: url('/card/card3.png');
+          background-image: url('/card/card-3.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -857,13 +830,13 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container .services-header h1 {
-          font-size: 3rem;
-          font-weight: 900;
+          font-size: 2rem;
+          font-weight: 500;
           color: #140079;
           margin: 0;
           margin-top: 2rem;
           line-height: 1.2;
-          font-family: var(--font-orbitron), "Orbitron", monospace;
+          font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
           text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
 
@@ -905,11 +878,7 @@ const ScrollAnimation = () => {
           display: flex;
           justify-content: center;
           z-index: -1;
-          background-color: var(--scroll-light);
-          background-image: url('/card/page2.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: white;
         }
 
         .scroll-animation-container .cards::before {
@@ -1003,21 +972,21 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container #card-1 .flip-card-front {
-          background-image: url('/card/card1.png');
+          background-image: url('/card/card-1.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-2 .flip-card-front {
-          background-image: url('/card/card2.png');
+          background-image: url('/card/card-2.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
         }
 
         .scroll-animation-container #card-3 .flip-card-front {
-          background-image: url('/card/card3.png');
+          background-image: url('/card/card-3.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -1033,36 +1002,18 @@ const ScrollAnimation = () => {
           position: relative;
         }
 
-        .scroll-animation-container .flip-card-back::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.6);
-          z-index: 1;
-        }
+
 
         .scroll-animation-container #card-1 .flip-card-back {
-          background-image: url('/card/card1.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #08048c;
         }
 
         .scroll-animation-container #card-2 .flip-card-back {
-          background-image: url('/card/card2.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #08048c;
         }
 
         .scroll-animation-container #card-3 .flip-card-back {
-          background-image: url('/card/card3.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #08048c;
         }
 
         .scroll-animation-container #card-1 .flip-card-back .card-heading {
@@ -1102,6 +1053,18 @@ const ScrollAnimation = () => {
           border-radius: 0.25rem;
           color: white;
           font-weight: 500;
+          position: relative;
+        }
+
+        .scroll-animation-container .card-copy p:not(:last-child)::after {
+          content: '';
+          position: absolute;
+          bottom: -0.25rem;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80%;
+          height: 1px;
+          background-color: rgba(255, 255, 255, 0.3);
         }
 
         .scroll-animation-container #card-1 .flip-card-back .card-copy p {
@@ -1232,21 +1195,21 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container #mobile-card-1 .flip-card-front {
-          background-image: url('/card/card1.png');
+          background-image: url('/card/card-1.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
         }
 
         .scroll-animation-container #mobile-card-2 .flip-card-front {
-          background-image: url('/card/card2.png');
+          background-image: url('/card/card-2.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
         }
 
         .scroll-animation-container #mobile-card-3 .flip-card-front {
-          background-image: url('/card/card3.png');
+          background-image: url('/card/card-3.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -1258,24 +1221,15 @@ const ScrollAnimation = () => {
         }
 
         .scroll-animation-container #mobile-card-1 .flip-card-back {
-          background-image: url('/card/card1.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #08048c;
         }
 
         .scroll-animation-container #mobile-card-2 .flip-card-back {
-          background-image: url('/card/card2.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #08048c;
         }
 
         .scroll-animation-container #mobile-card-3 .flip-card-back {
-          background-image: url('/card/card3.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #08048c;
         }
         }
       `}</style>
@@ -1286,13 +1240,7 @@ const ScrollAnimation = () => {
       </nav>
 
       <section className="hero">
-        <div className="hero-background">
-          <img 
-            src="/card/page1.png" 
-            alt="Network Solutions Background" 
-            className="hero-bg-image"
-          />
-        </div>
+        <div className="hero-background"></div>
         <div className="hero-header">
           <h1>Network Solutions</h1>
         </div>
@@ -1301,9 +1249,6 @@ const ScrollAnimation = () => {
             <div className="card-title">
               <span>Design</span>
               <span>01</span>
-            </div>
-            <div className="card-center">
-              <h2>Design</h2>
             </div>
             <div className="card-title">
               <span>01</span>
@@ -1316,9 +1261,6 @@ const ScrollAnimation = () => {
               <span>Deploy</span>
               <span>02</span>
             </div>
-            <div className="card-center">
-              <h2>Deploy</h2>
-            </div>
             <div className="card-title">
               <span>02</span>
               <span>Deploy</span>
@@ -1329,9 +1271,6 @@ const ScrollAnimation = () => {
             <div className="card-title">
               <span>Support</span>
               <span>03</span>
-            </div>
-            <div className="card-center">
-              <h2>Support</h2>
             </div>
             <div className="card-title">
               <span>03</span>
@@ -1374,13 +1313,7 @@ const ScrollAnimation = () => {
       </section>
 
       <section className="services">
-        <div className="services-background">
-          <img 
-            src="/card/page2.png" 
-            alt="Services Background" 
-            className="services-bg-image"
-          />
-        </div>
+        <div className="services-background"></div>
         <div className="services-header">
           <h1>Expert design, deployment, and support services</h1>
         </div>
@@ -1500,19 +1433,16 @@ const ScrollAnimation = () => {
           <div className="card" id="card-1">
             <div className="card-wrapper">
               <div className="flip-card-inner">
-                <div className="flip-card-front">
-                  <div className="card-title">
-                    <span>Design</span>
-                    <span>01</span>
-                  </div>
-                  <div className="card-center">
-                    <h2>Design</h2>
-                  </div>
-                  <div className="card-title">
-                    <span>01</span>
-                    <span>Design</span>
-                  </div>
-                </div>
+                                 <div className="flip-card-front">
+                   <div className="card-title">
+                     <span>Design</span>
+                     <span>01</span>
+                   </div>
+                   <div className="card-title">
+                     <span>01</span>
+                     <span>Design</span>
+                   </div>
+                 </div>
                 <div className="flip-card-back">
                   <div className="card-title">
                     <span>Design</span>
@@ -1538,19 +1468,16 @@ const ScrollAnimation = () => {
           <div className="card" id="card-2">
             <div className="card-wrapper">
               <div className="flip-card-inner">
-                <div className="flip-card-front">
-                  <div className="card-title">
-                    <span>Deploy</span>
-                    <span>02</span>
-                  </div>
-                  <div className="card-center">
-                    <h2>Deploy</h2>
-                  </div>
-                  <div className="card-title">
-                    <span>02</span>
-                    <span>Deploy</span>
-                  </div>
-                </div>
+                                 <div className="flip-card-front">
+                   <div className="card-title">
+                     <span>Deploy</span>
+                     <span>02</span>
+                   </div>
+                   <div className="card-title">
+                     <span>02</span>
+                     <span>Deploy</span>
+                   </div>
+                 </div>
                 <div className="flip-card-back">
                   <div className="card-title">
                     <span>Deploy</span>
@@ -1576,19 +1503,16 @@ const ScrollAnimation = () => {
           <div className="card" id="card-3">
             <div className="card-wrapper">
               <div className="flip-card-inner">
-                <div className="flip-card-front">
-                  <div className="card-title">
-                    <span>Support</span>
-                    <span>03</span>
-                  </div>
-                  <div className="card-center">
-                    <h2>Support</h2>
-                  </div>
-                  <div className="card-title">
-                    <span>03</span>
-                    <span>Support</span>
-                  </div>
-                </div>
+                                 <div className="flip-card-front">
+                   <div className="card-title">
+                     <span>Support</span>
+                     <span>03</span>
+                   </div>
+                   <div className="card-title">
+                     <span>03</span>
+                     <span>Support</span>
+                   </div>
+                 </div>
                 <div className="flip-card-back">
                   <div className="card-title">
                     <span>Support</span>
