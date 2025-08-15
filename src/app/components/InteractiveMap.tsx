@@ -111,7 +111,7 @@ export default function InteractiveMap() {
   };
 
   // Function to recreate all markers after animation
-  const recreateAllMarkers = (map: L.Map, shouldFitBounds: boolean = true) => {
+  const recreateAllMarkers = (map: L.Map, shouldFitBounds: boolean = true, forceZoom?: number) => {
     // Create bounds to fit all markers
     const bounds = L.latLngBounds([]);
 
@@ -199,14 +199,19 @@ export default function InteractiveMap() {
       bounds.extend(office.coordinates);
     });
 
-    // Only fit bounds if explicitly requested (for initial load)
-    if (shouldFitBounds && bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [20, 20] });
+    // Only fit bounds if explicitly requested (for initial load) and no force zoom
+    if (shouldFitBounds && bounds.isValid() && !forceZoom) {
+      map.fitBounds(bounds, { padding: [50, 50] });
+    }
+    
+    // If force zoom is specified, set the zoom level
+    if (forceZoom !== undefined) {
+      map.setView([25, 0], forceZoom);
     }
   };
 
   // Function to initialize map with specific expanded state
-  const initializeMapWithState = (expandedState: boolean) => {
+  const initializeMapWithState = (expandedState: boolean, customZoom?: number) => {
     if (!mapRef.current) return;
 
     // Remove existing map if it exists
@@ -220,8 +225,8 @@ export default function InteractiveMap() {
 
     // Initialize map with the provided expanded state
     const map = L.map(mapRef.current, {
-      center: [30, 0], // Center between all locations
-      zoom: 2,
+      center: [25, 0], // Center between all locations, slightly lower
+      zoom: customZoom || 3,
       zoomControl: true,
       scrollWheelZoom: expandedState, // Use the provided state
       doubleClickZoom: true,
@@ -238,7 +243,7 @@ export default function InteractiveMap() {
     });
     
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '© Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+      attribution: '',
       maxZoom: 19,
     });
     
@@ -257,7 +262,7 @@ export default function InteractiveMap() {
     mapInstanceRef.current = map;
 
     // Create all markers using the recreation function
-    recreateAllMarkers(map, true);
+    recreateAllMarkers(map, true, customZoom);
     
     // Immediately set zoom controls based on the provided state
     if (expandedState) {
@@ -273,10 +278,14 @@ export default function InteractiveMap() {
 
   // Initialize map on mount
   useEffect(() => {
-    initializeMapWithState(isExpanded);
+    // Small delay to ensure container is properly sized
+    const timer = setTimeout(() => {
+      initializeMapWithState(isExpanded);
+    }, 50);
 
     // Cleanup function
     return () => {
+      clearTimeout(timer);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
@@ -285,6 +294,28 @@ export default function InteractiveMap() {
       // Clear markers array for new map
       markersRef.current = [];
     };
+  }, []);
+
+  // Trigger map resize when component mounts to ensure proper rendering
+  useEffect(() => {
+    if (mapInstanceRef.current) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        mapInstanceRef.current?.invalidateSize();
+      }, 100);
+    }
+  }, []);
+
+  // Handle window resize to ensure map stays responsive
+  useEffect(() => {
+    const handleResize = () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Update map zoom controls when expanded state changes
@@ -321,7 +352,8 @@ export default function InteractiveMap() {
     setTimeout(() => {
       setIsAnimating(false);
       // Reinitialize map with new size and zoom controls using the new state
-      initializeMapWithState(newExpandedState);
+      // When expanding, set zoom level to 3 directly during initialization
+      initializeMapWithState(newExpandedState, newExpandedState ? 3 : undefined);
     }, 300); // Match CSS transition duration
   };
 
@@ -353,89 +385,122 @@ export default function InteractiveMap() {
   };
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-[#0b0e1a] border border-white/10">
-      {/* Expand/Collapse Button */}
-      <button
-        onClick={toggleMapSize}
-        disabled={isAnimating}
-        className="absolute top-4 right-4 z-[9999] bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-3 shadow-2xl border-2 border-white/20 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
-        title={isExpanded ? "Minimize Map" : "Expand Map"}
-        style={{ 
-          zIndex: 9999,
-          position: 'absolute',
-          pointerEvents: 'auto'
-        }}
-      >
-        {isExpanded ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-          </svg>
-        )}
-      </button>
+    <div className="w-full bg-white rounded-2xl overflow-hidden shadow-xl">
+      <div className="flex flex-col lg:flex-row min-h-[500px]">
+        {/* Left Column - Text Content */}
+        <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+          {/* Main paragraph */}
+          <p className="text-lg lg:text-xl text-gray-800 mb-12 leading-relaxed">
+            With a global footprint in over 90 countries and as partner to most of the world's biggest companies, we empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
+          </p>
+          
+          {/* KPI Grid */}
+          <div className="grid grid-cols-2 gap-8">
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">24×7×365</div>
+              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">Support</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">100%</div>
+              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">KPI Performance</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">20,000+</div>
+              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">Customer Sites</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">90+</div>
+              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">Countries</div>
+            </div>
+          </div>
+        </div>
 
-      {/* Back to Overview Button */}
-      <button
-        onClick={() => {
-          if (mapInstanceRef.current) {
-            // Fly back to overview showing all markers
-            const bounds = L.latLngBounds(officeLocations.map(office => office.coordinates));
-            mapInstanceRef.current.flyToBounds(bounds, { 
-              padding: [20, 20],
-              duration: 2,
-              easeLinearity: 0.25
-            });
-          }
-        }}
-        className="absolute bottom-4 left-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
-        title="Back to Overview"
-        style={{ 
-          zIndex: 9999,
-          position: 'absolute',
-          pointerEvents: 'auto'
-        }}
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-        </svg>
-      </button>
+        {/* Right Column - Map */}
+        <div className="lg:w-1/2 relative h-[500px] lg:h-full">
+          <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#0b0e1a] border border-white/10">
+            {/* Expand/Collapse Button */}
+            <button
+              onClick={toggleMapSize}
+              disabled={isAnimating}
+              className="absolute top-4 right-4 z-[9999] bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-3 shadow-2xl border-2 border-white/20 transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={isExpanded ? "Minimize Map" : "Expand Map"}
+              style={{ 
+                zIndex: 9999,
+                position: 'absolute',
+                pointerEvents: 'auto'
+              }}
+            >
+              {isExpanded ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+              )}
+            </button>
 
-      {/* Map Type Toggle Button */}
-      <button
-        onClick={toggleMapType}
-        className="absolute bottom-4 right-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
-        title={mapType === 'street' ? 'Switch to Satellite View' : 'Switch to Street View'}
-        style={{ 
-          zIndex: 9999,
-          position: 'absolute',
-          pointerEvents: 'auto'
-        }}
-      >
-        {mapType === 'street' ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-          </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4-2m-4 2V5m-4 2l4-2m-4 2v12" />
-          </svg>
-        )}
-      </button>
+            {/* Back to Overview Button */}
+            <button
+              onClick={() => {
+                if (mapInstanceRef.current) {
+                  // Fly back to overview with zoom level 3
+                  mapInstanceRef.current.setView([25, 0], 3, { 
+                    duration: 2,
+                    easeLinearity: 0.25
+                  });
+                }
+              }}
+              className="absolute bottom-4 left-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
+              title="Back to Overview"
+              style={{ 
+                zIndex: 9999,
+                position: 'absolute',
+                pointerEvents: 'auto'
+              }}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              </svg>
+            </button>
 
-      {/* Map Container */}
-      <div 
-        ref={mapRef} 
-        className={`w-full transition-all duration-300 ease-in-out ${
-          isExpanded ? 'min-h-[400px] h-[400px]' : 'min-h-[250px] h-[250px]'
-        }`}
-        style={{ 
-          height: isExpanded ? '400px' : '250px',
-          minHeight: isExpanded ? '400px' : '250px'
-        }}
-      />
+            {/* Map Type Toggle Button */}
+            <button
+              onClick={toggleMapType}
+              className="absolute bottom-4 right-4 z-[9999] bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-2xl border border-gray-200 transition-all duration-200 hover:scale-110"
+              title={mapType === 'street' ? 'Switch to Satellite View' : 'Switch to Street View'}
+              style={{ 
+                zIndex: 9999,
+                position: 'absolute',
+                pointerEvents: 'auto'
+              }}
+            >
+              {mapType === 'street' ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4-2m-4 2V5m-4 2l4-2m-4 2v12" />
+                </svg>
+              )}
+            </button>
+
+            {/* Map Container */}
+            <div 
+              ref={mapRef} 
+              className={`w-full h-full transition-all duration-300 ease-in-out ${
+                isExpanded ? 'min-h-[500px]' : 'min-h-[400px]'
+              }`}
+              style={{ 
+                height: isExpanded ? '500px' : '400px',
+                minHeight: isExpanded ? '500px' : '400px'
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
