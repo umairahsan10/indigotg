@@ -347,6 +347,7 @@ export default function InteractiveMap() {
       center: [25, 0], // Center between all locations, slightly lower
       zoom: customZoom || 3,
       zoomControl: true,
+      attributionControl: false, // Disable attribution control completely
       scrollWheelZoom: expandedState, // Use the provided state
       doubleClickZoom: true,
       boxZoom: true,
@@ -357,7 +358,7 @@ export default function InteractiveMap() {
 
     // Create both tile layers
     const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
+      attribution: '',
       maxZoom: 19,
     });
     
@@ -505,7 +506,7 @@ export default function InteractiveMap() {
 
   return (
     <div ref={containerRef} className="w-full bg-white rounded-2xl overflow-hidden shadow-xl">
-      <div className="flex flex-col lg:flex-row min-h-[500px]">
+      <div className="flex flex-col lg:flex-row min-h-[500px] items-center">
                  {/* Left Column - Text Content */}
          <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
            {/* Main paragraph */}
@@ -543,7 +544,7 @@ export default function InteractiveMap() {
         </div>
 
         {/* Right Column - Map */}
-        <div className="lg:w-1/2 relative h-[500px] lg:h-full">
+        <div className="lg:w-1/2 relative h-[500px] lg:h-full flex items-center">
           <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#0b0e1a] border border-white/10">
             {/* Expand/Collapse Button */}
             <button

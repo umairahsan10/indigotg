@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { orbitron } from "./fonts";
+import { orbitron, roboto } from "./fonts";
 import "./globals.css";
 import Navigation from "./components/Navigation";
 import Footer from "./components/footer";
@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${roboto.variable} antialiased`}
       >
         {/* <CustomCursor /> */}
         <ScrollToTop />

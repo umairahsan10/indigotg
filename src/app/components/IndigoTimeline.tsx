@@ -61,10 +61,10 @@ const IndigoTimeline = () => {
 
           {/* Right Section - Text Content */}
           <div ref={textRef} className="space-y-8 text-content">
-                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#140079] leading-tight">
+                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                Celebrating 25 years
              </h2>
-            <p className="text-lg md:text-xl text-[#140079] leading-relaxed">
+            <p className="text-lg md:text-xl font-roboto text-[#140079] leading-relaxed">
               Throughout the last 25 years, we've seen our business grow and expand, all while staying true to our core values. We've been humbled by the trust, support and loyalty of our customers, old and new, and we look forward to many more years of creating beautiful, lasting memories for you.
             </p>
             
@@ -74,7 +74,7 @@ const IndigoTimeline = () => {
                 <span className="circle">
                   <span className="icon arrow"></span>
                 </span>
-                <span className="button-text">Watch more videos</span>
+                <span className="button-text font-roboto">Watch more videos</span>
               </button>
             </Link>
           </div>

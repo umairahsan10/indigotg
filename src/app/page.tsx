@@ -40,10 +40,12 @@ export default function Home() {
       {/* Brands Marquee */}
       <BrandsSection />
 
+
+
       {/* Interactive Map */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className={`font-sans text-center text-4xl md:text-4xl lg:text-6xl font-semibold tracking-wide text-[#04048b] mb-8`}>
+          <h2 className={`font-roboto text-center text-4xl md:text-4xl lg:text-6xl font-semibold tracking-wide text-[#04048b] mb-4`}>
             Indigo in Numbers
           </h2>
           <InteractiveMap />

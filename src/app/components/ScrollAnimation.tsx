@@ -1336,7 +1336,7 @@ const ScrollAnimation = () => {
       <section className="hero">
         <div className="hero-background"></div>
         <div className="hero-header">
-          <h1>Network Solutions</h1>
+          <h1 className="font-roboto">Network Solutions</h1>
         </div>
         <div className="hero-cards">
           <div className="card" id="hero-card-1">
@@ -1380,8 +1380,8 @@ const ScrollAnimation = () => {
             <IndigoAnimation />
           </div>
           <div className="about-text">
-            <h1>Our Services</h1>
-            <p className="mt-4 max-w-3xl text-white !text-xl  !font-light">
+            <h1 className="font-roboto">Our Services</h1>
+            <p className="mt-4 max-w-3xl text-white !text-xl  !font-light font-roboto">
               With our Design services we optimise and future-proof designs from the outset with leading-edge tools, survey techniques, processes, and data, saving our partners time and money.<br /><br />
               Our Deployment team partners with digital infrastructure owners and operators to install, test, and optimise fixed line, subsea, wireless, and data centre digital infrastructure.<br /><br />
               Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
@@ -1401,7 +1401,7 @@ const ScrollAnimation = () => {
       <section className="services">
         <div className="services-background"></div>
         <div className="services-header">
-          <h1>Expert design, deployment, and support services</h1>
+          <h1 className="font-roboto">Expert design, deployment, and support services</h1>
         </div>
 
         <div className="mobile-cards">
