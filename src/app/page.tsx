@@ -25,10 +25,10 @@ export default function Home() {
       <BrandsSection />
 
       {/* Interactive Map */}
-      <section className="py-16 bg-[#0b0e1a]">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className={`${orbitron.className} text-center text-4xl md:text-4xl lg:text-6xl font-extrabold tracking-wide text-white mb-6`}>
-            Our Global Offices
+          <h2 className={`font-sans text-center text-4xl md:text-4xl lg:text-6xl font-semibold tracking-wide text-[#04048b] mb-8`}>
+            Indigo in Numbers
           </h2>
           <InteractiveMap />
         </div>

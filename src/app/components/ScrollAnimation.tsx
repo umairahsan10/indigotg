@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { orbitron } from '../fonts';
+import IndigoAnimation from './indigoAnimation';
 
 const ScrollAnimation = () => {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -396,7 +397,7 @@ const ScrollAnimation = () => {
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: #000000;
+          background-color: #04048b;
           color: var(--scroll-light);
         }
 
@@ -420,6 +421,9 @@ const ScrollAnimation = () => {
           flex: 1;
           position: relative;
           min-width: 500px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .scroll-animation-container .about-content h1 {
@@ -430,8 +434,8 @@ const ScrollAnimation = () => {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          font-family: var(--font-orbitron), "Orbitron", monospace;
-          font-weight: 800;
+          font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
+          font-weight: 500;
         }
 
         @media (min-width: 768px) {
@@ -476,6 +480,96 @@ const ScrollAnimation = () => {
           font-size: 0.9rem;
           font-weight: 500;
           color: var(--scroll-light);
+        }
+
+        /* Animated Button Styles */
+        .scroll-animation-container button {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+          outline: none;
+          border: 0;
+          vertical-align: middle;
+          text-decoration: none;
+          background: transparent;
+          padding: 0;
+          font-size: inherit;
+          font-family: inherit;
+        }
+
+        .scroll-animation-container button.learn-more {
+          width: 15rem;
+          height: auto;
+        }
+
+        .scroll-animation-container button.learn-more .circle {
+          transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+          position: relative;
+          display: block;
+          margin: 0;
+          width: 3rem;
+          height: 3rem;
+          background: white;
+          border-radius: 1.625rem;
+        }
+
+        .scroll-animation-container button.learn-more .circle .icon {
+          transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          background: #fff;
+        }
+
+        .scroll-animation-container button.learn-more .circle .icon.arrow {
+          transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+          left: 0.625rem;
+          width: 1.125rem;
+          height: 0.125rem;
+          background: none;
+        }
+
+        .scroll-animation-container button.learn-more .circle .icon.arrow::before {
+          position: absolute;
+          content: "";
+          top: -0.29rem;
+          right: 0.0625rem;
+          width: 0.625rem;
+          height: 0.625rem;
+          border-top: 0.125rem solid #04048b;
+          border-right: 0.125rem solid #04048b;
+          transform: rotate(45deg);
+        }
+
+        .scroll-animation-container button.learn-more .button-text {
+          transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          padding: 0.75rem 0;
+          margin: 0 0 0 2rem;
+          color: white;
+          font-weight: 700;
+          line-height: 1.6;
+          text-align: center;
+          text-transform: uppercase;
+          font-size: 0.9rem;
+        }
+
+        .scroll-animation-container button:hover .circle {
+          width: 100%;
+        }
+
+        .scroll-animation-container button:hover .circle .icon.arrow {
+          background: #fff;
+          transform: translate(1rem, 0);
+        }
+
+        .scroll-animation-container button:hover .button-text {
+          color: #04048b;
         }
 
         /* Circle Video Styles */
@@ -1282,33 +1376,25 @@ const ScrollAnimation = () => {
 
       <section className="about">
         <div className="about-content">
+          <div className="about-video">
+            <IndigoAnimation />
+          </div>
           <div className="about-text">
-            <h1>Indigo Overview</h1>
-            <p className="mt-4 max-w-2xl text-gray-200">
-              Find out how Indigo designs, deploys and supports digital infrastructure enhancing network performance now and into the future.
+            <h1>Our Services</h1>
+            <p className="mt-4 max-w-3xl text-white !text-xl  !font-light">
+              With our Design services we optimise and future-proof designs from the outset with leading-edge tools, survey techniques, processes, and data, saving our partners time and money.<br /><br />
+              Our Deployment team partners with digital infrastructure owners and operators to install, test, and optimise fixed line, subsea, wireless, and data centre digital infrastructure.<br /><br />
+              Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
             </p>
             <div className="about-features">
-              <div className="feature">
-                <span>Explore Services</span>
-              </div>
+              <button className="learn-more">
+                <span className="circle">
+                  <span className="icon arrow"></span>
+                </span>
+                <span className="button-text">Explore Services</span>
+              </button>
             </div>
           </div>
-                                           <div className="about-video">
-              <div className="circle-video-container">
-                <video
-                  src="/card/circle-video.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="circle-video"
-                >
-                  <source src="/card/circle-video.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </div>
         </div>
       </section>
 
