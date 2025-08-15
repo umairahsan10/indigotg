@@ -44,35 +44,48 @@ export default function EbookPage() {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-                    {/* Background image */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none">
-          <img
-            src="/ebook/ebookbg.png"
-            alt="Background"
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
+      {/* Simple Background Image */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+        pointerEvents: 'none'
+      }}>
+        <img
+          src="/ebook/ebookbg.png"
+          alt="Background"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.3
+          }}
+        />
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                 {/* Header with Logo */}
-         <div className="text-center mb-16">
-           <div className="inline-flex items-center mb-8">
-             {/* <img 
-               src="/ebook/indigo_logo_blue.svg" 
-               alt="INDIGO Logo" 
-               className="w-30 h-30 mr-3"
-             /> */}
-           </div>
+      <div style={{position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: '64px 16px'}}>
+        {/* Header with Logo */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center mb-8">
+            {/* <img 
+              src="/ebook/indigo_logo_blue.svg" 
+              alt="INDIGO Logo" 
+              className="w-30 h-30 mr-3"
+            /> */}
+          </div>
           
-                     <h1 style={{textAlign: 'center', fontSize: '55px'}}><span style={{color: '#140177'}} className="font-bold">Maximize Network Uptime: Improve Network Infrastructure Efficiency with Our Free eBook!</span></h1>
+          <h1 style={{textAlign: 'center', fontSize: '55px'}}><span style={{color: '#140177'}} className="font-bold">Maximize Network Uptime: Improve Network Infrastructure Efficiency with Our Free eBook!</span></h1>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left Section - Content Description */}
-          <div className="space-y-8">
-                         <h2 style={{...geometricSans, color: '#04048b'}} className="text-3xl font-bold">
-               What's inside?
-             </h2>
+          <div className="space-y-8 relative z-30">
+            <h2 style={{...geometricSans, color: '#04048b'}} className="text-3xl font-bold">
+              What's inside?
+            </h2>
             
             <div className="space-y-6 text-xl text-gray-700 leading-relaxed">
               <p>
@@ -81,17 +94,24 @@ export default function EbookPage() {
               <p>
                 Download this ebook for your guide to successfully outsourcing network infrastructure support services.
               </p>
-                             <p className="font-semibold text-xl font-bold" style={{color: '#04048b'}}>
-                 Fill in the form below to receive your free eBook today.
-               </p>
+              <p className="font-semibold text-xl font-bold" style={{color: '#04048b'}}>
+                Fill in the form below to receive your free eBook today.
+              </p>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* New Form Implementation */}
+            <form onSubmit={handleSubmit}>
+              {/* First Row - Two fields side by side */}
+              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px'}}>
                 <div>
-                  <label htmlFor="firstName" className="block text-base font-medium text-gray-700 mb-2">
-                    First name*
+                  <label htmlFor="firstName" style={{
+                    display: 'block', 
+                    marginBottom: '8px', 
+                    fontWeight: 'bold',
+                    fontFamily: 'sans-serif',
+                    color: '#140177'
+                  }}>
+                    First Name *
                   </label>
                   <input
                     type="text"
@@ -100,14 +120,26 @@ export default function EbookPage() {
                     value={formData.firstName}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-base"
+                    style={{
+                      width: '100%', 
+                      padding: '12px', 
+                      border: '2px solid #140177', 
+                      borderRadius: '8px',
+                      backgroundColor: 'white',
+                      fontFamily: 'sans-serif'
+                    }}
                     placeholder="Enter your first name"
-                    style={{borderColor: '#140477'}}
                   />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-base font-medium text-gray-700 mb-2">
-                    Last name*
+                  <label htmlFor="lastName" style={{
+                    display: 'block', 
+                    marginBottom: '8px', 
+                    fontWeight: 'bold',
+                    fontFamily: 'sans-serif',
+                    color: '#140177'
+                  }}>
+                    Last Name *
                   </label>
                   <input
                     type="text"
@@ -116,16 +148,29 @@ export default function EbookPage() {
                     value={formData.lastName}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-base"
+                    style={{
+                      width: '100%', 
+                      padding: '12px', 
+                      border: '2px solid #140177', 
+                      borderRadius: '8px',
+                      backgroundColor: 'white',
+                      fontFamily: 'sans-serif'
+                    }}
                     placeholder="Enter your last name"
-                    style={{borderColor: '#140477'}}
                   />
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="workEmail" className="block text-base font-medium text-gray-700 mb-2">
-                  Work email*
+              {/* Work Email */}
+              <div style={{marginBottom: '16px'}}>
+                <label htmlFor="workEmail" style={{
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 'bold',
+                  fontFamily: 'sans-serif',
+                  color: '#140177'
+                }}>
+                  Work Email *
                 </label>
                 <input
                   type="email"
@@ -134,15 +179,28 @@ export default function EbookPage() {
                   value={formData.workEmail}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-base"
+                  style={{
+                    width: '100%', 
+                    padding: '12px', 
+                    border: '2px solid #140177', 
+                    borderRadius: '8px',
+                    backgroundColor: 'white',
+                    fontFamily: 'sans-serif'
+                  }}
                   placeholder="Enter your work email"
-                  style={{borderColor: '#140477'}}
                 />
               </div>
 
-              <div>
-                <label htmlFor="jobTitle" className="block text-base font-medium text-gray-700 mb-2">
-                  Job title
+              {/* Job Title */}
+              <div style={{marginBottom: '16px'}}>
+                <label htmlFor="jobTitle" style={{
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 'bold',
+                  fontFamily: 'sans-serif',
+                  color: '#140177'
+                }}>
+                  Job Title
                 </label>
                 <input
                   type="text"
@@ -150,15 +208,28 @@ export default function EbookPage() {
                   name="jobTitle"
                   value={formData.jobTitle}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-base"
+                  style={{
+                    width: '100%', 
+                    padding: '12px', 
+                    border: '2px solid #140177', 
+                    borderRadius: '8px',
+                    backgroundColor: 'white',
+                    fontFamily: 'sans-serif'
+                  }}
                   placeholder="Enter your job title"
-                  style={{borderColor: '#140477'}}
                 />
               </div>
 
-              <div>
-                <label htmlFor="companyName" className="block text-base font-medium text-gray-700 mb-2">
-                  Company name*
+              {/* Company Name */}
+              <div style={{marginBottom: '16px'}}>
+                <label htmlFor="companyName" style={{
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 'bold',
+                  fontFamily: 'sans-serif',
+                  color: '#140177'
+                }}>
+                  Company Name *
                 </label>
                 <input
                   type="text"
@@ -167,15 +238,28 @@ export default function EbookPage() {
                   value={formData.companyName}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-base"
+                  style={{
+                    width: '100%', 
+                    padding: '12px', 
+                    border: '2px solid #140177', 
+                    borderRadius: '8px',
+                    backgroundColor: 'white',
+                    fontFamily: 'sans-serif'
+                  }}
                   placeholder="Enter your company name"
-                  style={{borderColor: '#140477'}}
                 />
               </div>
 
-              <div>
-                <label htmlFor="mobilePhone" className="block text-base font-medium text-gray-700 mb-2">
-                  Mobile phone number
+              {/* Mobile Phone */}
+              <div style={{marginBottom: '16px'}}>
+                <label htmlFor="mobilePhone" style={{
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 'bold',
+                  fontFamily: 'sans-serif',
+                  color: '#140177'
+                }}>
+                  Mobile Phone Number
                 </label>
                 <input
                   type="tel"
@@ -183,22 +267,40 @@ export default function EbookPage() {
                   name="mobilePhone"
                   value={formData.mobilePhone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-base"
+                  style={{
+                    width: '100%', 
+                    padding: '12px', 
+                    border: '2px solid #140177', 
+                    borderRadius: '8px',
+                    backgroundColor: 'white',
+                    fontFamily: 'sans-serif'
+                  }}
                   placeholder="Enter your mobile number"
-                  style={{borderColor: '#140477'}}
                 />
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-blue-900 text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-blue-800 transition-all duration-200 transform hover:scale-105 focus:ring-4 focus:ring-blue-300 focus:outline-none"
+                style={{
+                  width: '100%',
+                  backgroundColor: '#1e3a8a',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  padding: '16px 32px',
+                  borderRadius: '8px',
+                  fontSize: '18px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'sans-serif'
+                }}
               >
                 DOWNLOAD EBOOK NOW
               </button>
             </form>
 
             {/* Social Media Icons */}
-            <div className="flex justify-center space-x-6 pt-6">
+            <div className="flex justify-center space-x-6 pt-6 relative z-30">
               <a 
                 href="https://www.linkedin.com/uas/login?session_redirect=%2Fcompany%2F676658%2F" 
                 target="_blank" 
@@ -234,43 +336,41 @@ export default function EbookPage() {
             </div>
           </div>
 
-                                           {/* Right Section - Stacked Cards */}
-            <div className="flex justify-center lg:justify-end mt-[-12rem]">
-              <div className="relative">
-                <EbookStackedCards
-                  cards={[
-                    {
-                      image: "/ebook/card1.jpeg"
-                    },
-                    {
-                      image: "/ebook/card2.jpeg"
-                    },
-                    {
-                      image: "/ebook/card3.jpeg"
-                    }
-                  ]}
-                  spreadDistance={40}
-                  rotationAngle={5}
-                  animationDelay={0.1}
+          {/* Right Section - Stacked Cards */}
+          <div className="flex justify-center lg:justify-end mt-[-12rem] relative z-30">
+            <div className="relative">
+              <EbookStackedCards
+                cards={[
+                  {
+                    image: "/ebook/card1.jpeg"
+                  },
+                  {
+                    image: "/ebook/card2.jpeg"
+                  },
+                  {
+                    image: "/ebook/card3.jpeg"
+                  }
+                ]}
+                spreadDistance={40}
+                rotationAngle={5}
+                animationDelay={0.1}
+              />
+              
+              {/* Book Image Below Cards */}
+              <div className="mt-[-0.5rem] flex justify-center">
+                <img 
+                  src="/ebook/Support eBook cover page.webp" 
+                  alt="Network Infrastructure eBook" 
+                  className="max-w-96 max-h-96 object-contain shadow-2xl"
+                  style={{
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)'
+                  }}
                 />
-                
-                {/* Book Image Below Cards */}
-                <div className="mt-4 flex justify-center">
-                  <img 
-                    src="/ebook/Support eBook cover page.webp" 
-                    alt="Network Infrastructure eBook" 
-                    className="max-w-96 max-h-96 object-contain shadow-2xl"
-                    style={{
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.15)'
-                    }}
-                  />
-                </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
-
-
     </div>
   );
 }
