@@ -22,7 +22,7 @@ export default function Home() {
 
       <Hero />
 
-
+      {/* Ebook Promo */}
       <EbookPromo />
 
       {/* Indigo Overview */}
@@ -31,6 +31,7 @@ export default function Home() {
       {/* Indigo Timeline */}
       <IndigoTimeline />
 
+      {/* Scroll Animation */}
       <ScrollAnimation />
 
       {/* Connected Solutions */}
@@ -51,6 +52,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Logos */}
       <LogosSection />
 
       {/* Get In Touch */}
