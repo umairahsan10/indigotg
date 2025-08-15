@@ -5,7 +5,7 @@ import "./globals.css";
 import Navigation from "./components/Navigation";
 import Footer from "./components/footer";
 import ScrollToTop from "./components/ScrollToTop";
-import PageTransition from "./components/PageTransition";
+import PageLoader from "./components/PageLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +34,11 @@ export default function RootLayout({
       >
         <ScrollToTop />
         <Navigation />
-        <PageTransition>
+        <PageLoader>
           <main id="page-content" style={{ position: 'relative', zIndex: 1 }}>
             {children}
           </main>
-        </PageTransition>
+        </PageLoader>
         <Footer />
       </body>
     </html>

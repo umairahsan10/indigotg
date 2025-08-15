@@ -129,12 +129,95 @@ body {
   z-index: 2;
 }
 
+/* New Page Loader Styles */
+.logo-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.progress-container {
+  max-width: 400px;
+  width: 100%;
+}
+
+.progress-bar {
+  background: #e5e7eb;
+  border-radius: 9999px;
+  height: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  height: 100%;
+  border-radius: 9999px;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  transition: width 0.3s ease-out;
+}
+
+.progress-text {
+  text-align: center;
+}
+
+/* Prevent scroll jumping during loading */
+body.loading {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  background: white !important;
+}
+
+/* Hide footer during loading to prevent it from being visible */
+body.loading footer {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Ensure smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Page content transition styles */
+.page-content-wrapper {
+  transition: opacity 0.3s ease-in-out;
+  will-change: opacity;
+  background: white;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Prevent any black screen flashes */
+.page-content-wrapper[style*="opacity: 0"] {
+  background: white !important;
+}
+
+/* Ensure page content is always visible during loading */
+.page-content-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure blocks transition doesn't create gaps */
 .block {
   flex: 1;
   height: 100%;
   background: #ffffff;
   transform: scaleX(0);
   transform-origin: left;
+  position: relative;
+  z-index: 99999;
 }
 
 /* Triangle loading animation styles */
@@ -164,13 +247,4 @@ body {
   background: #ffffff;
   pointer-events: none;
   opacity: 0;
-}
-
-.logo-container {
-  width: 200px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
 }
