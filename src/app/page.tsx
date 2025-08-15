@@ -19,20 +19,23 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       <BackgroundMusic audioSrc="/music/bg_music.mp3" />
-      
-      <Hero /> 
-      
-      
-      <ScrollAnimation />
 
-                     {/* Indigo Overview */}
-               <IndigoOverview />
-         
-               {/* Indigo Timeline */}
-               <IndigoTimeline />
-         
-               {/* Connected Solutions */}
-               <ConnectedSolutions />
+      <Hero />
+
+
+      <EbookPromo />
+
+      {/* Indigo Overview */}
+      <IndigoOverview />
+
+      {/* Indigo Timeline */}
+      <IndigoTimeline />
+
+      {/* Connected Solutions */}
+      <ConnectedSolutions />
+
+
+      <ScrollAnimation />
 
       {/* Brands Marquee */}
       <BrandsSection />
