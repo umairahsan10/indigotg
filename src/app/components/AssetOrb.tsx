@@ -784,40 +784,40 @@ const EarthComponent = ({ width = '100%', height = '100vh' }) => {
       const animate = () => {
         animationIdRef.current = requestAnimationFrame(animate);
 
-      // Rotate Earth - MUCH FASTER
+      // Rotate Earth - SLOWER
       const earthMesh = earthGroup.userData.earthMesh;
       if (earthMesh) {
-        earthMesh.rotation.y += 0.003; // Much faster rotation
+        earthMesh.rotation.y += 0.0008; // Slower rotation
       }
 
-      // Rotate City Lights - MUCH FASTER
+      // Rotate City Lights - SLOWER
       const lightsMesh = earthGroup.userData.lightsMesh;
       if (lightsMesh) {
-        lightsMesh.rotation.y += 0.003; // Much faster rotation
+        lightsMesh.rotation.y += 0.0008; // Slower rotation
       }
 
-      // Rotate Clouds - EXTREMELY FAST
+      // Rotate Clouds - SLOWER
       const cloudsMesh = earthGroup.userData.cloudsMesh;
       if (cloudsMesh) {
-        cloudsMesh.rotation.y += 0.008; // Extremely fast cloud movement
+        cloudsMesh.rotation.y += 0.002; // Slower cloud movement
       }
 
-      // Rotate Atmosphere - FASTER
+      // Rotate Atmosphere - SLOWER
       const atmosphereMesh = earthGroup.userData.atmosphereMesh;
       if (atmosphereMesh) {
-        atmosphereMesh.rotation.y += 0.002; // Faster atmospheric rotation
+        atmosphereMesh.rotation.y += 0.0006; // Slower atmospheric rotation
       }
 
-      // Rotate Second Atmosphere - FASTER
+      // Rotate Second Atmosphere - SLOWER
       const atmosphereMesh2 = earthGroup.userData.atmosphereMesh2;
       if (atmosphereMesh2) {
-        atmosphereMesh2.rotation.y += 0.0015; // Faster outer atmospheric rotation
+        atmosphereMesh2.rotation.y += 0.0004; // Slower outer atmospheric rotation
       }
 
-             // Rotate Stars - FASTER
+             // Rotate Stars - SLOWER
       const starsGroup = scene.getObjectByName('stars');
       if (starsGroup) {
-         starsGroup.rotation.y += 0.002; // Faster star rotation
+         starsGroup.rotation.y += 0.0005; // Slower star rotation
        }
        
                // Animate network lines for flowing effect
