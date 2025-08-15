@@ -2,6 +2,8 @@
 
 import Hero from "./components/Hero";
 import ConnectedSolutions from "./components/ConnectedSolutions";
+import IndigoOverview from "./components/IndigoOverview";
+import IndigoTimeline from "./components/IndigoTimeline";
 import dynamic from "next/dynamic";
 import { LogosSection } from "./components/logos";
 
@@ -18,8 +20,14 @@ export default function Home() {
       
       <ScrollAnimation />
 
-      {/* Connected Solutions */}
-      <ConnectedSolutions />
+                     {/* Indigo Overview */}
+               <IndigoOverview />
+         
+               {/* Indigo Timeline */}
+               <IndigoTimeline />
+         
+               {/* Connected Solutions */}
+               <ConnectedSolutions />
 
       {/* Brands Marquee */}
       <BrandsSection />
