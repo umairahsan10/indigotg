@@ -41,6 +41,10 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     if (typeof document !== 'undefined') {
       document.body.classList.add('loading');
       
+      // Store current scroll position to restore it later
+      const currentScrollY = window.scrollY;
+      document.body.style.setProperty('--scroll-y', `${currentScrollY}px`);
+      
       // Also hide the footer during loading
       const footer = document.querySelector('footer');
       if (footer) {
@@ -59,6 +63,7 @@ const PageLoader = ({ children }: PageLoaderProps) => {
       // Clean up loading class if component unmounts
       if (typeof document !== 'undefined') {
         document.body.classList.remove('loading');
+        document.body.style.removeProperty('--scroll-y');
         
         // Show footer again if component unmounts
         const footer = document.querySelector('footer');
@@ -85,6 +90,7 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     // Remove loading class from body
     if (typeof document !== 'undefined') {
       document.body.classList.remove('loading');
+      document.body.style.removeProperty('--scroll-y');
       
       // Show footer again after loading completes
       const footer = document.querySelector('footer');
@@ -104,6 +110,15 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     setTimeout(() => {
       scrollToTop();
     }, 100);
+    
+    // Ensure smooth transition back to normal scroll behavior
+    setTimeout(() => {
+      if (typeof document !== 'undefined') {
+        document.body.style.transition = 'all 0.3s ease-out';
+        // Force a reflow to ensure smooth transition
+        document.body.offsetHeight;
+      }
+    }, 50);
   };
 
   // Always render page content with loading overlays as needed
@@ -114,9 +129,9 @@ const PageLoader = ({ children }: PageLoaderProps) => {
       {phase === 'loading' && <LoadingBar onComplete={handleLoadingComplete} />}
       {phase === 'blocks' && <BlocksTransition onComplete={handleBlocksComplete} />}
       
-      {/* Always render page content - it's always visible but with different opacity */}
+      {/* Always render page content - ensure it's fully visible for animations */}
       <div 
-        className={`page-content-wrapper transition-opacity duration-300 bg-white ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={`page-content-wrapper ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         style={{ 
           background: 'white',
           minHeight: '100vh',
@@ -129,7 +144,9 @@ const PageLoader = ({ children }: PageLoaderProps) => {
           bottom: 0,
           // Always render, just control opacity
           display: 'block',
-          visibility: 'visible'
+          visibility: 'visible',
+          // Remove transition temporarily to test if it's interfering
+          transition: isVisible ? 'opacity 0.3s ease-in-out' : 'none'
         }}
       >
         {children}

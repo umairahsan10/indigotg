@@ -156,8 +156,20 @@ const companyStories: CompanyStory[] = [
 const RevealLinks = () => {
   return (
     <div className="grid place-content-center gap-2 text-white text-center">
-      <FlipLink href="#">SUCCESS</FlipLink>
-      <FlipLink href="#">STORIES</FlipLink>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <FlipLink href="#">SUCCESS</FlipLink>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+      >
+        <FlipLink href="#">STORIES</FlipLink>
+      </motion.div>
     </div>
   );
 };
@@ -167,66 +179,9 @@ const STAGGER = 0.025;
 
 const FlipLink = ({ children, href }: { children: string; href: string }) => {
   return (
-    <motion.a
-      initial="initial"
-      whileHover="hovered"
-      href={href}
-      className="flip-link relative block overflow-hidden whitespace-nowrap text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-9xl"
-      style={{
-        lineHeight: 0.85,
-      }}
-      data-decorative="true"
-      data-no-transition="true"
-      data-animation="true"
-      data-framer-motion="true"
-    >
-      <div>
-        {children.split("").map((l, i) => (
-          <motion.span
-            variants={{
-              initial: {
-                y: 0,
-              },
-              hovered: {
-                y: "-100%",
-              },
-            }}
-            transition={{
-              duration: DURATION,
-              ease: "easeInOut",
-              delay: STAGGER * i,
-            }}
-            className="inline-block"
-            key={i}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
-      <div className="absolute inset-0">
-        {children.split("").map((l, i) => (
-          <motion.span
-            variants={{
-              initial: {
-                y: "100%",
-              },
-              hovered: {
-                y: 0,
-              },
-            }}
-            transition={{
-              duration: DURATION,
-              ease: "easeInOut",
-              delay: STAGGER * i,
-            }}
-            className="inline-block"
-            key={i}
-          >
-            {l}
-          </motion.span>
-        ))}
-            </div>
-    </motion.a>
+    <div className="text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-9xl text-center text-white">
+      {children}
+    </div>
   );
 };
 
@@ -309,14 +264,9 @@ const TextParallaxContent = ({ imgUrl, subheading, heading, children, isHero = f
 };
 
 const StickyImage = ({ imgUrl }: { imgUrl: string }) => {
-  const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["end end", "end start"],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const { scrollYProgress } = useScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
 
   return (
     <motion.div
@@ -327,16 +277,11 @@ const StickyImage = ({ imgUrl }: { imgUrl: string }) => {
         height: `calc(100vh - ${IMG_PADDING * 2}px)`,
         top: IMG_PADDING,
         scale,
+        opacity
       }}
-      ref={targetRef}
       className="sticky z-0 overflow-hidden rounded-3xl"
     >
-      <motion.div
-        className="absolute inset-0 bg-neutral-950/70"
-        style={{
-          opacity,
-        }}
-      />
+      <div className="absolute inset-0 bg-neutral-950/70" />
     </motion.div>
   );
 };
@@ -346,40 +291,37 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
   heading: string; 
   isHero?: boolean;
 }) => {
-  const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [250, -250]);
-  const opacity = useTransform(scrollYProgress, [0.25, 0.5, 0.75], [0, 1, 0]);
-
+  const { scrollYProgress } = useScroll();
+  
   if (isHero) {
+    const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    
     return (
       <motion.div
-        style={{
-          y,
-          opacity,
-        }}
-        ref={targetRef}
+        style={{ y, opacity }}
         className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
       >
         <RevealLinks />
-        <p className="text-lg text-white/90 max-w-2xl mx-auto mt-8 text-center" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+        <motion.p 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+          className="text-lg text-white/90 max-w-2xl mx-auto mt-8 text-center" 
+          style={{ fontFamily: 'var(--font-geist-sans)' }}
+        >
           Our engineers work with some of the world&apos;s leading brands to create new and better experiences for their customers.
-        </p>
+        </motion.p>
       </motion.div>
     );
   }
 
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
     <motion.div
-      style={{
-        y,
-        opacity,
-      }}
-      ref={targetRef}
+      style={{ y, opacity }}
       className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
     >
       <p className="mb-2 text-center text-xl md:mb-4 md:text-3xl">
