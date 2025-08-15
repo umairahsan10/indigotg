@@ -37,8 +37,6 @@ export default function Home() {
 
       <ScrollAnimation />
 
-      <IndigoOverview />
-
       {/* Brands Marquee */}
       <BrandsSection />
 
