@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "./components/Hero";
+import EbookPromo from "./components/EbookPromo";
 import ConnectedSolutions from "./components/ConnectedSolutions";
 import IndigoOverview from "./components/IndigoOverview";
 import IndigoTimeline from "./components/IndigoTimeline";
@@ -17,6 +18,7 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       <Hero /> 
+      
       
       <ScrollAnimation />
 
