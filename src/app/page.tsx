@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "./components/Hero";
+import EbookPromo from "./components/EbookPromo";
 import ConnectedSolutions from "./components/ConnectedSolutions";
 import dynamic from "next/dynamic";
 import { LogosSection } from "./components/logos";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       <Hero /> 
+      
       
       <ScrollAnimation />
 
