@@ -173,9 +173,9 @@ export const BrandsSection = () => {
   const secondGroup = companyStories.slice(4, 8);  // 5-8
 
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto text-[#010a14] flex flex-col items-center text-center">
-        <h2 className={`${orbitron.className} text-4xl md:text-4xl lg:text-6xl font-extrabold text-[#140079] tracking-wide`}>Our Partnerships</h2>
+    <section className="py-32 bg-white">
+      <div className="container mx-auto flex flex-col items-center text-center">
+        <h2 className={`mb-8 font-sans text-4xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>Our Partnerships</h2>
 
         <div className="flex flex-col items-center justify-center gap-8 h-full mt-8">
           {/* First row - Right to Left */}

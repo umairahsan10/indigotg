@@ -78,13 +78,13 @@ export default function ConnectedSolutions() {
   const attachLottieRef = () => {};
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-20 px-6 lg:px-24 bg-gradient-to-b from-slate-900 via-slate-950 to-[#050816]">
+    <section ref={sectionRef} className="relative overflow-hidden py-20 px-6 lg:px-24 bg-[#f2f7ff]">
       {/* Headline */}
       <div className="max-w-6xl mx-auto text-center mb-10">
-        <h2 className={`${orbitron.className} text-4xl md:text-5xl font-extrabold leading-tight text-white`}>
+        <h2 className="font-sans text-4xl md:text-5xl font-semibold leading-tight text-[#04048b]">
           Advanced solutions for a connected future
         </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-slate-300">
+        <p className="mt-4 max-w-3xl mx-auto font-sans text-xl text-[#04048b]">
           Live data-driven solutions — modern UI with subtle motion to show connectivity, throughput and reliability.
         </p>
       </div>
@@ -155,7 +155,7 @@ function CardItem({ card, onMount }: { card: Card; onMount?: (inst: any) => void
         <div className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 group-hover:[transform:rotateY(180deg)]" style={{ minHeight: 300 }}>
           {/* Front Face */}
           <div className="absolute inset-0 [backface-visibility:hidden]">
-            <div className="bg-[rgba(255,255,255,0.03)] backdrop-blur-md border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 h-full flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgba(79,70,229,0.08)]">
+            <div className="bg-[#04048b] backdrop-blur-md border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 h-full flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgba(79,70,229,0.08)]">
               <div className="flex items-center justify-center w-20 h-20 mb-4">
                 <Icon type={card.key} />
               </div>
