@@ -5,6 +5,7 @@ import "./globals.css";
 import Navigation from "./components/Navigation";
 import Footer from "./components/footer";
 import ScrollToTop from "./components/ScrollToTop";
+// import CustomCursor from "./components/CustomCursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
       >
+        {/* <CustomCursor /> */}
         <ScrollToTop />
         <Navigation />
         <main id="page-content" style={{ position: 'relative', zIndex: 1 }}>
