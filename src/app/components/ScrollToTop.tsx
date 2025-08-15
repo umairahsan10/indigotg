@@ -30,8 +30,9 @@ export default function ScrollToTop() {
   }, []);
 
   useEffect(() => {
-    // Scroll to top on route changes
-    scrollToTop();
+    // Don't scroll immediately on route changes
+    // Let the loading system handle the scroll after completion
+    // This prevents the footer landing issue
   }, [pathname]);
   
   return null;
