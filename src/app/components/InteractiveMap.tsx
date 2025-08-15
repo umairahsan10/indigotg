@@ -12,6 +12,90 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
+// Custom hook for counting animation
+const useCountAnimation = (endValue: number, duration: number = 2000, delay: number = 0) => {
+  const [count, setCount] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  const startAnimation = () => {
+    if (hasStarted) return; // Prevent multiple starts
+    
+    setHasStarted(true);
+    setIsAnimating(true);
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = Math.floor(endValue * easeOutQuart);
+      
+      setCount(currentCount);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(endValue);
+        setIsAnimating(false);
+      }
+    };
+    
+    setTimeout(() => {
+      requestAnimationFrame(animate);
+    }, delay);
+  };
+
+  return { count, isAnimating, startAnimation };
+};
+
+// Custom hook for support animation (24×7×365)
+const useSupportAnimation = (duration: number = 2000, delay: number = 0) => {
+  const [supportText, setSupportText] = useState("0×0×0");
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  const startAnimation = () => {
+    if (hasStarted) return; // Prevent multiple starts
+    
+    setHasStarted(true);
+    setIsAnimating(true);
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      
+      // Animate each number separately
+      const hours = Math.floor(24 * easeOutQuart);
+      const days = Math.floor(7 * easeOutQuart);
+      const year = Math.floor(365 * easeOutQuart);
+      
+      setSupportText(`${hours}×${days}×${year}`);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setSupportText("24×7×365");
+        setIsAnimating(false);
+      }
+    };
+    
+    setTimeout(() => {
+      requestAnimationFrame(animate);
+    }, delay);
+  };
+
+  return { supportText, isAnimating, startAnimation };
+};
+
 interface OfficeLocation {
   name: string;
   address: string;
@@ -70,6 +154,7 @@ const officeLocations: OfficeLocation[] = [
 export default function InteractiveMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isZooming, setIsZooming] = useState(false); // Track zoom animation state
@@ -77,6 +162,40 @@ export default function InteractiveMap() {
   // State for map type (street or satellite)
   const [mapType, setMapType] = useState<'street' | 'satellite'>('satellite');
   const tileLayersRef = useRef<{ street: L.TileLayer | null; satellite: L.TileLayer | null }>({ street: null, satellite: null });
+
+  // Counting animations for KPI numbers
+  const supportAnimation = useSupportAnimation(2000, 0);
+  const kpiCount = useCountAnimation(100, 2000, 0);
+  const sitesCount = useCountAnimation(20000, 2000, 0);
+  const countriesCount = useCountAnimation(90, 2000, 0);
+
+  // Intersection observer to trigger animations when component comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Start all animations together when component comes into view
+            supportAnimation.startAnimation();
+            kpiCount.startAnimation();
+            sitesCount.startAnimation();
+            countriesCount.startAnimation();
+            observer.disconnect(); // Only trigger once
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the component is visible
+        rootMargin: '0px 0px -100px 0px' // Trigger slightly before fully in view
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [supportAnimation, kpiCount, sitesCount, countriesCount]);
 
   // Load expanded state from localStorage on mount
   useEffect(() => {
@@ -385,34 +504,42 @@ export default function InteractiveMap() {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl overflow-hidden shadow-xl">
+    <div ref={containerRef} className="w-full bg-white rounded-2xl overflow-hidden shadow-xl">
       <div className="flex flex-col lg:flex-row min-h-[500px]">
-        {/* Left Column - Text Content */}
-        <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
-          {/* Main paragraph */}
-          <p className="text-lg lg:text-xl text-gray-800 mb-12 leading-relaxed">
-            With a global footprint in over 90 countries and as partner to most of the world's biggest companies, we empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
-          </p>
-          
-          {/* KPI Grid */}
-          <div className="grid grid-cols-2 gap-8">
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">24×7×365</div>
-              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">Support</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">100%</div>
-              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">KPI Performance</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">20,000+</div>
-              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">Customer Sites</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">90+</div>
-              <div className="text-sm lg:text-base text-gray-600 uppercase tracking-wide">Countries</div>
-            </div>
-          </div>
+                 {/* Left Column - Text Content */}
+         <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+           {/* Main paragraph */}
+           <p className="text-lg lg:text-xl mb-12 leading-relaxed" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif' }}>
+             With a global footprint in over 90 countries and as partner to most of the world's biggest companies, we empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
+           </p>
+           
+           {/* KPI Grid */}
+           <div className="grid grid-cols-2 gap-8">
+             <div className="text-center">
+               <div className="mb-2" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif', fontSize: '1.88rem', lineHeight: '2.13rem' }}>
+                 {supportAnimation.supportText}
+               </div>
+               <div className="text-sm lg:text-base uppercase tracking-wide font-medium" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif' }}>Support</div>
+             </div>
+             <div className="text-center">
+               <div className="mb-2" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif', fontSize: '1.88rem', lineHeight: '2.13rem' }}>
+                 {kpiCount.count}%
+               </div>
+               <div className="text-sm lg:text-base uppercase tracking-wide font-medium" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif' }}>KPI Performance</div>
+             </div>
+             <div className="text-center">
+               <div className="mb-2" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif', fontSize: '1.88rem', lineHeight: '2.13rem' }}>
+                 {sitesCount.count.toLocaleString()}+
+               </div>
+               <div className="text-sm lg:text-base uppercase tracking-wide font-medium" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif' }}>Customer Sites</div>
+             </div>
+             <div className="text-center">
+               <div className="mb-2" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif', fontSize: '1.88rem', lineHeight: '2.13rem' }}>
+                 {countriesCount.count}+
+               </div>
+               <div className="text-sm lg:text-base uppercase tracking-wide font-medium" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif' }}>Countries</div>
+             </div>
+           </div>
         </div>
 
         {/* Right Column - Map */}
