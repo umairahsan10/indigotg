@@ -116,3 +116,61 @@ body {
     width: 100%;
   }
 }
+
+/* Page Transition Loader Styles */
+.transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.block {
+  flex: 1;
+  height: 100%;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Triangle loading animation styles */
+.triangle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  transition: all 0.3s ease;
+}
+
+.triangle:hover {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
+  transform: scale(1.1);
+}
+
+.logo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.logo-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
