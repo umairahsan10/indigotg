@@ -57,11 +57,11 @@ export default function EbookPage() {
                  {/* Header with Logo */}
          <div className="text-center mb-16">
            <div className="inline-flex items-center mb-8">
-             <img 
+             {/* <img 
                src="/ebook/indigo_logo_blue.svg" 
                alt="INDIGO Logo" 
                className="w-30 h-30 mr-3"
-             />
+             /> */}
            </div>
           
                      <h1 style={{textAlign: 'center', fontSize: '55px'}}><span style={{color: '#140177'}} className="font-bold">Maximize Network Uptime: Improve Network Infrastructure Efficiency with Our Free eBook!</span></h1>
