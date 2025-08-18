@@ -70,9 +70,9 @@ export default function GetInTouch() {
          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 min-h-screen flex items-center">
            <div className="text-left">
              <div className="hero-content">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Contact Us
-              </h1>
+                             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                 Get in Touch
+               </h1>
               <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed max-w-4xl">
                 Ready to transform your technology infrastructure?<br />
                 Get in touch with our expert team for personalized<br />
@@ -86,14 +86,12 @@ export default function GetInTouch() {
              {/* Contact Information Section */}
        <div className="py-20 bg-gray-50" ref={contactSectionRef}>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                     <div className="text-center mb-16 section-header">
-             <h2 className="text-4xl lg:text-5xl font-light text-gray-900 mb-4 animated-underline" style={{fontFamily: 'Poppins, sans-serif', color: '#140a8e'}}>
-               Sales & Support
-             </h2>
-             <p className="text-2xl lg:text-3xl text-gray-600">
-               24hr Customer Support Helpline
-             </p>
-           </div>
+                                           <div className="text-center mb-16 section-header">
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Sales & Support</h2>
+              <p className="text-xl text-gray-600">
+                24hr Customer Support Helpline
+              </p>
+            </div>
 
                                            <div className="grid md:grid-cols-4 gap-8">
                                             {/* 24hr Customer Support Helpline */}
