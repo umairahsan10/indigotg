@@ -118,22 +118,40 @@ export default function CareersHero() {
       {/* Enhanced Left Section */}
       <div className="w-1/2 relative flex items-center justify-center p-16 z-10 -mt-20">
         <div className="max-w-lg">
-
-
+          
           {/* Enhanced Animated Title */}
-          <h1 className={`text-7xl font-black text-white mb-8 transition-all duration-1000 mt-8 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-            }`}>
-            <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-blue-200 bg-clip-text text-transparent leading-tight block">
+          <h1 className="text-7xl font-black text-white mb-8 mt-8">
+            <div 
+              style={{
+                color: '#fbbf24',
+                fontSize: '4.5rem',
+                fontWeight: '900',
+                lineHeight: '1',
+                display: 'block',
+                marginBottom: '16px',
+                zIndex: 9999,
+                position: 'relative'
+              }}
+            >
               Careers
-            </span>
-            <span className="text-3xl font-normal text-white/70 block mt-2">
+            </div>
+            <div 
+              style={{
+                color: 'white',
+                fontSize: '1.875rem',
+                fontWeight: '400',
+                lineHeight: '1',
+                display: 'block',
+                zIndex: 9999,
+                position: 'relative'
+              }}
+            >
               Shape the Future
-            </span>
+            </div>
           </h1>
 
           {/* Enhanced Description */}
-          <p className={`text-xl text-white/90 mb-10 leading-relaxed transition-all duration-1000 delay-300 mt-8 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-            }`}>
+          <p className="text-xl text-white/90 mb-10 leading-relaxed mt-8">
             Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
           </p>
 

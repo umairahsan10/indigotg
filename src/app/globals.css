@@ -170,9 +170,15 @@ body {
 /* Prevent scroll jumping during loading */
 body.loading {
   overflow: hidden;
-  position: fixed;
-  width: 100%;
+  /* Completely different approach - use padding to prevent scroll jumping */
+  /* width: 100%; */
   background: white !important;
+  /* Use padding-top to prevent scroll jumping instead of transform */
+  padding-top: calc(-1 * var(--scroll-y, 0px));
+  /* Ensure animations can work */
+  position: relative;
+  height: auto;
+  scroll-behavior: auto;
 }
 
 /* Hide footer during loading to prevent it from being visible */
@@ -187,18 +193,36 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Ensure body returns to normal after loading */
+body:not(.loading) {
+  overflow: auto;
+  position: static;
+  height: auto;
+  transform: none;
+  scroll-behavior: smooth;
+}
+
+/* Ensure smooth transitions for body */
+body {
+  transition: all 0.3s ease-out;
+}
+
 /* Page content transition styles */
 .page-content-wrapper {
-  transition: opacity 0.3s ease-in-out;
-  will-change: opacity;
+  /* Simplified to eliminate conflicts */
   background: white;
   min-height: 100vh;
   position: relative;
   z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /* Remove complex positioning that might interfere */
+  /* top: 0; */
+  /* left: 0; */
+  /* right: 0; */
+  /* bottom: 0; */
+  /* Ensure animations can work properly */
+  transform: none;
+  /* Don't interfere with scroll context */
+  pointer-events: auto;
 }
 
 /* Prevent any black screen flashes */
