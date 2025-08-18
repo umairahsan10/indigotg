@@ -1,0 +1,276 @@
+/* Hide scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hero section with white gradient overlay */
+.hero-section {
+  position: relative;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    rgba(255, 255, 255, 0.3) 60%,
+    rgba(255, 255, 255, 0.8) 85%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* Ensure smooth scrolling behavior */
+html, body {
+  scroll-behavior: auto !important;
+}
+
+/* Custom styles for the roadmap cards */
+.card {
+  will-change: transform;
+}
+
+/* Ensure proper text rendering for the stroke text */
+.sticky-header h1 {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom progress bar gradient */
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0) 80%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Index colors for white background */
+.index p {
+  color: #140079 !important;
+}
+
+/* Active index styling */
+.index.active p {
+  color: inherit !important;
+}
+
+/* News Section Styles */
+.news-page {
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.news-page.hidden {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* News Tile Hover Effects */
+.news-page > div > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Image hover effect */
+.news-page > div > div:hover img {
+  transform: scale(1.05);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Card styling for white and sky blue backgrounds */
+.news-page .bg-white {
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.news-page .bg-sky-100 {
+  border: 1px solid #bae6fd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.news-page .bg-white:hover,
+.news-page .bg-sky-100:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Pagination Button Styles */
+.pagination-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background-color: white;
+  color: #140079;
+  border-color: white;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+/* Previous/Next button specific styles */
+.pagination-btn:first-child,
+.pagination-btn:last-child {
+  min-width: 100px;
+  font-weight: 600;
+}
+
+.pagination-btn:first-child:hover,
+.pagination-btn:last-child:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Disabled state for Previous/Next buttons */
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.pagination-btn:disabled:hover {
+  transform: none;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* News Item Number Styling */
+.news-page > div > div span:first-child {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Read More Button Hover Effect */
+.news-page a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .card {
+    width: 75% !important;
+    height: 40% !important;
+  }
+  
+  .card-phase p {
+    font-size: 18px !important;
+  }
+  
+  .card-title p {
+    font-size: 24px !important;
+  }
+  
+  .card-title h1 {
+    font-size: 40px !important;
+  }
+  
+  .card-title h1 span {
+    -webkit-text-stroke: 0.75px #fff !important;
+  }
+  
+  .indices {
+    right: 15px !important;
+  }
+  
+  .index p:nth-child(2),
+  .index p:nth-child(3) {
+    display: none;
+  }
+  
+  .footer h1 {
+    font-size: 8vw !important;
+  }
+
+  /* Mobile News Section Adjustments */
+  .news-page > div {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .news-page > div a {
+    margin-left: 0 !important;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .news-page h2 {
+    font-size: 3rem !important;
+  }
+
+  .news-page h3 {
+    font-size: 1.125rem !important;
+  }
+
+  .news-page p {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 1200px) {
+  .news-page .grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .news-page .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .news-page .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .news-page .col-span-4 {
+    grid-column: span 1 !important;
+  }
+}
