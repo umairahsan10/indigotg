@@ -118,7 +118,7 @@ export default function WorkingAtIndigo() {
   const current = imageCards[currentTestimonial];
 
   return (
-    <section className="bg-gradient-to-br from-gray-50 via-white to-blue-50 py-8 relative overflow-hidden min-h-screen flex items-center overflow-x-hidden">
+    <section className="bg-white py-8 relative overflow-hidden min-h-screen flex items-center overflow-x-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <div
@@ -131,7 +131,7 @@ export default function WorkingAtIndigo() {
       <div className="absolute inset-0">
         {/* Floating Light Elements */}
         <div 
-          className="absolute w-96 h-96 bg-gradient-to-br from-blue-100/60 to-purple-100/40 rounded-full blur-3xl opacity-70"
+          className="absolute w-96 h-96 bg-gradient-to-br from-[#140079]/20 to-[#140079]/10 rounded-full blur-3xl opacity-70"
           style={{
             top: '10%',
             right: '10%',
@@ -139,7 +139,7 @@ export default function WorkingAtIndigo() {
           }}
         ></div>
         <div 
-          className="absolute w-64 h-64 bg-gradient-to-br from-yellow-100/80 to-orange-100/60 rounded-full blur-2xl opacity-60"
+          className="absolute w-64 h-64 bg-gradient-to-br from-[#140079]/15 to-[#140079]/25 rounded-full blur-2xl opacity-60"
           style={{
             bottom: '20%',
             left: '15%',
@@ -151,8 +151,8 @@ export default function WorkingAtIndigo() {
         <div className="absolute inset-0 opacity-5">
           <div className="w-full h-full" style={{
             backgroundImage: `
-              linear-gradient(45deg, #1e3a8a 1px, transparent 1px),
-              linear-gradient(-45deg, #1e3a8a 1px, transparent 1px)
+              linear-gradient(45deg, #140079 1px, transparent 1px),
+              linear-gradient(-45deg, #140079 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px'
           }}></div>
@@ -163,7 +163,7 @@ export default function WorkingAtIndigo() {
           {[...Array(8)].map((_, i) => (
             <div
               key={i}
-              className="absolute bg-gradient-to-r from-blue-400 via-blue-500 to-transparent"
+              className="absolute bg-gradient-to-r from-[#140079] via-[#140079]/80 to-transparent"
               style={{
                 bottom: `${i * 12}%`,
                 left: `${i * 4}%`,
@@ -177,7 +177,7 @@ export default function WorkingAtIndigo() {
           {[...Array(6)].map((_, i) => (
             <div
               key={`accent-${i}`}
-              className="absolute bg-gradient-to-r from-yellow-400 via-orange-400 to-transparent"
+              className="absolute bg-gradient-to-r from-[#140079]/60 via-[#140079]/40 to-transparent"
               style={{
                 bottom: `${i * 15}%`,
                 right: `${i * 6}%`,
@@ -197,14 +197,12 @@ export default function WorkingAtIndigo() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         {/* Enhanced Header */}
         <div className="text-center mb-8">
-          <h2 className={`text-3xl sm:text-4xl font-black text-gray-900 mb-4 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          <h2 className={`text-5xl font-black text-[#140079] mb-4 transition-all duration-1000 delay-200 font-roboto ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-              Working at Indigo
-            </span>
+            Working at Indigo
           </h2>
           
-          <p className={`text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          <p className={`text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 font-roboto ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
             Discover what makes our team passionate about building the future of digital infrastructure
           </p>
@@ -336,8 +334,8 @@ export default function WorkingAtIndigo() {
       </div>
 
       {/* Corner Accents */}
-      <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-blue-100/30 to-transparent"></div>
-      <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tl from-yellow-100/30 to-transparent"></div>
+      <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-[#140079]/20 to-transparent"></div>
+      <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tl from-[#140079]/15 to-transparent"></div>
     </section>
   );
 }

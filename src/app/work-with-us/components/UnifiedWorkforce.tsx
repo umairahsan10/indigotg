@@ -16,7 +16,7 @@ export default function UnifiedWorkforce() {
           // Stagger text animations
           setTimeout(() => setTextAnimationStage(1), 400);
           setTimeout(() => setTextAnimationStage(2), 800);
-          
+
           // Start counting animations only when section is visible
           setTimeout(() => {
             animateCount('nationalities', 50, 2000);
@@ -41,22 +41,22 @@ export default function UnifiedWorkforce() {
   const animateCount = (key: string, target: number, duration: number) => {
     const startTime = Date.now();
     const startValue = 0;
-    
+
     const updateCount = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // Easing function for smooth animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
-      
+
       setCounts(prev => ({ ...prev, [key]: currentValue }));
-      
+
       if (progress < 1) {
         requestAnimationFrame(updateCount);
       }
     };
-    
+
     requestAnimationFrame(updateCount);
   };
 
@@ -71,7 +71,7 @@ export default function UnifiedWorkforce() {
   })), []);
 
   return (
-    <section ref={sectionRef} className="relative bg-gradient-to-br from-purple-100 via-indigo-50 to-purple-200 py-16 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-[#E8EAF6] py-16 overflow-hidden">
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {floatingElements.map((element) => (
@@ -85,11 +85,10 @@ export default function UnifiedWorkforce() {
             }}
           >
             <div
-              className={`bg-gradient-to-br ${
-                element.id % 3 === 0 ? 'from-indigo-400 to-purple-500' :
-                element.id % 3 === 1 ? 'from-purple-400 to-pink-500' :
-                'from-blue-400 to-indigo-500'
-              } animate-spin rounded-lg`}
+              className={`bg-gradient-to-br ${element.id % 3 === 0 ? 'from-[#140079] to-[#140079]/80' :
+                  element.id % 3 === 1 ? 'from-[#140079]/80 to-[#140079]/60' :
+                    'from-[#140079]/60 to-[#140079]/40'
+                } animate-spin rounded-lg`}
               style={{
                 width: `${element.size}px`,
                 height: `${element.size}px`,
@@ -103,8 +102,8 @@ export default function UnifiedWorkforce() {
 
       {/* Light Orbs */}
       <div className="absolute inset-0">
-        <div className="absolute w-96 h-96 bg-gradient-to-br from-purple-200/30 to-indigo-200/20 rounded-full blur-3xl opacity-40 animate-pulse" style={{ top: '10%', left: '10%', animationDuration: '6s' }} />
-        <div className="absolute w-80 h-80 bg-gradient-to-br from-blue-200/20 to-purple-200/30 rounded-full blur-3xl opacity-30 animate-pulse" style={{ bottom: '20%', right: '15%', animationDuration: '8s', animationDelay: '2s' }} />
+        <div className="absolute w-96 h-96 bg-gradient-to-br from-[#140079]/20 to-[#140079]/10 rounded-full blur-3xl opacity-40 animate-pulse" style={{ top: '10%', left: '10%', animationDuration: '6s' }} />
+        <div className="absolute w-80 h-80 bg-gradient-to-br from-[#140079]/15 to-[#140079]/25 rounded-full blur-3xl opacity-30 animate-pulse" style={{ bottom: '20%', right: '15%', animationDuration: '8s', animationDelay: '2s' }} />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 relative z-10">
@@ -112,56 +111,51 @@ export default function UnifiedWorkforce() {
           {/* Left Column - Enhanced Text Content */}
           <div>
             {/* Enhanced Heading */}
-            <h2 className={`text-5xl font-bold mb-8 transition-all duration-1000 delay-400 ${
-              textAnimationStage >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
-            }`}>
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 animate-text-glow" style={{ animationDuration: '4s' }}>
+            <h2 className={`text-5xl font-medium mb-8 transition-all duration-1000 delay-400 font-roboto ${textAnimationStage >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+              }`}>
+              <span className="text-[#140079] hover:text-[#140079]/80 transition-all duration-300 animate-text-glow" style={{ animationDuration: '4s' }}>
                 Unified and Diverse
               </span>
               <br />
-              <span className="bg-gradient-to-r from-purple-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 animate-text-glow" style={{ animationDuration: '4s', animationDelay: '0.5s' }}>
+              <span className="text-[#140079] hover:text-[#140079]/80 transition-all duration-300 animate-text-glow" style={{ animationDuration: '4s', animationDelay: '0.5s' }}>
                 Workforce
               </span>
             </h2>
-            
+
             {/* Animated Underline */}
-            <div className={`h-1 bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 rounded-full mb-8 transition-all duration-1000 delay-600 ${
-              textAnimationStage >= 1 ? 'w-32 opacity-100' : 'w-0 opacity-0'
-            }`} 
-            style={{
-              animation: textAnimationStage >= 1 ? 'breathe 3s ease-in-out infinite' : 'none'
-            }}
+            <div className={`h-1 bg-[#140079] rounded-full mb-8 transition-all duration-1000 delay-600 ${textAnimationStage >= 1 ? 'w-32 opacity-100' : 'w-0 opacity-0'
+              }`}
+              style={{
+                animation: textAnimationStage >= 1 ? 'breathe 3s ease-in-out infinite' : 'none'
+              }}
             />
 
             {/* Enhanced Description */}
-            <p className={`text-lg text-gray-700 leading-relaxed mb-4 transition-all duration-1000 delay-800 ${
-              textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              By bringing together diverse perspectives and ideas in pursuit of shared goals, we deliver richer experiences for businesses and more meaningful connections for their customers. We respect and empower each other to help us develop professionally and personally.
+            <p className={`text-lg text-gray-700 leading-relaxed mb-4 transition-all duration-1000 delay-800 font-roboto ${textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+              By bringing together diverse perspectives and ideas in pursuit of shared goals, we deliver <span className='text-[#140079] font-bold'> richer experiences </span> for businesses and more meaningful connections for their customers. We respect and empower each other to help us develop <span className='text-[#140079] font-bold'>professionally </span>  and <span className='text-[#140079] font-bold'> personally </span>.
             </p>
 
             {/* Key Statistics */}
-            <div className={`grid grid-cols-3 gap-6 py-6 transition-all duration-1000 delay-1000 ${
-              textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
+            <div className={`grid grid-cols-3 gap-6 py-6 transition-all duration-1000 delay-1000 font-roboto ${textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-700">{counts.nationalities}+</div>
+                <div className="text-3xl font-bold text-[#140079]">{counts.nationalities}+</div>
                 <div className="text-sm text-gray-600">Nationalities</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-700">{counts.continents}+</div>
+                <div className="text-3xl font-bold text-[#140079]">{counts.continents}+</div>
                 <div className="text-sm text-gray-600">Continents</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-700">{counts.inclusive}%</div>
+                <div className="text-3xl font-bold text-[#140079]">{counts.inclusive}%</div>
                 <div className="text-sm text-gray-600">Inclusive</div>
               </div>
             </div>
 
             {/* CTA Button */}
-            <button className={`group bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-700 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl ${
-              textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
+            <button className={`group bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl font-roboto ${textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
               <span className="flex items-center gap-2">
                 Join Our Team
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -170,25 +164,24 @@ export default function UnifiedWorkforce() {
           </div>
 
           {/* Right Column - Enhanced Image */}
-          <div className={`flex justify-center transition-all duration-1000 delay-600 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-          }`}>
-            <img 
-              src="/careers/unified-2.png" 
-              alt="Unified and Diverse Workforce" 
+          <div className={`flex justify-center transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+            }`}>
+            <img
+              src="/careers/unified-2.png"
+              alt="Unified and Diverse Workforce"
               className="w-full h-auto max-w-md transition-all duration-500 hover:scale-105 animate-bounce"
               style={{ animationDuration: '3s' }}
             />
           </div>
         </div>
       </div>
-      
+
       {/* Decorative Corner Accents */}
-      <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-purple-200/20 to-transparent" />
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-indigo-200/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-36 h-36 bg-gradient-to-tr from-blue-200/20 to-transparent" />
-      <div className="absolute bottom-0 right-0 w-28 h-28 bg-gradient-to-tl from-purple-200/20 to-transparent" />
-      
+      <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-[#140079]/10 to-transparent" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#140079]/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-36 h-36 bg-gradient-to-tr from-[#140079]/10 to-transparent" />
+      <div className="absolute bottom-0 right-0 w-28 h-28 bg-gradient-to-tl from-[#140079]/10 to-transparent" />
+
       <style jsx global>{`
         @keyframes customBounce {
           0%, 100% {
