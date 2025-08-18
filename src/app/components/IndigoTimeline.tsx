@@ -38,7 +38,7 @@ const IndigoTimeline = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="h-screen bg-white flex items-center justify-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                      {/* Left Section - YouTube Video */}
