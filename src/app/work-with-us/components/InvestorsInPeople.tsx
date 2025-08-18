@@ -37,22 +37,22 @@ export default function InvestorsInPeople() {
   ];
 
   return (
-    <section ref={sectionRef} className="bg-purple-100 min-h-screen flex items-center">
+    <section ref={sectionRef} className="bg-[#E8EAF6] min-h-screen flex items-center">
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           {/* Left Column - Text Content */}
           <div>
-            <h2 className={`text-5xl font-bold text-[#2C3E50] mb-8 transition-all duration-1000 delay-200 ${
+            <h2 className={`text-5xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-200 font-roboto ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
             }`}>
               Investors in People
               <br />
               <span className="text-6xl text-yellow-600">Gold</span>
             </h2>
-            <p className={`text-lg text-gray-700 leading-relaxed transition-all duration-1000 delay-400 ${
+            <p className={`text-lg text-gray-700 leading-relaxed transition-all duration-1000 delay-400 font-roboto ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}>
-              We were awarded Investors in People and received a Gold certificate. Gold accreditation means that we have the policies in place but more than that, it means everyone takes ownership for making them come to life.
+              We were awarded Investors in People and received a Gold certificate. <span className='text-yellow-700 font-bold'> Gold accreditation </span> means that we have the policies in place but more than that, it means everyone takes ownership for making them come to life.
             </p>
           </div>
 
@@ -101,9 +101,9 @@ export default function InvestorsInPeople() {
                 </svg>
               </div>
               
-              <h3 className={`text-4xl font-bold text-gray-800 mb-4 transition-all duration-1000 delay-1000 ${
+              <h3 className={`text-4xl font-medium text-gray-800 mb-4 transition-all duration-1000 delay-1000 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}>We are GOLD</h3>
+              }`}>We are <span className='text-yellow-700 font-bold'> GOLD </span> </h3>
               <p className={`text-lg text-gray-600 transition-all duration-1000 delay-1200 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>Awarded for excellence in people development and organizational culture</p>

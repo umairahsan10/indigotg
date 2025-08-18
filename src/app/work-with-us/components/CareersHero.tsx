@@ -61,12 +61,12 @@ export default function CareersHero() {
       {/* Enhanced Animated Background */}
       <div className="absolute inset-0">
         {/* Dynamic Gradient Mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f2e] via-[#1e1b4b] to-[#312e81] opacity-95"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#4338ca]/30 via-transparent to-[#7c3aed]/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3B4F8C] via-[#2E3A5F] to-[#1E2A4A] opacity-95"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#4A5B9A]/40 via-transparent to-[#5B6BA8]/30"></div>
 
         {/* Interactive Floating Elements */}
         <div
-          className="absolute w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"
+          className="absolute w-96 h-96 bg-gradient-to-br from-[#4A5B9A]/30 to-[#3B4F8C]/20 rounded-full blur-3xl animate-pulse"
           style={{
             top: '20%',
             left: '10%',
@@ -74,7 +74,7 @@ export default function CareersHero() {
           }}
         ></div>
         <div
-          className="absolute w-64 h-64 bg-gradient-to-br from-yellow-400/30 to-orange-500/20 rounded-full blur-2xl animate-pulse"
+          className="absolute w-64 h-64 bg-gradient-to-br from-[#5B6BA8]/25 to-[#4A5B9A]/20 rounded-full blur-2xl animate-pulse"
           style={{
             bottom: '30%',
             right: '15%',
@@ -85,9 +85,9 @@ export default function CareersHero() {
 
         {/* Geometric Elements */}
         <div className="absolute top-20 left-20 w-32 h-32 border border-white/10 rounded-full animate-spin" style={{ animationDuration: '30s' }}></div>
-        <div className="absolute top-40 right-32 w-16 h-16 bg-gradient-to-br from-yellow-400/40 to-orange-500/40 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-1/4 w-24 h-24 border-2 border-yellow-400/30 rounded-lg rotate-45 animate-pulse"></div>
-        <div className="absolute top-1/2 left-10 w-8 h-8 bg-blue-400/30 rounded-full animate-ping"></div>
+        <div className="absolute top-40 right-32 w-16 h-16 bg-gradient-to-br from-[#4A5B9A]/40 to-[#3B4F8C]/40 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-32 left-1/4 w-24 h-24 border-2 border-[#4A5B9A]/30 rounded-lg rotate-45 animate-pulse"></div>
+        <div className="absolute top-1/2 left-10 w-8 h-8 bg-[#4A5B9A]/30 rounded-full animate-ping"></div>
 
         {/* Enhanced Grid Pattern */}
         <div className="absolute inset-0 opacity-10">
@@ -120,12 +120,12 @@ export default function CareersHero() {
         <div className="max-w-lg">
           
           {/* Enhanced Animated Title */}
-          <h1 className="text-7xl font-black text-white mb-8 mt-8">
+          <h1 className="text-7xl font-medium text-white mb-8 mt-8 font-roboto">
             <div 
               style={{
                 color: '#fbbf24',
                 fontSize: '4.5rem',
-                fontWeight: '900',
+                fontWeight: '500',
                 lineHeight: '1',
                 display: 'block',
                 marginBottom: '16px',
@@ -139,7 +139,7 @@ export default function CareersHero() {
               style={{
                 color: 'white',
                 fontSize: '1.875rem',
-                fontWeight: '400',
+                fontWeight: '500',
                 lineHeight: '1',
                 display: 'block',
                 zIndex: 9999,
@@ -151,20 +151,20 @@ export default function CareersHero() {
           </h1>
 
           {/* Enhanced Description */}
-          <p className="text-xl text-white/90 mb-10 leading-relaxed mt-8">
+          <p className="text-xl text-white/90 mb-10 leading-relaxed mt-8 font-roboto">
             Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
           </p>
 
           {/* Enhanced CTA Buttons */}
           <div className={`flex gap-4 transition-all duration-1000 delay-600 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
             }`}>
-            <button className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:from-yellow-300 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center gap-3 relative overflow-hidden">
+            <button className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:from-yellow-300 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center gap-3 relative overflow-hidden font-roboto">
               <span className="relative z-10">Open Positions</span>
               <span className="text-xl group-hover:translate-x-1 transition-transform duration-300 relative z-10">→</span>
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
-            <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3">
+            <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3 font-roboto">
               <span>Learn More</span>
               <span className="text-lg group-hover:rotate-45 transition-transform duration-300">↗</span>
             </button>
@@ -174,24 +174,24 @@ export default function CareersHero() {
           <div className={`flex gap-8 mt-12 ml-8 transition-all duration-1000 delay-900 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
             }`}>
             <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">{counts.team}+</div>
-              <div className="text-white/60 text-sm">Team Members</div>
+              <div className="text-3xl font-medium text-yellow-400 font-roboto">{counts.team}+</div>
+              <div className="text-white/60 text-sm font-roboto">Team Members</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400">{counts.countries}+</div>
-              <div className="text-white/60 text-sm">Countries</div>
+              <div className="text-3xl font-medium text-blue-400 font-roboto">{counts.countries}+</div>
+              <div className="text-white/60 text-sm font-roboto">Countries</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">{counts.roles}+</div>
-              <div className="text-white/60 text-sm">Open Roles</div>
+              <div className="text-3xl font-medium text-purple-400 font-roboto">{counts.roles}+</div>
+              <div className="text-white/60 text-sm font-roboto">Open Roles</div>
             </div>
           </div>
         </div>
 
         {/* Enhanced Floating Elements */}
-        <div className="absolute top-1/4 right-8 w-3 h-3 bg-yellow-400 rounded-full animate-ping"></div>
-        <div className="absolute bottom-1/3 left-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-        <div className="absolute top-1/3 left-8 w-1 h-12 bg-gradient-to-b from-yellow-400/60 to-transparent"></div>
+        <div className="absolute top-1/4 right-8 w-3 h-3 bg-[#4A5B9A] rounded-full animate-ping"></div>
+        <div className="absolute bottom-1/3 left-4 w-2 h-2 bg-[#4A5B9A] rounded-full animate-pulse"></div>
+        <div className="absolute top-1/3 left-8 w-1 h-12 bg-gradient-to-b from-[#4A5B9A]/60 to-transparent"></div>
       </div>
 
       {/* Enhanced Right Section - Video Player */}
@@ -243,11 +243,11 @@ export default function CareersHero() {
                     {/* Video Info Overlay */}
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                       <div className="bg-black/70 backdrop-blur-sm rounded-lg px-4 py-2">
-                        <h3 className="text-white font-semibold text-sm">Meet the Indigo Team</h3>
-                        <p className="text-white/70 text-xs">Discover our culture & values</p>
+                        <h3 className="text-white font-medium text-sm font-roboto">Meet the Indigo Team</h3>
+                        <p className="text-white/70 text-xs font-roboto">Discover our culture & values</p>
                       </div>
                       <div className="bg-black/70 backdrop-blur-sm rounded-lg px-3 py-1">
-                        <span className="text-white text-xs font-medium">4:04</span>
+                        <span className="text-white text-xs font-medium font-roboto">4:04</span>
                       </div>
                     </div>
                   </>
@@ -290,8 +290,8 @@ export default function CareersHero() {
 
 
       {/* Corner Accent */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-yellow-400/10 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-transparent"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#4A5B9A]/10 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#4A5B9A]/10 to-transparent"></div>
     </section>
   );
 }

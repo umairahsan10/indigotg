@@ -43,15 +43,15 @@ export default function VisionValues() {
 
           {/* Right Column - Text Content */}
           <div className="md:col-span-2">
-            <h2 className={`text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent  mb-8 transition-all duration-1000 delay-400 ${
+            <h2 className={`text-5xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-400 font-roboto ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
             }`}>Vision & Values</h2>
-            <p className={`text-lg text-gray-700 mb-8 leading-relaxed transition-all duration-1000 delay-600 ${
+            <p className={`text-lg text-gray-700 mb-8 leading-relaxed transition-all duration-1000 delay-600 font-roboto ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
             }`}>
-              Our vision and values keep us ahead of the curve and make us the partner of choice for the world's most ambitious companies and projects.
+              Our vision and values keep us ahead of the curve and make us the partner of choice for the world's most <span className='text-[#140079] font-bold'> ambitious companies </span> and projects.
             </p>
-            <button className={`bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-2 w-fit ${
+            <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 w-fit font-roboto ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
               Explore

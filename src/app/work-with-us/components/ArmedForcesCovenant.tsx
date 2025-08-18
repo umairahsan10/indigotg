@@ -84,19 +84,19 @@ export default function ArmedForcesCovenant() {
 
           {/* Right Column - Text Content */}
           <div>
-            <h2 className={`text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-8 transition-all duration-1000 delay-200 ${
+            <h2 className={`text-5xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-200 font-roboto ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
             }`}>
               Armed Forces
               <br />
               Covenant Supporter
             </h2>
-            <p className={`text-xl text-gray-700 mb-8 leading-relaxed transition-all duration-1000 delay-400 ${
+            <p className={`text-xl text-gray-700 mb-8 leading-relaxed transition-all duration-1000 delay-400 font-roboto ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
               We are proud to be Armed Forces Friendly, employing a number of ex-service personnel across our business and supporting employees who have volunteered to serve in the Reserve Forces.
             </p>
-            <button className={`bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 transition-all duration-300 flex items-center gap-2 w-fit transition-all duration-1000 delay-800 ${
+            <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 w-fit font-roboto transition-all duration-1000 delay-800 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
               Service Leavers Information
