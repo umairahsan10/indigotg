@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { orbitron } from '../fonts';
 import CircularTestimonials from '../components/CircularTestimonials';
 import { motion, Transition } from "framer-motion";
+import IndigoAnimation1 from '../components/indigoAnimation1';
 
 // BlurText Component
 type BlurTextProps = {
@@ -1418,6 +1419,34 @@ export default function OurServices2() {
   // Refs for advanced services animation
   const advancedServicesHeaderRef = useRef<HTMLDivElement>(null);
   const advancedServicesGridRef = useRef<HTMLDivElement>(null);
+  
+  // State for service filtering
+  const [activeFilter, setActiveFilter] = useState<'all' | 'design' | 'deploy' | 'support'>('all');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Service data for different categories
+  const serviceData = {
+    all: {
+      title: "All Services",
+      description: "Comprehensive range of digital infrastructure services across all domains",
+      graphic: "all"
+    },
+    design: {
+      title: "Design Services",
+      description: "We optimise and future-proof designs from the outset with leading-edge tools, processes, and data, saving our partners time and money.",
+      graphic: "design"
+    },
+    deploy: {
+      title: "Deploy Services",
+      description: "We partner with owners and network operators to install, test, and optimize fibre optic, wireless, and data centre digital infrastructure.",
+      graphic: "deploy"
+    },
+    support: {
+      title: "Support Services",
+      description: "We monitor, maintain, and upgrade services around the clock, deploying our operations and multi-vendor engineers within hours or the next day to provide expert on-site support.",
+      graphic: "support"
+    }
+  };
 
   // Sample testimonials data
   const testimonials = [
@@ -1455,7 +1484,7 @@ export default function OurServices2() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: advancedServicesGridRef.current,
-        start: "top 80%",
+        start: "top 95%",
         end: "bottom 20%",
         toggleActions: "play none none reverse"
       }
@@ -1472,8 +1501,64 @@ export default function OurServices2() {
     return () => {
       // Cleanup
       tl.kill();
+      // Also refresh ScrollTrigger to handle dynamic content changes
+      ScrollTrigger.refresh();
     };
+  }, [activeFilter]); // Add activeFilter as dependency to refresh animation when filter changes
+
+  // Additional effect to handle filter changes and ensure proper animation reset
+  useEffect(() => {
+    if (!advancedServicesGridRef.current) return;
+    
+    // When filter changes, reset the grid to initial state and refresh ScrollTrigger
+    gsap.set(advancedServicesGridRef.current, {
+      opacity: 0,
+      y: 30
+    });
+    
+    // Small delay to ensure content has rendered, then refresh ScrollTrigger
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      
+      // If the advanced services section is already in view, trigger the animation immediately
+      const rect = advancedServicesGridRef.current?.getBoundingClientRect();
+      if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+        gsap.to(advancedServicesGridRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        });
+      } else {
+                 // If not in view, just refresh ScrollTrigger without scrolling
+         // The animation will trigger when the user naturally scrolls to that section
+      }
+    }, 100);
+    
+    return () => clearTimeout(refreshTimer);
+  }, [activeFilter]);
+
+  // Handle window resize to refresh ScrollTrigger
+  useEffect(() => {
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isDropdownOpen && !(event.target as Element).closest('.dropdown-container')) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isDropdownOpen]);
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -1498,60 +1583,902 @@ export default function OurServices2() {
         </div>
       </section>
 
-      {/* Vaporize Text Section */}
-      <section className="py-24 bg-gradient-to-b from-black to-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="h-32 flex items-center justify-center">
-              <VaporizeTextCycle
-                texts={["OUR CORE SERVICES", "Discover our comprehensive range of digital infrastructure services"]}
-                font={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "30px",
-                  fontWeight: 600
-                }}
-                color="rgb(251, 191, 36)"
-                spread={5}
-                density={5}
-                animation={{
-                  vaporizeDuration: 2,
-                  fadeInDuration: 1,
-                  waitDuration: 0.5
-                }}
-                direction="left-to-right"
-                alignment="center"
-                tag={Tag.H2}
-              />
+             {/* Vaporize Text Section */}
+       <section className="py-24 bg-gradient-to-b from-black to-gray-900">
+         <div className="container mx-auto px-4">
+           <div className="text-center mb-16">
+             <div className="h-32 flex items-center justify-center">
+               <VaporizeTextCycle
+                 texts={["OUR CORE SERVICES", "Discover our comprehensive range of digital infrastructure services"]}
+                 font={{
+                   fontFamily: "Inter, sans-serif",
+                   fontSize: "30px",
+                   fontWeight: 600
+                 }}
+                 color="rgb(251, 191, 36)"
+                 spread={5}
+                 density={5}
+                 animation={{
+                   vaporizeDuration: 2,
+                   fadeInDuration: 1,
+                   waitDuration: 0.5
+                 }}
+                 direction="left-to-right"
+                 alignment="center"
+                 tag={Tag.H2}
+               />
+             </div>
+           </div>
+           <div className="flex justify-center">
+             <CircularTestimonials 
+               testimonials={testimonials}
+               autoplay={true}
+               colors={{
+                 name: "#ffffff",
+                 designation: "#fbbf24",
+                 testimony: "#e5e7eb",
+                 arrowBackground: "#1f2937",
+                 arrowForeground: "#ffffff",
+                 arrowHoverBackground: "#f59e0b"
+               }}
+               fontSizes={{
+                 name: "1.75rem",
+                 designation: "1rem",
+                 quote: "1.25rem"
+               }}
+             />
+           </div>
+         </div>
+       </section>
+
+               {/* All Services Section */}
+        <section className="py-24 bg-[#04048b]">
+          <div className="container mx-auto px-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-col lg:flex-row gap-12">
+                {/* Left Panel - Filter Button and Content */}
+                <div className="lg:w-1/3">
+                  <div className="mb-8 relative dropdown-container">
+                    <button 
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-white hover:text-blue-900 transition-colors w-full justify-between"
+                    >
+                      {serviceData[activeFilter].title}
+                      <svg className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="white" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                                          {/* Dropdown Menu */}
+                      {isDropdownOpen && (
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-[#04048b] border border-white/20 rounded-lg shadow-xl z-50 overflow-hidden">
+                          <button
+                            onClick={() => {
+                              setActiveFilter('all');
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-3 text-white text-lg transition-colors rounded-t-lg ${
+                              activeFilter === 'all' ? 'bg-white/10' : 'hover:bg-white/10'
+                            }`}
+                          >
+                            All Services
+                          </button>
+                          <button
+                            onClick={() => {
+                              setActiveFilter('design');
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-3 text-white text-lg transition-colors ${
+                              activeFilter === 'design' ? 'bg-white/10' : 'hover:bg-white/10'
+                            }`}
+                          >
+                            Design Services
+                          </button>
+                          <button
+                            onClick={() => {
+                              setActiveFilter('deploy');
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-3 text-white text-lg transition-colors ${
+                              activeFilter === 'deploy' ? 'bg-white/10' : 'hover:bg-white/10'
+                            }`}
+                          >
+                            Deploy Services
+                          </button>
+                          <button
+                            onClick={() => {
+                              setActiveFilter('support');
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-3 text-white text-lg transition-colors rounded-b-lg ${
+                              activeFilter === 'support' ? 'bg-white/10' : 'hover:bg-white/10'
+                            }`}
+                          >
+                            Support Services
+                          </button>
+                        </div>
+                      )}
+                  </div>
+                  
+                  {/* Abstract Graphic */}
+                  <div className="mb-8">
+                    {/* Original filter-changing images commented out
+                    {activeFilter === 'all' && (
+                      <img 
+                        src="/services/all_services.PNG" 
+                        alt="All Services" 
+                        className="w-48 h-48 object-contain"
+                      />
+                    )}
+                    {activeFilter === 'design' && (
+                      <img 
+                        src="/services/card-1.png" 
+                        alt="Design Services" 
+                        className="w-48 h-48 object-contain"
+                      />
+                    )}
+                    {activeFilter === 'deploy' && (
+                      <img 
+                        src="/services/card-2.png" 
+                          alt="Deploy Services" 
+                          className="w-48 h-48 object-contain"
+                      />
+                    )}
+                    {activeFilter === 'support' && (
+                      <img 
+                        src="/services/card-3.png" 
+                        alt="Support Services" 
+                        className="w-48 h-48 object-contain"
+                      />
+                    )}
+                    */}
+                    
+                    {/* New IndigoAnimation1 component */}
+                    <div className="w-48 h-48">
+                      <IndigoAnimation1 filter={activeFilter} />
+                    </div>
+                  </div>
+                  
+                  <p className="text-white text-lg leading-relaxed mt-64">
+                    {serviceData[activeFilter].description}
+                  </p>
+                </div>
+
+                                 {/* Right Panel - Services Grid */}
+                 <div className="lg:w-2/3">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                           {activeFilter === 'all' && (
+                        <>
+                          {/* Terrestrial Services */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Terrestrial</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Active Build
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Logistics and Warehousing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Survey & Design (POP)
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Design Desktop HLD
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Access LLD Services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Surveying OLT
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Planning and Design OLT
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Access POP Design and Planning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Wayleaving and Consenting
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Operations and Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Survey & Design
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Due Diligence
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Upgrades
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Data Centres Services */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Data Centres</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Characterisation and Link Testing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Data Centre Survey and Audit Services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Data Centre Design Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Power and Data Cable Containment Systems
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Rack, Cabinet and PDU Installation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Hot and Cold Aisle Containment Services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Structured Cabling Installation and Test
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Cross Connects and Meet Me Room (MMR) services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Equipment Racking and Stacking/Server Builds
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Circuit Patching
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Equipment Migrations and Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Survey & Design
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Smart Hands
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Upgrades
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Digitisation
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Network Services */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Network Services</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Survey and Audit
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Logistics & Warehousing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Access
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Active Network Equipment I&C
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Characterisation and Link Testing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Power Supply & Installation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Rack, Cabinet and PDU Installation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Equipment Migrations and Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Card Infills, Patching and Upgrades Documentation & Testing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Preventative Maintenance
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Wireless Services */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Wireless</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Cell Site Surveys
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Cell Site Design
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Town Planning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Passive Build
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Active Build
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Logistics and Warehousing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Acceptance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Integrations
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Access
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Optimisation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Operations and Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Survey & Design
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Upgrades
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Private 5G Services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Digitisation
+                              </li>
+                            </ul>
+                          </div>
+                        </>
+                      )}
+
+                                           {activeFilter === 'design' && (
+                        <>
+                          {/* Design Services - Terrestrial */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Design Services - Terrestrial</h3>
+                            <ul className="space-y-2 text-white/90">
+                                                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Active Build
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Survey & Design (POP)
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Design Desktop HLD
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Access LLD Services
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Surveying OLT
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Planning and Design OLT
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Access POP Design and Planning
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Wayleaving and Consenting
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Survey & Design
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Fibre Due Diligence
+                                </li>
+                            </ul>
+                          </div>
+
+                          {/* Design Services - Data Centres */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Design Services - Data Centres</h3>
+                            <ul className="space-y-2 text-white/90">
+                                                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Data Centre Survey and Audit Services
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Data Centre Design Service
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Survey & Design
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Digitisation
+                                </li>
+                            </ul>
+                          </div>
+
+                          {/* Design Services - Network */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Design Services - Network</h3>
+                            <ul className="space-y-2 text-white/90">
+                                                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Site Survey and Audit
+                                </li>
+                            </ul>
+                          </div>
+
+                          {/* Design Services - Wireless */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Design Services - Wireless</h3>
+                            <ul className="space-y-2 text-white/90">
+                                                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Cell Site Surveys
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Cell Site Design
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Town Planning
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Active Build
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Survey & Design
+                                </li>
+                                <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                  <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                  Digitisation
+                                </li>
+                            </ul>
+                          </div>
+                        </>
+                      )}
+
+                                           {activeFilter === 'deploy' && (
+                        <>
+                          {/* Deploy Services - Terrestrial */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Deploy Services - Terrestrial</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Logistics and Warehousing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Wayleaving and Consenting
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Deploy Services - Data Centres */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Deploy Services - Data Centres</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Characterisation and Link Testing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Power and Data Cable Containment Systems
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Rack, Cabinet and PDU Installation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Hot and Cold Aisle Containment Services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Structured Cabling Installation and Test
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Cross Connects and Meet Me Room (MMR) services
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Equipment Racking and Stacking/Server Builds
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Circuit Patching
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Equipment Migrations and Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Digitisation
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Deploy Services - Network */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Deploy Services - Network</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Logistics and Warehousing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Access
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Active Network Equipment I&C
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Characterisation and Link Testing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Power Supply & Installation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Rack, Cabinet and PDU Installation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Equipment Migrations and Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Card Infills, Patching and Upgrades Documentation & Testing
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Deploy Services - Wireless */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Deploy Services - Wireless</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Passive Build
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Logistics and Warehousing
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Acceptance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Project & Programme Management
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Access
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Digitisation
+                              </li>
+                            </ul>
+                          </div>
+                        </>
+                      )}
+
+                                           {activeFilter === 'support' && (
+                        <>
+                          {/* Support Services - Terrestrial */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Support Services - Terrestrial</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Operations and Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Fibre Due Diligence
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Upgrades
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Support Services - Data Centres */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Support Services - Data Centres</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Smart Hands
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Upgrades
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Decommissioning
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Digitisation
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Support Services - Network */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Support Services - Network</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Access
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Preventative Maintenance
+                              </li>
+                            </ul>
+                          </div>
+
+                          {/* Support Services - Wireless */}
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+                            <h3 className="text-xl font-bold text-white mb-4">Support Services - Wireless</h3>
+                            <ul className="space-y-2 text-white/90">
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Integrations
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Site Access
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Optimisation
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Monitoring
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Operations and Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Global Service Desk and First Line Maintenance
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Spare Parts Management Service
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Network Upgrades
+                              </li>
+                              <li className="flex items-center hover:text-yellow-400 hover:translate-x-2 transition-all duration-300 cursor-pointer group">
+                                <div className="w-3 h-3 bg-white mr-3 transform rotate-45 hover:scale-125 group-hover:bg-yellow-400 transition-all duration-300 cursor-pointer"></div>
+                                Digitisation
+                              </li>
+                            </ul>
+                          </div>
+                        </>
+                      )}
+                   </div>
+                 </div>
+              </div>
             </div>
           </div>
-          <div className="flex justify-center">
-            <CircularTestimonials 
-              testimonials={testimonials}
-              autoplay={true}
-              colors={{
-                name: "#ffffff",
-                designation: "#fbbf24",
-                testimony: "#e5e7eb",
-                arrowBackground: "#1f2937",
-                arrowForeground: "#ffffff",
-                arrowHoverBackground: "#f59e0b"
-              }}
-              fontSizes={{
-                name: "1.75rem",
-                designation: "1rem",
-                quote: "1.25rem"
-              }}
-            />
-          </div>
-        </div>
-      </section>
+        </section>
 
             {/* Innovation Solutions Section */}
       <section className="py-24 relative overflow-hidden">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: 'url("/services/adv_servicesbg.png")' }}
+          style={{ backgroundImage: 'url("/ebook/ebookbg.png")' }}
         />
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/70" />
@@ -1571,7 +2498,7 @@ export default function OurServices2() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto" ref={advancedServicesGridRef}>
             {/* Fixed Line Card */}
-            <div className="group relative h-[500px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-4.jpg")',
@@ -1609,7 +2536,7 @@ export default function OurServices2() {
             </div>
 
             {/* Subsea Card */}
-            <div className="group relative h-[500px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-5.jpg")',
@@ -1647,7 +2574,7 @@ export default function OurServices2() {
             </div>
 
             {/* Data Centres Card */}
-            <div className="group relative h-[500px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-6.jpg")',
@@ -1685,7 +2612,7 @@ export default function OurServices2() {
             </div>
 
             {/* Wireless Card */}
-            <div className="group relative h-[500px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-7.jpg")',
@@ -1748,6 +2675,14 @@ export default function OurServices2() {
       </section>
     </div>
   );
+  
+  // Cleanup effect to ensure proper disposal of ScrollTriggers
+  useEffect(() => {
+    return () => {
+      // Clean up all ScrollTriggers when component unmounts
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
 };
 
 // Enable scroll-based pinning for overlap effect
