@@ -1484,7 +1484,7 @@ export default function OurServices2() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: advancedServicesGridRef.current,
-        start: "top 80%",
+        start: "top 95%",
         end: "bottom 20%",
         toggleActions: "play none none reverse"
       }
@@ -1501,7 +1501,51 @@ export default function OurServices2() {
     return () => {
       // Cleanup
       tl.kill();
+      // Also refresh ScrollTrigger to handle dynamic content changes
+      ScrollTrigger.refresh();
     };
+  }, [activeFilter]); // Add activeFilter as dependency to refresh animation when filter changes
+
+  // Additional effect to handle filter changes and ensure proper animation reset
+  useEffect(() => {
+    if (!advancedServicesGridRef.current) return;
+    
+    // When filter changes, reset the grid to initial state and refresh ScrollTrigger
+    gsap.set(advancedServicesGridRef.current, {
+      opacity: 0,
+      y: 30
+    });
+    
+    // Small delay to ensure content has rendered, then refresh ScrollTrigger
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      
+      // If the advanced services section is already in view, trigger the animation immediately
+      const rect = advancedServicesGridRef.current?.getBoundingClientRect();
+      if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+        gsap.to(advancedServicesGridRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        });
+      } else {
+                 // If not in view, just refresh ScrollTrigger without scrolling
+         // The animation will trigger when the user naturally scrolls to that section
+      }
+    }, 100);
+    
+    return () => clearTimeout(refreshTimer);
+  }, [activeFilter]);
+
+  // Handle window resize to refresh ScrollTrigger
+  useEffect(() => {
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Close dropdown when clicking outside
@@ -2631,6 +2675,14 @@ export default function OurServices2() {
       </section>
     </div>
   );
+  
+  // Cleanup effect to ensure proper disposal of ScrollTriggers
+  useEffect(() => {
+    return () => {
+      // Clean up all ScrollTriggers when component unmounts
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
 };
 
 // Enable scroll-based pinning for overlap effect
