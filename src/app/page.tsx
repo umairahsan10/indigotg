@@ -8,6 +8,7 @@ import IndigoTimeline from "./components/IndigoTimeline";
 import dynamic from "next/dynamic";
 import { LogosSection } from "./components/logos";
 import BackgroundMusic from "./components/BackgroundMusic";
+import Carousel3D from "./components/NewsSection";
 
 const InteractiveMap = dynamic(() => import("./components/InteractiveMap"), { ssr: false });
 import GetInTouchForm from "./components/GetInTouchForm";
