@@ -8,16 +8,7 @@ import { SplitText } from "gsap/SplitText";
 import TextFlip from '../components/TextFlip';
 
 
-// Marquee animation function
-function setupMarqueeAnimation(): void {
-  const marqueeItems = gsap.utils.toArray(".marquee h1") as HTMLElement[];
-  if (marqueeItems.length > 0) {
-    const tl = horizontalLoop(marqueeItems, {
-      repeat: -1,
-      paddingRight: 30,
-    });
-  }
-}
+
 
 interface HorizontalLoopConfig {
   repeat?: number;
@@ -100,10 +91,8 @@ export default function Solutions2() {
 
     // Set initial opacity for all cards
     cards.forEach((card, index) => {
-      if (index > 0) {
-        const cardImg = card.querySelector(".card-img") as HTMLElement;
-        gsap.set(cardImg, { opacity: 0 });
-      }
+      const cardImg = card.querySelector(".card-img") as HTMLElement;
+      gsap.set(cardImg, { opacity: 0 });
     });
 
     const titles = gsap.utils.toArray(".card-title h1");
@@ -118,10 +107,7 @@ export default function Solutions2() {
       });
     });
 
-    const cardImgWrapper = introCard.querySelector(".card-img") as HTMLElement;
-    const cardImg = introCard.querySelector(".card-img img") as HTMLImageElement;
-    gsap.set(cardImgWrapper, { scale: 0.5, borderRadius: "400px", opacity: 0 });
-    gsap.set(cardImg, { scale: 1.5 });
+
 
     function animateContentIn(titleChars: NodeListOf<Element>, description: Element) {
       gsap.to(titleChars, { x: "0%", duration: 0.75, ease: "power4.out" });
@@ -144,66 +130,9 @@ export default function Solutions2() {
       });
     }
 
-    const marquee = introCard.querySelector(".card-marquee .marquee") as HTMLElement;
-    const titleChars = introCard.querySelectorAll(".char span");
-    const description = introCard.querySelector(".card-description") as HTMLElement;
-    const button = introCard.querySelector(".card-button") as HTMLElement;
 
-    ScrollTrigger.create({
-      trigger: introCard,
-      start: "top top",
-      end: "+=300vh",
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const imgScale = 0.5 + progress * 0.5;
-        const borderRadius = 400 - progress * 375;
-        const innerImgScale = 1.5 - progress * 0.5;
 
-        gsap.set(cardImgWrapper, {
-          scale: imgScale,
-          borderRadius: borderRadius + "px",
-          opacity: progress,
-        });
-        gsap.set(cardImg, { scale: innerImgScale });
 
-        if (imgScale >= 0.5 && imgScale <= 0.75) {
-          const fadeProgress = (imgScale - 0.5) / (0.75 - 0.5);
-          gsap.set(marquee, { opacity: 1 - fadeProgress });
-        } else if (imgScale < 0.5) {
-          gsap.set(marquee, { opacity: 1 });
-        } else if (imgScale > 0.75) {
-          gsap.set(marquee, { opacity: 0 });
-        }
-
-        if (progress >= 1 && !(introCard as any).contentRevealed) {
-          (introCard as any).contentRevealed = true;
-          animateContentIn(titleChars, description);
-          // Animate button for intro card when fully revealed
-          if (button && button instanceof HTMLElement) {
-            gsap.to(button, {
-              x: 0,
-              opacity: 1,
-              duration: 0.75,
-              delay: 0.3,
-              ease: "power4.out",
-            });
-          }
-        }
-        if (progress < 1 && (introCard as any).contentRevealed) {
-          (introCard as any).contentRevealed = false;
-          animateContentOut(titleChars, description);
-          // Hide button for intro card
-          if (button && button instanceof HTMLElement) {
-            gsap.to(button, {
-              x: "40px",
-              opacity: 0,
-              duration: 0.5,
-              ease: "power4.out",
-            });
-          }
-        }
-      },
-    });
 
     cards.forEach((card, index) => {
       const isLastCard = index === cards.length - 1;
@@ -236,28 +165,24 @@ export default function Solutions2() {
     });
 
     cards.forEach((card, index) => {
-      if (index > 0) {
-        const cardImg = card.querySelector(".card-img img") as HTMLImageElement;
-        const imgContainer = card.querySelector(".card-img") as HTMLElement;
-        ScrollTrigger.create({
-          trigger: card as HTMLElement,
-          start: "top bottom",
-          end: "top top",
-          onUpdate: (self) => {
-            const progress = self.progress;
-            gsap.set(cardImg, { scale: 2 - progress });
-            gsap.set(imgContainer, { 
-              borderRadius: 150 - progress * 125 + "px",
-              opacity: progress 
-            });
-          },
-        });
-      }
+      const cardImg = card.querySelector(".card-img img") as HTMLImageElement;
+      const imgContainer = card.querySelector(".card-img") as HTMLElement;
+      ScrollTrigger.create({
+        trigger: card as HTMLElement,
+        start: "top bottom",
+        end: "top top",
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.set(cardImg, { scale: 2 - progress });
+          gsap.set(imgContainer, { 
+            borderRadius: 150 - progress * 125 + "px",
+            opacity: progress 
+          });
+        },
+      });
     });
 
     cards.forEach((card, index) => {
-      if (index === 0) return;
-
       const cardDescription = card.querySelector(".card-description") as HTMLElement;
       const cardTitleChars = card.querySelectorAll(".char span");
       const cardButton = card.querySelector(".card-button") as HTMLElement;
@@ -295,7 +220,7 @@ export default function Solutions2() {
       });
     });
 
-    setupMarqueeAnimation();
+
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -801,52 +726,7 @@ export default function Solutions2() {
           overflow-x: hidden;
         }
 
-        .card-marquee {
-          width: 100%;
-          height: 100vh;
-          position: absolute;
-          top: 0;
-          left: 0;
-          overflow: hidden;
-          background: url('/solutions/back.jpg');
-          background-size: cover;
-          background-position: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
 
-        .card-marquee::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 120%;
-          height: 180px;
-          background: rgba(255, 255, 255, 0.1);
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-radius: 20px;
-          backdrop-filter: blur(20px);
-          z-index: -1;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-marquee .marquee {
-          display: flex;
-        }
-
-        .card-marquee .marquee h1 {
-          white-space: nowrap;
-          font-size: 8vw;
-          font-weight: 700;
-          margin-right: 30px;
-          font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-          position: relative;
-          z-index: 1;
-          line-height: 1.1;
-        }
 
         .card {
           position: relative;
@@ -1109,14 +989,6 @@ export default function Solutions2() {
         
         <section className="cards">
           <div className="card">
-            <div className="card-marquee">
-              <div className="marquee text-white">
-                <h1>Design Beyond Boundaries</h1>
-                <h1>Built for Tomorrow</h1>
-                <h1>Real Impact</h1>
-                <h1>Digital Visions</h1>
-              </div>
-            </div>
             <div className="card-wrapper">
               <div className="card-content">
                 <div className="card-title">
