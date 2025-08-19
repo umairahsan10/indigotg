@@ -27,23 +27,462 @@ export default function NewsPage() {
     const indicesContainerRef = useRef<HTMLDivElement>(null);
     const indicesRef = useRef<HTMLDivElement[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 2;
 
-    // Pagination function
+    // News data array
+    const newsData = [
+        // Page 1
+        [
+            {
+                id: 1,
+                date: "03 July 2024",
+                title: "US Fiber podcast",
+                description: "Brad Hine chats with Ray O'Connor, Sr VP of Sales at Indigo, to discuss the evolving landscape of broadband connectivity in the US. Ray highlights the critical role of private equity in the fiber-to-the-home market and the transformative impact on both the U.K. and U.S.",
+                image: "/news/c1.png",
+                link: "https://www.indigotg.com/news/the-uk-experience/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 2,
+                date: "07 June 2024",
+                title: "Indigo company growth",
+                description: "Discover Indigo's latest updates: new leadership with Neil Yusuf as CCO and Nigel Sperring as CFO, ISO certification, a Grant Thornton award, and USA expansion. Learn more about our growth and commitment to excellence.",
+                image: "/news/c2.png",
+                link: "https://www.indigotg.com/news/indigo-company-achievements-june-2024/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 3,
+                date: "27 May 2024",
+                title: "Keeping subsea cables connected",
+                description: "Discover how we keep subsea cables secure and operational amid growing threats. Learn about proactive tracking, timely fault fixing, and the technology behind maintaining the backbone of global data traffic. Read insights from Kathy Kirchner, Network Operations VP for Americas",
+                image: "/news/c3.jpg",
+                link: "https://www.indigotg.com/news/subsea-cable-security/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 4,
+                date: "24 May 2024",
+                title: "Empowering Your Business with ISO Recertifications",
+                description: "Our ISO recertifications symbolize our commitment to excellence, sustainability, security, and safety. Discover how Indigo empowers your business with the highest standards including ISO Recertifications (ISO 9001, ISO 14001 and ISO 45001).",
+                image: "/news/c4.png",
+                link: "https://www.indigotg.com/news/empowering-business-with-iso-recertifications/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 5,
+                date: "14 May 2024",
+                title: "Press Release: Subsea Security Services",
+                description: "Press Release: Indigo Welcomes EU Recommendations For More Resilient Marine Infrastructure As It Advances Its Own Subsea Security Services",
+                image: "/news/c5.png",
+                link: "https://www.indigotg.com/news/pr-subsea-security-services/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 6,
+                date: "26 April 2024",
+                title: "Rising up to meet subsea cybersecurity challenges",
+                description: "This blog explores how Indigo Subsea rises to meet subsea cybersecurity challenges, offering secure monitoring services and robust infrastructure solutions. Learn about our proactive approach, resilient network management, and compliance with industry standards.",
+                image: "/news/c6.png",
+                link: "https://www.indigotg.com/news/subsea-cybersecurity-challenge/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 7,
+                date: "15 April 2024",
+                title: "Indigo Wins Esri GIS Customer Success Award",
+                description: "We were thrilled to win the Esri Ireland customer success award for Field Operations for the tools we use in our fiber designs. Our field operations team has consistently demonstrated excellence in developing our survey and design capabilities with GIS tools.",
+                image: "/news/c7.jpg",
+                link: "https://www.indigotg.com/news/indigo-wins-esri-gis-customer-success-award/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 8,
+                date: "29 March 2024",
+                title: "Our fiber design experts at FTTH Conference 2024",
+                description: "At the forefront of fiber optics innovation in Europe lies the FTTH Conference 2024, a pivotal event hosted by the FTTH Council of Europe in Berlin. As Our experts, Will Tobin and Colin Higgins, provide insights into the evolving landscape of fiber-to-the-home (FTTH) technology.",
+                image: "/news/c8.jpg",
+                link: "https://www.indigotg.com/news/ftth-conference-2024/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 9,
+                date: "07 March 2024",
+                title: "Kathy Kirchner appointed as Network Operations VP, Americas",
+                description: "Welcome to Kathy Kirchner who joins Indigo as Network Operations VP. Kathy will drive operational excellence and operational leadership for the Americas.",
+                image: "/news/c9.png",
+                link: "https://www.indigotg.com/news/kathy-kirchner-appointment-network-operations-vp-americas/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            }
+        ],
+        // Page 2
+        [
+            {
+                id: 10,
+                date: "06 March 2024",
+                title: "Unleashing Human Potential",
+                description: "The human element of an efficient and effective digital infrastructure is often overlooked. Find out why network engineering skills are core to optimizing networks.",
+                image: "/news/c10.jpg",
+                link: "https://www.indigotg.com/news/network-engineering-skills-the-human-element/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 11,
+                date: "29 February 2024",
+                title: "Indigo shortlisted for esri field operations award 2024",
+                description: "Indigo has been shortlisted for the 2024 esri Ireland Field Operations Award: celebrating the best extended the reach of our GIS system.",
+                image: "/news/c11.jpg",
+                link: "https://www.indigotg.com/news/esri-field-operations-award-2024/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 12,
+                date: "22 January 2024",
+                title: "Acquiring and Retaining Talent in Telecoms",
+                description: "For years one of the major challenge for telecoms, hyperscalers and OEMs has been finding the right people with the right skills. What are these challenges and how do digital infrastructure providers overcome them?",
+                image: "/news/c12.png",
+                link: "https://www.indigotg.com/news/acquiring-and-retaining-telecoms-expertise/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 13,
+                date: "03 January 2024",
+                title: "Generative AI Infrastructure Concerns",
+                description: "Navigating the Generative AI Wave: Infrastructure Concerns and Challenges faced by digital infrastructure providers as a result of the generative AI phenomenon",
+                image: "/news/c13.jpg",
+                link: "https://www.indigotg.com/news/generative-ai-infrastructure-concerns/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 14,
+                date: "04 December 2023",
+                title: "Celebrating 25 Years of Indigo: A Journey of Growth and Innovation",
+                description: "Indigo, now proudly celebrating 25 years in business, has a story woven with innovation, expansion, and a commitment to excellence.",
+                image: "/news/c14.jpg",
+                link: "https://www.indigotg.com/news/celebrating-25-years-of-indigo/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 15,
+                date: "21 November 2023",
+                title: "Black Friday internet traffic: Navigating the Network Storm",
+                description: "As Black Friday and Cyber Monday sees an explosion in internet traffic explodes, this blog gives us an overview on how to navigate the network storm and the crucial role of digital infrastructure.",
+                image: "/news/c15.png",
+                link: "https://www.indigotg.com/news/black-friday-internet-traffic/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 16,
+                date: "13 November 2023",
+                title: "Small Cell Network Deployment Services",
+                description: "Explore these wireless services, from precision survey and detailed design assessments to custom solution engineering tailored to your unique specifications. Indigo acts as your trusted partner, ensuring compliance, safety, and efficiency throughout the entire deployment process.",
+                image: "/news/c16.png",
+                link: "https://www.indigotg.com/news/small-cell-network-deployment-services/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 17,
+                date: "04 October 2023",
+                title: "Safety always comes first at Indigo",
+                description: "Our SHEQ (Safety, Health, Environmental & Quality) priorities include protecting people at work, non-employees affected by work, and staff from workplace hazards.",
+                image: "/news/c17.png",
+                link: "https://www.indigotg.com/news/safety-always-comes-first/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 18,
+                date: "25 September 2023",
+                title: "New phase of growth through NOC and subsea success",
+                description: "Indigo's new phase of growth through NOC services and subsea systems operator support, noting the increasing demand for bandwidth.",
+                image: "/news/c18.png",
+                link: "https://www.indigotg.com/news/new-phase-of-growth/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            }
+        ],
+        // Page 3
+        [
+            {
+                id: 19,
+                date: "04 September 2023",
+                title: "Amitié subsea cable system: Indigo's proactive support",
+                description: "This blog discusses Indigo's proactive support for the Amitié subsea cable system.",
+                image: "/news/c19.png",
+                link: "https://www.indigotg.com/news/indigo-support-to-the-amitie-subsea-cable/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 20,
+                date: "29 August 2023",
+                title: "Ron Righter at Fiber Connect 23",
+                description: "Highlights of Fiber Connect 23, an event in Orlando, and an insightful conversation with Ron Righter, Senior Vice President of the Americas, about key themes in the fiber industry.",
+                image: "/news/c20.jpg",
+                link: "https://www.indigotg.com/news/fiber-connect-23/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 21,
+                date: "22 August 2023",
+                title: "Rich Hollins' appointed as Global Operations Director",
+                description: "We are thrilled to mark yet another significant milestone in our Indigo journey as we announce the appointment of Rich Hollins as our Global Operations Director.",
+                image: "/news/c21.jpg",
+                link: "https://www.indigotg.com/news/rich-hollins-appointment-as-global-operation-director/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 22,
+                date: "14 June 2023",
+                title: "How to Enhance Network Reliability",
+                description: "How to Enhance Network Reliability- Maximize network resilience and minimize downtime with Indigo through NOC and Global Service Desk",
+                image: "/news/c22.jpg",
+                link: "https://www.indigotg.com/news/how-to-enhance-network-reliability/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 23,
+                date: "03 June 2023",
+                title: "Indigo's North America Presence",
+                description: "Our Multinational client list has brought us across the Atlantic to work on their networks, data centers, fiber services and deliver NOC support. Read about Indigo's presence in North America in this blog.",
+                image: "/news/c23.jpg",
+                link: "https://www.indigotg.com/news/indigo-north-america/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 24,
+                date: "01 June 2023",
+                title: "Maximizing Network Reliability",
+                description: "This blog discusses how to maximize network reliability and minimize downtime with our NOC facilities in the USA and the UK",
+                image: "/news/c24.png",
+                link: "https://www.indigotg.com/news/maximizing-network-reliability/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 25,
+                date: "22 May 2023",
+                title: "Indigo in the USA: unleashing the power of broadband",
+                description: "Our CCO and Board Member, Ray O'Connor, spent nearly a month in the USA in May 2023 visiting our offices, new employees, customers, and stakeholders. Find out how he got on.",
+                image: "/news/c25.png",
+                link: "https://www.indigotg.com/news/indigo-in-the-usa-unleashing-broadband/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 26,
+                date: "27 April 2023",
+                title: "Fiber Insights: Creating Sustainable Fiber Networks",
+                description: "As Thought Leaders in Fiber Telecommunications, this blog shares insights from fiber-related events we attended and presented at in March and April 2023.",
+                image: "/news/c26.png",
+                link: "https://www.indigotg.com/news/fiber-insights-april-2023/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 27,
+                date: "06 April 2023",
+                title: "How We Help the Telecoms Digital Transformation Journey",
+                description: "The explosion of data has left many companies wanting to digitise their data. Indigo can offer the ongoing lifecycle management, coordination, maintenance of the model via the Indigo NOC. This will ensure that the model is always kept accurate and up to date.",
+                image: "/news/c27.jpg",
+                link: "https://www.indigotg.com/news/how-we-help-the-telecoms-digital-transformation-journey/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            }
+        ],
+        // Page 4
+        [
+            {
+                id: 28,
+                date: "15 March 2023",
+                title: "Indigo's Highly Skilled Data Centre Engineers",
+                description: "Indigo's engineers help support our customers across all of our Data Centre services.",
+                image: "/news/c28.png",
+                link: "https://www.indigotg.com/news/indigos-data-centre-engineers-are-driving-customers-to-success/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 29,
+                date: "08 March 2023",
+                title: "Cambridge MC & Indigo Partner to Offer End-to-end Due Diligence Service for Digital Infrastructure Assets",
+                description: "Press Release",
+                image: "/news/c29.png",
+                link: "https://www.indigotg.com/news/partnership-with-cambridge-fibre-due-diligence/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 30,
+                date: "07 February 2023",
+                title: "Indigo Strengthens Leadership Team",
+                description: "Indigo is bolstering its board and leadership team in preparation for a period of expected growth. New appointments Chief People Officer, Chief Commercial Officer, SVP of Americas.",
+                image: "/news/c30.png",
+                link: "https://www.indigotg.com/news/leadership-team-growth/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 31,
+                date: "16 December 2022",
+                title: "Indigo in 2022",
+                description: "A round-up of the company's milestones in 2022 including our expansion in the US, opening our NOCs globally, winning awards, and new roles and people.",
+                image: "/news/c31.png",
+                link: "https://www.indigotg.com/news/indigo-in-2022/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 32,
+                date: "09 December 2022",
+                title: "Minister Andrew Bowie visits Indigo",
+                description: "Minister Andrew Bowie, Parliamentary Under Secretary of State at the Department for International Trade, visits the Indigo Wales HQ.",
+                image: "/news/c32.png",
+                link: "https://www.indigotg.com/news/minister-andrew-bowie-visits-indigo/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 33,
+                date: "08 December 2022",
+                title: "Indigo tops the \"FAST-GROWING FIRMS\" on the INSIDER LIST",
+                description: "Indigo is on top as a result of its adjusted average annual growth of 42.1 per cent.",
+                image: "/news/c33.png",
+                link: "https://www.indigotg.com/news/fast-growing-firms-on-insider-list/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            }
+        ],
+        // Page 5
+        [
+            {
+                id: 34,
+                date: "29 October 2022",
+                title: "What's driving data centre demand?",
+                description: "Read about how the data centre's role in satisfying a worldwide appetite for more bandwidth and connectivity is also significant.",
+                image: "/news/c34.png",
+                link: "https://www.indigotg.com/news/whats-driving-data-centre-demand/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 35,
+                date: "15 September 2022",
+                title: "Navigating the risks and rewards of fibre rollout in the UK",
+                description: "Indigo is recruited by large telecom incumbents and investors looking to buy up smaller players and extend their fibre footprints. Find out how we can help.",
+                image: "/news/c35.png",
+                link: "https://www.indigotg.com/news/risk-and-rewards-of-fibre-roll/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            },
+            {
+                id: 36,
+                date: "01 September 2022",
+                title: "Ray O'Connor appointed CCO and Indigo Board member",
+                description: "The Indigo Board of Directors and its investors, GCP London, has appointed its CRO Ray O'Connor to the role of CCO and Board member.",
+                image: "/news/c36.png",
+                link: "https://www.indigotg.com/news/ray-oconnor-appointed-cco-and-indigo-board-member/",
+                bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+                borderColor: "border-blue-200",
+                buttonColor: "bg-[#140079] hover:bg-[#0a0033] text-white",
+                numberColor: "bg-blue-600"
+            }
+        ]
+    ];
+
+    const totalPages = newsData.length;
+
+    // Function to show a specific page
     const showPage = (pageNumber: number) => {
-        // Hide all pages
-        const pages = document.querySelectorAll('.news-page');
-        pages.forEach(page => {
-            page.classList.add('hidden');
-        });
-        
-        // Show the selected page
-        const selectedPage = document.querySelector(`[data-page="${pageNumber}"]`);
-        if (selectedPage) {
-            selectedPage.classList.remove('hidden');
-        }
-        
-        // Update current page state
         setCurrentPage(pageNumber);
         
         // Smooth scroll to the top of the news section
@@ -55,6 +494,101 @@ export default function NewsPage() {
             });
         }
     };
+
+    // Scroll animation for news cards
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            // Kill only news-related ScrollTriggers to prevent conflicts
+            ScrollTrigger.getAll().forEach(trigger => {
+                const triggerElement = trigger.vars.trigger as Element;
+                if (triggerElement && triggerElement.classList && 
+                    (triggerElement.classList.contains('news-card') || 
+                     triggerElement.classList.contains('pagination-container') ||
+                     triggerElement.closest('.news-page'))) {
+                    trigger.kill();
+                }
+            });
+            
+            // Set initial state for all news cards
+            gsap.set('.news-card', {
+                opacity: 0,
+                y: 100,
+                scale: 0.8
+            });
+            
+            // Animate news cards row by row with staggered timing
+            const newsCards = document.querySelectorAll('.news-card');
+            
+            newsCards.forEach((card, index) => {
+                gsap.to(card, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.5, // Faster duration
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%",
+                        end: "bottom 10%",
+                        toggleActions: "play none none reverse"
+                    },
+                    delay: index * 0.05 // Faster stagger
+                });
+            });
+
+            // Animate page title and description
+            const pageTitle = document.querySelector('.news-page h2');
+            const pageDescription = document.querySelector('.news-page p');
+            
+            if (pageTitle) {
+                gsap.set(pageTitle, { opacity: 0, y: -50 });
+                gsap.to(pageTitle, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6, // Faster duration
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: pageTitle,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            }
+
+            if (pageDescription) {
+                gsap.set(pageDescription, { opacity: 0, y: -30 });
+                gsap.to(pageDescription, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6, // Faster duration
+                    delay: 0.2, // Shorter delay
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: pageDescription,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            }
+
+            // Animate pagination
+            const paginationContainer = document.querySelector('.pagination-container');
+            if (paginationContainer) {
+                gsap.set(paginationContainer, { opacity: 0, y: 30 });
+                gsap.to(paginationContainer, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5, // Faster duration
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: paginationContainer,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            }
+        }
+    }, [currentPage]); // Re-run when page changes
 
     const prevPage = () => {
         if (currentPage > 1) {
@@ -231,6 +765,115 @@ export default function NewsPage() {
 
     const addIndexRef = (el: HTMLDivElement | null, index: number) => {
         if (el) indicesRef.current[index] = el;
+    };
+
+    // News Item Component with animation ref
+    const NewsItem = ({ item, index }: { item: any; index: number }) => (
+        <div 
+            className={`${item.bgColor} rounded-lg overflow-hidden border ${item.borderColor} transition-all duration-300 group h-[500px] flex flex-col news-card`}
+            data-index={index}
+        >
+            <div className="h-48 overflow-hidden">
+                <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover transition-transform duration-300"
+                />
+            </div>
+            <div className="p-4 flex flex-col flex-1">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">{item.date}</span>
+                    <span className={`text-xs text-white ${item.numberColor} px-2 py-1 rounded-full`}>
+                        {item.id.toString().padStart(2, '0')}
+                    </span>
+                </div>
+                <a 
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl font-semibold text-[#140079] mb-3 line-clamp-2 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+                >
+                    {item.title}
+                </a>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">{item.description}</p>
+                <a 
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center justify-center w-full px-4 py-2 ${item.buttonColor} text-white font-semibold rounded-lg transition-all duration-200 text-sm mt-auto`}
+                >
+                    Read More
+                </a>
+            </div>
+        </div>
+    );
+
+    // Dynamic Pagination Component
+    const PaginationButtons = () => {
+        const maxVisiblePages = 3;
+        const totalPagesCount = newsData.length;
+        
+        if (totalPagesCount <= maxVisiblePages) {
+            // Show all pages if 3 or fewer
+            return (
+                <>
+                    {newsData.map((_, pageIndex) => (
+                        <button 
+                            key={pageIndex + 1}
+                            onClick={() => showPage(pageIndex + 1)}
+                            className={`pagination-btn ${currentPage === pageIndex + 1 ? 'active' : ''}`}
+                        >
+                            {pageIndex + 1}
+                        </button>
+                    ))}
+                </>
+            );
+        }
+        
+        // Show pages with ellipsis for better UX
+        const getVisiblePages = () => {
+            const pages = [];
+            
+            if (currentPage <= 2) {
+                // Show first 2 pages + ellipsis + last page
+                for (let i = 1; i <= 2; i++) {
+                    pages.push(i);
+                }
+                pages.push('...');
+                pages.push(totalPagesCount);
+            } else if (currentPage >= totalPagesCount - 1) {
+                // Show first page + ellipsis + last 2 pages
+                pages.push(1);
+                pages.push('...');
+                for (let i = totalPagesCount - 1; i <= totalPagesCount; i++) {
+                    pages.push(i);
+                }
+            } else {
+                // Show first page + ellipsis + current page + ellipsis + last page
+                pages.push(1);
+                pages.push('...');
+                pages.push(currentPage);
+                pages.push('...');
+                pages.push(totalPagesCount);
+            }
+            
+            return pages;
+        };
+        
+        return (
+            <>
+                {getVisiblePages().map((page, index) => (
+                    <button 
+                        key={index}
+                        onClick={() => typeof page === 'number' ? showPage(page) : null}
+                        disabled={page === '...'}
+                        className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
+                    >
+                        {page}
+                    </button>
+                ))}
+            </>
+        );
     };
 
     return (
@@ -430,561 +1073,54 @@ export default function NewsPage() {
                 <div className="max-w-7xl mx-auto px-6 relative z-10">
                     {/* Section Title */}
                     <div className="text-center mb-16 mt-16">
-                        <h2 className="text-6xl font-light text-white mb-4">Latest News</h2>
-                        <p className="text-xl text-white opacity-80">Stay updated with our latest insights and achievements</p>
+                        <h2 className="text-6xl font-light text-[#140079] text-bold mb-4">Latest News</h2>
+                        <p className="text-xl text-[#140079] opacity-80">Stay updated with our latest insights and achievements</p>
                     </div>
 
                     {/* News List */}
                     <div className="grid grid-cols-3 gap-6">
-                        {/* Page 1 News Items */}
-                        <div className="news-page col-span-3 transition-all duration-500 ease-in-out" data-page="1">
+                        {newsData.map((page, pageIndex) => (
+                            <div 
+                                key={pageIndex + 1}
+                                className={`news-page col-span-3 transition-all duration-500 ease-in-out ${pageIndex + 1 === currentPage ? '' : 'hidden'}`} 
+                                data-page={pageIndex + 1}
+                            >
                             <div className="grid grid-cols-3 gap-6">
-                                {/* Row 1 */}
-                                {/* News Item 1 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-1.png" 
-                                            alt="US Fiber Podcast" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
+                                    {page.map((item, index) => (
+                                        <NewsItem key={item.id} item={item} index={index} />
+                                    ))}
                                     </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">03 July 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">01</span>
                                         </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">US Fiber Podcast: The UK Experience</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Brad Hine chats with Ray O'Connor, Sr VP of Sales at Indigo, to discuss the evolving landscape of broadband connectivity in the US.
-                                        </p>
-                                        <a 
-                                            href="https://www.indigotg.com/news/the-uk-experience/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 2 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-2.png" 
-                                            alt="Indigo Company Growth" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">07 June 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">02</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Indigo: New Leadership, Certifications, Awards, and USA Growth!</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            At Indigo, we are thrilled to share some significant updates that reflect our continuous growth and commitment to excellence.
-                                        </p>
-                                        <a 
-                                            href="https://www.indigotg.com/news/indigo-company-achievements-june-2024/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 3 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-3.png" 
-                                            alt="Keeping Subsea Cables Connected" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">27 May 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">03</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Keeping Subsea Cables Connected</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Learn how we secure subsea cables against rising threats with proactive tracking, rapid repairs, and advanced technology.
-                                        </p>
-                                        <a 
-                                            href="https://www.indigotg.com/news/subsea-cable-security/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* Row 2 */}
-                                {/* News Item 4 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-4.png" 
-                                            alt="Empowering Your Business with ISO Recertifications" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">24 May 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">04</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Empowering Your Business with ISO Recertifications</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Our ISO 9001, 14001, and 45001 recertifications reaffirm Indigo's commitment to excellence, sustainability, security, and safety.
-                                        </p>
-                                        <a 
-                                            href="https://www.indigotg.com/news/empowering-business-with-iso-recertifications/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 5 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-1.png" 
-                                            alt="Indigo Expands Network Operations Center" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">15 May 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">05</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Indigo Expands Network Operations Center</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            We're excited to announce the expansion of our Network Operations Center, enhancing our 24/7 monitoring capabilities.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 6 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-2.png" 
-                                            alt="New Data Center Solutions Launch" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">08 May 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">06</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">New Data Center Solutions Launch</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo introduces cutting-edge data center solutions designed to meet the growing demands of modern businesses.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* Row 3 */}
-                                {/* News Item 7 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-3.png" 
-                                            alt="Wireless Network Innovation Award" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">01 May 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">07</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Wireless Network Innovation Award</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo receives recognition for our innovative approach to wireless network design and deployment.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 8 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-4.png" 
-                                            alt="Subsea Cable Maintenance Success" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">25 April 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">08</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Subsea Cable Maintenance Success</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Our team successfully completed critical maintenance on multiple subsea cable systems, ensuring uninterrupted connectivity.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 9 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-1.png" 
-                                            alt="5G Network Deployment Milestone" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">18 April 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">09</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">5G Network Deployment Milestone</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo reaches a significant milestone in our 5G network deployment project, bringing high-speed connectivity to underserved rural communities.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Page 2 News Items (Hidden by default) */}
-                        <div className="news-page hidden col-span-3 transition-all duration-500 ease-in-out" data-page="2">
-                            <div className="grid grid-cols-3 gap-6">
-                                {/* Row 1 */}
-                                {/* News Item 10 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-2.png" 
-                                            alt="Cybersecurity Partnership Announcement" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">12 April 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">10</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Cybersecurity Partnership Announcement</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            We're proud to announce a strategic partnership with leading cybersecurity firms to enhance our network security offerings.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 11 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-3.png" 
-                                            alt="Environmental Sustainability Initiative" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">05 April 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">11</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Environmental Sustainability Initiative</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo launches comprehensive environmental sustainability initiatives, including renewable energy integration and carbon footprint reduction.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 12 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-4.png" 
-                                            alt="Customer Success Story: Global Bank" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">29 March 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">12</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Customer Success Story: Global Bank</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Discover how Indigo helped a major global bank transform their network infrastructure, resulting in 40% improved performance.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* Row 2 */}
-                                {/* News Item 13 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-1.png" 
-                                            alt="AI-Powered Network Optimization" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">22 March 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">13</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">AI-Powered Network Optimization</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Our new AI-powered network optimization platform is now live, providing real-time insights and automated performance improvements.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 14 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-2.png" 
-                                            alt="Industry Conference Participation" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">15 March 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">14</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Industry Conference Participation</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo's experts will be presenting at major industry conferences this year, sharing insights on network infrastructure trends.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 15 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-3.png" 
-                                            alt="New Office Opening: Singapore" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">08 March 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">15</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">New Office Opening: Singapore</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            We're excited to announce the opening of our new office in Singapore, expanding our presence in the Asia-Pacific region.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* Row 3 */}
-                                {/* News Item 16 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-4.png" 
-                                            alt="Employee Recognition Program" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">01 March 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">16</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Employee Recognition Program</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo launches our annual employee recognition program, celebrating the outstanding contributions of our team members.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 17 */}
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-1.png" 
-                                            alt="Network Security Enhancement" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">25 February 2024</span>
-                                            <span className="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">17</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Network Security Enhancement</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            We've implemented advanced security protocols to protect our clients' critical network infrastructure from emerging threats.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* News Item 18 */}
-                                <div className="bg-sky-100 rounded-lg overflow-hidden border border-sky-200 hover:shadow-lg transition-all duration-300 group">
-                                    <div className="aspect-[4/3] overflow-hidden">
-                                        <img 
-                                            src="/News/card-2.png" 
-                                            alt="Global Expansion Milestone" 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm text-gray-600">18 February 2024</span>
-                                            <span className="text-xs text-white bg-sky-500 px-2 py-1 rounded-full">18</span>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">Global Expansion Milestone</h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            Indigo celebrates reaching 25 countries worldwide, marking a significant milestone in our international growth strategy.
-                                        </p>
-                                        <a 
-                                            href="#"
-                                            className="inline-flex items-center justify-center w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg hover:bg-sky-600 transition-all duration-200 text-sm"
-                                        >
-                                            Read More
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex justify-center items-center gap-4 mt-16">
+                    <div className="flex justify-center items-center gap-3 mt-16 pagination-container">
                         <button 
                             onClick={prevPage}
                             disabled={currentPage === 1}
-                            className="pagination-btn px-6 py-3 rounded-full font-semibold transition-all duration-200"
+                            className="pagination-btn"
                         >
-                            Previous
+                            ←
                         </button>
                         
                         <div className="flex items-center gap-2">
-                            <button 
-                                onClick={() => showPage(1)}
-                                className={`pagination-btn px-6 py-3 rounded-full font-semibold transition-all duration-200 ${currentPage === 1 ? 'active' : ''}`}
-                            >
-                                1
-                            </button>
-                            <button 
-                                onClick={() => showPage(2)}
-                                className={`pagination-btn px-6 py-3 rounded-full font-semibold transition-all duration-200 ${currentPage === 2 ? 'active' : ''}`}
-                            >
-                                2
-                            </button>
+                            <PaginationButtons />
                         </div>
                         
                         <button 
                             onClick={nextPage}
                             disabled={currentPage === totalPages}
-                            className="pagination-btn px-6 py-3 rounded-full font-semibold transition-all duration-200"
+                            className="pagination-btn"
                         >
-                            Next
+                            →
                         </button>
                     </div>
                     
                     {/* Page Indicator */}
                     <div className="text-center mt-6">
                         <span className="text-gray-700 opacity-80 text-sm">
-                            Page {currentPage} of {totalPages} • {currentPage === 1 ? '9' : '9'} news articles
+                            Page {currentPage} of {totalPages} • {newsData[currentPage - 1]?.length || 0} news articles
                         </span>
                     </div>
                 </div>

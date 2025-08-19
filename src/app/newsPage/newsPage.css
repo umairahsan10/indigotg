@@ -72,9 +72,9 @@ html, body {
   color: #140079 !important;
 }
 
-/* Active index styling */
+/* Active index styling - darker color when active */
 .index.active p {
-  color: inherit !important;
+  color: #140079 !important;
 }
 
 /* News Section Styles */
@@ -134,46 +134,80 @@ html, body {
 
 /* Pagination Button Styles */
 .pagination-btn {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(20, 0, 121, 0.1);
+  color: #140079;
+  border: 2px solid rgba(20, 0, 121, 0.2);
   transition: all 0.2s ease-in-out;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pagination-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #140079;
+  color: white;
+  border-color: #140079;
   transform: translateY(-1px);
 }
 
 .pagination-btn.active {
-  background-color: white;
+  background-color: #140079;
+  color: white;
+  border-color: #140079;
+  box-shadow: 0 4px 12px rgba(20, 0, 121, 0.3);
+}
+
+/* Ellipsis styling */
+.pagination-btn:disabled {
+  background-color: transparent;
+  border-color: transparent;
   color: #140079;
-  border-color: white;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  cursor: default;
+  transform: none;
+  min-width: 40px;
+  padding: 8px 12px;
+}
+
+.pagination-btn:disabled:hover {
+  background-color: transparent;
+  transform: none;
 }
 
 /* Previous/Next button specific styles */
 .pagination-btn:first-child,
 .pagination-btn:last-child {
-  min-width: 100px;
+  min-width: 80px;
   font-weight: 600;
 }
 
-.pagination-btn:first-child:hover,
-.pagination-btn:last-child:hover {
-  background-color: rgba(255, 255, 255, 0.25);
+/* News Card Read More Button Hover Effect */
+.news-card a[href*="indigotg.com"]:last-child {
+  border: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Disabled state for Previous/Next buttons */
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: rgba(255, 255, 255, 0.05);
+.news-card a[href*="indigotg.com"]:last-child:hover {
+  background-color: white !important;
+  color: #140079 !important;
+  border-color: #140079 !important;
 }
 
-.pagination-btn:disabled:hover {
+/* Remove conflicting disabled styles */
+.pagination-btn:disabled:not(.pagination-btn:disabled) {
+  opacity: 1;
+  cursor: default;
+  background-color: transparent;
+}
+
+.pagination-btn:disabled:not(.pagination-btn:disabled):hover {
   transform: none;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: transparent;
 }
 
 /* News Item Number Styling */
@@ -188,6 +222,29 @@ html, body {
 .news-page a:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* News Card Animation Styles */
+.news-card {
+  /* Remove CSS transitions - let GSAP handle animations */
+}
+
+/* Ensure smooth animations */
+.news-page {
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.news-page.hidden {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Pagination container animation */
+.pagination-container {
+  /* Remove CSS transitions - let GSAP handle animations */
 }
 
 /* Responsive adjustments */
