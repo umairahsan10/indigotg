@@ -4,9 +4,6 @@ const nextConfig: NextConfig = {
   // Vercel deployment optimizations
   output: 'standalone',
   
-  // Disable telemetry for Vercel
-  telemetry: false,
-  
   // Optimize images for Vercel
   images: {
     unoptimized: false,
