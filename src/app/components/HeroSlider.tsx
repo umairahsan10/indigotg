@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
@@ -21,6 +21,7 @@ const fragmentShader = `
   uniform vec2 uResolution;
   uniform vec2 uTexture1Size;
   uniform vec2 uTexture2Size;
+  uniform int uCurrentSlideIndex;
   varying vec2 vUv;
   
   vec2 getCoverUV(vec2 uv, vec2 textureSize) {
@@ -90,6 +91,10 @@ const fragmentShader = `
     
     vec4 newImg = texture2D(uTexture2, distortion.distortedUV);
     
+    // Apply darkening effect to all slides for consistent appearance
+    currentImg.rgb *= 0.7; // Darken current image by 30%
+    newImg.rgb *= 0.7; // Darken new image by 30%
+    
     float finalMask = max(mask, 1.0 - distortion.inside);
     vec4 color = mix(newImg, currentImg, finalMask);
     
@@ -140,6 +145,7 @@ const slides = [
 const HeroSlider = () => {
   const canvasRef = useRef(null);
   const sliderRef = useRef(null);
+  const rippleRefs = useRef(new Map());
 
   // Keep these as module-level variables like in the original
   let currentSlideIndex = 0;
@@ -871,6 +877,7 @@ const HeroSlider = () => {
         },
         uTexture1Size: { value: new THREE.Vector2(1, 1) },
         uTexture2Size: { value: new THREE.Vector2(1, 1) },
+        uCurrentSlideIndex: { value: 0 },
       },
       vertexShader,
       fragmentShader,
@@ -897,6 +904,8 @@ const HeroSlider = () => {
     shaderMaterial.uniforms.uTexture2Size.value =
       slideTextures[1].userData.size;
 
+    console.log('Shader material is now ready!');
+
     const render = () => {
       requestAnimationFrame(render);
       renderer.render(scene, camera);
@@ -905,7 +914,7 @@ const HeroSlider = () => {
   };
 
   const handleSlideChange = (direction = 'next') => {
-    if (isTransitioning) return;
+    if (isTransitioning || !shaderMaterial) return;
 
     isTransitioning = true;
     let nextIndex;
@@ -937,6 +946,8 @@ const HeroSlider = () => {
           shaderMaterial.uniforms.uTexture1.value = slideTextures[nextIndex];
           shaderMaterial.uniforms.uTexture1Size.value =
             slideTextures[nextIndex].userData.size;
+          // Update the current slide index uniform
+          shaderMaterial.uniforms.uCurrentSlideIndex.value = nextIndex;
         },
       }
     );
@@ -950,7 +961,7 @@ const HeroSlider = () => {
     
     // Start auto-play - change slide every 5 seconds
     autoPlayInterval = setInterval(() => {
-      if (!isTransitioning) {
+      if (!isTransitioning && shaderMaterial) {
         handleSlideChange('next');
       }
     }, 5000); // 5 seconds
@@ -963,14 +974,75 @@ const HeroSlider = () => {
     }
   };
 
+  const createRipple = (x, y) => {
+    console.log('Creating ripple at:', x, y);
+    
+    const rippleId = Date.now();
+    const rippleElement = document.createElement('div');
+    
+    // Style the ripple element
+    Object.assign(rippleElement.style, {
+      position: 'fixed',
+      left: x + 'px',
+      top: y + 'px',
+      width: '0px',
+      height: '0px',
+      borderRadius: '50%',
+      border: '3px solid rgba(255, 255, 255, 0.9)',
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      pointerEvents: 'none',
+      zIndex: '9999',
+      transform: 'translate(-50%, -50%)',
+      opacity: '1',
+      boxShadow: '0 0 20px rgba(255, 255, 255, 0.5)',
+      transition: 'all 0.6s ease-out'
+    });
+    
+    // Add to DOM
+    document.body.appendChild(rippleElement);
+    rippleRefs.current.set(rippleId, rippleElement);
+    
+    // Trigger animation
+    requestAnimationFrame(() => {
+      rippleElement.style.width = '200px';
+      rippleElement.style.height = '200px';
+      rippleElement.style.opacity = '0';
+    });
+    
+    // Clean up after animation
+    setTimeout(() => {
+      if (rippleElement.parentNode) {
+        rippleElement.parentNode.removeChild(rippleElement);
+      }
+      rippleRefs.current.delete(rippleId);
+    }, 600);
+  };
+
   const handleClick = (event) => {
+    console.log('Click detected!', event.clientX, event.clientY);
+    
     // Stop auto-play temporarily when user clicks
     stopAutoPlay();
+    
+    // Create ripple effect at click position (always works)
+    createRipple(event.clientX, event.clientY);
+    
+    // Check if renderer is initialized before proceeding with slide change
+    if (!shaderMaterial) {
+      console.log('Shader material not ready - ripple created but slide change skipped');
+      // Restart auto-play even if we can't change slides
+      setTimeout(() => {
+        startAutoPlay();
+      }, 1000);
+      return;
+    }
     
     // Determine which side was clicked
     const rect = event.currentTarget.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const isRightSide = clickX > rect.width / 2;
+    
+    console.log('Click side:', isRightSide ? 'right' : 'left');
     
     // Handle the slide change based on click position
     handleSlideChange(isRightSide ? 'next' : 'prev');
@@ -982,11 +1054,13 @@ const HeroSlider = () => {
   };
 
   const handleResize = () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    shaderMaterial.uniforms.uResolution.value.set(
-      window.innerWidth,
-      window.innerHeight
-    );
+    if (renderer && shaderMaterial) {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      shaderMaterial.uniforms.uResolution.value.set(
+        window.innerWidth,
+        window.innerHeight
+      );
+    }
   };
 
   useEffect(() => {
@@ -1017,19 +1091,19 @@ const HeroSlider = () => {
   }, []);
 
   return (
-         <div 
-       className="slider" 
-       ref={sliderRef}
-       onClick={handleClick}
-       style={{
-         position: 'relative',
-         width: '100vw',
-         height: '100svh',
-         color: '#fff',
-         overflow: 'hidden',
-         cursor: 'pointer'
-       }}
-     >
+    <div 
+      className="slider" 
+      ref={sliderRef}
+      onClick={handleClick}
+      style={{
+        position: 'relative',
+        width: '100vw',
+        height: '100svh',
+        color: '#fff',
+        overflow: 'hidden',
+        cursor: 'pointer'
+      }}
+    >
       <canvas 
         ref={canvasRef}
         style={{
@@ -1039,18 +1113,18 @@ const HeroSlider = () => {
         }}
       />
 
-             <div 
-         className="slider-content"
-         style={{
-           position: 'absolute',
-           top: 0,
-           left: 0,
-           width: '100%',
-           height: '100%',
-           userSelect: 'none',
-           zIndex: 2
-         }}
-       >
+      <div 
+        className="slider-content"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          userSelect: 'none',
+          zIndex: 2
+        }}
+      >
                    
                  <div 
            className="slide-title"
