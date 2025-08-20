@@ -14,6 +14,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   const lastScrollY = useRef(0);
@@ -44,7 +45,19 @@ const Navigation = () => {
         { href: '/solutions2/support', label: 'Support' }
       ]
     },
-    { href: '/solutions2', label: 'Solutions' },
+    { 
+      href: '/solutions2', 
+      label: 'Solutions',
+      hasDropdown: true,
+      dropdownItems: [
+        { href: '/solutions/fixedline', label: 'Fixed\u00A0line' },
+        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
+        { href: '/solutions/data-centres', label: 'Data\u00A0Centres' },
+        { href: '/solutions/wireless', label: 'Wireless' },
+        { href: '/solutions/network', label: 'Network\u00A0Services' },
+        { href: '/solutions/noc', label: 'NOC' }
+      ]
+    },
     { href: '/work-with-us', label: 'Work With Us' },
     { href: '/success-stories', label: 'Success Stories' },
     { href: '/newsPage', label: 'News' },
@@ -930,16 +943,29 @@ const Navigation = () => {
           z-index: 10003;
         }
 
+
+
         .menu-dropdown.open {
           opacity: 1;
           visibility: visible;
           transform: translateY(0);
         }
 
+        /* Specific width for Solutions dropdown */
+        .solutions-dropdown {
+          width: 250px;
+          left: 70%;
+          // min-width: 200px;
+          // max-width: 200px;
+        }
+
         .menu-dropdown-item {
-          padding: 0.1rem 0.5rem;
+          padding: 0.05rem 0.5rem;
           transition: background-color 0.2s ease;
           background-color: rgba(255, 255, 255, 0.1);
+          white-space: nowrap !important;
+          overflow: hidden;
+          width: 100%;
         }
 
         .menu-dropdown-item:hover {
@@ -954,6 +980,12 @@ const Navigation = () => {
           text-decoration: none;
           position: relative;
           display: inline-block;
+          white-space: nowrap !important;
+          word-wrap: normal !important;
+          overflow-wrap: normal !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
         }
 
         /* Maximum specificity selectors to override global styles */
@@ -974,12 +1006,10 @@ const Navigation = () => {
 
         /* Maximum specificity override */
         nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
-          font-size: 0px !important;
+          font-size: 10px !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
-          color: #ff0000 !important;
-          background-color: #00ff00 !important;
-          border: 1px solid blue !important;
+          color: #ffffff !important;
         }
 
         /* Arrow animation for dropdown */
@@ -989,11 +1019,12 @@ const Navigation = () => {
 
         .menu-link-with-dropdown a {
           position: relative;
+          display: inline-block;
         }
 
         .dropdown-arrow {
           position: absolute;
-          right: -15px;
+          right: -25px;
           top: 50%;
           transform: translateY(-50%);
           width: 0;
@@ -1007,9 +1038,19 @@ const Navigation = () => {
           z-index: 10004;
         }
 
+        .menu-link-with-dropdown .dropdown-arrow {
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
         .menu-link-with-dropdown:hover .dropdown-arrow {
           opacity: 1;
-          right: -30px;
+          right: -35px;
+        }
+
+        .dropdown-arrow.visible {
+          opacity: 1 !important;
+          right: -35px !important;
         }
 
         /* Additional override using CSS custom property */
@@ -1241,12 +1282,20 @@ const Navigation = () => {
                         }}
                         onMouseEnter={() => {
                           if (item.hasDropdown && !isMobile) {
-                            setServicesDropdownOpen(true);
+                            if (item.label === 'Our Services') {
+                              setServicesDropdownOpen(true);
+                            } else if (item.label === 'Solutions') {
+                              setSolutionsDropdownOpen(true);
+                            }
                           }
                         }}
                         onMouseLeave={() => {
                           if (item.hasDropdown && !isMobile) {
-                            setServicesDropdownOpen(false);
+                            if (item.label === 'Our Services') {
+                              setServicesDropdownOpen(false);
+                            } else if (item.label === 'Solutions') {
+                              setSolutionsDropdownOpen(false);
+                            }
                           }
                         }}
                         style={{
@@ -1258,19 +1307,27 @@ const Navigation = () => {
                         }}
                       >
                         {item.label}
-                        {item.hasDropdown && <div className="dropdown-arrow"></div>}
+                        {(item.label === 'Our Services' || item.label === 'Solutions') && <div className="dropdown-arrow"></div>}
                       </Link>
                       {item.hasDropdown && (
                         <div 
-                          className={`menu-dropdown ${servicesDropdownOpen ? 'open' : ''}`}
+                          className={`menu-dropdown ${item.label === 'Solutions' ? 'solutions-dropdown' : ''} ${(item.label === 'Our Services' && servicesDropdownOpen) || (item.label === 'Solutions' && solutionsDropdownOpen) ? 'open' : ''}`}
                           onMouseEnter={() => {
                             if (!isMobile) {
-                              setServicesDropdownOpen(true);
+                              if (item.label === 'Our Services') {
+                                setServicesDropdownOpen(true);
+                              } else if (item.label === 'Solutions') {
+                                setSolutionsDropdownOpen(true);
+                              }
                             }
                           }}
                           onMouseLeave={() => {
                             if (!isMobile) {
-                              setServicesDropdownOpen(false);
+                              if (item.label === 'Our Services') {
+                                setServicesDropdownOpen(false);
+                              } else if (item.label === 'Solutions') {
+                                setSolutionsDropdownOpen(false);
+                              }
                             }
                           }}
                         >
@@ -1282,7 +1339,11 @@ const Navigation = () => {
                                   if (isMenuOpen) {
                                     handleMenuToggle();
                                   }
-                                  setServicesDropdownOpen(false);
+                                  if (item.label === 'Our Services') {
+                                    setServicesDropdownOpen(false);
+                                  } else if (item.label === 'Solutions') {
+                                    setSolutionsDropdownOpen(false);
+                                  }
                                 }}
                                 style={{
                                   fontSize: '16px',
