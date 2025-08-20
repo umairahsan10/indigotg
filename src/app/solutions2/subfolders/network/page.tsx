@@ -1,155 +1,437 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import CTASection from '../cta';
 
 export default function NetworkPage() {
+  const textRef1 = useRef<HTMLDivElement>(null);
+  const imageRef1 = useRef<HTMLDivElement>(null);
+  const textRef2 = useRef<HTMLDivElement>(null);
+  const imageRef2 = useRef<HTMLDivElement>(null);
+  const textRef3 = useRef<HTMLDivElement>(null);
+  const imageRef3 = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Remove the class first to reset the animation
+            entry.target.classList.remove('animate-in');
+            // Force a reflow
+            (entry.target as HTMLElement).offsetHeight;
+            // Add the class to trigger the animation
+            entry.target.classList.add('animate-in');
+          } else {
+            // Remove the class when element is out of view
+            entry.target.classList.remove('animate-in');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const refs = [textRef1, imageRef1, textRef2, imageRef2, textRef3, imageRef3];
+    refs.forEach(ref => {
+      if (ref.current) observer.observe(ref.current);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/solutions/network.png"
-            alt="Subsea Background"
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        </div>
+    <>
+      <style jsx global>{`
+        .font-roboto {
+          font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        /* Animation Classes */
+        .text-content {
+          opacity: 0;
+          transform: translateX(-50px);
+          transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .text-content.animate-in {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .image-content {
+          opacity: 0;
+          transform: translateX(100px) scale(0.8) rotateY(-15deg);
+          transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+          filter: blur(3px);
+        }
+
+        .image-content.animate-in {
+          opacity: 1;
+          transform: translateX(0) scale(1) rotateY(0deg);
+          filter: blur(0px);
+        }
+
+        /* Add a subtle glow effect on animation */
+        .image-content.animate-in .relative {
+          animation: imageGlow 1.5s ease-out 0.3s both, floating 3s ease-in-out infinite;
+        }
+
+        /* Floating animation for the image */
+        .image-content .relative {
+          animation: floating 3s ease-in-out infinite;
+        }
+
+        /* Enhanced shadow for image container */
+        .image-shadow {
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.8),
+            0 10px 20px rgba(0, 0, 0, 0.6),
+            0 5px 10px rgba(0, 0, 0, 0.5),
+            0 0 0 3px rgba(0, 0, 0, 0.3);
+          transition: box-shadow 0.3s ease;
+          filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.7));
+        }
+
+        .image-shadow:hover {
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.7),
+            0 10px 20px rgba(0, 0, 0, 0.5),
+            0 5px 10px rgba(0, 0, 0, 0.4),
+            0 0 0 2px rgba(0, 0, 0, 0.2);
+          filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+        }
+
+        @keyframes imageGlow {
+          0% {
+            box-shadow: 0 0 0 rgba(20, 0, 121, 0);
+          }
+          50% {
+            box-shadow: 0 0 30px rgba(20, 0, 121, 0.3);
+          }
+          100% {
+            box-shadow: 0 0 0 rgba(20, 0, 121, 0);
+          }
+        }
+
+        @keyframes floating {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        /* Enhanced text animations */
+        .text-content h2 {
+          opacity: 0;
+          transform: translateY(-50px);
+          transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .text-content.animate-in h2 {
+          opacity: 1;
+          transform: translateY(0);
+          animation: slideInFromTop 0.8s ease-out 0.2s both;
+        }
+
+        .text-content p {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .text-content.animate-in p {
+          opacity: 1;
+          transform: translateY(0);
+          animation: fadeInLine 0.6s ease-out 0.6s both;
+        }
+
+        .text-content ul {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .text-content.animate-in ul {
+          opacity: 1;
+          transform: translateY(0);
+          animation: fadeInLine 0.6s ease-out 0.6s both;
+        }
+
+        .text-content li {
+          opacity: 0;
+          transform: translateY(10px);
+          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .text-content.animate-in li {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .text-content.animate-in li:nth-child(1) { animation: fadeInLine 0.4s ease-out 0.8s both; }
+        .text-content.animate-in li:nth-child(2) { animation: fadeInLine 0.4s ease-out 0.9s both; }
+        .text-content.animate-in li:nth-child(3) { animation: fadeInLine 0.4s ease-out 1.0s both; }
+        .text-content.animate-in li:nth-child(4) { animation: fadeInLine 0.4s ease-out 1.1s both; }
+        .text-content.animate-in li:nth-child(5) { animation: fadeInLine 0.4s ease-out 1.2s both; }
+        .text-content.animate-in li:nth-child(6) { animation: fadeInLine 0.4s ease-out 1.3s both; }
+        .text-content.animate-in li:nth-child(7) { animation: fadeInLine 0.4s ease-out 1.4s both; }
+        .text-content.animate-in li:nth-child(8) { animation: fadeInLine 0.4s ease-out 1.5s both; }
+        .text-content.animate-in li:nth-child(9) { animation: fadeInLine 0.4s ease-out 1.6s both; }
+        .text-content.animate-in li:nth-child(10) { animation: fadeInLine 0.4s ease-out 1.7s both; }
+        .text-content.animate-in li:nth-child(11) { animation: fadeInLine 0.4s ease-out 1.8s both; }
+        .text-content.animate-in li:nth-child(12) { animation: fadeInLine 0.4s ease-out 1.9s both; }
+        .text-content.animate-in li:nth-child(13) { animation: fadeInLine 0.4s ease-out 2.0s both; }
+        .text-content.animate-in li:nth-child(14) { animation: fadeInLine 0.4s ease-out 2.1s both; }
+
+        /* Directional image animations */
+        .image-content.image-left {
+          transform: translateX(-100px) scale(0.8) rotateY(15deg);
+        }
+
+        .image-content.image-right {
+          transform: translateX(100px) scale(0.8) rotateY(-15deg);
+        }
+
+        .image-content.image-left.animate-in,
+        .image-content.image-right.animate-in {
+          transform: translateX(0) scale(1) rotateY(0deg);
+        }
+
+        @keyframes slideInFromTop {
+          from {
+            opacity: 0;
+            transform: translateY(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInLine {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Custom yellow hover effect for links */
+        .text-content li:hover .text-content a,
+        .text-content li:hover span {
+          color: #eab308 !important;
+        }
         
-        {/* Hero Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Network Services
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Systems Operator support for submarine cables
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-[#140079] hover:bg-[#0a0033] text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
-              Get Started
-            </button>
-            <button className="border-2 border-white text-white hover:bg-white hover:text-[#140079] px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
-              Learn More
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6">
-              Comprehensive Subsea Solutions
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We provide expert systems operator support for submarine cables, 
-              ensuring reliable global connectivity and optimal performance.
-            </p>
+        .text-content a:hover {
+          color: #eab308 !important;
+        }
+      `}</style>
+      <div className="min-h-screen bg-white">
+        {/* Hero Section */}
+        <section className="relative h-screen flex items-center overflow-hidden">
+          {/* Background Image - Full Width */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/solutions/network.png"
+              alt="Network Services Background"
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
           </div>
 
-          {/* Services Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {/* Service Card 1 */}
-            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-[#140079] rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative z-10">
+            {/* Left Div - Content */}
+            <div className="flex items-center justify-center px-8 lg:px-16">
+              <div className="text-white max-w-2xl">
+                <p className="text-sm md:text-base text-gray-300 mb-4 font-roboto">
+                  SOLUTIONS
+                </p>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
+                  Network Services
+                </h1>
+                <p className="text-lg md:text-xl leading-relaxed font-roboto">
+                  We work efficiently to minimize outage times to keep society collaborating. We monitor, maintain, and upgrade services around the clock, deploying our operations and multi-vendor engineers within hours or the next day to provide expert on-site support.
+                </p>
+                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                  JOIN THE TEAM
+                </button>
               </div>
-              <h3 className="text-2xl font-bold text-[#140079] mb-4">Cable Monitoring</h3>
-              <p className="text-gray-600">
-                Advanced monitoring and surveillance systems for submarine cable 
-                infrastructure with real-time performance tracking.
-              </p>
             </div>
 
-            {/* Service Card 2 */}
-            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-[#140079] rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-[#140079] mb-4">Maintenance & Repair</h3>
-              <p className="text-gray-600">
-                Specialized maintenance and repair services for submarine cable 
-                systems with rapid response capabilities.
-              </p>
-            </div>
-
-            {/* Service Card 3 */}
-            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-[#140079] rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-[#140079] mb-4">System Operations</h3>
-              <p className="text-gray-600">
-                Professional systems operator support with 24/7 monitoring 
-                and management of submarine cable networks.
-              </p>
+            {/* Right Div - Empty but with background visible */}
+            <div className="relative">
+              {/* Empty div - background image shows through from parent */}
             </div>
           </div>
+        </section>
 
-          {/* Features Section */}
-          <div className="bg-gray-50 rounded-2xl p-12 mb-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-3xl font-bold text-[#140079] mb-6">
-                  Why Choose Our Subsea Services?
-                </h3>
-                <ul className="space-y-4">
+        {/* First Section - Global Footprint */}
+        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left Section - Image */}
+              <div ref={imageRef1} className="relative image-content image-left">
+                <div className="relative rounded-2xl overflow-hidden image-shadow">
+                  <Image
+                    src="/solutions/net/n1.jpg"
+                    alt="Network Operations Center"
+                    width={700}
+                    height={400}
+                    className="w-full h-[400px] object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Right Section - Text Content */}
+              <div ref={textRef1} className="space-y-6 text-content">
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+
+                  With a global footprint in over 60 countries and as an experienced fibre services provider, Indigo has developed an integrated services solution to assist telecommunications operators and service providers in meeting the growing demand for high-speed connectivity                </p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                  We offer tried and tested network de-installation/de-commissioning solutions to safeguard any interruption to existing traffic on the network.
+
+                </p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Our highly skilled and fully accredited multi-vendor field engineers work hand in hand with our Prince 2 project management teams to ensure deployments are delivered right first time, to budget and customer quality requirements.
+
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Second Section - Network Operations Centre */}
+        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left Section - Text Content */}
+              <div ref={textRef2} className="space-y-6 text-content">
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Our purpose-built Network Operations Centre (NOC) is the single point of contact for all reactive and proactive support and maintenance requirements.
+                </p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Fully staffed 24x7x365, our NOC support staff manage the dispatch of the field service engineers and can jointly control the escalation to second/third line support in conjunction with owning the spares parts management process.
+                </p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Should engineers have to be dispatched to your site, our rapid response and global footprint means that we are always available to provide on-site support to meet 2 hour, 4 hour or pre-arranged time to site service level agreements.
+                </p>
+              </div>
+
+              {/* Right Section - Image */}
+              <div ref={imageRef2} className="relative image-content image-right">
+                <div className="relative rounded-2xl overflow-hidden image-shadow">
+                  <Image
+                    src="/solutions/net/n2.jpg"
+                    alt="Network Operations Center Staff"
+                    width={700}
+                    height={400}
+                    className="w-full h-[400px] object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Third Section - Network Services Include */}
+        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left Section - Image */}
+              <div ref={imageRef3} className="relative image-content image-left">
+                <div className="relative rounded-2xl overflow-hidden image-shadow">
+                  <Image
+                    src="/solutions/net/n3.jpg"
+                    alt="Indigo Field Engineers"
+                    width={700}
+                    height={400}
+                    className="w-full h-[400px] object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Right Section - Text Content */}
+              <div ref={textRef3} className="space-y-4 text-content">
+                <h2 className="text-3xl md:text-5xl lg:text-4xl font-roboto font-bold text-[#140079] leading-tight">
+                  Our Network Services Include
+                </h2>
+                <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
                   <li className="flex items-start">
-                    <svg className="w-6 h-6 text-[#140079] mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-700">Global network expertise</span>
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Site survey and audit</a>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-6 h-6 text-[#140079] mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-700">24/7 monitoring capabilities</span>
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Logistics and warehousing</a>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-6 h-6 text-[#140079] mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-700">Rapid response teams</span>
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Design, commissioning and project coordination (Fibre, FTTX, OSP)</a>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-6 h-6 text-[#140079] mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-700">Advanced diagnostics</span>
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Site access</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Power supply and visual install</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Site survey, network audits and transmission (radio and fibre)</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Fibre characterisation and testing</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Active equipment installation & commissioning, decommissioning and migrations</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Config, Build, Provision and Operate (Documentation & testing)</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">NOC Remote network monitoring</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">NOC Proactive and reactive (on-site support)</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">End to end network testing</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">24/7/365 maintenance and monitoring services</a>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#140079] font-bold mr-3">•</span>
+                    <a href="#" className="transition-all duration-300 cursor-pointer">Spare parts management service (SPMS)</a>
                   </li>
                 </ul>
               </div>
-              <div className="relative h-80 rounded-lg overflow-hidden">
-                <Image
-                  src="/solutions/card-images-2.jpg"
-                  alt="Subsea Infrastructure"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
             </div>
           </div>
+        </section>
 
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <CTASection />
-    </div>
+        {/* CTA Section */}
+        <CTASection />
+      </div>
+    </>
   );
 }

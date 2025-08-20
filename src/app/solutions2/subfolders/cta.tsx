@@ -63,13 +63,13 @@ export default function CTASection() {
         }
 
         .contact-button {
-          background: #140079;
-          border: 1px solid #140079;
+          background: #eab308;
+          border: 1px solid #eab308;
           color: #ffffff;
-          padding: 12px 32px;
+          padding: 8px 36px;
           font-size: 1rem;
           font-weight: 600;
-          border-radius: 8px;
+          border-radius: 9999px;
           cursor: pointer;
           transition: all 0.3s ease;
           display: inline-flex;
@@ -79,8 +79,9 @@ export default function CTASection() {
         }
 
         .contact-button:hover {
-          background: #0f0066;
-          border-color: #0f0066;
+          background: #ffffff;
+          border-color: #eab308;
+          color: #eab308;
           transform: translateY(-2px);
         }
 
@@ -119,9 +120,9 @@ export default function CTASection() {
       <section className="outro">
         <div className="outro-container">
           <div className="outro-content">
-            <h1>Want to know more?</h1>
+            <h1>Need help with Fixed Line <br/ > design, deploy and support?</h1>
             <p>
-              If you want to know more about how we can design, deploy and support your network and infrastructure, get in touch.
+            Get in touch to discover how we can partner to design, deploy, and support your digital infrastructure.
             </p>
             <Link href="/get-in-touch">
               <button className="contact-button">
