@@ -1134,12 +1134,14 @@ export default function Solutions2() {
               <p>
                 If you want to know more about how we can design, deploy and support your network and infrastructure, get in touch.
               </p>
-              <button className="contact-button">
-                Contact us
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
+              <Link href="/get-in-touch">
+                <button className="contact-button">
+                  Contact us
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </Link>
             </div>
           </div>
         </section>
