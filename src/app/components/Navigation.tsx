@@ -917,7 +917,7 @@ const Navigation = () => {
         .menu-dropdown {
           position: absolute;
           top: 0%;
-          left: 60%;
+          left: 65%;
           background-color: var(--menu-bg);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 0.5rem;
@@ -980,6 +980,36 @@ const Navigation = () => {
           color: #ff0000 !important;
           background-color: #00ff00 !important;
           border: 1px solid blue !important;
+        }
+
+        /* Arrow animation for dropdown */
+        .menu-link-with-dropdown {
+          position: relative;
+        }
+
+        .menu-link-with-dropdown a {
+          position: relative;
+        }
+
+        .dropdown-arrow {
+          position: absolute;
+          right: -15px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0;
+          height: 0;
+          border-left: 8px solid #ffffff;
+          border-top: 6px solid transparent;
+          border-bottom: 6px solid transparent;
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+          pointer-events: none;
+          z-index: 10004;
+        }
+
+        .menu-link-with-dropdown:hover .dropdown-arrow {
+          opacity: 1;
+          right: -30px;
         }
 
         /* Additional override using CSS custom property */
@@ -1228,6 +1258,7 @@ const Navigation = () => {
                         }}
                       >
                         {item.label}
+                        {item.hasDropdown && <div className="dropdown-arrow"></div>}
                       </Link>
                       {item.hasDropdown && (
                         <div 
