@@ -215,9 +215,10 @@ const HeroSlider = () => {
        text-align: center;
      `;
          const titleH1 = document.createElement("h1");
+         const fontSize = (slideData.title === "NOC Services" || slideData.title === "Design, Deploy, Support") ? "7.5vw" : "8.5vw";
            titleH1.style.cssText = `
         text-transform: uppercase;
-        font-size: 8.5vw;
+        font-size: ${fontSize};
         font-weight: 700;
         line-height: 1;
         display: flex;
@@ -225,6 +226,8 @@ const HeroSlider = () => {
         justify-content: center;
         align-items: center;
         gap: 0.05em;
+        -webkit-text-stroke: 2px white;
+        color: transparent;
       `;
     
          // Split title into words and characters
@@ -314,13 +317,13 @@ const HeroSlider = () => {
         
         titleH1.appendChild(secondLineDiv);
              } else if (slideData.title === "Design, Deploy, Support") {
-         // Special handling for the second slide to split "Design, Deploy, Support"
-         // First line: "Design,"
+         // Special handling for the second slide - display "Design, Deploy, Support" in two lines
+         // First line: "Design, Deploy,"
          const firstLineDiv = document.createElement("div");
          firstLineDiv.style.display = "flex";
          firstLineDiv.style.justifyContent = "center";
          
-         ["Design,"].forEach((word) => {
+         ["Design,", "Deploy,"].forEach((word, wordIndex) => {
            const wordDiv = document.createElement("div");
            wordDiv.className = "word";
            wordDiv.style.display = "flex";
@@ -343,16 +346,25 @@ const HeroSlider = () => {
            });
            
            firstLineDiv.appendChild(wordDiv);
+           
+           // Add space between words (except after the last word)
+           if (wordIndex < 1) {
+             const spaceWord = document.createElement("div");
+             spaceWord.className = "word";
+             spaceWord.style.display = "flex";
+             spaceWord.innerHTML = '<div class="char" style="display: block;"><span style="display: inline-block; will-change: transform; position: relative; width: 0.3em;"> </span></div>';
+             firstLineDiv.appendChild(spaceWord);
+           }
          });
          
          titleH1.appendChild(firstLineDiv);
          
-         // Second line: "Deploy,"
+         // Second line: "Support"
          const secondLineDiv = document.createElement("div");
          secondLineDiv.style.display = "flex";
          secondLineDiv.style.justifyContent = "center";
          
-         ["Deploy,"].forEach((word) => {
+         ["Support"].forEach((word) => {
            const wordDiv = document.createElement("div");
            wordDiv.className = "word";
            wordDiv.style.display = "flex";
@@ -378,38 +390,6 @@ const HeroSlider = () => {
          });
          
          titleH1.appendChild(secondLineDiv);
-         
-         // Third line: "Support"
-         const thirdLineDiv = document.createElement("div");
-         thirdLineDiv.style.display = "flex";
-         thirdLineDiv.style.justifyContent = "center";
-         
-         ["Support"].forEach((word) => {
-           const wordDiv = document.createElement("div");
-           wordDiv.className = "word";
-           wordDiv.style.display = "flex";
-           
-           [...word].forEach((char) => {
-             const charDiv = document.createElement("div");
-             charDiv.className = "char";
-             charDiv.style.display = "block";
-             
-             const charSpan = document.createElement("span");
-             charSpan.style.cssText = `
-               display: inline-block;
-               will-change: transform;
-               position: relative;
-             `;
-             charSpan.textContent = char;
-             
-             charDiv.appendChild(charSpan);
-             wordDiv.appendChild(charDiv);
-           });
-           
-           thirdLineDiv.appendChild(wordDiv);
-         });
-         
-         titleH1.appendChild(thirdLineDiv);
                } else if (slideData.title === "Field Engineering") {
           // Special handling for the third slide to split "Field Engineering"
           // First line: "Field"
@@ -615,13 +595,12 @@ const HeroSlider = () => {
           
           titleH1.appendChild(secondLineDiv);
         } else if (slideData.title === "NOC Services") {
-          // Special handling for the sixth slide to split "NOC Services"
-          // First line: "NOC"
-          const firstLineDiv = document.createElement("div");
-          firstLineDiv.style.display = "flex";
-          firstLineDiv.style.justifyContent = "center";
+          // Special handling for the sixth slide - display "NOC Services" in one line
+          const singleLineDiv = document.createElement("div");
+          singleLineDiv.style.display = "flex";
+          singleLineDiv.style.justifyContent = "center";
           
-          ["NOC"].forEach((word) => {
+          ["NOC", "Services"].forEach((word, wordIndex) => {
             const wordDiv = document.createElement("div");
             wordDiv.className = "word";
             wordDiv.style.display = "flex";
@@ -643,42 +622,19 @@ const HeroSlider = () => {
               wordDiv.appendChild(charDiv);
             });
             
-            firstLineDiv.appendChild(wordDiv);
+            singleLineDiv.appendChild(wordDiv);
+            
+            // Add space between words (except after the last word)
+            if (wordIndex < 1) {
+              const spaceWord = document.createElement("div");
+              spaceWord.className = "word";
+              spaceWord.style.display = "flex";
+              spaceWord.innerHTML = '<div class="char" style="display: block;"><span style="display: inline-block; will-change: transform; position: relative; width: 0.3em;"> </span></div>';
+              singleLineDiv.appendChild(spaceWord);
+            }
           });
           
-          titleH1.appendChild(firstLineDiv);
-          
-          // Second line: "Services"
-          const secondLineDiv = document.createElement("div");
-          secondLineDiv.style.display = "flex";
-          secondLineDiv.style.justifyContent = "center";
-          
-          ["Services"].forEach((word) => {
-            const wordDiv = document.createElement("div");
-            wordDiv.className = "word";
-            wordDiv.style.display = "flex";
-            
-            [...word].forEach((char) => {
-              const charDiv = document.createElement("div");
-              charDiv.className = "char";
-              charDiv.style.display = "block";
-              
-              const charSpan = document.createElement("span");
-              charSpan.style.cssText = `
-                display: inline-block;
-                will-change: transform;
-                position: relative;
-              `;
-              charSpan.textContent = char;
-              
-              charDiv.appendChild(charSpan);
-              wordDiv.appendChild(charDiv);
-            });
-            
-            secondLineDiv.appendChild(wordDiv);
-          });
-          
-          titleH1.appendChild(secondLineDiv);
+          titleH1.appendChild(singleLineDiv);
      } else {
        // Regular handling for other slides
        words.forEach((word, wordIndex) => {
@@ -725,11 +681,15 @@ const HeroSlider = () => {
                            // Adjust positioning based on slide title
         let topPosition = "60%";
         if (slideData.title === "Engineering a Digital Future") {
-          topPosition = "65%"; // Lower position for first slide
+          topPosition = "70%"; // Lower position for first slide
         } else if (slideData.title === "Design, Deploy, Support") {
           topPosition = "75%"; // Lower position for 3-line title
         } else if (slideData.title === "Field Engineering") {
-          topPosition = "65%"; // Lower position for Field Engineering
+          topPosition = "70%"; // Lower position for Field Engineering
+        } else if (slideData.title === "Survey & Design") {
+          topPosition = "70%"; // Lower position for Survey & Design
+        } else if (slideData.title === "Indigo Subsea") {
+          topPosition = "70%"; // Lower position for Indigo Subsea
         }
       
       descriptionDiv.style.cssText = `
@@ -737,7 +697,7 @@ const HeroSlider = () => {
         top: ${topPosition};
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 40%;
+        width: ${slideData.title === "Design, Deploy, Support" ? "60%" : "55%"};
         display: flex;
         flex-direction: column;
         gap: 2rem;
@@ -746,7 +706,11 @@ const HeroSlider = () => {
     
                // Main description paragraph
       const descP = document.createElement("p");
-      descP.style.fontSize = "1.2rem";
+      const descFontSize = (slideData.title === "Engineering a Digital Future" || slideData.title === "Design, Deploy, Support" || slideData.title === "NOC Services" || slideData.title === "Field Engineering" || slideData.title === "Survey & Design" || slideData.title === "Indigo Subsea") ? "1.6rem" : "1.2rem";
+      descP.style.fontSize = descFontSize;
+      descP.style.lineHeight = "1.6";
+      descP.style.letterSpacing = "0.02em";
+      descP.style.wordSpacing = "0.1em";
       descP.textContent = slideData.description;
      descriptionDiv.appendChild(descP);
 
@@ -760,9 +724,9 @@ const HeroSlider = () => {
     const currentContent = document.querySelector(".slider-content");
     const slider = sliderRef.current;
 
-    const timeline = gsap.timeline();
-
-    timeline
+         const timeline = gsap.timeline();
+ 
+     timeline
       .to([...currentContent.querySelectorAll(".char span")], {
         y: "-100%",
         duration: 0.6,
@@ -799,6 +763,10 @@ const HeroSlider = () => {
             // Set initial positions
             gsap.set([newChars, newLines], { y: "100%" });
             gsap.set(newContent, { opacity: 1 });
+            
+            // Set initial position for paragraph (hidden)
+            const newParagraph = newContent.querySelector(".slide-description p");
+            gsap.set(newParagraph, { opacity: 0, y: 20 });
 
             // Animate the new content in
             gsap
@@ -818,6 +786,16 @@ const HeroSlider = () => {
                 newLines,
                 { y: "0%", duration: 0.5, stagger: 0.1, ease: "power2.inOut" },
                 0.3
+              )
+              .to(
+                newParagraph,
+                { 
+                  opacity: 1, 
+                  y: 0, 
+                  duration: 0.8, 
+                  ease: "power2.out" 
+                },
+                0.6
               );
           }, 100);
         },
@@ -835,9 +813,11 @@ const HeroSlider = () => {
     // Get all character and line spans
     const chars = content.querySelectorAll(".char span");
     const lines = content.querySelectorAll(".line span");
+    const paragraph = content.querySelector(".slide-description p");
 
     // Set initial position
     gsap.set([chars, lines], { y: "100%" });
+    gsap.set(paragraph, { opacity: 0, y: 20 });
 
     // Animate characters in
     gsap.to(chars, {
@@ -854,6 +834,15 @@ const HeroSlider = () => {
       stagger: 0.025,
       ease: "power2.out",
       delay: 0.2
+    });
+
+    // Animate paragraph in after heading animation
+    gsap.to(paragraph, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      delay: 0.8
     });
   };
 
@@ -1139,14 +1128,16 @@ const HeroSlider = () => {
          >
                                  <h1 style={{
               textTransform: 'uppercase',
-              fontSize: '8.5vw',
+              fontSize: '7.5vw',
               fontWeight: 700,
               lineHeight: 1,
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              gap: '0.05em'
+              gap: '0.05em',
+              WebkitTextStroke: '2px white',
+              color: 'transparent'
             }}>
              {/* First line: "Engineering a" */}
              <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -1187,7 +1178,7 @@ const HeroSlider = () => {
                </div>
                <div className="word" style={{ display: 'flex' }}>
                  <div className="char" style={{ display: 'block' }}>
-                   <span style={{ display: 'inline-block', willChange: 'transform', position: 'relative' }}> </span>
+                   <span style={{ display: 'inline-block', willChange: 'transform', position: 'relative', width: '0.3em' }}> </span>
                  </div>
                </div>
                <div className="word" style={{ display: 'flex' }}>
@@ -1223,7 +1214,7 @@ const HeroSlider = () => {
                </div>
                <div className="word" style={{ display: 'flex' }}>
                  <div className="char" style={{ display: 'block' }}>
-                   <span style={{ display: 'inline-block', willChange: 'transform', position: 'relative' }}> </span>
+                   <span style={{ display: 'inline-block', willChange: 'transform', position: 'relative', width: '0.3em' }}> </span>
                  </div>
                </div>
                <div className="word" style={{ display: 'flex' }}>
@@ -1253,17 +1244,22 @@ const HeroSlider = () => {
            className="slide-description"
                        style={{
               position: 'absolute',
-              top: '60%',
+              top: '70%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '40%',
+              width: '55%',
               display: 'flex',
               flexDirection: 'column',
               gap: '2rem',
               textAlign: 'center'
             }}
          >
-                                 <p style={{ fontSize: '1.2rem' }}>
+                                 <p style={{ 
+              fontSize: '1.6rem',
+              lineHeight: '1.6',
+              letterSpacing: '0.02em',
+              wordSpacing: '0.1em'
+            }}>
               We design, deploy, and support digital infrastructure to maximise value in fixed line, subsea, data centres and wireless networks.
             </p>
         </div>

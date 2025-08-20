@@ -21,7 +21,7 @@ export default function Home() {
     <div className="overflow-x-hidden">
       <BackgroundMusic audioSrc="/music/bg_music.mp3" />
 
-      <Hero />
+      {/* <Hero /> */}
 
       {/* Hero Slider */}
       <HeroSlider />
