@@ -50,12 +50,12 @@ const Navigation = () => {
       label: 'Solutions',
       hasDropdown: true,
       dropdownItems: [
-        { href: '/solutions/fixedline', label: 'Fixed\u00A0line' },
-        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
-        { href: '/solutions/data-centres', label: 'Data\u00A0Centres' },
-        { href: '/solutions/wireless', label: 'Wireless' },
-        { href: '/solutions/network', label: 'Network\u00A0Services' },
-        { href: '/solutions/noc', label: 'NOC' }
+        { href: '/solutions2/fixedline', label: 'Fixed\u00A0line' },
+        { href: '/solutions2/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
+        { href: '/solutions2/data-centres', label: 'Data\u00A0Centres' },
+        { href: '/solutions2/wireless', label: 'Wireless' },
+        { href: '/solutions2/network', label: 'Network\u00A0Services' },
+        { href: '/solutions2/noc', label: 'NOC' }
       ]
     },
     { href: '/work-with-us', label: 'Work With Us' },
