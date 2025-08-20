@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -1000,7 +1001,9 @@ export default function Solutions2() {
                   </p>
                 </div>
                 <div className="card-button">
-                  <button>Explore</button>
+                  <Link href="/solutions/fixedline">
+                    <button>Explore</button>
+                  </Link>
                 </div>
               </div>
               <div className="card-img">
@@ -1021,7 +1024,9 @@ export default function Solutions2() {
                   </p>
                 </div>
                 <div className="card-button">
-                  <button>Explore</button>
+                  <Link href="/solutions/subsea">
+                    <button>Explore</button>
+                  </Link>
                 </div>
               </div>
               <div className="card-img">
@@ -1042,7 +1047,9 @@ export default function Solutions2() {
                   </p>
                 </div>
                 <div className="card-button">
-                  <button>Explore</button>
+                  <Link href="/solutions/data-centres">
+                    <button>Explore</button>
+                  </Link>
                 </div>
               </div>
               <div className="card-img">
@@ -1063,7 +1070,9 @@ export default function Solutions2() {
                   </p>
                 </div>
                 <div className="card-button">
-                  <button>Explore</button>
+                  <Link href="/solutions/wireless">
+                    <button>Explore</button>
+                  </Link>
                 </div>
               </div>
               <div className="card-img">
@@ -1084,11 +1093,35 @@ export default function Solutions2() {
                   </p>
                 </div>
                 <div className="card-button">
-                  <button>Explore</button>
+                  <Link href="/solutions/noc">
+                    <button>Explore</button>
+                  </Link>
                 </div>
               </div>
               <div className="card-img">
                 <Image src="/solutions/card-images-5.jpg" alt="Floating Shelter" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-wrapper">
+              <div className="card-content">
+                <div className="card-title">
+                  <h1>Network Services</h1>
+                </div>
+                <div className="card-description">
+                  <p>
+                    Minimize outage times and keep society collaborating 24x7x365
+                  </p>
+                </div>
+                <div className="card-button">
+                  <Link href="/solutions/network">
+                    <button>Explore</button>
+                  </Link>
+                </div>
+              </div>
+              <div className="card-img">
+                <Image src="/solutions/network.png" alt="Floating Shelter" fill style={{ objectFit: 'cover' }} />
               </div>
             </div>
           </div>
@@ -1101,12 +1134,14 @@ export default function Solutions2() {
               <p>
                 If you want to know more about how we can design, deploy and support your network and infrastructure, get in touch.
               </p>
-              <button className="contact-button">
-                Contact us
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
+              <Link href="/get-in-touch">
+                <button className="contact-button">
+                  Contact us
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </Link>
             </div>
           </div>
         </section>
