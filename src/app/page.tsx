@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "./components/Hero";
+import HeroSlider from "./components/HeroSlider";
 import EbookPromo from "./components/EbookPromo";
 import ConnectedSolutions from "./components/ConnectedSolutions";
 import IndigoOverview from "./components/IndigoOverview";
@@ -21,7 +22,10 @@ export default function Home() {
     <div className="overflow-x-hidden">
       <BackgroundMusic audioSrc="/music/bg_music.mp3" />
 
-      <Hero />
+      {/* <Hero /> */}
+
+      {/* Hero Slider */}
+      <HeroSlider />
 
       {/* Ebook Promo */}
       <EbookPromo />
