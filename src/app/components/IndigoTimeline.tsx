@@ -50,11 +50,138 @@ const IndigoTimeline = () => {
   const [videoTransitionComplete, setVideoTransitionComplete] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
   const countAnimationStartedRef = useRef(false);
+  const [animationKey, setAnimationKey] = useState(0); // Force re-render key
+  const typewriterIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const countIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasTriggeredAnimationsRef = useRef(false);
+  const [animationsRunning, setAnimationsRunning] = useState(false);
 
   // Mount effect to prevent hydration issues
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Scroll prevention functions
+  const preventScroll = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
+
+  const disableScroll = () => {
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('wheel', preventScroll, { passive: false });
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+    document.addEventListener('keydown', (e) => {
+      if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
+        e.preventDefault();
+      }
+    });
+  };
+
+  const enableScroll = () => {
+    document.body.style.overflow = '';
+    document.removeEventListener('wheel', preventScroll);
+    document.removeEventListener('touchmove', preventScroll);
+    document.removeEventListener('keydown', preventScroll);
+  };
+
+  // Manual animation functions
+  const startTypewriterAnimation = () => {
+    if (!typewriterTextRef.current || hasTriggeredAnimationsRef.current) return;
+    
+    hasTriggeredAnimationsRef.current = true;
+    setAnimationsRunning(true);
+    
+    const text = "Celebrating Indigo";
+    typewriterTextRef.current.textContent = "";
+    setTypewriterComplete(false);
+    
+    let index = 0;
+    typewriterIntervalRef.current = setInterval(() => {
+      if (index < text.length && typewriterTextRef.current) {
+        index++;
+        typewriterTextRef.current.textContent = text.slice(0, index);
+      } else {
+        if (typewriterIntervalRef.current) {
+          clearInterval(typewriterIntervalRef.current);
+          typewriterIntervalRef.current = null;
+        }
+        setTypewriterComplete(true);
+        startCountAnimation();
+      }
+    }, 150);
+  };
+
+  const startCountAnimation = () => {
+    if (countAnimationStartedRef.current) return;
+    
+    countAnimationStartedRef.current = true;
+    let currentCount = 0;
+    setCurrentNumber(0);
+    
+    countIntervalRef.current = setInterval(() => {
+      if (currentCount <= 25) {
+        setCurrentNumber(currentCount);
+        if (currentCount === 25 && !confettiTriggered) {
+          setConfettiTriggered(true);
+          setTimeout(() => {
+            if (!window.confetti) {
+              const script = document.createElement("script");
+              script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js";
+              script.async = true;
+              script.onload = () => {
+                if (window.confetti) {
+                  triggerConfetti();
+                }
+              };
+              document.body.appendChild(script);
+            } else {
+              triggerConfetti();
+            }
+          }, 200);
+        }
+        currentCount++;
+      } else {
+        if (countIntervalRef.current) {
+          clearInterval(countIntervalRef.current);
+          countIntervalRef.current = null;
+        }
+        // Re-enable scrolling when all animations complete
+        setAnimationsRunning(false);
+        enableScroll();
+      }
+    }, 100);
+  };
+
+  const resetAllAnimations = () => {
+    // Clear any running intervals
+    if (typewriterIntervalRef.current) {
+      clearInterval(typewriterIntervalRef.current);
+      typewriterIntervalRef.current = null;
+    }
+    if (countIntervalRef.current) {
+      clearInterval(countIntervalRef.current);
+      countIntervalRef.current = null;
+    }
+    
+    // Reset all states
+    setVideoTransitionComplete(false);
+    setTypewriterComplete(false);
+    setCurrentNumber(0);
+    setConfettiTriggered(false);
+    countAnimationStartedRef.current = false;
+    hasTriggeredAnimationsRef.current = false;
+    setAnimationsRunning(false);
+    
+    // Re-enable scrolling when resetting
+    enableScroll();
+    
+    // Clear typewriter text
+    if (typewriterTextRef.current) {
+      typewriterTextRef.current.textContent = "";
+    }
+  };
 
   useEffect(() => {
     let scrollTriggerInstance: any;
@@ -204,17 +331,24 @@ const IndigoTimeline = () => {
             opacity: containerOpacity
           });
 
-          // New section appears when video transition is complete (no fade in from left)
-          const newSectionOpacity = progress >= 0.9 ? 1 : 0;
+          // New section appears when video transition is nearly complete with smooth fade
+          const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
           
           window.gsap.set(newSectionRef.current, {
             opacity: newSectionOpacity,
             x: 0 // No horizontal movement
           });
 
-          // Mark video transition as complete when we reach 90%
-          if (progress >= 0.9 && !videoTransitionComplete) {
+          // Start animations when we reach 100% (video transition fully complete)
+          if (progress >= 1.0 && !hasTriggeredAnimationsRef.current) {
             setVideoTransitionComplete(true);
+            disableScroll(); // Disable scrolling exactly when video transition is 100% complete
+            startTypewriterAnimation();
+          }
+          
+          // Reset animations when scrolling backwards below 85% (with some buffer)
+          if (progress < 0.85 && hasTriggeredAnimationsRef.current) {
+            resetAllAnimations();
           }
 
 
@@ -237,64 +371,19 @@ const IndigoTimeline = () => {
     };
   }, [isMounted]);
 
-  // Automatic typewriter animation when video transition completes
+  // Cleanup function for manual animations and scroll listeners
   useEffect(() => {
-    if (videoTransitionComplete && isMounted && typewriterTextRef.current) {
-      const text = "Celebrating Indigo";
-      typewriterTextRef.current.textContent = "";
-      
-      let index = 0;
-      const typeInterval = setInterval(() => {
-        if (index < text.length) {
-          index++;
-          typewriterTextRef.current!.textContent = text.slice(0, index);
-        } else {
-          clearInterval(typeInterval);
-          setTypewriterComplete(true);
-        }
-      }, 150); // Adjust speed as needed
-
-      return () => clearInterval(typeInterval);
-    }
-  }, [videoTransitionComplete, isMounted]);
-
-  // Automatic count animation when typewriter completes
-  useEffect(() => {
-    if (typewriterComplete && isMounted && !countAnimationStartedRef.current) {
-      countAnimationStartedRef.current = true;
-      let currentCount = 0;
-      const countInterval = setInterval(() => {
-        if (currentCount <= 25) {
-          setCurrentNumber(currentCount);
-          if (currentCount === 25 && !confettiTriggered) {
-            setConfettiTriggered(true);
-            // Trigger confetti when count reaches 25
-            setTimeout(() => {
-              // Load confetti script if not already loaded
-              if (!window.confetti) {
-                const script = document.createElement("script");
-                script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js";
-                script.async = true;
-                script.onload = () => {
-                  if (window.confetti) {
-                    triggerConfetti();
-                  }
-                };
-                document.body.appendChild(script);
-              } else {
-                triggerConfetti();
-              }
-            }, 200);
-          }
-          currentCount++;
-        } else {
-          clearInterval(countInterval);
-        }
-      }, 100); // Adjust speed as needed
-
-      return () => clearInterval(countInterval);
-    }
-  }, [typewriterComplete, isMounted]);
+    return () => {
+      if (typewriterIntervalRef.current) {
+        clearInterval(typewriterIntervalRef.current);
+      }
+      if (countIntervalRef.current) {
+        clearInterval(countIntervalRef.current);
+      }
+      // Ensure scrolling is re-enabled on unmount
+      enableScroll();
+    };
+  }, []);
 
   // Confetti function
   const triggerConfetti = () => {
@@ -523,20 +612,22 @@ const IndigoTimeline = () => {
           </div>
           
           {/* Number and Years Section */}
-          <div className="text-center">
-            <div className="flex flex-col items-center space-y-2">
-              <span 
-                ref={numberRef}
-                className="text-8xl md:text-9xl lg:text-[12rem] font-black text-[#140079] leading-none counter-number display-block font-roboto"
-                style={{ lineHeight: '0.8' }}
-              >
-                {isMounted ? currentNumber : 0}
-              </span>
-              <span className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
-                YEARS
-              </span>
+          {typewriterComplete && (
+            <div className="text-center">
+              <div className="flex flex-col items-center space-y-2">
+                <span 
+                  ref={numberRef}
+                  className="text-8xl md:text-9xl lg:text-[12rem] font-black text-[#140079] leading-none counter-number display-block font-roboto"
+                  style={{ lineHeight: '0.8' }}
+                >
+                  {isMounted ? currentNumber : 0}
+                </span>
+                <span className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
+                  YEARS
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
