@@ -13,6 +13,7 @@ const Navigation = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   const lastScrollY = useRef(0);
@@ -33,7 +34,16 @@ const Navigation = () => {
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/who-we-are', label: 'Who We Are' },
-    { href: '/our-services', label: 'Our Services' },
+    { 
+      href: '/our-services', 
+      label: 'Our Services',
+      hasDropdown: true,
+      dropdownItems: [
+        { href: '/solutions2/design', label: 'Design' },
+        { href: '/solutions2/deploy', label: 'Deploy' },
+        { href: '/solutions2/support', label: 'Support' }
+      ]
+    },
     { href: '/solutions2', label: 'Solutions' },
     { href: '/work-with-us', label: 'Work With Us' },
     { href: '/success-stories', label: 'Success Stories' },
@@ -405,6 +415,7 @@ const Navigation = () => {
           --menu-bg: #000000;
           --menu-fg-secondary: #5f5f5f;
           --hamburger-icon-border: rgba(255, 255, 255, 0.1);
+          --dropdown-font-size: 0.3em;
         }
 
         :global(#page-content) {
@@ -898,6 +909,100 @@ const Navigation = () => {
           opacity: 1;
         }
 
+        /* Dropdown styles */
+        .menu-link-with-dropdown {
+          position: relative;
+        }
+
+        .menu-dropdown {
+          position: absolute;
+          top: 0%;
+          left: 60%;
+          background-color: var(--menu-bg);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 0.5rem;
+          padding: 0.2rem 0;
+          min-width: 120px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+          z-index: 10003;
+        }
+
+        .menu-dropdown.open {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .menu-dropdown-item {
+          padding: 0.1rem 0.5rem;
+          transition: background-color 0.2s ease;
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-dropdown-item:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+          text-decoration: none;
+          position: relative;
+          display: inline-block;
+        }
+
+        /* Maximum specificity selectors to override global styles */
+        .menu-overlay .menu-dropdown .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+        }
+
+        /* Override global menu-link styles for dropdown items */
+        .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+        }
+
+        /* Maximum specificity override */
+        nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+          font-size: 0px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ff0000 !important;
+          background-color: #00ff00 !important;
+          border: 1px solid blue !important;
+        }
+
+        /* Additional override using CSS custom property */
+        .menu-dropdown-item a {
+          font-size: 10px !important;
+        }
+
+        /* Underline animation for dropdown items */
+        .menu-dropdown-item a::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.15em;
+          width: 0%;
+          height: 2px;
+          background-color: #ffffff;
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        .menu-dropdown-item a:hover::after {
+          width: 100%;
+        }
+
         .line {
           position: relative;
           will-change: transform;
@@ -1015,6 +1120,32 @@ const Navigation = () => {
           .menu-tag a {
             font-size: 1.25rem;
           }
+
+          /* Mobile dropdown styles */
+          .menu-dropdown {
+            position: static;
+            background-color: transparent;
+            border: none;
+            padding: 0.5rem 0 0.5rem 2rem;
+            min-width: auto;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            transition: none;
+          }
+
+          .menu-dropdown-item {
+            padding: 0.1rem 0;
+          }
+
+          .menu-dropdown-item a {
+            font-size: 10px !important;
+          }
+
+          /* Mobile maximum specificity override */
+          nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+            font-size: 10px !important;
+          }
         }
       `}</style>
 
@@ -1070,12 +1201,22 @@ const Navigation = () => {
               <div className="menu-content-main" ref={copyContainersRef}>
                 <div className="menu-col">
                   {navItems.map((item, index) => (
-                    <div key={index} className="menu-link">
+                    <div key={index} className={`menu-link ${item.hasDropdown ? 'menu-link-with-dropdown' : ''}`}>
                       <Link 
                         href={item.href}
                         onClick={() => {
                           if (isMenuOpen) {
                             handleMenuToggle();
+                          }
+                        }}
+                        onMouseEnter={() => {
+                          if (item.hasDropdown && !isMobile) {
+                            setServicesDropdownOpen(true);
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          if (item.hasDropdown && !isMobile) {
+                            setServicesDropdownOpen(false);
                           }
                         }}
                         style={{
@@ -1088,6 +1229,49 @@ const Navigation = () => {
                       >
                         {item.label}
                       </Link>
+                      {item.hasDropdown && (
+                        <div 
+                          className={`menu-dropdown ${servicesDropdownOpen ? 'open' : ''}`}
+                          onMouseEnter={() => {
+                            if (!isMobile) {
+                              setServicesDropdownOpen(true);
+                            }
+                          }}
+                          onMouseLeave={() => {
+                            if (!isMobile) {
+                              setServicesDropdownOpen(false);
+                            }
+                          }}
+                        >
+                          {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
+                            <div key={dropdownIndex} className="menu-dropdown-item">
+                              <Link 
+                                href={dropdownItem.href}
+                                onClick={() => {
+                                  if (isMenuOpen) {
+                                    handleMenuToggle();
+                                  }
+                                  setServicesDropdownOpen(false);
+                                }}
+                                style={{
+                                  fontSize: '16px',
+                                  fontWeight: '500',
+                                  lineHeight: '1.2',
+                                  color: '#ffffff',
+                                  textDecoration: 'none',
+                                  backgroundColor: 'transparent',
+                                  padding: '0px',
+                                  border: 'none',
+                                  transform: 'scale(0.4)',
+                                  transformOrigin: 'left center'
+                                }}
+                                                              >
+                                {dropdownItem.label}
+                              </Link>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                   {menuTags.map((tag, index) => (
