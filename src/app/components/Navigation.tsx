@@ -13,6 +13,9 @@ const Navigation = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   const lastScrollY = useRef(0);
@@ -33,8 +36,29 @@ const Navigation = () => {
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/who-we-are', label: 'Who We Are' },
-    { href: '/our-services', label: 'Our Services' },
-    { href: '/solutions2', label: 'Solutions' },
+    { 
+      href: '/our-services', 
+      label: 'Our Services',
+      hasDropdown: true,
+      dropdownItems: [
+        { href: '/solutions2/design', label: 'Design' },
+        { href: '/solutions2/deploy', label: 'Deploy' },
+        { href: '/solutions2/support', label: 'Support' }
+      ]
+    },
+    { 
+      href: '/solutions2', 
+      label: 'Solutions',
+      hasDropdown: true,
+      dropdownItems: [
+        { href: '/solutions/fixedline', label: 'Fixed\u00A0line' },
+        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
+        { href: '/solutions/data-centres', label: 'Data\u00A0Centres' },
+        { href: '/solutions/wireless', label: 'Wireless' },
+        { href: '/solutions/network', label: 'Network\u00A0Services' },
+        { href: '/solutions/noc', label: 'NOC' }
+      ]
+    },
     { href: '/work-with-us', label: 'Work With Us' },
     { href: '/success-stories', label: 'Success Stories' },
     { href: '/newsPage', label: 'News' },
@@ -237,7 +261,7 @@ const Navigation = () => {
             duration: 0.5,
             ease: "power2.out",
           },
-          "-=0.75"
+          "-=1.2"
         );
       }
 
@@ -250,24 +274,22 @@ const Navigation = () => {
             opacity: 1,
             duration: 0.75,
             ease: "power2.out",
-            delay: 0.5,
           },
-          "-=0.5"
+          "-=0.75"
         );
       }
 
-      // Animate the menu text
-      splitTextByContainerRef.current.forEach((containerSplits) => {
-        const copyLines = containerSplits.flatMap((split) => split.lines);
+      // Animate the menu text by containers
+      splitTextByContainerRef.current.forEach((containerSplits, containerIndex) => {
+        const lines = containerSplits.flatMap((split) => split.lines);
         tl.to(
-          copyLines,
+          lines,
           {
             y: "0%",
-            duration: 1.2,
+            duration: 0.8,
             ease: "hop",
-            stagger: -0.05,
           },
-          "-=0.5"
+          `-=${0.8 - (containerIndex * 0.15)}`
         );
       });
 
@@ -280,7 +302,7 @@ const Navigation = () => {
             duration: 0.5,
             ease: "power2.out",
           },
-          "-=1"
+          "-=1.2"
         );
       }
 
@@ -326,16 +348,30 @@ const Navigation = () => {
         );
       }
 
-      // Fade out overlay content (faster)
+      // Animate the menu text out by containers
+      splitTextByContainerRef.current.forEach((containerSplits, containerIndex) => {
+        const lines = containerSplits.flatMap((split) => split.lines);
+        tl.to(
+          lines,
+          {
+            y: "-110%",
+            duration: 0.8,
+            ease: "hop",
+          },
+          `-=${0.8 - (containerIndex * 0.15)}`
+        );
+      });
+
+      // Fade out overlay content
       if (menuOverlayContainerRef.current) {
         tl.to(
           menuOverlayContainerRef.current,
           {
             opacity: 0,
-            duration: 0.1,
+            duration: 0.6,
             ease: "power2.inOut",
           },
-          "-=0.9"
+          "-=0.6"
         );
       }
 
@@ -405,6 +441,7 @@ const Navigation = () => {
           --menu-bg: #000000;
           --menu-fg-secondary: #5f5f5f;
           --hamburger-icon-border: rgba(255, 255, 255, 0.1);
+          --dropdown-font-size: 0.3em;
         }
 
         :global(#page-content) {
@@ -650,6 +687,7 @@ const Navigation = () => {
           background-color: var(--menu-bg);
           clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
           will-change: clip-path;
+          transition: clip-path 0.6s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
         .menu-overlay::before {
@@ -707,6 +745,7 @@ const Navigation = () => {
           position: relative;
           z-index: 1;
           opacity: 0; /* start hidden for fade-in */
+          transition: opacity 0.4s cubic-bezier(0.87, 0, 0.13, 1), transform 0.6s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
         .menu-media-wrapper {
@@ -898,6 +937,119 @@ const Navigation = () => {
           opacity: 1;
         }
 
+        /* Dropdown styles */
+        .menu-link-with-dropdown {
+          position: relative;
+        }
+
+        .menu-dropdown {
+          position: absolute;
+          top: 0%;
+          left: 65%;
+          background-color: var(--menu-bg);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 0.5rem;
+          padding: 0.2rem 0;
+          min-width: 120px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+          z-index: 10003;
+        }
+
+
+
+        .menu-dropdown.open {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        /* Specific width for Solutions dropdown */
+        .solutions-dropdown {
+          width: 250px;
+          left: 70%;
+          // min-width: 200px;
+          // max-width: 200px;
+        }
+
+        .menu-dropdown-item {
+          padding: 0.05rem 0.5rem;
+          transition: background-color 0.2s ease;
+          background-color: rgba(255, 255, 255, 0.1);
+          white-space: nowrap !important;
+          overflow: hidden;
+          width: 100%;
+        }
+
+        .menu-dropdown-item:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+          text-decoration: none;
+          position: relative;
+          display: inline-block;
+          white-space: nowrap !important;
+          word-wrap: normal !important;
+          overflow-wrap: normal !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
+
+        /* Maximum specificity selectors to override global styles */
+        .menu-overlay .menu-dropdown .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+        }
+
+        /* Override global menu-link styles for dropdown items */
+        .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+        }
+
+        /* Maximum specificity override */
+        nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+          font-size: 10px !important;
+          font-weight: 500 !important;
+          line-height: 1.2 !important;
+          color: #ffffff !important;
+        }
+
+
+
+        /* Additional override using CSS custom property */
+        .menu-dropdown-item a {
+          font-size: 10px !important;
+        }
+
+        /* Underline animation for dropdown items */
+        .menu-dropdown-item a::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.15em;
+          width: 0%;
+          height: 2px;
+          background-color: #ffffff;
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        .menu-dropdown-item a:hover::after {
+          width: 100%;
+        }
+
         .line {
           position: relative;
           will-change: transform;
@@ -1015,6 +1167,32 @@ const Navigation = () => {
           .menu-tag a {
             font-size: 1.25rem;
           }
+
+          /* Mobile dropdown styles */
+          .menu-dropdown {
+            position: static;
+            background-color: transparent;
+            border: none;
+            padding: 0.5rem 0 0.5rem 2rem;
+            min-width: auto;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            transition: none;
+          }
+
+          .menu-dropdown-item {
+            padding: 0.1rem 0;
+          }
+
+          .menu-dropdown-item a {
+            font-size: 10px !important;
+          }
+
+          /* Mobile maximum specificity override */
+          nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+            font-size: 10px !important;
+          }
         }
       `}</style>
 
@@ -1070,12 +1248,42 @@ const Navigation = () => {
               <div className="menu-content-main" ref={copyContainersRef}>
                 <div className="menu-col">
                   {navItems.map((item, index) => (
-                    <div key={index} className="menu-link">
+                    <div key={index} className={`menu-link ${item.hasDropdown ? 'menu-link-with-dropdown' : ''}`}>
                       <Link 
                         href={item.href}
                         onClick={() => {
                           if (isMenuOpen) {
                             handleMenuToggle();
+                          }
+                        }}
+                        onMouseEnter={() => {
+                          if (item.hasDropdown && !isMobile) {
+                            // Clear any existing timeout
+                            if (dropdownTimeoutRef.current) {
+                              clearTimeout(dropdownTimeoutRef.current);
+                              dropdownTimeoutRef.current = null;
+                            }
+                            
+                            // Close the other dropdown immediately
+                            if (item.label === 'Our Services') {
+                              setSolutionsDropdownOpen(false);
+                              setServicesDropdownOpen(true);
+                            } else if (item.label === 'Solutions') {
+                              setServicesDropdownOpen(false);
+                              setSolutionsDropdownOpen(true);
+                            }
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          if (item.hasDropdown && !isMobile) {
+                            // Add a small delay to prevent immediate closing
+                            dropdownTimeoutRef.current = setTimeout(() => {
+                              if (item.label === 'Our Services') {
+                                setServicesDropdownOpen(false);
+                              } else if (item.label === 'Solutions') {
+                                setSolutionsDropdownOpen(false);
+                              }
+                            }, 250);
                           }
                         }}
                         style={{
@@ -1087,7 +1295,68 @@ const Navigation = () => {
                         }}
                       >
                         {item.label}
+
                       </Link>
+                      {item.hasDropdown && (
+                        <div 
+                          className={`menu-dropdown ${item.label === 'Solutions' ? 'solutions-dropdown' : ''} ${(item.label === 'Our Services' && servicesDropdownOpen) || (item.label === 'Solutions' && solutionsDropdownOpen) ? 'open' : ''}`}
+                          onMouseEnter={() => {
+                            if (!isMobile) {
+                              // Clear the timeout to prevent dropdown from closing
+                              if (dropdownTimeoutRef.current) {
+                                clearTimeout(dropdownTimeoutRef.current);
+                                dropdownTimeoutRef.current = null;
+                              }
+                              if (item.label === 'Our Services') {
+                                setServicesDropdownOpen(true);
+                              } else if (item.label === 'Solutions') {
+                                setSolutionsDropdownOpen(true);
+                              }
+                            }
+                          }}
+                          onMouseLeave={() => {
+                            if (!isMobile) {
+                              if (item.label === 'Our Services') {
+                                setServicesDropdownOpen(false);
+                              } else if (item.label === 'Solutions') {
+                                setSolutionsDropdownOpen(false);
+                              }
+                            }
+                          }}
+                        >
+                          {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
+                            <div key={dropdownIndex} className="menu-dropdown-item">
+                              <Link 
+                                href={dropdownItem.href}
+                                onClick={() => {
+                                  if (isMenuOpen) {
+                                    handleMenuToggle();
+                                  }
+                                  if (item.label === 'Our Services') {
+                                    setServicesDropdownOpen(false);
+                                  } else if (item.label === 'Solutions') {
+                                    setSolutionsDropdownOpen(false);
+                                  }
+                                }}
+                                style={{
+                                  fontSize: '16px',
+                                  fontWeight: '500',
+                                  lineHeight: '1.2',
+                                  color: '#ffffff',
+                                  textDecoration: 'none',
+                                  backgroundColor: 'transparent',
+                                  padding: '0px',
+                                  border: 'none',
+                                  transform: 'scale(0.4)',
+                                  transformOrigin: 'left center'
+                                }}
+                                                              >
+                                {dropdownItem.label}
+                              </Link>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                   {menuTags.map((tag, index) => (
