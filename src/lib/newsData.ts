@@ -27,7 +27,7 @@ export const newsData = [
                     </div>
                 </div>
             `,
-            image: "/news/c1.png",
+            image: "/News/c1.png",
             link: "https://www.indigotg.com/news/the-uk-experience/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -59,7 +59,7 @@ export const newsData = [
                     <p className="text-lg text-gray-700 mb-6">These milestones reflect Indigo's ongoing commitment to delivering exceptional service and maintaining the highest standards in the telecommunications industry.</p>
                 </div>
             `,
-            image: "/news/c2.png",
+            image: "/News/c2.png",
             link: "https://www.indigotg.com/news/indigo-company-achievements-june-2024/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -91,7 +91,7 @@ export const newsData = [
                     <p className="text-lg text-gray-700 mb-6">Read insights from Kathy Kirchner, Network Operations VP for Americas, on how we maintain the backbone of global data traffic.</p>
                 </div>
             `,
-            image: "/news/c3.jpg",
+            image: "/News/c3.jpg",
             link: "https://www.indigotg.com/news/subsea-cable-security/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -118,7 +118,7 @@ export const newsData = [
                 
                 <p>Our ISO recertifications reaffirm Indigo's commitment to excellence, sustainability, security, and safety—empowering your business with the highest standards.</p>
             `,
-            image: "/news/c4.png",
+            image: "/News/c4.png",
             link: "https://www.indigotg.com/news/empowering-business-with-iso-recertifications/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -145,7 +145,7 @@ export const newsData = [
                 
                 <p>This press release highlights Indigo's commitment to advancing subsea security services in alignment with EU recommendations for more resilient marine infrastructure.</p>
             `,
-            image: "/news/c5.png",
+            image: "/News/c5.png",
             link: "https://www.indigotg.com/news/pr-subsea-security-services/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -173,7 +173,7 @@ export const newsData = [
                 
                 <p>Learn about our proactive approach, resilient network management, and compliance with industry standards.</p>
             `,
-            image: "/news/c6.png",
+            image: "/News/c6.png",
             link: "https://www.indigotg.com/news/subsea-cybersecurity-challenge/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -201,7 +201,7 @@ export const newsData = [
                 
                 <p>This recognition highlights our commitment to excellence in field operations and our innovative use of GIS technology in fiber design.</p>
             `,
-            image: "/news/c7.jpg",
+            image: "/News/c7.jpg",
             link: "https://www.indigotg.com/news/indigo-wins-esri-gis-customer-success-award/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -229,7 +229,7 @@ export const newsData = [
                 
                 <p>This conference represents a key opportunity to share knowledge and insights about the future of fiber-to-the-home technology.</p>
             `,
-            image: "/news/c8.jpg",
+            image: "/News/c8.jpg",
             link: "https://www.indigotg.com/news/ftth-conference-2024/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -257,7 +257,7 @@ export const newsData = [
                 
                 <p>Kathy's appointment represents a significant step forward in our commitment to operational excellence in the Americas.</p>
             `,
-            image: "/news/c9.png",
+            image: "/News/c9.png",
             link: "https://www.indigotg.com/news/kathy-kirchner-appointment-network-operations-vp-americas/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -285,7 +285,7 @@ export const newsData = [
                 
                 <p>Understanding the human element is essential for creating truly effective and efficient digital infrastructure solutions.</p>
             `,
-            image: "/news/c10.jpg",
+            image: "/News/c10.jpg",
             link: "https://www.indigotg.com/news/network-engineering-skills-the-human-element/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -313,7 +313,7 @@ export const newsData = [
                 
                 <p>Being shortlisted for this prestigious award demonstrates our leadership in GIS technology and field operations.</p>
             `,
-            image: "/news/c11.jpg",
+            image: "/News/c11.jpg",
             link: "https://www.indigotg.com/news/esri-field-operations-award-2024/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -341,7 +341,7 @@ export const newsData = [
                 
                 <p>Understanding these challenges is crucial for building sustainable talent strategies in the telecommunications sector.</p>
             `,
-            image: "/news/c12.png",
+            image: "/News/c12.png",
             link: "https://www.indigotg.com/news/acquiring-and-retaining-telecoms-expertise/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -369,7 +369,7 @@ export const newsData = [
                 
                 <p>Understanding these infrastructure implications is essential for preparing for the AI-driven future.</p>
             `,
-            image: "/news/c13.jpg",
+            image: "/News/c13.jpg",
             link: "https://www.indigotg.com/news/generative-ai-infrastructure-concerns/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -397,7 +397,7 @@ export const newsData = [
                 
                 <p>Our 25-year journey reflects our unwavering commitment to delivering exceptional telecommunications solutions.</p>
             `,
-            image: "/news/c14.jpg",
+            image: "/News/c14.jpg",
             link: "https://www.indigotg.com/news/celebrating-25-years-of-indigo/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -425,7 +425,7 @@ export const newsData = [
                 
                 <p>Effective traffic management ensures reliable service delivery during critical business periods.</p>
             `,
-            image: "/news/c15.png",
+            image: "/News/c15.png",
             link: "https://www.indigotg.com/news/black-friday-internet-traffic/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -453,7 +453,7 @@ export const newsData = [
                 
                 <p>Our comprehensive approach ensures successful small cell network deployment.</p>
             `,
-            image: "/news/c16.png",
+            image: "/News/c16.png",
             link: "https://www.indigotg.com/news/small-cell-network-deployment-services/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -481,7 +481,7 @@ export const newsData = [
                 
                 <p>Our commitment to safety ensures the well-being of all stakeholders.</p>
             `,
-            image: "/news/c17.png",
+            image: "/News/c17.png",
             link: "https://www.indigotg.com/news/safety-always-comes-first/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -509,7 +509,7 @@ export const newsData = [
                 
                 <p>Our growth strategy addresses the evolving needs of the telecommunications industry.</p>
             `,
-            image: "/news/c18.png",
+            image: "/News/c18.png",
             link: "https://www.indigotg.com/news/new-phase-of-growth/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -540,7 +540,7 @@ export const newsData = [
                 
                 <p>Understanding these challenges is crucial for building sustainable talent strategies in the telecommunications sector.</p>
             `,
-            image: "/news/c12.png",
+            image: "/News/c12.png",
             link: "https://www.indigotg.com/news/acquiring-and-retaining-telecoms-expertise/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -568,7 +568,7 @@ export const newsData = [
                 
                 <p>Understanding these infrastructure implications is essential for preparing for the AI-driven future.</p>
             `,
-            image: "/news/c13.jpg",
+            image: "/News/c13.jpg",
             link: "https://www.indigotg.com/news/generative-ai-infrastructure-concerns/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -596,7 +596,7 @@ export const newsData = [
                 
                 <p>Our 25-year journey reflects our unwavering commitment to delivering exceptional telecommunications solutions.</p>
             `,
-            image: "/news/c14.jpg",
+            image: "/News/c14.jpg",
             link: "https://www.indigotg.com/news/celebrating-25-years-of-indigo/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -624,7 +624,7 @@ export const newsData = [
                 
                 <p>Effective traffic management ensures reliable service delivery during critical business periods.</p>
             `,
-            image: "/news/c15.png",
+            image: "/News/c15.png",
             link: "https://www.indigotg.com/news/black-friday-internet-traffic/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -652,7 +652,7 @@ export const newsData = [
                 
                 <p>Our comprehensive approach ensures successful small cell network deployment.</p>
             `,
-            image: "/news/c16.png",
+            image: "/News/c16.png",
             link: "https://www.indigotg.com/news/small-cell-network-deployment-services/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -680,7 +680,7 @@ export const newsData = [
                 
                 <p>Our commitment to safety ensures the well-being of all stakeholders.</p>
             `,
-            image: "/news/c17.png",
+            image: "/News/c17.png",
             link: "https://www.indigotg.com/news/safety-always-comes-first/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -708,7 +708,7 @@ export const newsData = [
                 
                 <p>Our growth strategy addresses the evolving needs of the telecommunications industry.</p>
             `,
-            image: "/news/c18.png",
+            image: "/News/c18.png",
             link: "https://www.indigotg.com/news/new-phase-of-growth/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -739,7 +739,7 @@ export const newsData = [
                 
                 <p>Our support services maintain the integrity of vital subsea communications infrastructure.</p>
             `,
-            image: "/news/c19.png",
+            image: "/News/c19.png",
             link: "https://www.indigotg.com/news/indigo-support-to-the-amitie-subsea-cable/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -767,7 +767,7 @@ export const newsData = [
                 
                 <p>Fiber Connect 23 provided valuable insights into the future of fiber technology.</p>
             `,
-            image: "/news/c20.jpg",
+            image: "/News/c20.jpg",
             link: "https://www.indigotg.com/news/fiber-connect-23/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -795,7 +795,7 @@ export const newsData = [
                 
                 <p>Rich's appointment represents a key step in our global expansion strategy.</p>
             `,
-            image: "/news/c21.jpg",
+            image: "/News/c21.jpg",
             link: "https://www.indigotg.com/news/rich-hollins-appointment-as-global-operation-director/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -823,7 +823,7 @@ export const newsData = [
                 
                 <p>Our comprehensive approach ensures maximum network reliability and performance.</p>
             `,
-            image: "/news/c22.jpg",
+            image: "/News/c22.jpg",
             link: "https://www.indigotg.com/news/how-to-enhance-network-reliability/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -851,7 +851,7 @@ export const newsData = [
                 
                 <p>Our North America presence enables us to serve multinational clients effectively.</p>
             `,
-            image: "/news/c23.jpg",
+            image: "/News/c23.jpg",
             link: "https://www.indigotg.com/news/indigo-north-america/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -879,7 +879,7 @@ export const newsData = [
                 
                 <p>Our global NOC presence ensures maximum network reliability and uptime.</p>
             `,
-            image: "/news/c24.png",
+            image: "/News/c24.png",
             link: "https://www.indigotg.com/news/maximizing-network-reliability/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -907,7 +907,7 @@ export const newsData = [
                 
                 <p>Ray's visit strengthened our USA presence and relationships.</p>
             `,
-            image: "/news/c25.png",
+            image: "/News/c25.png",
             link: "https://www.indigotg.com/news/indigo-in-the-usa-unleashing-broadband/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -935,7 +935,7 @@ export const newsData = [
                 
                 <p>Our insights contribute to the advancement of sustainable fiber network development.</p>
             `,
-            image: "/news/c26.png",
+            image: "/News/c26.png",
             link: "https://www.indigotg.com/news/fiber-insights-april-2023/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -963,7 +963,7 @@ export const newsData = [
                 
                 <p>Our comprehensive support enables successful digital transformation initiatives.</p>
             `,
-            image: "/news/c27.jpg",
+            image: "/News/c27.jpg",
             link: "https://www.indigotg.com/news/how-we-help-the-telecoms-digital-transformation-journey/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -994,7 +994,7 @@ export const newsData = [
                 
                 <p>Our engineering team ensures reliable and efficient data center operations.</p>
             `,
-            image: "/news/c28.png",
+            image: "/News/c28.png",
             link: "https://www.indigotg.com/news/indigos-data-centre-engineers-are-driving-customers-to-success/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1022,7 +1022,7 @@ export const newsData = [
                 
                 <p>Our partnership with Cambridge MC strengthens our due diligence capabilities.</p>
             `,
-            image: "/news/c29.png",
+            image: "/News/c29.png",
             link: "https://www.indigotg.com/news/partnership-with-cambridge-fibre-due-diligence/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1050,7 +1050,7 @@ export const newsData = [
                 
                 <p>Our enhanced leadership team drives organizational growth and excellence.</p>
             `,
-            image: "/news/c30.png",
+            image: "/News/c30.png",
             link: "https://www.indigotg.com/news/leadership-team-growth/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1078,7 +1078,7 @@ export const newsData = [
                 
                 <p>Our 2022 achievements laid the foundation for continued success.</p>
             `,
-            image: "/news/c31.png",
+            image: "/News/c31.png",
             link: "https://www.indigotg.com/news/indigo-in-2022/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1106,7 +1106,7 @@ export const newsData = [
                 
                 <p>Minister Bowie's visit recognizes our contribution to the telecommunications industry.</p>
             `,
-            image: "/news/c32.png",
+            image: "/News/c32.png",
             link: "https://www.indigotg.com/news/minister-andrew-bowie-visits-indigo/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1134,7 +1134,7 @@ export const newsData = [
                 
                 <p>Our growth rate demonstrates our strong market position and business success.</p>
             `,
-            image: "/news/c33.png",
+            image: "/News/c33.png",
             link: "https://www.indigotg.com/news/fast-growing-firms-on-insider-list/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1165,7 +1165,7 @@ export const newsData = [
                 
                 <p>Understanding data center demand drivers is essential for infrastructure planning.</p>
             `,
-            image: "/news/c34.png",
+            image: "/News/c34.png",
             link: "https://www.indigotg.com/news/whats-driving-data-centre-demand/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1193,7 +1193,7 @@ export const newsData = [
                 
                 <p>Our expertise supports successful fiber rollout initiatives in the UK market.</p>
             `,
-            image: "/news/c35.png",
+            image: "/News/c35.png",
             link: "https://www.indigotg.com/news/risk-and-rewards-of-fibre-roll/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
@@ -1221,7 +1221,7 @@ export const newsData = [
                 
                 <p>Ray's appointment represents a key milestone in our organizational development.</p>
             `,
-            image: "/news/c36.png",
+            image: "/News/c36.png",
             link: "https://www.indigotg.com/news/ray-oconnor-appointed-cco-and-indigo-board-member/",
             bgColor: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
             borderColor: "border-blue-200",
