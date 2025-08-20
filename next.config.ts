@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   // Optimize images for Vercel
   images: {
     unoptimized: false,
-    domains: [],
+    domains: ['img.youtube.com'],
   },
 
   // URL rewrites for cleaner routing
