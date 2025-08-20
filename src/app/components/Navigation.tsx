@@ -15,6 +15,7 @@ const Navigation = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   const lastScrollY = useRef(0);
@@ -50,12 +51,12 @@ const Navigation = () => {
       label: 'Solutions',
       hasDropdown: true,
       dropdownItems: [
-        { href: '/solutions2/fixedline', label: 'Fixed\u00A0line' },
-        { href: '/solutions2/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
-        { href: '/solutions2/data-centres', label: 'Data\u00A0Centres' },
-        { href: '/solutions2/wireless', label: 'Wireless' },
-        { href: '/solutions2/network', label: 'Network\u00A0Services' },
-        { href: '/solutions2/noc', label: 'NOC' }
+        { href: '/solutions/fixedline', label: 'Fixed\u00A0line' },
+        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
+        { href: '/solutions/data-centres', label: 'Data\u00A0Centres' },
+        { href: '/solutions/wireless', label: 'Wireless' },
+        { href: '/solutions/network', label: 'Network\u00A0Services' },
+        { href: '/solutions/noc', label: 'NOC' }
       ]
     },
     { href: '/work-with-us', label: 'Work With Us' },
@@ -260,7 +261,7 @@ const Navigation = () => {
             duration: 0.5,
             ease: "power2.out",
           },
-          "-=0.75"
+          "-=1.2"
         );
       }
 
@@ -273,24 +274,22 @@ const Navigation = () => {
             opacity: 1,
             duration: 0.75,
             ease: "power2.out",
-            delay: 0.5,
           },
-          "-=0.5"
+          "-=0.75"
         );
       }
 
-      // Animate the menu text
-      splitTextByContainerRef.current.forEach((containerSplits) => {
-        const copyLines = containerSplits.flatMap((split) => split.lines);
+      // Animate the menu text by containers
+      splitTextByContainerRef.current.forEach((containerSplits, containerIndex) => {
+        const lines = containerSplits.flatMap((split) => split.lines);
         tl.to(
-          copyLines,
+          lines,
           {
             y: "0%",
-            duration: 1.2,
+            duration: 0.8,
             ease: "hop",
-            stagger: -0.05,
           },
-          "-=0.5"
+          `-=${0.8 - (containerIndex * 0.15)}`
         );
       });
 
@@ -303,7 +302,7 @@ const Navigation = () => {
             duration: 0.5,
             ease: "power2.out",
           },
-          "-=1"
+          "-=1.2"
         );
       }
 
@@ -349,16 +348,30 @@ const Navigation = () => {
         );
       }
 
-      // Fade out overlay content (faster)
+      // Animate the menu text out by containers
+      splitTextByContainerRef.current.forEach((containerSplits, containerIndex) => {
+        const lines = containerSplits.flatMap((split) => split.lines);
+        tl.to(
+          lines,
+          {
+            y: "-110%",
+            duration: 0.8,
+            ease: "hop",
+          },
+          `-=${0.8 - (containerIndex * 0.15)}`
+        );
+      });
+
+      // Fade out overlay content
       if (menuOverlayContainerRef.current) {
         tl.to(
           menuOverlayContainerRef.current,
           {
             opacity: 0,
-            duration: 0.1,
+            duration: 0.6,
             ease: "power2.inOut",
           },
-          "-=0.9"
+          "-=0.6"
         );
       }
 
@@ -674,6 +687,7 @@ const Navigation = () => {
           background-color: var(--menu-bg);
           clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
           will-change: clip-path;
+          transition: clip-path 0.6s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
         .menu-overlay::before {
@@ -731,6 +745,7 @@ const Navigation = () => {
           position: relative;
           z-index: 1;
           opacity: 0; /* start hidden for fade-in */
+          transition: opacity 0.4s cubic-bezier(0.87, 0, 0.13, 1), transform 0.6s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
         .menu-media-wrapper {
@@ -1012,46 +1027,7 @@ const Navigation = () => {
           color: #ffffff !important;
         }
 
-        /* Arrow animation for dropdown */
-        .menu-link-with-dropdown {
-          position: relative;
-        }
 
-        .menu-link-with-dropdown a {
-          position: relative;
-          display: inline-block;
-        }
-
-        .dropdown-arrow {
-          position: absolute;
-          right: -25px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 0;
-          height: 0;
-          border-left: 8px solid #ffffff;
-          border-top: 6px solid transparent;
-          border-bottom: 6px solid transparent;
-          opacity: 0;
-          transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
-          pointer-events: none;
-          z-index: 10004;
-        }
-
-        .menu-link-with-dropdown .dropdown-arrow {
-          opacity: 0;
-          transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
-        }
-
-        .menu-link-with-dropdown:hover .dropdown-arrow {
-          opacity: 1;
-          right: -35px;
-        }
-
-        .dropdown-arrow.visible {
-          opacity: 1 !important;
-          right: -35px !important;
-        }
 
         /* Additional override using CSS custom property */
         .menu-dropdown-item a {
@@ -1282,20 +1258,32 @@ const Navigation = () => {
                         }}
                         onMouseEnter={() => {
                           if (item.hasDropdown && !isMobile) {
+                            // Clear any existing timeout
+                            if (dropdownTimeoutRef.current) {
+                              clearTimeout(dropdownTimeoutRef.current);
+                              dropdownTimeoutRef.current = null;
+                            }
+                            
+                            // Close the other dropdown immediately
                             if (item.label === 'Our Services') {
+                              setSolutionsDropdownOpen(false);
                               setServicesDropdownOpen(true);
                             } else if (item.label === 'Solutions') {
+                              setServicesDropdownOpen(false);
                               setSolutionsDropdownOpen(true);
                             }
                           }
                         }}
                         onMouseLeave={() => {
                           if (item.hasDropdown && !isMobile) {
-                            if (item.label === 'Our Services') {
-                              setServicesDropdownOpen(false);
-                            } else if (item.label === 'Solutions') {
-                              setSolutionsDropdownOpen(false);
-                            }
+                            // Add a small delay to prevent immediate closing
+                            dropdownTimeoutRef.current = setTimeout(() => {
+                              if (item.label === 'Our Services') {
+                                setServicesDropdownOpen(false);
+                              } else if (item.label === 'Solutions') {
+                                setSolutionsDropdownOpen(false);
+                              }
+                            }, 250);
                           }
                         }}
                         style={{
@@ -1307,13 +1295,18 @@ const Navigation = () => {
                         }}
                       >
                         {item.label}
-                        {(item.label === 'Our Services' || item.label === 'Solutions') && <div className="dropdown-arrow"></div>}
+
                       </Link>
                       {item.hasDropdown && (
                         <div 
                           className={`menu-dropdown ${item.label === 'Solutions' ? 'solutions-dropdown' : ''} ${(item.label === 'Our Services' && servicesDropdownOpen) || (item.label === 'Solutions' && solutionsDropdownOpen) ? 'open' : ''}`}
                           onMouseEnter={() => {
                             if (!isMobile) {
+                              // Clear the timeout to prevent dropdown from closing
+                              if (dropdownTimeoutRef.current) {
+                                clearTimeout(dropdownTimeoutRef.current);
+                                dropdownTimeoutRef.current = null;
+                              }
                               if (item.label === 'Our Services') {
                                 setServicesDropdownOpen(true);
                               } else if (item.label === 'Solutions') {
