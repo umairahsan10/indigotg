@@ -109,36 +109,48 @@ const slides = [
     description:
       "We design, deploy, and support digital infrastructure to maximise value in fixed line, subsea, data centres and wireless networks.",
     image: "/home/digital-future.png",
+    buttonText: "Learn More",
+    buttonLink: "/our-services"
   },
      {
      title: "Design, Deploy, Support",
      description:
        "Indigo can solve problems in the most complex environments: greenfield, hyperscale or edge data centres, upgrade or a hybrid mix of multi-generational technologies.",
      image: "/home/design-deploy-support.png",
+     buttonText: "Our Services",
+     buttonLink: "/our-services"
    },
      {
      title: "Field Engineering",
      description:
        "Our strategically located field technicians deliver first-line reactive/preventative maintenance, second-line remote technical support, and third line expert support.",
      image: "/home/field-engineering.png",
+     buttonText: "Field Services",
+     buttonLink: "/our-services"
    },
      {
      title: "Survey & Design",
      description:
        "We identify the right information and convert it into actionable data to build powerful networks.",
      image: "/home/survey-design.png",
+     buttonText: "Survey Services",
+     buttonLink: "/our-services"
    },
      {
      title: "Indigo Subsea",
      description:
        "System operator support for modern submarine networks.",
      image: "/home/indigo-subsea.png",
+     buttonText: "Subsea Solutions",
+     buttonLink: "/our-services"
    },
      {
      title: "NOC Services",
      description:
        "Minimizes outage times and keeps society collaborating. Fully staffed 24x7x365",
      image: "/solutions/card-images-5.jpg",
+     buttonText: "NOC Services",
+     buttonLink: "/our-services"
    },
 ];
 
@@ -683,7 +695,7 @@ const HeroSlider = () => {
         if (slideData.title === "Engineering a Digital Future") {
           topPosition = "70%"; // Lower position for first slide
         } else if (slideData.title === "Design, Deploy, Support") {
-          topPosition = "75%"; // Lower position for 3-line title
+          topPosition = "68%"; // Higher position for 3-line title
         } else if (slideData.title === "Field Engineering") {
           topPosition = "70%"; // Lower position for Field Engineering
         } else if (slideData.title === "Survey & Design") {
@@ -716,6 +728,56 @@ const HeroSlider = () => {
 
     content.appendChild(titleDiv);
     content.appendChild(descriptionDiv);
+
+    // Create the button
+    const buttonDiv = document.createElement("div");
+    buttonDiv.className = "slide-button";
+    buttonDiv.style.cssText = `
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      z-index: 10;
+    `;
+
+    const button = document.createElement("button");
+    button.style.cssText = `
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+    `;
+    button.textContent = slideData.buttonText;
+
+    // Add hover effects
+    button.addEventListener('mouseenter', () => {
+      button.style.background = 'rgba(255, 255, 255, 0.2)';
+      button.style.transform = 'scale(1.05)';
+    });
+
+    button.addEventListener('mouseleave', () => {
+      button.style.background = 'rgba(255, 255, 255, 0.1)';
+      button.style.transform = 'scale(1)';
+    });
+
+    // Add click handler for navigation
+    button.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent triggering slide change
+      window.location.href = slideData.buttonLink;
+    });
+
+    buttonDiv.appendChild(button);
+    content.appendChild(buttonDiv);
 
     return content;
   };
@@ -764,9 +826,15 @@ const HeroSlider = () => {
             gsap.set([newChars, newLines], { y: "100%" });
             gsap.set(newContent, { opacity: 1 });
             
-            // Set initial position for paragraph (hidden)
+            // Set initial position for paragraph and button (hidden)
             const newParagraph = newContent.querySelector(".slide-description p");
+            const newButton = newContent.querySelector(".slide-button button");
             gsap.set(newParagraph, { opacity: 0, y: 20 });
+            gsap.set(newButton, { opacity: 0, y: 20 });
+            
+            // Hide the entire button container during transition
+            const newButtonContainer = newContent.querySelector(".slide-button");
+            gsap.set(newButtonContainer, { opacity: 0 });
 
             // Animate the new content in
             gsap
@@ -796,6 +864,25 @@ const HeroSlider = () => {
                   ease: "power2.out" 
                 },
                 0.6
+              )
+              .to(
+                newButtonContainer,
+                { 
+                  opacity: 1, 
+                  duration: 0.3, 
+                  ease: "power2.out" 
+                },
+                0.8
+              )
+              .to(
+                newButton,
+                { 
+                  opacity: 1, 
+                  y: 0, 
+                  duration: 0.8, 
+                  ease: "power2.out" 
+                },
+                0.8
               );
           }, 100);
         },
@@ -814,10 +901,12 @@ const HeroSlider = () => {
     const chars = content.querySelectorAll(".char span");
     const lines = content.querySelectorAll(".line span");
     const paragraph = content.querySelector(".slide-description p");
+    const button = content.querySelector(".slide-button button");
 
     // Set initial position
     gsap.set([chars, lines], { y: "100%" });
     gsap.set(paragraph, { opacity: 0, y: 20 });
+    gsap.set(button, { opacity: 0, y: 20 });
 
     // Animate characters in
     gsap.to(chars, {
@@ -843,6 +932,15 @@ const HeroSlider = () => {
       duration: 0.8,
       ease: "power2.out",
       delay: 0.8
+    });
+
+    // Animate button in after paragraph animation
+    gsap.to(button, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      delay: 1.0
     });
   };
 
@@ -1263,6 +1361,51 @@ const HeroSlider = () => {
               We design, deploy, and support digital infrastructure to maximise value in fixed line, subsea, data centres and wireless networks.
             </p>
         </div>
+        
+        {/* Button for initial slide */}
+        <div 
+          className="slide-button"
+          style={{
+            position: 'absolute',
+            bottom: '5%',
+            left: '50%',
+            transform: 'translate(-50%, 0)',
+            zIndex: 10
+          }}
+        >
+          <button
+            style={{
+              background: 'transparent',
+              border: '2px solid white',
+              color: 'white',
+              padding: '15px 40px',
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              backdropFilter: 'blur(10px)',
+              background: 'rgba(255, 255, 255, 0.1)'
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.location.href = '/our-services';
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+              e.target.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.transform = 'scale(1)';
+            }}
+          >
+            Learn More
+          </button>
+        </div>
       </div>
 
       <style jsx>{`
@@ -1287,9 +1430,18 @@ const HeroSlider = () => {
             width: 75% !important;
             text-align: center !important;
             top: unset !important;
-            bottom: 5% !important;
+            bottom: 15% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
+          }
+
+          .slide-button {
+            bottom: 3% !important;
+          }
+
+          .slide-button button {
+            padding: 12px 30px !important;
+            font-size: 1rem !important;
           }
         }
       `}</style>
