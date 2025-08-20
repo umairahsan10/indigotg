@@ -10,6 +10,40 @@ const nextConfig: NextConfig = {
     domains: [],
   },
 
+  // URL rewrites for cleaner routing
+  async rewrites() {
+    return [
+      {
+        source: '/solutions',
+        destination: '/solutions2',
+      },
+      {
+        source: '/solutions/fixedline',
+        destination: '/solutions2/subfolders/fixedline',
+      },
+      {
+        source: '/solutions/subsea',
+        destination: '/solutions2/subfolders/subsea',
+      },
+      {
+        source: '/solutions/wireless',
+        destination: '/solutions2/subfolders/wireless',
+      },
+      {
+        source: '/solutions/noc',
+        destination: '/solutions2/subfolders/noc',
+      },
+      {
+        source: '/solutions/data-centres',
+        destination: '/solutions2/subfolders/data-centres',
+      },
+      {
+        source: '/solutions/network',
+        destination: '/solutions2/subfolders/network',
+      },
+    ];
+  },
+
   /**
    * During development it's useful for ESLint to surface all issues, but
    * blocking production builds due to style-only concerns (e.g. prefer-const,
