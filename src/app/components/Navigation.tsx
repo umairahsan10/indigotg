@@ -37,6 +37,7 @@ const Navigation = () => {
     { href: '/solutions2', label: 'Solutions' },
     { href: '/work-with-us', label: 'Work With Us' },
     { href: '/success-stories', label: 'Success Stories' },
+    { href: '/newsPage', label: 'News' },
     { href: '/get-in-touch', label: 'Get In Touch' },
   ];
 
