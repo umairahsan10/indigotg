@@ -284,15 +284,18 @@ export default function WhoWeAre() {
       </section>
 
       {/* Core Pillars - Stacked Cards Animation */}
-      <section ref={stackAreaRef} className="stack-area flex flex-col lg:flex-row relative w-full bg-gradient-to-b from-white to-[#411fed]/10 text-gray-900">
+      <section ref={(el) => { stackAreaRef.current = el; sectionRefs.current[2] = el; }} className="stack-area flex flex-col lg:flex-row relative w-full bg-gradient-to-b from-white to-[#411fed]/10 text-gray-900">
         {/* Left copy */}
-        <div className="left flex flex-col items-start justify-center lg:sticky top-0 lg:h-screen w-full lg:basis-1/2 p-6 pl-20">
+        <div className={`left flex flex-col items-start justify-center lg:sticky top-0 lg:h-screen w-full lg:basis-1/2 p-6 pl-20 ${isVisible[2] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
           <h2 className="title text-6xl lg:text-7xl font-bold leading-tight text-left text-[#140079]">
             <span className="block">Our Core</span>
             <span className="block">Pillars</span>
           </h2>
-          <div className="sub-title text-lg lg:text-xl mt-8 max-w-lg text-left leading-relaxed">
-            <span className="inline text-gray-600">Excellence in everything we do. Built from strategic thinking, safety, vision, and commitment to deliver transformational solutions across the globe.</span>
+          <h3 className="text-5xl lg:text-6xl font-semibold mt-8 mb-4 text-left text-[#140079] relative z-10" style={{color: '#140079', textShadow: '0 0 10px rgba(20, 0, 121, 0.3)'}}>
+            Excellence In Everything We Do
+          </h3>
+          <div className="sub-title text-lg lg:text-xl mt-4 max-w-lg text-left leading-relaxed">
+            <span className="inline text-gray-600">Built from strategic thinking, safety, vision, and commitment to deliver transformational solutions across the globe.</span>
           </div>
           </div>
 
