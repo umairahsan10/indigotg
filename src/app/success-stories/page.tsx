@@ -339,7 +339,7 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
   
   if (isHero) {
     const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 1]);
     
     return (
       <motion.div
@@ -361,7 +361,7 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
   }
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 1]);
 
   return (
     <motion.div
