@@ -186,7 +186,40 @@ const Navigation = () => {
       }
       window.removeEventListener('resize', checkMobile);
     };
-  }, []);
+    }, []);
+  
+  // Auto-close menu and reset scroll position when pathname changes (navigation occurs)
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+      setServicesDropdownOpen(false);
+      setSolutionsDropdownOpen(false);
+    }
+    
+    // Reset scroll position to top on navigation
+    window.scrollTo(0, 0);
+    
+    // Also reset any Lenis scroll position if available
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
+  
+  // Utility function to handle navigation (close menu + reset scroll)
+  const handleNavigation = () => {
+    // Close menu if open
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+      setServicesDropdownOpen(false);
+      setSolutionsDropdownOpen(false);
+    }
+    // Reset scroll position to top
+    window.scrollTo(0, 0);
+    // Also reset Lenis scroll if available
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+  };
 
   // Determine if current page has a dark hero section
   const isDarkHeroPage = [
@@ -1296,11 +1329,7 @@ const Navigation = () => {
                     <div key={index} className={`menu-link ${item.hasDropdown ? 'menu-link-with-dropdown' : ''}`}>
                       <Link 
                         href={item.href}
-                        onClick={() => {
-                          if (isMenuOpen) {
-                            handleMenuToggle();
-                          }
-                        }}
+                        onClick={handleNavigation}
                         onMouseEnter={() => {
                           if (item.hasDropdown && !isMobile) {
                             // Clear any existing timeout
@@ -1374,9 +1403,7 @@ const Navigation = () => {
                               <Link 
                                 href={dropdownItem.href}
                                 onClick={() => {
-                                  if (isMenuOpen) {
-                                    handleMenuToggle();
-                                  }
+                                  handleNavigation();
                                   if (item.label === 'Our Services') {
                                     setServicesDropdownOpen(false);
                                   } else if (item.label === 'Solutions') {
@@ -1408,11 +1435,7 @@ const Navigation = () => {
                     <div key={index} className="menu-tag">
                       <Link 
                         href={tag.href}
-                        onClick={() => {
-                          if (isMenuOpen) {
-                            handleMenuToggle();
-                          }
-                        }}
+                        onClick={handleNavigation}
                       >
                         {tag.text}
                       </Link>
