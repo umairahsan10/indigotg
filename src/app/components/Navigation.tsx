@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CustomEase } from 'gsap/CustomEase';
@@ -9,6 +10,7 @@ import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 
 const Navigation = () => {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -185,6 +187,23 @@ const Navigation = () => {
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+
+  // Determine if current page has a dark hero section
+  const isDarkHeroPage = [
+    '/',
+    '/our-services',
+    '/solutions2',
+    '/get-in-touch',
+    '/newsPage',
+    '/success-stories',
+    '/work-with-us',
+    '/solutions/fixedline',
+    '/solutions/subsea',
+    '/solutions/data-centres',
+    '/solutions/wireless',
+    '/solutions/network',
+    '/solutions/noc'
+  ].includes(pathname);
 
   const handleMenuToggle = () => {
     if (isAnimatingRef.current) return;
@@ -566,7 +585,7 @@ const Navigation = () => {
         }
 
         .menu-bar.scrolled {
-          background-color: #f9f4eb;
+          background-color: #ffffff;
           box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
           color: #140079;
         }
@@ -577,6 +596,32 @@ const Navigation = () => {
 
         .menu-bar.scrolled .menu-hamburger-icon {
           border-color: rgba(20, 0, 121, 0.2);
+        }
+
+        /* Dark hero page overrides - make navbar elements white for visibility when transparent */
+        .menu-bar.dark-hero {
+          color: #ffffff;
+        }
+
+        .menu-bar.dark-hero .menu-hamburger-icon span {
+          background-color: #ffffff;
+        }
+
+        .menu-bar.dark-hero .menu-logo img {
+          filter: brightness(0) invert(1); /* Make logo white */
+        }
+
+        /* When scrolled on dark hero pages, make elements dark for visibility against white background */
+        .menu-bar.dark-hero.scrolled {
+          color: #140079;
+        }
+
+        .menu-bar.dark-hero.scrolled .menu-hamburger-icon span {
+          background-color: #140079;
+        }
+
+        .menu-bar.dark-hero.scrolled .menu-logo img {
+          filter: none; /* Remove white filter, show original logo color */
         }
 
         .menu-logo {
@@ -1197,7 +1242,7 @@ const Navigation = () => {
       `}</style>
 
       <nav ref={navRef}>
-        <div className={`menu-bar ${isScrolled ? 'scrolled' : ''} ${!isNavVisible ? 'nav-hidden' : ''}`}>
+        <div className={`menu-bar ${isScrolled ? 'scrolled' : ''} ${!isNavVisible ? 'nav-hidden' : ''} ${isDarkHeroPage ? 'dark-hero' : ''}`}>
           <div className="menu-logo">
             <Link 
               href="/"
