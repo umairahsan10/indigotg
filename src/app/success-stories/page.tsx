@@ -170,6 +170,27 @@ const RevealLinks = () => {
       >
         <FlipLink href="#">STORIES</FlipLink>
       </motion.div>
+      <motion.div
+        initial={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="mt-8 max-w-3xl mx-auto px-4"
+      >
+        <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
+          Real Results, Real Impact
+        </h2>
+        <p className="text-lg md:text-xl text-white leading-relaxed">
+          Discover how we've helped leading telecommunications and technology companies transform their network infrastructure and achieve remarkable growth.
+        </p>
+        <motion.button
+          initial={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mt-6 bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+        >
+          View Success Stories
+        </motion.button>
+      </motion.div>
     </div>
   );
 };
@@ -189,56 +210,79 @@ const FlipLink = ({ children, href }: { children: string; href: string }) => {
 const TextParallaxContentExample = () => {
   return (
     <div className="bg-white">
-      <TextParallaxContent
-        imgUrl="/images/success_stories/success_storybg.png"
-        subheading="SUCCESS"
-        heading="STORIES"
-        isHero={true}
+      {/* Hero Section - Full Viewport Height with CSS isolation */}
+      <div 
+        className="relative bg-cover bg-center bg-no-repeat" 
+        style={{
+          backgroundImage: 'url(/images/success_stories/success_storybg.png)', 
+          height: '105vh', 
+          minHeight: '100vh',
+          isolation: 'isolate'
+        }}
       >
-        <ExampleContent 
-          title="Real Results, Real Impact"
-          description="Discover how we've helped leading telecommunications and technology companies transform their network infrastructure and achieve remarkable growth."
-          buttonText="View Success Stories"
-        />
-      </TextParallaxContent>
-      <TextParallaxContent
-        imgUrl="/images/success_stories/success_storybg1234.png"
-        subheading="Network Excellence"
-        heading="From Design to Deployment"
-      >
-        <ExampleContent 
-          title="End-to-End Network Solutions"
-          description="From LightSpeed Networks to Cellnex, we've delivered comprehensive network infrastructure projects that drive operational efficiency and customer satisfaction."
-          buttonText="Explore Case Studies"
-        />
-      </TextParallaxContent>
-      <TextParallaxContent
-        imgUrl="/images/success_stories/net2.png"
-        subheading="Global Reach"
-        heading="Connecting Communities"
-      >
-        <ExampleContent 
-          title="Infrastructure That Matters"
-          description="Our work with NBI, CityFibre, and SIRO demonstrates our commitment to building networks that connect rural communities and enable digital transformation."
-          buttonText="Read Our Stories"
-        />
-      </TextParallaxContent>
-      <TextParallaxContent
-        imgUrl="/images/success_stories/image4.png"
-        subheading="Innovation"
-        heading="Future-Ready Networks"
-      >
-        <ExampleContent 
-          title="Cutting-Edge Technology"
-          description="Partnering with companies like Netomnia and Orange, we're building the next generation of network infrastructure that powers tomorrow's digital economy."
-          buttonText="Partner With Us"
-        />
-      </TextParallaxContent>
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
+          <h1 className="text-6xl md:text-8xl font-black uppercase mb-4">
+            SUCCESS
+          </h1>
+          <h1 className="text-6xl md:text-8xl font-black uppercase mb-8">
+            STORIES
+          </h1>
+          <h2 className="text-2xl md:text-4xl font-bold mb-4 max-w-3xl">
+            Real Results, Real Impact
+          </h2>
+          <p className="text-lg md:text-xl mb-8 max-w-2xl leading-relaxed">
+            Discover how we've helped leading telecommunications and technology companies transform their network infrastructure and achieve remarkable growth.
+          </p>
+          <button className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+            View Success Stories
+          </button>
         </div>
+      </div>
+      
+      {/* Content sections with proper spacing */}
+      <div className="relative z-10 bg-white">
+        <TextParallaxContent
+          imgUrl="/images/success_stories/success_storybg1234.png"
+          subheading="Network Excellence"
+          heading="From Design to Deployment"
+        >
+          <ExampleContent 
+            title="End-to-End Network Solutions"
+            description="From LightSpeed Networks to Cellnex, we've delivered comprehensive network infrastructure projects that drive operational efficiency and customer satisfaction."
+            buttonText="Explore Case Studies"
+          />
+        </TextParallaxContent>
+        
+        <TextParallaxContent
+          imgUrl="/images/success_stories/net2.png"
+          subheading="Global Reach"
+          heading="Connecting Communities"
+        >
+          <ExampleContent 
+            title="Infrastructure That Matters"
+            description="Our work with NBI, CityFibre, and SIRO demonstrates our commitment to building networks that connect rural communities and enable digital transformation."
+            buttonText="Read Our Stories"
+          />
+        </TextParallaxContent>
+        
+        <TextParallaxContent
+          imgUrl="/images/success_stories/image4.png"
+          subheading="Innovation"
+          heading="Future-Ready Networks"
+        >
+          <ExampleContent 
+            title="Cutting-Edge Technology"
+            description="Partnering with companies like Netomnia and Orange, we're building the next generation of network infrastructure that powers tomorrow's digital economy."
+            buttonText="Partner With Us"
+          />
+        </TextParallaxContent>
+      </div>
+    </div>
   );
 };
 
-const IMG_PADDING = 12;
+const IMG_PADDING = 6;
 
 const TextParallaxContent = ({ imgUrl, subheading, heading, children, isHero = false }: {
   imgUrl: string;
@@ -281,7 +325,7 @@ const StickyImage = ({ imgUrl }: { imgUrl: string }) => {
       }}
       className="sticky z-0 overflow-hidden rounded-3xl"
     >
-      <div className="absolute inset-0 bg-neutral-950/70" />
+      <div className="absolute inset-0 bg-neutral-950/40" />
     </motion.div>
   );
 };
@@ -295,7 +339,7 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
   
   if (isHero) {
     const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 1]);
     
     return (
       <motion.div
@@ -307,7 +351,7 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="text-lg text-white/90 max-w-2xl mx-auto mt-8 text-center" 
+          className="text-lg text-white max-w-2xl mx-auto mt-8 text-center font-medium" 
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >
           Our engineers work with some of the world&apos;s leading brands to create new and better experiences for their customers.
@@ -317,17 +361,17 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
   }
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 1]);
 
   return (
     <motion.div
       style={{ y, opacity }}
       className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
     >
-      <p className="mb-2 text-center text-xl md:mb-4 md:text-3xl">
+      <p className="mb-2 text-center text-xl md:mb-4 md:text-3xl font-semibold text-white">
         {subheading}
       </p>
-      <p className="text-center text-4xl font-bold md:text-7xl">{heading}</p>
+      <p className="text-center text-4xl font-bold md:text-7xl text-white">{heading}</p>
     </motion.div>
   );
 };
