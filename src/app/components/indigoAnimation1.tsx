@@ -78,102 +78,102 @@ const IndigoAnimation1: React.FC<IndigoAnimationProps> = ({ filter = 'all' }) =>
         // All lines are different colors - "All Services"
         return {
           vertical: { 
-            x1: 300, y1: 80, 
-            x2: 300, y2: 350, 
+            x1: 270, y1: 80, // Moved 
+            x2: 270, y2: 350, // Moved 
             stroke: '#ffffff', isActive: true
           },
           diagonal1: { 
-            x1: 350, y1: 100, 
-            x2: 600, y2: 250, 
+            x1: 325, y1: 100, // Moved
+            x2: 600, y2: 270, // Moved 
             stroke: '#FFD700', isActive: true 
           },
           diagonal2: { 
-            x1: 300, y1: 400, 
-            x2: 570, y2: 280, 
+            x1: 270, y1: 410, // Moved
+            x2: 540, y2: 295, // Moved 
             stroke: '#0029de', isActive: true 
           },
           text: "All Services",
           textPosition: { x: 400, y: 250 }
         };
       case 'design':
-        // Top diagonal line is yellow/filled - "Design"
+        // Top diagonal line is yellow/filled - "Design" - moved up by 10%
         return {
           vertical: { 
-            x1: 300, y1: 80, 
-            x2: 300, y2: 350, 
-            stroke: '#ffffff', isActive: false 
+            x1: 270, y1: 80, // Moved 
+            x2: 270, y2: 350, // Moved 
+            stroke: '#ffffff', isActive: false
           },
           diagonal1: { 
-            x1: 350, y1: 100, 
-            x2: 600, y2: 250, 
+            x1: 325, y1: 100, // Moved
+            x2: 600, y2: 270, // Moved 
             stroke: '#FFD700', isActive: true 
           },
           diagonal2: { 
-            x1: 300, y1: 400, 
-            x2: 570, y2: 280, 
-            stroke: '#ffffff', isActive: false 
+            x1: 270, y1: 410, // Moved
+            x2: 540, y2: 295, // Moved 
+            stroke: '#0029de', isActive: false 
           },
           text: "Design",
-          textPosition: { x: 520, y: 120 }
+          textPosition: { x: 520, y: 110 } // Adjusted text position
         };
       case 'deploy':
-        // Bottom diagonal line is blue/filled - "Deploy"
+        // Bottom diagonal line is blue/filled - "Deploy" - moved down by 10%
         return {
           vertical: { 
-            x1: 300, y1: 80, 
-            x2: 300, y2: 350, 
-            stroke: '#ffffff', isActive: false 
+            x1: 270, y1: 80, // Moved 
+            x2: 270, y2: 350, // Moved 
+            stroke: '#ffffff', isActive: false
           },
           diagonal1: { 
-            x1: 350, y1: 100, 
-            x2: 600, y2: 250, 
-            stroke: '#ffffff', isActive: false 
+            x1: 325, y1: 100, // Moved
+            x2: 600, y2: 270, // Moved 
+            stroke: '#FFD700', isActive: false 
           },
           diagonal2: { 
-            x1: 300, y1: 400, 
-            x2: 570, y2: 280, 
+            x1: 270, y1: 410, // Moved
+            x2: 540, y2: 295, // Moved 
             stroke: '#0029de', isActive: true 
           },
           text: "Deploy",
-          textPosition: { x: 500, y: 400 }
+          textPosition: { x: 500, y: 440 } // Adjusted text position
         };
       case 'support':
-        // Vertical line is white/filled - "Support"
+        // Vertical line is white/filled - "Support" - moved left by 10%
         return {
           vertical: { 
-            x1: 300, y1: 80, 
-            x2: 300, y2: 350, 
-            stroke: '#ffffff', isActive: true 
+            x1: 270, y1: 80, // Moved 
+            x2: 270, y2: 350, // Moved 
+            stroke: '#ffffff', isActive: true
           },
           diagonal1: { 
-            x1: 350, y1: 100, 
-            x2: 600, y2: 250, 
-            stroke: '#ffffff', isActive: false 
+            x1: 325, y1: 100, // Moved
+            x2: 600, y2: 270, // Moved 
+            stroke: '#FFD700', isActive: false
           },
           diagonal2: { 
-            x1: 300, y1: 400, 
-            x2: 570, y2: 280, 
-            stroke: '#ffffff', isActive: false 
+            x1: 270, y1: 410, // Moved
+            x2: 540, y2: 295, // Moved 
+            stroke: '#0029de', isActive: false
           },
           text: "Support",
-          textPosition: { x: 200, y: 220 }
+          textPosition: { x: 170, y: 220 } // Adjusted text position
         };
       default:
         return {
           vertical: { 
-            x1: 300, y1: 80, 
-            x2: 300, y2: 350, 
-            stroke: '#ffffff', isActive: false 
+            x1: 270, y1: 80, // Moved 
+            x2: 270, y2: 350, // Moved 
+            stroke: '#ffffff', isActive: true
           },
           diagonal1: { 
-            x1: 350, y1: 100, 
-            x2: 600, y2: 250, 
-            stroke: '#ffffff', isActive: false 
+            x1: 325, y1: 100, // Moved
+            x2: 600, y2: 270, // Moved 
+            stroke: '#FFD700', isActive: true 
           },
           diagonal2: { 
-            x1: 300, y1: 400, 
-            x2: 570, y2: 280, 
-            stroke: '#ffffff', isActive: false 
+            x1: 270, y1: 410, // Moved
+            x2: 540, y2: 295, // Moved 
+            stroke: '#0029de', isActive: true 
           },
           text: "All Services",
           textPosition: { x: 400, y: 300 }
