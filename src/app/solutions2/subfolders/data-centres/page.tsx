@@ -291,7 +291,7 @@ export default function DataCentresPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-6 text-content">
+              <div ref={textRef1} className="space-y-6 text-content mt-10 mb-10">
                 <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Experienced Data Centre Engineers
                 </h2>
@@ -312,7 +312,7 @@ export default function DataCentresPage() {
         </section>
 
         {/* Data Centre Solutions Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -414,7 +414,7 @@ export default function DataCentresPage() {
         </section>
 
         {/* Data Sheets Section */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-0 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <div ref={textRef4} className="space-y-8 text-content">

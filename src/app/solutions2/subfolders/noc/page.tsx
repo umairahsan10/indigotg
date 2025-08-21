@@ -327,7 +327,7 @@ export default function NOCPage() {
         </section>
 
         {/* In 60+ countries Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -418,7 +418,7 @@ export default function NOCPage() {
         </section>
 
         {/* Optional Services Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -477,7 +477,6 @@ export default function NOCPage() {
           </div>
         </section>
 
-        {/* Indigo subsea Section */}
         <section className="min-h-[80vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -511,7 +510,7 @@ export default function NOCPage() {
         </section>
 
         {/* How we're different Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-0 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -550,7 +549,7 @@ export default function NOCPage() {
         </section>
 
         {/* Testimonial Section */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 mt-8">
           <h2 className="text-4xl md:text-5xl lg:text-5xl py-2 mb-2 font-roboto font-bold text-[#140079]">
             A team with professionalism, drive and creativity <br /> in everything they do
           </h2>

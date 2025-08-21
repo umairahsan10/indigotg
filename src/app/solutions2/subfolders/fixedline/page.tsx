@@ -233,7 +233,7 @@ export default function FixedLinePage() {
           color: #eab308 !important;
         }
       `}</style>
-      <div className="min-h-screen space-y-6 bg-white">
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}
@@ -304,7 +304,7 @@ export default function FixedLinePage() {
         </section>
 
         {/* Experienced Fibre Services Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -364,7 +364,7 @@ export default function FixedLinePage() {
         </section>
 
         {/* Equipment Install and Decommissioning Section */}
-        <section className="min-h-[80vh] flex items-center mb-10  bg-white">
+        <section className="min-h-[80vh] space-y-4 flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -432,12 +432,12 @@ export default function FixedLinePage() {
         </section>
 
         {/* Our Fixed Line Services Include Section */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-0 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef6} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef6} className="text-content">
+                <h2 className="text-4xl mb-4 md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Our fixed line services include:
                 </h2>
                 <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">

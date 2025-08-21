@@ -400,7 +400,7 @@ export default function WirelessPage() {
         </section>
 
         {/* Second Section - Partners in Business Strategy */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -436,7 +436,7 @@ export default function WirelessPage() {
         </section>
 
         {/* Third Section - Wireless Services Include */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[80vh] flex items-center mb-0 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Video */}
