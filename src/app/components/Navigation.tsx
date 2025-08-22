@@ -1050,6 +1050,15 @@ const Navigation = () => {
           width: 100%;
         }
 
+        /* Override for iPhone SE - this must come after the base style */
+        @media screen and (max-width: 375px) {
+          .menu-dropdown-item a {
+            font-size: 1px !important;
+            transform: scale(0.1) !important;
+            transform-origin: left center !important;
+          }
+        }
+
         /* Maximum specificity selectors to override global styles */
         .menu-overlay .menu-dropdown .menu-dropdown-item a {
           font-size: 10px !important;
@@ -1074,11 +1083,20 @@ const Navigation = () => {
           color: #ffffff !important;
         }
 
-
-
         /* Additional override using CSS custom property */
         .menu-dropdown-item a {
           font-size: 10px !important;
+        }
+
+        /* iPhone SE overrides for all dropdown selectors */
+        @media screen and (max-width: 375px) {
+          .menu-overlay .menu-dropdown .menu-dropdown-item a,
+          .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a,
+          nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+            font-size: 1px !important;
+            transform: scale(0.1) !important;
+            transform-origin: left center !important;
+          }
         }
 
         /* Underline animation for dropdown items */
@@ -1108,157 +1126,309 @@ const Navigation = () => {
           will-change: transform;
         }
 
-        @media (max-width: 1000px) {
-          h1 {
-            font-size: 3rem;
-            letter-spacing: -0.05rem;
-          }
-
-          section h1 {
-            width: 100%;
-          }
-
-          .menu-media-wrapper {
-            display: block;
-            position: absolute;
-            top: 4rem;
-            right: 2rem;
-            width: 120px;
-            height: 110px;
-            z-index: 10;
-            border-radius: 8px;
-            overflow: hidden;
-          }
-
-          .menu-media-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-          }
-
-          .menu-content-main {
-            width: 100%;
-            background-color: var(--menu-bg);
-            padding-top: 18rem;
-            padding-right: 8rem;
-          }
-
-          .menu-content-main {
-            top: 40%;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2rem;
-          }
-
-          .menu-link a {
-            font-size: 1.8rem !important;
-            position: relative;
-            display: inline-block;
-          }
-
-          /* Mobile underline animation */
-          .menu-link a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -0.15em;
-            width: 0%;
-            height: 2px;
-            background-color: #ffffff;
-            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-          }
-
-          .menu-link a:hover::after {
-            width: 100%;
-          }
-
-          /* Maximum specificity override for mobile menu links */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
-            font-size: 1.8rem !important;
-            position: relative;
-            display: inline-block;
-          }
-
-          /* Mobile maximum specificity underline animation */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -0.15em;
-            width: 0%;
-            height: 2px;
-            background-color: #ffffff !important;
-            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-          }
-
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a:hover::after {
-            width: 100%;
-          }
-
-          /* Override for SplitText lines with maximum specificity on mobile */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
-            position: relative;
-            font-size: 1.8rem !important;
-            color: #ffffff !important;
-          }
-
-          /* Mobile SplitText lines underline animation */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -0.15em;
-            width: 0%;
-            height: 2px;
-            background-color: #ffffff !important;
-            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-          }
-
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
-            width: 100%;
-          }
-
-          /* Additional mobile overrides */
-          .menu-link a {
-            color: #ffffff !important;
-          }
-
-          .menu-link .line {
-            color: #ffffff !important;
-          }
-
-          .menu-tag a {
-            font-size: 1.25rem;
-          }
-
-                     /* Mobile dropdown styles */
-           .menu-dropdown {
-             position: static;
-             background-color: #000000;
-             border: none;
-             padding: 0.3rem 0 0.3rem 1.5rem;
-             min-width: auto;
-             opacity: 1;
-             visibility: visible;
-             transform: none;
-             transition: none;
+                 @media (max-width: 1000px) {
+           h1 {
+             font-size: 3rem;
+             letter-spacing: -0.05rem;
            }
 
-           .menu-dropdown-item {
-             padding: 0.05rem 0;
-             background-color: #000000;
+           section h1 {
+             width: 100%;
            }
+
+           .menu-media-wrapper {
+             display: block;
+             position: absolute;
+             top: 4rem;
+             right: 2rem;
+             width: 120px;
+             height: 110px;
+             z-index: 10;
+             border-radius: 8px;
+             overflow: hidden;
+           }
+
+           .menu-media-wrapper video {
+             width: 100%;
+             height: 100%;
+             object-fit: cover;
+             border-radius: 8px;
+           }
+
+           .menu-content-main {
+             width: 100%;
+             background-color: var(--menu-bg);
+             padding-top: 18rem;
+             padding-right: 8rem;
+           }
+
+           .menu-content-main {
+             top: 40%;
+             flex-direction: column;
+             align-items: flex-start;
+             gap: 2rem;
+           }
+
+           .menu-link a {
+             font-size: 1.8rem !important;
+             position: relative;
+             display: inline-block;
+           }
+
+           /* Mobile underline animation */
+           .menu-link a::after {
+             content: '';
+             position: absolute;
+             left: 0;
+             bottom: -0.15em;
+             width: 0%;
+             height: 2px;
+             background-color: #ffffff;
+             transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+           }
+
+           .menu-link a:hover::after {
+             width: 100%;
+           }
+
+           /* Maximum specificity override for mobile menu links */
+           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
+             font-size: 1.8rem !important;
+             position: relative;
+             display: inline-block;
+           }
+
+           /* Mobile maximum specificity underline animation */
+           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a::after {
+             content: '';
+             position: absolute;
+             left: 0;
+             bottom: -0.15em;
+             width: 0%;
+             height: 2px;
+             background-color: #ffffff !important;
+             transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+           }
+
+           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a:hover::after {
+             width: 100%;
+           }
+
+           /* Override for SplitText lines with maximum specificity on mobile */
+           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
+             position: relative;
+             font-size: 1.8rem !important;
+             color: #ffffff !important;
+           }
+
+           /* Mobile SplitText lines underline animation */
+           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line::after {
+             content: '';
+             position: absolute;
+             left: 0;
+             bottom: -0.15em;
+             width: 0%;
+             height: 2px;
+             background-color: #ffffff !important;
+             transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+           }
+
+           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
+             width: 100%;
+           }
+
+           /* Additional mobile overrides */
+           .menu-link a {
+             color: #ffffff !important;
+           }
+
+           .menu-link .line {
+             color: #ffffff !important;
+           }
+
+           .menu-tag a {
+             font-size: 1.25rem;
+           }
+
+                      /* Mobile dropdown styles */
+            .menu-dropdown {
+              position: static;
+              background-color: #000000;
+              border: none;
+              padding: 0.3rem 0 0.3rem 1.5rem;
+              min-width: auto;
+              opacity: 1;
+              visibility: visible;
+              transform: none;
+              transition: none;
+            }
+
+            .menu-dropdown-item {
+              padding: 0.05rem 0;
+              background-color: #000000;
+            }
 
            .menu-dropdown-item a {
              font-size: 8px !important;
            }
 
-          /* Mobile maximum specificity override */
-          nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
-            font-size: 8px !important;
+           /* Mobile maximum specificity override */
+           nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+             font-size: 8px !important;
+           }
+         }
+
+                   /* Additional breakpoint for smaller mobile devices (iPhone SE, etc.) */
+          @media (max-width: 480px) {
+            .menu-media-wrapper {
+              width: 100px;
+              height: 90px;
+              top: 3rem;
+              right: 1.5rem;
+            }
+
+            .menu-content-main {
+              padding-top: 14rem;
+              padding-right: 6rem;
+              gap: 1.5rem;
+            }
+
+            .menu-link a {
+              font-size: 1.4rem !important;
+            }
+
+            /* Maximum specificity override for smaller mobile menu links */
+            nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
+              font-size: 1.4rem !important;
+            }
+
+            /* Override for SplitText lines with maximum specificity on smaller mobile */
+            nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
+              font-size: 1.4rem !important;
+            }
+
+            .menu-dropdown-item a {
+              font-size: 7px !important;
+            }
+
+            /* Mobile maximum specificity override for smaller screens */
+            nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+              font-size: 7px !important;
+            }
+
+            .menu-tag a {
+              font-size: 1.1rem;
+            }
           }
-        }
+
+                   /* Extra small mobile devices (iPhone SE 375x667) */
+          @media screen and (max-width: 375px) {
+            .menu-media-wrapper {
+              width: 120px;
+              height: 110px;
+              top: 4rem;
+              right: 2rem;
+            }
+
+            .menu-content-main {
+              padding-top: 8rem;
+              padding-right: 8rem;
+              gap: 0.005rem;
+              width: 95%;
+              top: 45%;
+            }
+
+            .menu-link a {
+              font-size: 24px !important;
+              color: #ffffff !important;
+            }
+
+            /* Maximum specificity override for extra small mobile menu links */
+            nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
+              font-size: 24px !important;
+              color: #ffffff !important;
+            }
+
+            /* Override for SplitText lines with maximum specificity on extra small mobile */
+            nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
+              font-size: 24px !important;
+              color: #ffffff !important;
+            }
+
+            .menu-dropdown-item {
+              padding: 0px;
+              background-color: #000000;
+              margin: 0px;
+            }
+
+            /* iPhone SE - Force dropdown items to be tiny */
+            .menu-dropdown-item a {
+              font-size: 6px !important;
+              color: #ffffff !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Mobile maximum specificity override for extra small screens */
+            nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+              font-size: 6px !important;
+              color: #ffffff !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Override the global dropdown font size for iPhone SE */
+            .menu-dropdown-item a {
+              font-size: 6px !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Maximum specificity override for iPhone SE dropdown items */
+            nav .menu-overlay .menu-dropdown .menu-dropdown-item a {
+              font-size: 6px !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Override global menu-link styles for dropdown items on iPhone SE */
+            .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+              font-size: 6px !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Additional maximum specificity overrides for iPhone SE dropdown items */
+            nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+              font-size: 6px !important;
+              color: #ffffff !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Global dropdown item override for iPhone SE */
+            .menu-dropdown .menu-dropdown-item a {
+              font-size: 6px !important;
+              color: #ffffff !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            /* Nuclear option - target all dropdown links with maximum specificity */
+            nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a,
+            nav .menu-overlay .menu-content-wrapper .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a,
+            .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+              font-size: 6px !important;
+              color: #ffffff !important;
+              transform: scale(0.6) !important;
+              transform-origin: left center !important;
+            }
+
+            .menu-tag a {
+              font-size: 18px;
+              color: #ffffff !important;
+            }
+          }
       `}</style>
 
       <nav ref={navRef}>
@@ -1351,13 +1521,13 @@ const Navigation = () => {
                             }, 250);
                           }
                         }}
-                        style={{
-                          fontSize: isMobile ? '1.8rem' : '3rem',
-                          fontWeight: '500',
-                          lineHeight: '1.2',
-                          color: '#ffffff',
-                          textDecoration: 'none'
-                        }}
+                                                 style={{
+                           fontSize: isMobile ? (window.innerWidth <= 375 ? '24px' : window.innerWidth <= 480 ? '1.4rem' : '1.8rem') : '3rem',
+                           fontWeight: '500',
+                           lineHeight: '1.2',
+                           color: '#ffffff',
+                           textDecoration: 'none'
+                         }}
                       >
                         {item.label}
 
@@ -1403,18 +1573,18 @@ const Navigation = () => {
                                     setSolutionsDropdownOpen(false);
                                   }
                                 }}
-                                style={{
-                                  fontSize: '16px',
-                                  fontWeight: '500',
-                                  lineHeight: '1.2',
-                                  color: '#ffffff',
-                                  textDecoration: 'none',
-                                  backgroundColor: 'transparent',
-                                  padding: '0px',
-                                  border: 'none',
-                                  transform: 'scale(0.4)',
-                                  transformOrigin: 'left center'
-                                }}
+                                                                 style={{
+                                   fontSize: isMobile ? (window.innerWidth <= 375 ? '6px' : window.innerWidth <= 480 ? '7px' : '8px') : '10px',
+                                   fontWeight: '500',
+                                   lineHeight: '1.2',
+                                   color: '#ffffff',
+                                   textDecoration: 'none',
+                                   backgroundColor: 'transparent',
+                                   padding: '0px',
+                                   border: 'none',
+                                   transform: isMobile && window.innerWidth <= 375 ? 'scale(0.6)' : 'none',
+                                   transformOrigin: isMobile && window.innerWidth <= 375 ? 'left center' : 'initial'
+                                 }}
                                                               >
                                 {dropdownItem.label}
                               </Link>
