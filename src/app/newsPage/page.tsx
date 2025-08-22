@@ -514,7 +514,7 @@ export default function NewsPage() {
                             Brad Hine and Ray O'Connor, Sr. VP at Indigo, discuss private equity's role in fiber-to-the-home and its impact in the U.S. and U.K.
                         </p>
                         <a
-                            href="https://www.indigotg.com/news/the-uk-experience/"
+                            href="/newsPage/news/us-fiber-podcast"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center mt-4 px-5 py-2 bg-[#ecb74c] text-black font-semibold rounded-full text-sm"
@@ -543,7 +543,7 @@ export default function NewsPage() {
                             Indigo announces new leaders, ISO certification, a Grant Thornton award, and U.S. expansion, showcasing our growth and excellence.
                         </p>
                         <a
-                            href="https://www.indigotg.com/news/indigo-company-achievements-june-2024/"
+                            href="/newsPage/news/indigo-company-growth"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center mt-4 px-5 py-2 bg-[#7dd8cd] text-black font-semibold rounded-full text-sm"
@@ -572,7 +572,7 @@ export default function NewsPage() {
                             Learn how we secure subsea cables against rising threats with proactive tracking, rapid repairs, and advanced tech. Insights from Kathy Kirchner, VP of Network Operations, Americas.
                         </p>
                         <a
-                            href="https://www.indigotg.com/news/subsea-cable-security/"
+                            href="/newsPage/news/keeping-subsea-cables-connected"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center mt-4 px-5 py-2 bg-[#e0ff57] text-black font-semibold rounded-full text-sm"
@@ -601,7 +601,7 @@ export default function NewsPage() {
                             Our ISO 9001, 14001, and 45001 recertifications reaffirm Indigo's commitment to excellence, sustainability, security, and safety—empowering your business with the highest standards.
                         </p>
                         <a
-                            href="https://www.indigotg.com/news/empowering-business-with-iso-recertifications/"
+                            href="/newsPage/news/empowering-business-with-iso-recertifications/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center mt-4 px-5 py-2 bg-[#7dd8cd] text-black font-semibold rounded-full text-sm"

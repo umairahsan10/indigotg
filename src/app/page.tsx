@@ -45,7 +45,8 @@ export default function Home() {
       {/* Brands Marquee */}
       <BrandsSection />
 
-
+      {/* News Section */}
+      <Carousel3D />
 
       {/* Interactive Map */}
       <section className="py-24 bg-white">
