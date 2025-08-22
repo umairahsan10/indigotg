@@ -295,7 +295,7 @@ export default function Solutions2() {
           align-items: center;
           position: relative;
           overflow: hidden;
-          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/solutions/handshake.jpg');
+          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/solutions/handshake.png');
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
@@ -988,6 +988,25 @@ export default function Solutions2() {
           <div className="server-light server-light-8"></div>
         </section>
         
+        {/* Breadcrumb Navigation */}
+        <section className="breadcrumb-section bg-white py-4">
+          <div className="container-md">
+            <nav className="breadcrumb-nav">
+              <ol className="flex items-center space-x-2 text-lg">
+                <li>
+                  <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Home
+                  </a>
+                </li>
+                                 <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">
+                  Digital Infrastructure Solutions
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+        
         <section className="cards">
           <div className="card">
             <div className="card-wrapper">
@@ -1030,7 +1049,7 @@ export default function Solutions2() {
                 </div>
               </div>
               <div className="card-img">
-                <Image src="/solutions/card-images-2.jpg" alt="Glass Haven" fill style={{ objectFit: 'cover' }} />
+                <Image src="/solutions/card-images-2.png" alt="Glass Haven" fill style={{ objectFit: 'cover' }} />
               </div>
             </div>
           </div>

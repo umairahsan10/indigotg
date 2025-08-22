@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function CTASection() {
+export default function CTASection({ filename }: { filename?: string }) {
   return (
     <>
       <style jsx global>{`
@@ -15,7 +15,7 @@ export default function CTASection() {
           align-items: center;
           position: relative;
           overflow: hidden;
-          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/solutions/handshake.jpg');
+          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/solutions/handshake.png');
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
@@ -120,7 +120,7 @@ export default function CTASection() {
       <section className="outro">
         <div className="outro-container">
           <div className="outro-content">
-            <h1>Need help with Fixed Line <br/ > design, deploy and support?</h1>
+            <h1>Need help with {filename ? filename.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Fixed Line'} <br/ > design, deploy and support?</h1>
             <p>
             Get in touch to discover how we can partner to design, deploy, and support your digital infrastructure.
             </p>

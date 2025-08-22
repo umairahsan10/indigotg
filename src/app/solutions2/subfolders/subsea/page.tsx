@@ -40,6 +40,31 @@ export default function SubseaPage() {
         </div>
       </section>
 
+      {/* Breadcrumb Navigation */}
+      <section className="bg-white py-4">
+        <div className="max-w-7xl mx-auto px-4">
+          <nav className="breadcrumb-nav">
+            <ol className="flex items-center space-x-2 text-sm">
+              <li>
+                <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                  Home
+                </a>
+              </li>
+                              <li className="text-[#140079]">•</li>
+                <li>
+                  <a href="/solutions" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Digital Infrastructure Solutions
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+              <li className="text-[#140079]">
+                Subsea
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </section>
+
       {/* Main Content Section */}
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
@@ -149,7 +174,7 @@ export default function SubseaPage() {
       </section>
 
       {/* CTA Section */}
-      <CTASection />
+      <CTASection filename="subsea" />
     </div>
   );
 }
