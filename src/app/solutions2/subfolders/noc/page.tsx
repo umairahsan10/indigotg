@@ -296,15 +296,40 @@ export default function NOCPage() {
           </div>
         </section>
 
+        {/* Breadcrumb Navigation */}
+        <section className="bg-white py-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="breadcrumb-nav">
+              <ol className="flex items-center space-x-2 text-sm">
+                <li>
+                  <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Home
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li>
+                  <a href="/solutions" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Digital Infrastructure Solutions
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">
+                  Network Operations Centre
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+
         {/* Around the clock support Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef1} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/noc/noc1.jpg"
+                    src="/solutions/noc/noc1.png"
                     alt="24/7 Clock Display"
                     width={700}
                     height={400}
@@ -327,7 +352,7 @@ export default function NOCPage() {
         </section>
 
         {/* In 60+ countries Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -344,7 +369,7 @@ export default function NOCPage() {
               <div ref={imageRef2} className="relative image-content image-right">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/noc/noc2.jpg"
+                    src="/solutions/noc/noc2.png"
                     alt="Global Presence Map"
                     width={700}
                     height={400}
@@ -357,14 +382,14 @@ export default function NOCPage() {
         </section>
 
         {/* Core Services Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef3} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/noc/noc3.jpg"
+                    src="/solutions/noc/noc3.png"
                     alt="Network Operations Center"
                     width={700}
                     height={400}
@@ -418,12 +443,12 @@ export default function NOCPage() {
         </section>
 
         {/* Optional Services Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef4} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef4} className="space-y-3 text-content">
+                <h2 className="text-4xl md:text-5xl mb-6 lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Optional Services
                 </h2>
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
@@ -465,7 +490,7 @@ export default function NOCPage() {
               <div ref={imageRef4} className="relative image-content image-right">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/noc/noc4.jpg"
+                    src="/solutions/noc/noc4.png"
                     alt="Professional Office Environment"
                     width={700}
                     height={400}
@@ -477,8 +502,7 @@ export default function NOCPage() {
           </div>
         </section>
 
-        {/* Indigo subsea Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
@@ -502,16 +526,18 @@ export default function NOCPage() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
                   We have a dedicated NOC to provide system operator support for modern submarine networks, transforming the legacy fault reporting process into a modern proactive network analysis model, managing the entire system end to end.
                 </p>
-                <button className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
-                  Systems Operator Support
-                </button>
+                                 <a href="/solutions/subsea">
+                   <button className="bg-yellow-500 mt-8 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                     Systems Operator Support
+                   </button>
+                 </a>
               </div>
             </div>
           </div>
         </section>
 
         {/* How we're different Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -528,6 +554,7 @@ export default function NOCPage() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
                   We're ISO accredited and work to ITILv4 standards. Find out more about <a href="#" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">our certifications</a>.
                 </p>
+                {/*vacancies pr jaye ga button and responsiblities certifications*/}
                 <button className="mt-6 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
                   Join the team
                 </button>
@@ -550,7 +577,7 @@ export default function NOCPage() {
         </section>
 
         {/* Testimonial Section */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 mt-8">
           <h2 className="text-4xl md:text-5xl lg:text-5xl py-2 mb-2 font-roboto font-bold text-[#140079]">
             A team with professionalism, drive and creativity <br /> in everything they do
           </h2>
@@ -558,7 +585,7 @@ export default function NOCPage() {
         <Testimonials />
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection filename="network-operations-centre" />
       </div>
     </>
   );

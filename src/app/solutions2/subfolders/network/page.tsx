@@ -276,15 +276,40 @@ export default function NetworkPage() {
           </div>
         </section>
 
+        {/* Breadcrumb Navigation */}
+        <section className="bg-white py-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="breadcrumb-nav">
+              <ol className="flex items-center space-x-2 text-sm">
+                <li>
+                  <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Home
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li>
+                  <a href="/solutions" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Digital Infrastructure Solutions
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">
+                  Network Services
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+
         {/* First Section - Global Footprint */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef1} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/net/n1.jpg"
+                    src="/solutions/net/n1.png"
                     alt="Network Operations Center"
                     width={700}
                     height={400}
@@ -312,7 +337,7 @@ export default function NetworkPage() {
         </section>
 
         {/* Second Section - Network Operations Centre */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-gray-300 to-gray-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -332,7 +357,7 @@ export default function NetworkPage() {
               <div ref={imageRef2} className="relative image-content image-right">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/net/n2.jpg"
+                    src="/solutions/net/n2.png"
                     alt="Network Operations Center Staff"
                     width={700}
                     height={400}
@@ -345,14 +370,14 @@ export default function NetworkPage() {
         </section>
 
         {/* Third Section - Network Services Include */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-0 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef3} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/net/n3.jpg"
+                    src="/solutions/net/n3.png"
                     alt="Indigo Field Engineers"
                     width={700}
                     height={400}
@@ -362,11 +387,11 @@ export default function NetworkPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-4 text-content">
+              <div ref={textRef3} className="space-y-2 text-content mb-10">
                 <h2 className="text-3xl md:text-5xl lg:text-4xl font-roboto font-bold text-[#140079] leading-tight">
                   Our Network Services Include
                 </h2>
-                <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
+                <ul className="space-y-2 text-lg md:text-xl text-[#140079] font-roboto">
                   <li className="flex items-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Site survey and audit</a>
@@ -430,7 +455,7 @@ export default function NetworkPage() {
         </section>
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection filename="network" />
       </div>
     </>
   );

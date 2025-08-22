@@ -346,8 +346,7 @@ export default function WirelessPage() {
                   Wireless
                 </h1>
                 <p className="text-lg md:text-xl leading-relaxed font-roboto">
-                  For 25 years, Indigo has been delivering wireless solutions to network operators, supporting everything from the earliest mobile generations to the latest 5G technologies. In today’s rapidly evolving market with soaring demand for high-speed data, we provide comprehensive design, deployment, and support services to ensure networks remain resilient and reliable.
-                </p>
+                  Indigo has been providing wireless solutions to network operators for 25 years, from the first generation of mobile to emerging 5G technologies. In a fast-changing market with spiraling demand for high-speed data, we deliver a range of design, deploy and support services to assure the resiliency and reliability of your networks.                </p>
                 <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
                   JOIN THE TEAM
                 </button>
@@ -361,8 +360,33 @@ export default function WirelessPage() {
           </div>
         </section>
 
+        {/* Breadcrumb Navigation */}
+        <section className="bg-white py-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="breadcrumb-nav">
+              <ol className="flex items-center space-x-2 text-sm">
+                <li>
+                  <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Home
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li>
+                  <a href="/solutions" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Digital Infrastructure Solutions
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">
+                  Wireless
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+
         {/* First Section - Design and Deployment Services */}
-        <section className="min-h-[80vh] flex items-center mb-10 mt-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 mt-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Video */}
@@ -400,7 +424,7 @@ export default function WirelessPage() {
         </section>
 
         {/* Second Section - Partners in Business Strategy */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-purple-200 to-orange-100">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -436,7 +460,7 @@ export default function WirelessPage() {
         </section>
 
         {/* Third Section - Wireless Services Include */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-0 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Video */}
@@ -528,7 +552,7 @@ export default function WirelessPage() {
         </section>
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection filename="wireless" />
       </div>
     </>
   );

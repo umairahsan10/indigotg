@@ -128,6 +128,11 @@ export default function DataCentresPage() {
           }
         }
 
+        /* Floating animation for data sheet elements */
+        .floating-div {
+          animation: floating 3s ease-in-out infinite;
+        }
+          
         /* Enhanced text animations */
         .text-content h2 {
           opacity: 0;
@@ -231,6 +236,49 @@ export default function DataCentresPage() {
         .text-content a:hover {
           color: #eab308 !important;
         }
+
+        /* Floating Card Effects */
+        .floating-card {
+          animation: floating 6s ease-in-out infinite;
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.1),
+            0 10px 20px rgba(0, 0, 0, 0.05),
+            0 0 0 1px rgba(0, 0, 0, 0.02);
+        }
+
+        .floating-card:nth-child(2) {
+          animation-delay: -3s;
+        }
+
+        .floating-card:hover {
+          animation-play-state: paused;
+        }
+
+        .floating-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+          border-radius: 2rem;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .floating-card:hover::before {
+          opacity: 1;
+        }
+
+        /* Enhanced shadow for floating cards */
+        .shadow-3xl {
+          box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(0, 0, 0, 0.05),
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
       `}</style>
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
@@ -238,7 +286,7 @@ export default function DataCentresPage() {
           {/* Background Image - Full Width */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/solutions/card-images-1.jpg"
+              src="/solutions/card-images-3.jpg"
               alt="Data Centres Background"
               fill
               style={{ objectFit: 'cover' }}
@@ -273,15 +321,40 @@ export default function DataCentresPage() {
           </div>
         </section>
 
+        {/* Breadcrumb Navigation */}
+        <section className="bg-white py-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="breadcrumb-nav">
+              <ol className="flex items-center space-x-2 text-sm">
+                <li>
+                  <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Home
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li>
+                  <a href="/solutions" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Digital Infrastructure Solutions
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">
+                  Data Centres
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+
         {/* Experienced Data Centre Engineers Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white mt-10">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white mt-10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef1} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/dc/dc1.jpg"
+                    src="/solutions/dc/dc1.png"
                     alt="Data Centre Engineers"
                     width={700}
                     height={400}
@@ -291,8 +364,8 @@ export default function DataCentresPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef1} className="space-y-2 text-content mt-10 mb-10">
+                <h2 className="text-4xl md:text-5xl lg:text-5xl mb-4 font-roboto font-bold text-[#140079] leading-tight">
                   Experienced Data Centre Engineers
                 </h2>
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
@@ -312,11 +385,11 @@ export default function DataCentresPage() {
         </section>
 
         {/* Data Centre Solutions Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#b3c8cf] to-green-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef2} className="space-y-8 text-content">
+              <div ref={textRef2} className="space-y-3 text-content">
                 <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Data Centre Solutions
                 </h2>
@@ -367,7 +440,7 @@ export default function DataCentresPage() {
               <div ref={imageRef2} className="relative image-content image-right">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/dc/dc2.jpg"
+                    src="/solutions/dc/dc2.png"
                     alt="Data Centre Solutions"
                     width={700}
                     height={400}
@@ -380,14 +453,14 @@ export default function DataCentresPage() {
         </section>
 
         {/* Data Centre eBook Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef3} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/dc/dc3.jpg"
+                    src="/solutions/dc/dc3.png"
                     alt="Data Centre eBook"
                     width={700}
                     height={400}
@@ -407,39 +480,64 @@ export default function DataCentresPage() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
                   Alongside this analysis, the eBook outlines how Indigo can help with your bespoke requirements through our wide range of solutions.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="#" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Data Sheets Section */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-[#b3c8cf] to-green-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <div ref={textRef4} className="space-y-8 text-content">
                 <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Data Sheets
                 </h2>
-                <div className="flex flex-col md:flex-row gap-8 justify-center items-center mt-12">
-                  <a href="/solutions/dc/indigo-data-sheet-DATA-CENTRE-DESIGN-1.pdf" download className="group flex items-center space-x-4 bg-[#140079] p-6 rounded-lg hover:shadow-lg transition-all duration-300 hover:bg-white hover:border-2 hover:border-[#140079] cursor-pointer">
-                    <svg className="w-8 h-8 text-white group-hover:text-[#140079]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span className="text-lg font-semibold text-white group-hover:text-[#140079] font-roboto">Data Centre Design</span>
-                    <svg className="w-6 h-6 text-white group-hover:text-[#140079]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                  </a>
-                  <a href="/solutions/dc/Indigo-Data-Sheet-Data-Centre-Services.pdf" download className="group flex items-center space-x-4 bg-[#140079] p-6 rounded-lg hover:shadow-lg transition-all duration-300 hover:bg-white hover:border-2 hover:border-[#140079] cursor-pointer">
-                    <svg className="w-8 h-8 text-white group-hover:text-[#140079]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span className="text-lg font-semibold text-white group-hover:text-[#140079] font-roboto">Data Centre Services</span>
-                    <svg className="w-6 h-6 text-white group-hover:text-[#140079]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                  </a>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center items-center mt-12 max-w-4xl mx-auto">
+                  {/* Data Centre Design Card */}
+                  <div className="relative bg-transparent rounded-2xl p-8 floating-div">
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-center mb-6">
+                        <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-2xl font-bold text-[#140079] mb-6 font-roboto text-center">
+                        Data Centre Design
+                      </h3>
+                      <a href="/solutions/dc/indigo-data-sheet-DATA-CENTRE-DESIGN-1.pdf" download className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#140079] to-blue-600 text-white px-6 py-3 rounded-full font-semibold">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Download</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Data Centre Services Card */}
+                  <div className="relative bg-transparent rounded-2xl p-8 floating-div">
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-center mb-6">
+                        <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-2xl font-bold text-[#140079] mb-6 font-roboto text-center">
+                        Data Centre Services
+                      </h3>
+                      <a href="/solutions/dc/Indigo-Data-Sheet-Data-Centre-Services.pdf" download className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#140079] to-green-600 text-white px-6 py-3 rounded-full font-semibold">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Download</span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -447,7 +545,7 @@ export default function DataCentresPage() {
         </section>
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection filename="data-centres" />
       </div>
     </>
   );

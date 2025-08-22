@@ -233,13 +233,13 @@ export default function FixedLinePage() {
           color: #eab308 !important;
         }
       `}</style>
-      <div className="min-h-screen space-y-6 bg-white">
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/solutions/card-images-1.jpg"
+              src="/solutions/card-images-1.png"
               alt="Fixed Line Background"
               fill
               style={{ objectFit: 'cover' }}
@@ -274,15 +274,40 @@ export default function FixedLinePage() {
           </div>
         </section>
 
+        {/* Breadcrumb Navigation */}
+        <section className="bg-white py-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="breadcrumb-nav">
+              <ol className="flex items-center space-x-2 text-sm">
+                <li>
+                  <a href="/" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Home
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li>
+                  <a href="/solutions" className="text-[#140079] hover:text-yellow-500 transition-colors duration-300 underline">
+                    Digital Infrastructure Solutions
+                  </a>
+                </li>
+                <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">
+                  Fixed Line
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+
         {/* Survey, Design and Planning Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef1} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow"  >
                   <Image
-                    src="/solutions/line/l1.jpg"
+                    src="/solutions/line/l1.png"
                     alt="Survey, Design and Planning"
                     width={700}
                     height={400}
@@ -304,7 +329,7 @@ export default function FixedLinePage() {
         </section>
 
         {/* Experienced Fibre Services Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
@@ -335,14 +360,14 @@ export default function FixedLinePage() {
         </section>
 
         {/* End to End Planning Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef3} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/line/l3.jpg"
+                    src="/solutions/line/l3.png"
                     alt="End to End Planning"
                     width={700}
                     height={400}
@@ -359,16 +384,16 @@ export default function FixedLinePage() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
                   Whether offering a “decoupled” design service or providing integrated design and deploy services, we work closely with digital infrastructure companies to roll out fixed lines in both urban and rural communities. We manage the deployment of the passive and active equipment, in addition to providing wayleave and consenting services to not only accelerate the customer connection time, but also to increase the amount of connections.                </p>
               </div>
-            </div>
+            </div>  
           </div>
         </section>
 
         {/* Equipment Install and Decommissioning Section */}
-        <section className="min-h-[80vh] flex items-center mb-10  bg-white">
+        <section className="min-h-[90vh] space-y-4 flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef4} className="space-y-6 text-content">
+              <div ref={textRef4} className="space-y-3 text-content">
                 <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Equipment Install and Decommissioning
                 </h2>
@@ -387,7 +412,7 @@ export default function FixedLinePage() {
               <div ref={imageRef4} className="relative image-content image-right">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/line/l4.jpg"
+                    src="/solutions/line/l4.png"
                     alt="Equipment Install and Decommissioning"
                     width={700}
                     height={400}
@@ -400,14 +425,14 @@ export default function FixedLinePage() {
         </section>
 
         {/* Maintenance and Support Section */}
-        <section className="min-h-[80vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Image */}
               <div ref={imageRef5} className="relative image-content image-left">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/line/l5.jpg"
+                    src="/solutions/line/l5.png"
                     alt="Maintenance and Support"
                     width={700}
                     height={400}
@@ -432,12 +457,12 @@ export default function FixedLinePage() {
         </section>
 
         {/* Our Fixed Line Services Include Section */}
-        <section className="min-h-[80vh] flex items-center mb-20 bg-white">
+        <section className="min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef6} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef6} className="text-content">
+                <h2 className="text-4xl mb-4 md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Our fixed line services include:
                 </h2>
                 <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
@@ -484,7 +509,7 @@ export default function FixedLinePage() {
               <div ref={imageRef6} className="relative image-content image-right">
                 <div className="relative rounded-2xl overflow-hidden image-shadow">
                   <Image
-                    src="/solutions/line/l6.jpg"
+                    src="/solutions/line/l6.png"
                     alt="Fixed Line Services"
                     width={700}
                     height={400}
@@ -497,7 +522,7 @@ export default function FixedLinePage() {
         </section>
 
         {/* CTA Section */}
-        <CTASection />
+        <CTASection filename="fixed-line" />
       </div>
     </>
   );

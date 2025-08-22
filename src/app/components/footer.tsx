@@ -81,7 +81,7 @@ export default function Footer() {
                 <li><Link href="/news" className="hover:underline">News</Link></li>
                 <li><Link href="/our-services" className="hover:underline">Customer</Link></li>
                 <li><Link href="/our-services" className="hover:underline">Support</Link></li>
-                <li><Link href="/resources" className="hover:underline">Partner Portal</Link></li>
+                <li><Link href="/partner-portal" className="hover:underline">Partner Portal</Link></li>
                 <li><Link href="/resources" className="hover:underline">Resources</Link></li>
                 <li><Link href="/get-in-touch" className="hover:underline">Get In Touch</Link></li>
               </ul>
