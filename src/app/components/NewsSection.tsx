@@ -504,11 +504,11 @@ const Carousel3D = ({
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.9, y: 20 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className={`w-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-2xl ${
-                        isMobile 
-                          ? 'max-w-[95%] h-[50%] sm:max-w-[500px] sm:h-fit sm:max-h-[75%]' 
-                          : 'max-w-[600px] h-full md:h-fit md:max-h-[85%]'
-                      }`}
+                                             className={`w-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-2xl ${
+                         isMobile 
+                           ? 'max-w-[95%] max-h-[85vh] sm:max-w-[500px] sm:max-h-[90vh]' 
+                           : 'max-w-[600px] max-h-[95vh]'
+                       }`}
                       onTouchMove={(e) => e.stopPropagation()}
                       onWheel={(e) => e.stopPropagation()}
                     >
@@ -552,45 +552,45 @@ const Carousel3D = ({
                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                      </div>
 
-                                           {/* Content Section */}
-                      <div className={`flex-1 flex flex-col ${
-                        isMobile ? 'p-2 sm:p-3' : 'p-8'
-                      }`}>
-                                               <h2 className={`font-bold text-gray-900 leading-tight ${
-                          isMobile 
-                            ? 'text-base sm:text-lg mb-1.5 sm:mb-2' 
-                            : 'text-3xl mb-4'
-                        }`}>
-                          {currentItem.title}
-                        </h2>
-                       
-                                               <div className="flex-1 overflow-y-auto">
-                          <p className={`text-gray-600 leading-relaxed ${
-                            isMobile 
-                              ? 'text-xs sm:text-sm mb-3 sm:mb-4' 
-                              : 'text-lg mb-8'
-                          }`}>
-                            {currentItem.content || currentItem.description}
-                          </p>
-                        </div>
-                       
-                                               {/* Action Button */}
-                        <button
-                          className={`w-full bg-[#04048b] text-white rounded-xl font-semibold hover:bg-[#03035a] transition-all duration-200 hover:scale-[1.02] transform shadow-lg hover:shadow-xl mt-auto ${
-                            isMobile 
-                              ? 'py-2 px-2.5 text-xs sm:py-2.5 sm:px-3 sm:text-sm' 
-                              : 'py-4 px-6 text-lg'
-                          }`}
-                          onClick={() => {
-                            handleModalClose();
-                            if (currentItem.link && currentItem.link !== "#") {
-                              window.open(currentItem.link, '_blank');
-                            }
-                          }}
-                        >
-                          Read Story
-                        </button>
-                     </div>
+                                                                  {/* Content Section */}
+                       <div className={`flex flex-col h-full ${
+                         isMobile ? 'p-2 sm:p-3' : 'p-8'
+                       }`}>
+                         <h2 className={`font-bold text-gray-900 leading-tight ${
+                           isMobile 
+                             ? 'text-sm mb-1.5' 
+                             : 'text-xl mb-3'
+                         }`}>
+                           {currentItem.title}
+                         </h2>
+                        
+                         <div className="flex-1 overflow-y-auto min-h-0 mb-4">
+                           <p className={`text-gray-600 leading-relaxed ${
+                             isMobile 
+                               ? 'text-xs' 
+                               : 'text-sm'
+                           }`}>
+                             {currentItem.content || currentItem.description}
+                           </p>
+                         </div>
+                        
+                         {/* Action Button - Always visible at bottom */}
+                         <button
+                           className={`w-full bg-[#04048b] text-white rounded-xl font-semibold hover:bg-[#03035a] transition-all duration-200 hover:scale-[1.02] transform shadow-lg hover:shadow-xl mt-auto ${
+                             isMobile 
+                               ? 'py-2 px-2.5 text-xs sm:py-2.5 sm:px-3 sm:text-sm' 
+                               : 'py-4 px-6 text-lg'
+                           }`}
+                           onClick={() => {
+                             handleModalClose();
+                             if (currentItem.link && currentItem.link !== "#") {
+                               window.open(currentItem.link, '_blank');
+                             }
+                           }}
+                         >
+                           Read More
+                         </button>
+                       </div>
                   </motion.div>
                 </div>
               </>
