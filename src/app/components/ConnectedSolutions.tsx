@@ -1,5 +1,5 @@
 // src/components/ConnectedSolutions.tsx
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useTilt from "../hooks/useTilt";
@@ -19,25 +19,25 @@ const cards: Card[] = [
     key: "fixed",
     title: "Fixed Line",
     description: "Expert end-to-end connections from pre-planning to upgrades",
-    imageSrc: "/home/sol-1.jpg",
+    imageSrc: "/solutions/card-images-1.png",
   },
   {
     key: "subsea",
     title: "Subsea",
     description: "System operator support for modern submarine networks",
-    imageSrc: "/home/sol-2.png",
+    imageSrc: "/solutions/card-images-2.png",
   },
   {
     key: "data",
     title: "Data Centres",
     description: "Comprehensive solutions for leading edge and legacy infrastructure",
-    imageSrc: "/home/sol-3.jpg",
+    imageSrc: "/solutions/card-images-3.jpg",
   },
   {
     key: "wireless",
     title: "Wireless",
     description: "Resilient and reliable wireless services for next-generation networks",
-    imageSrc: "/home/sol-4.jpg",
+    imageSrc: "/solutions/card-images-4.jpg",
   },
 ];
 
@@ -46,9 +46,19 @@ const cards: Card[] = [
 export default function ConnectedSolutions() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const bgRef = useRef<SVGSVGElement | null>(null);
+  const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
+  const [isMobile, setIsMobile] = useState(false);
   // no external animation refs required
 
   useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     if (!bgRef.current) return;
     const dots = bgRef.current.querySelectorAll(".dot");
 
@@ -68,14 +78,33 @@ export default function ConnectedSolutions() {
       onEnterBack: () => gsap.to(tl, { timeScale: 1, duration: 0.6 }),
     });
 
+    
+
     return () => {
       tl.kill();
       ScrollTrigger.getAll().forEach(t => t.kill());
+      window.removeEventListener('resize', checkMobile);
     };
-  }, []);
+  }, [isMobile]);
 
   // no-op
   const attachLottieRef = () => {};
+
+  const handleCardTap = (cardKey: string) => {
+    if (!isMobile) return;
+    
+    setFlippedCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(cardKey)) {
+        newSet.delete(cardKey);
+      } else {
+        // Close all other cards first
+        newSet.clear();
+        newSet.add(cardKey);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden py-20 px-6 lg:px-24 bg-[#f2f7ff]">
@@ -126,14 +155,30 @@ export default function ConnectedSolutions() {
       </div>
 
       {/* Cards */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {cards.map((c) => (
           <CardItem
             key={c.key}
             card={c}
             onMount={() => attachLottieRef()}
+            isFlipped={flippedCards.has(c.key)}
+            onTap={() => handleCardTap(c.key)}
+            isMobile={isMobile}
           />
         ))}
+      </div>
+
+      {/* View All Solutions Button */}
+      <div className="max-w-6xl mx-auto text-center">
+        <a 
+          href="/solutions2" 
+          className="inline-flex items-center px-6 py-3 lg:px-8 lg:py-4 bg-[#04048b] text-white font-semibold rounded-xl border-2 border-[#04048b] hover:bg-white hover:text-[#04048b] transition-all duration-300 hover:shadow-lg hover:scale-105 transform text-sm lg:text-base"
+        >
+          View all Solutions
+          <svg className="ml-2 w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
       </div>
     </section>
   );
@@ -141,7 +186,19 @@ export default function ConnectedSolutions() {
 
 /* --- Subcomponent: CardItem --- */
 
-function CardItem({ card, onMount }: { card: Card; onMount?: (inst: any) => void }) {
+function CardItem({ 
+  card, 
+  onMount, 
+  isFlipped, 
+  onTap, 
+  isMobile 
+}: { 
+  card: Card; 
+  onMount?: (inst: any) => void; 
+  isFlipped?: boolean;
+  onTap?: () => void;
+  isMobile?: boolean;
+}) {
   const tiltRef = useTilt<HTMLDivElement>();
 
   useEffect(() => {
@@ -150,21 +207,33 @@ function CardItem({ card, onMount }: { card: Card; onMount?: (inst: any) => void
 
   return (
     <div className="relative">
-      <div ref={tiltRef} className="group transition-transform duration-300 [perspective:1200px]">
+      <div 
+        ref={tiltRef} 
+        className={`group transition-transform duration-300 [perspective:1200px] ${isMobile ? 'cursor-pointer' : ''}`}
+        onClick={isMobile ? onTap : undefined}
+      >
         {/* Flip Container */}
-        <div className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 group-hover:[transform:rotateY(180deg)]" style={{ minHeight: 300 }}>
+        <div 
+          className={`relative w-full [transform-style:preserve-3d] transition-transform duration-500 ${
+            isMobile 
+              ? (isFlipped ? '[transform:rotateY(180deg)]' : '') 
+              : 'group-hover:[transform:rotateY(180deg)]'
+          }`} 
+          style={{ 
+            minHeight: isMobile ? 220 : 300,
+            height: isMobile ? 220 : 300
+          }}
+        >
           {/* Front Face */}
           <div className="absolute inset-0 [backface-visibility:hidden]">
-            <div className="bg-[#04048b] backdrop-blur-md border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 h-full flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgba(79,70,229,0.08)]">
-              <div className="flex items-center justify-center w-20 h-20 mb-4">
+            <div className="bg-[#04048b] backdrop-blur-md border border-[rgba(255,255,255,0.06)] rounded-2xl p-4 lg:p-6 h-full flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgba(79,70,229,0.08)]">
+              <div className="flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 mb-3 lg:mb-4">
                 <Icon type={card.key} />
               </div>
-              <h3 className="text-2xl font-semibold text-white/90 mb-2">{card.title}</h3>
-              <p className="text-sm text-slate-300/90 mt-2">{card.description}</p>
-              <div className="mt-auto pt-6 w-full">
-                <div className="h-[1px] bg-gradient-to-r from-transparent via-white/6 to-transparent mb-4" />
-                <div className="text-xs text-slate-400">Learn more →</div>
-              </div>
+              <h3 className="text-lg lg:text-2xl font-semibold text-white/90 mb-2">{card.title}</h3>
+              <p className="text-xs lg:text-sm text-slate-300/90 mt-2 leading-relaxed">{card.description}</p>
+              <div className="mt-auto pt-4 lg:pt-6 w-full">
+                <div className="h-[1px] bg-gradient-to-r from-transparent via-white/6 to-transparent mb-3 lg:mb-4" />              </div>
             </div>
           </div>
 
@@ -196,7 +265,7 @@ function CardItem({ card, onMount }: { card: Card; onMount?: (inst: any) => void
 
 /* --- Inline SVG Icons --- */
 function Icon({ type }: { type: string }) {
-  const common = "w-16 h-16 text-cyan-300";
+  const common = "w-12 h-12 lg:w-16 lg:h-16 text-cyan-300";
   switch (type) {
     case "fixed":
       return (

@@ -23,40 +23,53 @@ export const LogosSection = () => {
 
         {/* Horizontal scrolling logos */}
         <div className="mt-8 lg:mt-12 overflow-hidden w-full [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="brands-scroll flex gap-12 pr-12 will-change-transform">
-            {[...new Array(2)].fill(0).map((_, idx) => (
-              <Fragment key={idx}>
-                {brands.map((brand) => (
+          <div className="brands-scroll flex will-change-transform">
+            {/* Create multiple copies for seamless infinite scroll */}
+            {[...new Array(4)].fill(0).map((_, idx) => (
+              <div key={idx} className="flex gap-8 md:gap-12 pr-8 md:pr-12 flex-shrink-0">
+                {brands.map((brand, brandIdx) => (
                   <a
-                    key={`${idx}-${brand.src}`}
+                    key={`${idx}-${brandIdx}`}
                     href={brand.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block hover:scale-110 transition-transform duration-300"
+                    className="inline-block hover:scale-110 transition-transform duration-300 flex-shrink-0"
                   >
-                    <div className="relative h-28 md:h-36 w-[180px] md:w-[240px]">
+                    <div className="relative h-32 w-32 sm:h-36 sm:w-36 md:h-28 md:w-[180px] lg:h-36 lg:w-[240px]">
                       <Image
                         src={brand.src}
                         alt="Client logo"
                         fill
                         className="object-contain"
-                        sizes="240px"
+                        sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, (max-width: 1024px) 180px, 240px"
                         priority={idx === 0}
                       />
                     </div>
                   </a>
                 ))}
-              </Fragment>
+              </div>
             ))}
           </div>
         </div>
         <style jsx>{`
-          @keyframes scrollLeft {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
+          .brands-scroll {
+            animation: infiniteScroll 40s linear infinite;
+            width: max-content;
           }
-          .brands-scroll { animation: scrollLeft 15s linear infinite; }
-          .brands-scroll:hover { animation-play-state: paused; }
+          .brands-scroll:hover { 
+            animation-play-state: paused; 
+          }
+          
+          @keyframes infiniteScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-25%); }
+          }
+          
+          @media (max-width: 768px) {
+            .brands-scroll {
+              animation: infiniteScroll 25s linear infinite;
+            }
+          }
         `}</style>
       </div>
     </section>

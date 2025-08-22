@@ -8,13 +8,13 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10">
           {/* Left: Logo + Contacts + Socials */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-4">
+          <div className="md:col-span-2 space-y-6 text-center md:text-left">
+            <div className="flex items-center gap-4 justify-center md:justify-start">
               {/* Update the src to your actual logo filename in /public */}
               <Image src="/logo-white.png" alt="Indigo" width={240} height={60} className="w-auto h-14 md:h-16" />
             </div>
 
-            <div className="mt-6 space-y-2 text-sm/6 opacity-90">
+            <div className="mt-6 space-y-2 text-sm/6 md:text-base/6 opacity-90">
               <p><span className="font-semibold">United Kingdom</span> +44 129 1435500</p>
               <p><span className="font-semibold">Ireland</span> +353 61 306 688</p>
               <p><span className="font-semibold">USA</span> +1 719-408-8847</p>
@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
 
             {/* Socials */}
-            <div className="mt-6 flex items-center gap-4">
+            <div className="mt-6 flex items-center gap-4 justify-center md:justify-start">
               <Link href="#" aria-label="LinkedIn" className="hover:opacity-90 transition-opacity">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6C1.12 6 0 4.88 0 3.5C0 2.12 1.12 1 2.5 1C3.88 1 4.98 2.12 4.98 3.5ZM0 8H5V24H0V8ZM7.98 8H12.76V10.16H12.84C13.52 8.86 15.16 7.5 17.64 7.5C22.44 7.5 24 10.66 24 15.06V24H19V15.98C19 13.86 18.96 11.2 16.12 11.2C13.24 11.2 12.82 13.46 12.82 15.82V24H7.98V8Z" fill="white"/>
@@ -47,10 +47,10 @@ export default function Footer() {
           </div>
 
           {/* Right link columns */}
-          <div className="md:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-10">
+          <div className="md:col-span-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 text-center md:text-left">
             <div>
-              <p className="mb-3 font-semibold">Who we are</p>
-              <ul className="space-y-2 text-base/7 md:text-lg/7 opacity-90">
+              <p className="mb-3 font-semibold text-sm md:text-base">Who we are</p>
+              <ul className="space-y-2 text-sm/6 md:text-base/7 lg:text-lg/7 opacity-90">
                 <li><Link href="/who-we-are" className="hover:underline">Leadership Team</Link></li>
                 <li><Link href="/who-we-are" className="hover:underline">Vision & Values</Link></li>
                 <li><Link href="/who-we-are" className="hover:underline">SHEQ</Link></li>
@@ -58,16 +58,16 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <p className="mb-3 font-semibold">Our Services</p>
-              <ul className="space-y-2 text-base/7 md:text-lg/7 opacity-90">
+              <p className="mb-3 font-semibold text-sm md:text-base">Our Services</p>
+              <ul className="space-y-2 text-sm/6 md:text-base/7 lg:text-lg/7 opacity-90">
                 <li><Link href="/our-services" className="hover:underline">Design</Link></li>
                 <li><Link href="/our-services" className="hover:underline">Deploy</Link></li>
                 <li><Link href="/our-services" className="hover:underline">Support</Link></li>
               </ul>
             </div>
             <div>
-              <p className="mb-3 font-semibold">Solutions</p>
-              <ul className="space-y-2 text-base/7 md:text-lg/7 opacity-90">
+              <p className="mb-3 font-semibold text-sm md:text-base">Solutions</p>
+              <ul className="space-y-2 text-sm/6 md:text-base/7 lg:text-lg/7 opacity-90">
                 <li><Link href="/solutions" className="hover:underline">Data Centres</Link></li>
                 <li><Link href="/solutions" className="hover:underline">Fixed Line</Link></li>
                 <li><Link href="/solutions" className="hover:underline">Network</Link></li>
@@ -76,8 +76,8 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <p className="mb-3 font-semibold">Success Stories</p>
-              <ul className="space-y-2 text-base/7 md:text-lg/7 opacity-90">
+              <p className="mb-3 font-semibold text-sm md:text-base">Success Stories</p>
+              <ul className="space-y-2 text-sm/6 md:text-base/7 lg:text-lg/7 opacity-90">
                 <li><Link href="/news" className="hover:underline">News</Link></li>
                 <li><Link href="/our-services" className="hover:underline">Customer</Link></li>
                 <li><Link href="/our-services" className="hover:underline">Support</Link></li>
@@ -92,7 +92,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/20">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-2 text-sm opacity-90">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-center md:justify-between gap-2 text-sm opacity-90 text-center md:text-left">
           <div className="flex items-center gap-3">
             <Link href="#" className="hover:underline">Terms & Conditions</Link>
             <span className="hidden md:inline">|</span>

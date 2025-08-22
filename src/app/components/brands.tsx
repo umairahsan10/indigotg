@@ -109,7 +109,7 @@ const companyStories: CompanyStory[] = [
 const StoryCard = ({ story }: { story: CompanyStory }) => {
   return (
     <div
-      className="group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200 rounded-3xl shadow-2xl"
+      className="group relative h-[280px] w-[280px] md:h-[350px] md:w-[350px] lg:h-[450px] lg:w-[450px] overflow-hidden bg-neutral-200 rounded-3xl shadow-2xl"
     >
       <div
         style={{
@@ -124,14 +124,14 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
       
       {/* Content */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
+      <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-6 lg:p-8">
         {/* Company Name */}
-        <h3 className="text-3xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 md:mb-3" style={{ fontFamily: 'var(--font-geist-sans)' }}>
           {story.name}
         </h3>
         
         {/* Description */}
-        <p className="text-white/80 text-sm mb-4" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+        <p className="text-white/80 text-xs md:text-sm mb-3 md:mb-4" style={{ fontFamily: 'var(--font-geist-sans)' }}>
           {story.description}
         </p>
         
@@ -148,14 +148,14 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
 
           <button
             className={`
-              px-4 py-2 rounded-full 
-              flex items-center gap-2 
+              px-3 py-1.5 md:px-4 md:py-2 rounded-full 
+              flex items-center gap-1 md:gap-2 
               text-white
               shadow-[-5px_-5px_10px_rgba(255,_255,_255,_0.8),_5px_5px_10px_rgba(0,_0,_0,_0.25)]
               transition-all
               hover:shadow-[-1px_-1px_5px_rgba(255,_255,_255,_0.6),_1px_1px_5px_rgba(0,_0,_0,_0.3),inset_-2px_-2px_5px_rgba(255,_255,_255,_1),inset_2px_2px_4px_rgba(0,_0,_0,_0.3)]
               hover:text-blue-200
-              text-sm font-medium
+              text-xs md:text-sm font-medium
             `}
             style={{ fontFamily: 'var(--font-geist-sans)' }}
           >
@@ -173,14 +173,14 @@ export const BrandsSection = () => {
   const secondGroup = companyStories.slice(4, 8);  // 5-8
 
   return (
-    <section className="py-32 bg-white">
-      <div className="container mx-auto flex flex-col items-center text-center">
-        <h2 className={`mb-8 font-roboto text-4xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>Our Partnerships</h2>
+    <section className="py-16 md:py-24 lg:py-32 bg-white">
+      <div className="container mx-auto flex flex-col items-center text-center px-4 md:px-6 lg:px-8">
+        <h2 className={`mb-6 md:mb-8 font-roboto text-3xl md:text-4xl lg:text-6xl font-semibold text-[#04048b] tracking-wide`}>Our Partnerships</h2>
 
-        <div className="flex flex-col items-center justify-center gap-8 h-full mt-8">
+        <div className="flex flex-col items-center justify-center gap-6 md:gap-8 h-full mt-6 md:mt-8">
           {/* First row - Right to Left */}
-          <div className="flex gap-4 overflow-hidden">
-            <div className="company-logos-scroll flex gap-4">
+          <div className="flex gap-3 md:gap-4 overflow-hidden">
+            <div className="company-logos-scroll flex gap-3 md:gap-4">
               {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
                 <StoryCard story={story} key={`row1-${story.id}-${index}`} />
               ))}
@@ -188,8 +188,8 @@ export const BrandsSection = () => {
           </div>
           
           {/* Second row - Left to Right */}
-          <div className="flex gap-4 overflow-hidden">
-            <div className="company-logos-scroll-reverse flex gap-4">
+          <div className="flex gap-3 md:gap-4 overflow-hidden">
+            <div className="company-logos-scroll-reverse flex gap-3 md:gap-4">
               {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
                 <StoryCard story={story} key={`row2-${story.id}-${index}`} />
               ))}
