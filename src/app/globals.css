@@ -358,6 +358,87 @@ body {
   }
 }
 
+/* iPhone SE specific menu link font size overrides */
+@media screen and (max-width: 375px) {
+  .menu-link a {
+    font-size: 24px !important;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .menu-link a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.15em;
+    width: 0%;
+    height: 2px;
+    background-color: var(--foreground);
+    transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+  }
+
+  .menu-link a:hover::after {
+    width: 100%;
+  }
+  
+  .menu-link .line {
+    font-size: 24px !important;
+    position: relative;
+  }
+
+  .menu-link .line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.15em;
+    width: 0%;
+    height: 2px;
+    background-color: var(--foreground);
+    transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+  }
+
+  .menu-link .line:hover::after {
+    width: 100%;
+  }
+
+  /* iPhone SE dropdown item overrides */
+  .menu-dropdown-item a {
+    font-size: 6px !important;
+    transform: scale(0.6) !important;
+    transform-origin: left center !important;
+  }
+
+  /* Maximum specificity for iPhone SE dropdown items */
+  nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+    font-size: 6px !important;
+    transform: scale(0.6) !important;
+    transform-origin: left center !important;
+  }
+
+  /* Additional maximum specificity overrides for iPhone SE dropdown items */
+  nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+    font-size: 6px !important;
+    transform: scale(0.6) !important;
+    transform-origin: left center !important;
+  }
+
+  /* Global dropdown item override for iPhone SE */
+  .menu-dropdown .menu-dropdown-item a {
+    font-size: 6px !important;
+    transform: scale(0.6) !important;
+    transform-origin: left center !important;
+  }
+
+  /* Nuclear option - target all dropdown links with maximum specificity */
+  nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a,
+  nav .menu-overlay .menu-content-wrapper .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a,
+  .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
+    font-size: 6px !important;
+    transform: scale(0.6) !important;
+    transform-origin: left center !important;
+  }
+}
+
 /* Page Transition Loader Styles */
 .transition-overlay {
   position: fixed;
