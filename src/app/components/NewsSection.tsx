@@ -374,7 +374,7 @@ const Carousel3D = ({
                              ? 'flex flex-col' 
                              : 'flex flex-row'
                          }`}
-                                                  style={{ height: isSmallMobile ? '340px' : isMobile ? '400px' : cardHeight + 'px' }}
+                         style={{ height: isSmallMobile ? '340px' : isMobile ? '400px' : cardHeight + 'px' }}
                        >
                         {/* Image Section */}
                         <div className={`h-full overflow-hidden ${
@@ -391,55 +391,55 @@ const Carousel3D = ({
                         <div className={`flex flex-col justify-between bg-[#ffc404] ${
                           isMobile ? 'w-full h-1/2 p-4 sm:p-6' : 'w-1/2 p-8'
                         }`}>
-                                                     <div>
-                                                           {/* Date */}
-                              <div className={`text-orange-500 font-medium ${
-                                (isMobile || isTablet || isSmallMobile) ? 'text-xs mb-1' : 'text-sm mb-2 sm:mb-3'
-                              }`}>
-                                {dates[index]}
-                              </div>
-                              
-                              {/* Title */}
-                              <h3 className={`font-bold text-[#04048b] leading-tight ${
-                                (isMobile || isTablet || isSmallMobile)
-                                  ? 'text-sm sm:text-base mb-1 sm:mb-1.5' 
-                                  : 'text-2xl mb-4'
-                              }`}>
-                                {item.title}
-                              </h3>
-                              
-                              {/* Description */}
-                              <p className={`text-[#04048b] leading-relaxed ${
-                                (isMobile || isTablet || isSmallMobile)
-                                  ? 'text-xs mb-1.5' 
-                                  : 'text-base mb-2'
-                              }`}>
-                                {(isMobile || isTablet || isSmallMobile)
-                                  ? item.description.length > 50 
-                                    ? item.description.substring(0, 50) + '...' 
-                                    : item.description
+                          <div className="flex-1 min-h-0">
+                            {/* Date */}
+                            <div className={`text-orange-500 font-medium ${
+                              (isMobile || isTablet || isSmallMobile) ? 'text-xs mb-1' : 'text-sm mb-2 sm:mb-3'
+                            }`}>
+                              {dates[index]}
+                            </div>
+                            
+                            {/* Title */}
+                            <h3 className={`font-bold text-[#04048b] leading-tight ${
+                              (isMobile || isTablet || isSmallMobile)
+                                ? 'text-sm sm:text-base mb-1 sm:mb-1.5' 
+                                : 'text-2xl mb-4'
+                            }`}>
+                              {item.title}
+                            </h3>
+                            
+                            {/* Description */}
+                            <p className={`text-[#04048b] leading-relaxed ${
+                              (isMobile || isTablet || isSmallMobile)
+                                ? 'text-xs mb-1.5' 
+                                : 'text-base mb-2'
+                            }`}>
+                              {(isMobile || isTablet || isSmallMobile)
+                                ? item.description.length > 50 
+                                  ? item.description.substring(0, 50) + '...' 
                                   : item.description
-                                }
-                              </p>
-                           </div>
-                          
-                                                     {/* Read More Button */}
-                           <button
-                             onClick={(e) => {
-                               e.stopPropagation();
-                               handleReadMore();
-                             }}
-                                                           className={`w-full bg-[#ffc404] hover:bg-[#04048b] text-gray-900 hover:text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 transform flex items-center justify-center gap-2 ${
-                                (isMobile || isTablet || isSmallMobile)
-                                  ? 'py-1.5 px-3 text-xs mt-1.5' 
-                                  : 'py-3 px-6'
-                              }`}
-                           >
-                             Read More
-                                                           <FaArrowRight className={`${
-                                (isMobile || isTablet || isSmallMobile) ? 'w-2.5 h-2.5' : 'w-4 h-4'
-                              }`} />
-                           </button>
+                                : item.description
+                              }
+                            </p>
+                          </div>
+                        
+                          {/* Read More Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleReadMore();
+                            }}
+                            className={`w-full bg-[#ffc404] hover:bg-[#04048b] text-gray-900 hover:text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 transform flex items-center justify-center gap-2 mt-2 ${
+                              (isMobile || isTablet || isSmallMobile)
+                                ? 'py-1.5 px-3 text-xs' 
+                                : 'py-3 px-6'
+                            }`}
+                          >
+                            Read More
+                            <FaArrowRight className={`${
+                              (isMobile || isTablet || isSmallMobile) ? 'w-2.5 h-2.5' : 'w-4 h-4'
+                            }`} />
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -504,7 +504,7 @@ const Carousel3D = ({
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.9, y: 20 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className={`w-full flex flex-col bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl ${
+                      className={`w-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-2xl ${
                         isMobile 
                           ? 'max-w-[95%] h-[50%] sm:max-w-[500px] sm:h-fit sm:max-h-[75%]' 
                           : 'max-w-[600px] h-full md:h-fit md:max-h-[85%]'
