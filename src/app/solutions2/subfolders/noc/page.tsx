@@ -254,7 +254,7 @@ export default function NOCPage() {
           animation: slideInFromTop 0.8s ease-out 0.2s both;
         }
       `}</style>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}

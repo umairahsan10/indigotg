@@ -280,7 +280,7 @@ export default function PartnerPortalPage() {
             0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
       `}</style>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}

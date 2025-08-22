@@ -320,7 +320,7 @@ export default function WirelessPage() {
           background: rgba(0, 0, 0, 0.9);
         }
       `}</style>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}
