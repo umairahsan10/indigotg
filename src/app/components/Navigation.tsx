@@ -629,6 +629,8 @@ const Navigation = () => {
           height: 2rem;
           display: flex;
           align-items: center;
+          margin-left: 1rem;
+          margin-top: 1rem;
         }
 
         .menu-logo img {
@@ -1117,23 +1119,40 @@ const Navigation = () => {
           }
 
           .menu-media-wrapper {
-            display: none;
+            display: block;
+            position: absolute;
+            top: 4rem;
+            right: 2rem;
+            width: 120px;
+            height: 110px;
+            z-index: 10;
+            border-radius: 8px;
+            overflow: hidden;
+          }
+
+          .menu-media-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
           }
 
           .menu-content-main {
             width: 100%;
             background-color: var(--menu-bg);
+            padding-top: 18rem;
+            padding-right: 8rem;
           }
 
           .menu-content-main {
-            top: 50%;
+            top: 40%;
             flex-direction: column;
             align-items: flex-start;
-            gap: 5rem;
+            gap: 2rem;
           }
 
           .menu-link a {
-            font-size: 2rem !important;
+            font-size: 1.8rem !important;
             position: relative;
             display: inline-block;
           }
@@ -1156,7 +1175,7 @@ const Navigation = () => {
 
           /* Maximum specificity override for mobile menu links */
           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
-            font-size: 2rem !important;
+            font-size: 1.8rem !important;
             position: relative;
             display: inline-block;
           }
@@ -1180,7 +1199,7 @@ const Navigation = () => {
           /* Override for SplitText lines with maximum specificity on mobile */
           nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
             position: relative;
-            font-size: 2rem !important;
+            font-size: 1.8rem !important;
             color: #ffffff !important;
           }
 
@@ -1213,30 +1232,31 @@ const Navigation = () => {
             font-size: 1.25rem;
           }
 
-          /* Mobile dropdown styles */
-          .menu-dropdown {
-            position: static;
-            background-color: transparent;
-            border: none;
-            padding: 0.5rem 0 0.5rem 2rem;
-            min-width: auto;
-            opacity: 1;
-            visibility: visible;
-            transform: none;
-            transition: none;
-          }
+                     /* Mobile dropdown styles */
+           .menu-dropdown {
+             position: static;
+             background-color: #000000;
+             border: none;
+             padding: 0.3rem 0 0.3rem 1.5rem;
+             min-width: auto;
+             opacity: 1;
+             visibility: visible;
+             transform: none;
+             transition: none;
+           }
 
-          .menu-dropdown-item {
-            padding: 0.1rem 0;
-          }
+           .menu-dropdown-item {
+             padding: 0.05rem 0;
+             background-color: #000000;
+           }
 
-          .menu-dropdown-item a {
-            font-size: 10px !important;
-          }
+           .menu-dropdown-item a {
+             font-size: 8px !important;
+           }
 
           /* Mobile maximum specificity override */
           nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
-            font-size: 10px !important;
+            font-size: 8px !important;
           }
         }
       `}</style>
@@ -1332,7 +1352,7 @@ const Navigation = () => {
                           }
                         }}
                         style={{
-                          fontSize: isMobile ? '2rem' : '3rem',
+                          fontSize: isMobile ? '1.8rem' : '3rem',
                           fontWeight: '500',
                           lineHeight: '1.2',
                           color: '#ffffff',
@@ -1430,3 +1450,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+//das
