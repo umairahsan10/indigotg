@@ -233,7 +233,7 @@ export default function FixedLinePage() {
           color: #eab308 !important;
         }
       `}</style>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}

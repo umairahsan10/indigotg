@@ -328,7 +328,7 @@ export default function Resources() {
          }
       `}</style>
       
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section - Using fixedline style with its background */}
         <section className="relative h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}
@@ -431,7 +431,7 @@ export default function Resources() {
         </section>
 
         {/* Meet the Indigo Team Section */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-blue-900 to-blue-600">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-[#140079]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
