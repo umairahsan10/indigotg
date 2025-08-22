@@ -65,10 +65,14 @@ const PageLoader = ({ children }: PageLoaderProps) => {
         document.body.classList.remove('loading');
         document.body.style.removeProperty('--scroll-y');
         
-        // Show footer again if component unmounts
+        // Show footer again if component unmounts - more robust approach
         const footer = document.querySelector('footer');
         if (footer) {
           footer.style.display = '';
+          footer.style.visibility = 'visible';
+          footer.style.opacity = '1';
+          footer.style.position = 'relative';
+          footer.style.zIndex = '1';
         }
       }
     };
@@ -92,10 +96,14 @@ const PageLoader = ({ children }: PageLoaderProps) => {
       document.body.classList.remove('loading');
       document.body.style.removeProperty('--scroll-y');
       
-      // Show footer again after loading completes
+      // Show footer again after loading completes - more robust approach
       const footer = document.querySelector('footer');
       if (footer) {
         footer.style.display = '';
+        footer.style.visibility = 'visible';
+        footer.style.opacity = '1';
+        footer.style.position = 'relative';
+        footer.style.zIndex = '1';
       }
     }
     
@@ -110,6 +118,18 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     setTimeout(() => {
       scrollToTop();
     }, 100);
+    
+    // Fallback: Ensure footer is visible after loading completes
+    setTimeout(() => {
+      const footer = document.querySelector('footer');
+      if (footer) {
+        footer.style.display = '';
+        footer.style.visibility = 'visible';
+        footer.style.opacity = '1';
+        footer.style.position = 'relative';
+        footer.style.zIndex = '1';
+      }
+    }, 200);
     
     // Ensure smooth transition back to normal scroll behavior
     setTimeout(() => {
