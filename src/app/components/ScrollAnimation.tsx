@@ -395,38 +395,55 @@ const ScrollAnimation = () => {
         .scroll-animation-container .about,
         .scroll-animation-container .outro {
           display: flex;
-          justify-content: center;
-          align-items: center;
+          justify-content: space-between;
+          align-items: stretch;
           background-color: #04048b;
           color: var(--scroll-light);
-        }
-
-        .scroll-animation-container .about-content {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
           max-width: 1400px;
-          padding: 2rem;
-          gap: 2rem;
           width: 100%;
+          gap: 2rem;
+          padding: 4rem 2rem;
+          min-height: 100vh;
+          box-sizing: border-box;
+          overflow: hidden;
         }
 
         .scroll-animation-container .about-text {
-          flex: 1;
+          flex: 0 0 60%;
           text-align: left;
-          min-width: 500px;
+          max-width: 60%;
+          box-sizing: border-box;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+          hyphens: auto;
+          padding-right: 1rem;
+          padding-bottom: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .scroll-animation-container .about-video {
-          flex: 1;
+          flex: 0 0 40%;
           position: relative;
-          min-width: 500px;
+          max-width: 40%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          padding-left: 1rem;
+          padding-top: 2rem;
+        }
+
+        .scroll-animation-container .animation-wrapper {
+          width: 100%;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        .scroll-animation-container .about-content h1 {
+        .scroll-animation-container .about h1 {
           font-size: 2.25rem;
           margin-bottom: 2.5rem;
           line-height: 1.2;
@@ -439,19 +456,21 @@ const ScrollAnimation = () => {
         }
 
         @media (min-width: 768px) {
-          .scroll-animation-container .about-content h1 {
+          .scroll-animation-container .about h1 {
             font-size: 3rem;
           }
         }
 
-        .scroll-animation-container .about-content p {
+        .scroll-animation-container .about p {
           font-size: 1rem;
           margin-bottom: 3rem;
           line-height: 1.6;
           opacity: 0.9;
           font-weight: 400;
           font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
-          max-width: 42rem;
+          max-width: 100%;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
         }
 
         .scroll-animation-container .about-features {
@@ -1209,46 +1228,91 @@ const ScrollAnimation = () => {
             width: calc(100% - 1rem);
           }
 
-          .scroll-animation-container .about-content h1 {
-            font-size: 2rem;
+          .scroll-animation-container .about h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
           }
 
-          .scroll-animation-container .about-content {
+          .scroll-animation-container .about {
             flex-direction: column;
-            gap: 3rem;
-            text-align: center;
-            padding: 2rem;
+            gap: 1rem;
+            text-align: left;
+            padding: 2rem 1rem;
+            min-height: auto;
+            align-items: center;
+            justify-content: flex-start;
           }
 
           .scroll-animation-container .about-text {
-            text-align: center;
+            text-align: left;
             min-width: auto;
+            flex: 0 0 auto;
+            padding: 2rem 0;
+            max-width: 100%;
+            order: 2;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 0;
+            padding-bottom: 2rem;
           }
 
-          .scroll-animation-container .about-content h1 {
-            font-size: 2.5rem;
+          .scroll-animation-container .about h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
           }
 
-          .scroll-animation-container .about-content p {
-            font-size: 1.3rem;
+          .scroll-animation-container .about p {
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            max-width: 100%;
+            box-sizing: border-box;
+            line-height: 1.5;
           }
 
           .scroll-animation-container .about-video {
             min-width: auto;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            height: 200px;
+            max-width: 100%;
+            margin-top: 0;
+            order: 1;
+            width: 100%;
+            box-sizing: border-box;
           }
 
-                                                                                                                                                                                                                                                                                                                                                               .scroll-animation-container .circle-video-container {
-               max-width: 600px;
-               margin: 0 auto;
-               min-height: 500px;
-             }
+          .scroll-animation-container .circle-video-container {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 500px;
+          }
 
           .scroll-animation-container .about-features {
-            gap: 1rem;
+            gap: 0.5rem;
+            margin-top: 0;
           }
 
           .scroll-animation-container .feature {
             padding: 0.5rem 1rem;
+          }
+
+          .scroll-animation-container button.learn-more {
+            width: 12rem;
+            height: auto;
+          }
+
+          .scroll-animation-container button.learn-more .circle {
+            width: 2.5rem;
+            height: 2.5rem;
+          }
+
+          .scroll-animation-container button.learn-more .button-text {
+            font-size: 0.8rem;
           }
 
           .scroll-animation-container .services {
@@ -1283,55 +1347,55 @@ const ScrollAnimation = () => {
             animation: none;
           }
 
-                  .scroll-animation-container .mobile-cards .card .flip-card-front {
-          transform: rotateY(180deg);
-          background-color: white;
-        }
+          .scroll-animation-container .mobile-cards .card .flip-card-front {
+            transform: rotateY(180deg);
+            background-color: white;
+          }
 
-        .scroll-animation-container #mobile-card-1 .flip-card-front {
-          background-image: url('/card/card-1.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
+          .scroll-animation-container #mobile-card-1 .flip-card-front {
+            background-image: url('/card/card-1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
 
-        .scroll-animation-container #mobile-card-2 .flip-card-front {
-          background-image: url('/card/card-2.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
+          .scroll-animation-container #mobile-card-2 .flip-card-front {
+            background-image: url('/card/card-2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
 
-        .scroll-animation-container #mobile-card-3 .flip-card-front {
-          background-image: url('/card/card-3.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
+          .scroll-animation-container #mobile-card-3 .flip-card-front {
+            background-image: url('/card/card-3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
 
-                  .scroll-animation-container .mobile-cards .flip-card-back {
-          transform: rotateY(0deg);
-          background-color: white;
-        }
+          .scroll-animation-container .mobile-cards .flip-card-back {
+            transform: rotateY(0deg);
+            background-color: white;
+          }
 
-        .scroll-animation-container #mobile-card-1 .flip-card-back {
-          background-color: #08048c;
-        }
+          .scroll-animation-container #mobile-card-1 .flip-card-back {
+            background-color: #08048c;
+          }
 
-        .scroll-animation-container #mobile-card-2 .flip-card-back {
-          background-color: #08048c;
-        }
+          .scroll-animation-container #mobile-card-2 .flip-card-back {
+            background-color: #08048c;
+          }
 
-        .scroll-animation-container #mobile-card-3 .flip-card-back {
-          background-color: #08048c;
-        }
+          .scroll-animation-container #mobile-card-3 .flip-card-back {
+            background-color: #08048c;
+          }
         }
       `}</style>
 
-      <nav>
+      {/* <nav>
         <div className="logo"><span>Indigo Network</span></div>
         <div className="menu-btn"><span>Menu</span></div>
-      </nav>
+      </nav> */}
 
       <section className="hero">
         <div className="hero-background"></div>
@@ -1375,25 +1439,23 @@ const ScrollAnimation = () => {
       </section>
 
       <section className="about">
-        <div className="about-content">
-          <div className="about-video">
-            <IndigoAnimation />
-          </div>
-          <div className="about-text">
-            <h1 className="font-roboto">Our Services</h1>
-            <p className="mt-4 max-w-3xl text-white !text-xl  !font-light font-roboto">
-              With our Design services we optimise and future-proof designs from the outset with leading-edge tools, survey techniques, processes, and data, saving our partners time and money.<br /><br />
-              Our Deployment team partners with digital infrastructure owners and operators to install, test, and optimise fixed line, subsea, wireless, and data centre digital infrastructure.<br /><br />
-              Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
-            </p>
-            <div className="about-features">
-              <button className="learn-more">
-                <span className="circle">
-                  <span className="icon arrow"></span>
-                </span>
-                <span className="button-text">Explore Services</span>
-              </button>
-            </div>
+        <div className="about-video">
+          <IndigoAnimation />
+        </div>
+        <div className="about-text">
+          <h1 className="font-roboto">Our Services</h1>
+          <p className="mt-4 max-w-3xl text-white !font-light font-roboto">
+            With our Design services we optimise and future-proof designs from the outset with leading-edge tools, survey techniques, processes, and data, saving our partners time and money.<br /><br />
+            Our Deployment team partners with digital infrastructure owners and operators to install, test, and optimise fixed line, subsea, wireless, and data centre digital infrastructure.<br /><br />
+            Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
+          </p>
+          <div className="about-features">
+            <button className="learn-more">
+              <span className="circle">
+                <span className="icon arrow"></span>
+              </span>
+              <span className="button-text">Explore Services</span>
+            </button>
           </div>
         </div>
       </section>
