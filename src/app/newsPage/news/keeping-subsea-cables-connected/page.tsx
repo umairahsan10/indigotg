@@ -10,11 +10,11 @@ export default function KeepingSubseaCablesConnectedPage() {
             {/* Hero Section - Full Screen */}
             <section className="relative h-screen bg-gradient-to-r from-[#140079] to-blue-600">
                 <div className="absolute inset-0">
-                    <img
-                        src="/News/NewsTemplate/hero.png"
-                        alt="News Hero"
-                        className="w-full h-full object-cover opacity-20"
-                    />
+                                         <img
+                         src="/news/NewsTemplate/hero.png"
+                         alt="News Hero"
+                         className="w-full h-full object-cover opacity-20"
+                     />
                 </div>
 
                 {/* Fade to white at bottom */}
@@ -67,7 +67,7 @@ export default function KeepingSubseaCablesConnectedPage() {
                      {/* Author Image */}
                      <div className="my-8">
                          <img 
-                             src="/News/newspage3_1.jpg" 
+                             src="/news/newspage3_1.jpg" 
                              alt="Kathy Kirchner, Network Operations VP for Americas" 
                              className="rounded-lg shadow-lg"
                          />
@@ -99,11 +99,11 @@ export default function KeepingSubseaCablesConnectedPage() {
 
                     {/* Indigo Subsea NOC engineers image */}
                     <div className="my-8">
-                        <img 
-                            src="/News/newspage3_2.jpg" 
-                            alt="Indigo Subsea NOC engineers keeping submarine cables monitored" 
-                            className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
-                        />
+                                                 <img 
+                             src="/news/newspage3_2.jpg" 
+                             alt="Indigo Subsea NOC engineers keeping submarine cables monitored" 
+                             className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
+                         />
                         <p className="text-center text-gray-600 text-sm mt-2 italic">
                             Indigo Subsea NOC engineers keeping submarine cables monitored
                         </p>
@@ -130,7 +130,7 @@ export default function KeepingSubseaCablesConnectedPage() {
                                          {/* Indigo Subsea Infographic image */}
                      <div className="my-8">
                          <img 
-                             src="/News/newspage3_3.png" 
+                             src="/news/newspage3_3.png" 
                              alt="Indigo Subsea Infographic" 
                              className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
                          />

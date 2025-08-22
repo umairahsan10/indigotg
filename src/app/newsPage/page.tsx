@@ -430,7 +430,7 @@ export default function NewsPage() {
             <section
                 className="w-screen h-screen overflow-hidden bg-black hero-section"
                 style={{
-                    background: 'url(/News/hero.jpg) no-repeat 50% 50%',
+                    background: 'url(/news/hero.jpg) no-repeat 50% 50%',
                     backgroundSize: 'cover'
                 }}
             />
@@ -502,7 +502,7 @@ export default function NewsPage() {
                     id="card-1"
                     className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(236,183,76,0.35)] card"
                     style={{
-                        background: 'url(/News/card-1.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-1.png) no-repeat 50% 50%',
                         backgroundSize: 'cover'
                     }}
                 >
@@ -530,7 +530,7 @@ export default function NewsPage() {
                     id="card-2"
                     className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(125,216,205,0.35)] card"
                     style={{
-                        background: 'url(/News/card-2.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-2.png) no-repeat 50% 50%',
                         backgroundSize: 'cover'
                     }}
                 >
@@ -559,7 +559,7 @@ export default function NewsPage() {
                     id="card-3"
                     className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(224,255,87,0.35)] card"
                     style={{
-                        background: 'url(/News/card-3.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-3.png) no-repeat 50% 50%',
                         backgroundSize: 'cover'
                     }}
                 >
@@ -588,7 +588,7 @@ export default function NewsPage() {
                     id="card-4"
                     className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(125,216,205,0.35)] card"
                     style={{
-                        background: 'url(/News/card-4.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-4.png) no-repeat 50% 50%',
                         backgroundSize: 'cover'
                     }}
                 >

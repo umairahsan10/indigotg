@@ -10,11 +10,11 @@ export default function PRSubseaSecurityServicesPage() {
             {/* Hero Section - Full Screen */}
             <section className="relative h-screen bg-gradient-to-r from-[#140079] to-blue-600">
                 <div className="absolute inset-0">
-                    <img
-                        src="/News/NewsTemplate/hero.png"
-                        alt="News Hero"
-                        className="w-full h-full object-cover opacity-20"
-                    />
+                                         <img
+                         src="/news/NewsTemplate/hero.png"
+                         alt="News Hero"
+                         className="w-full h-full object-cover opacity-20"
+                     />
                 </div>
 
                 {/* Fade to white at bottom */}

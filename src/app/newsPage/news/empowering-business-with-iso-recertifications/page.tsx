@@ -10,11 +10,11 @@ export default function EmpoweringBusinessWithISORecertificationsPage() {
             {/* Hero Section - Full Screen */}
             <section className="relative h-screen bg-gradient-to-r from-[#140079] to-blue-600">
                 <div className="absolute inset-0">
-                    <img
-                        src="/News/NewsTemplate/hero.png"
-                        alt="News Hero"
-                        className="w-full h-full object-cover opacity-20"
-                    />
+                                         <img
+                         src="/news/NewsTemplate/hero.png"
+                         alt="News Hero"
+                         className="w-full h-full object-cover opacity-20"
+                     />
                 </div>
 
                 {/* Fade to white at bottom */}
@@ -68,7 +68,7 @@ export default function EmpoweringBusinessWithISORecertificationsPage() {
                      <div className="flex items-start gap-8 mb-8">
                          <div className="flex-shrink-0">
                              <img 
-                                 src="/News/news4.png" 
+                                 src="/news/news4.png" 
                                  alt="Dave Healy, Head of SHEQ" 
                                  className="w-36 h-44 rounded-lg object-cover border-2 border-[#140079]/20"
                              />
@@ -104,7 +104,7 @@ export default function EmpoweringBusinessWithISORecertificationsPage() {
                      {/* Team Photo Section - Moved up to ISO section */}
                      <div className="my-8">
                          <img 
-                             src="/News/newspage4.png" 
+                             src="/news/newspage4.png" 
                              alt="Indigo team collaboration" 
                              className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
                          />
