@@ -22,6 +22,8 @@ const fragmentShader = `
   uniform vec2 uTexture1Size;
   uniform vec2 uTexture2Size;
   uniform int uCurrentSlideIndex;
+  uniform bool uIsVideo1;
+  uniform bool uIsVideo2;
   varying vec2 vUv;
   
   vec2 getCoverUV(vec2 uv, vec2 textureSize) {
@@ -108,7 +110,8 @@ const slides = [
     title: "Engineering a Digital Future",
     description:
       "We design, deploy, and support digital infrastructure to maximise value in fixed line, subsea, data centres and wireless networks.",
-    image: "/home/digital-future.png",
+    image: "/home/video1.mp4",
+    type: "video",
     buttonText: "Learn More",
     buttonLink: "/our-services"
   },
@@ -116,7 +119,8 @@ const slides = [
      title: "Design, Deploy, Support",
      description:
        "Indigo can solve problems in the most complex environments: greenfield, hyperscale or edge data centres, upgrade or a hybrid mix of multi-generational technologies.",
-     image: "/home/design-deploy-support.png",
+     image: "/home/globe_video2.mp4",
+     type: "video",
      buttonText: "Our Services",
      buttonLink: "/our-services"
    },
@@ -124,7 +128,8 @@ const slides = [
      title: "Field Engineering",
      description:
        "Our strategically located field technicians deliver first-line reactive/preventative maintenance, second-line remote technical support, and third line expert support.",
-     image: "/home/field-engineering.png",
+     image: "/home/subsea_video.mp4",
+     type: "video",
      buttonText: "Field Services",
      buttonLink: "/our-services"
    },
@@ -132,7 +137,8 @@ const slides = [
      title: "Survey & Design",
      description:
        "We identify the right information and convert it into actionable data to build powerful networks.",
-     image: "/home/survey-design.png",
+     image: "/home/218489.mp4",
+     type: "video",
      buttonText: "Survey Services",
      buttonLink: "/our-services"
    },
@@ -140,7 +146,8 @@ const slides = [
      title: "Indigo Subsea",
      description:
        "System operator support for modern submarine networks.",
-     image: "/home/indigo-subsea.png",
+     image: "/home/video5.mp4",
+     type: "video",
      buttonText: "Subsea Solutions",
      buttonLink: "/our-services"
    },
@@ -148,7 +155,8 @@ const slides = [
      title: "NOC Services",
      description:
        "Minimizes outage times and keeps society collaborating. Fully staffed 24x7x365",
-     image: "/solutions/card-images-5.jpg",
+     image: "/home/video4.mp4",
+     type: "video",
      buttonText: "NOC Services",
      buttonLink: "/our-services"
    },
@@ -158,6 +166,7 @@ const HeroSlider = () => {
   const canvasRef = useRef(null);
   const sliderRef = useRef(null);
   const rippleRefs = useRef(new Map());
+  const videoRefs = useRef(new Map());
 
   // Keep these as module-level variables like in the original
   let currentSlideIndex = 0;
@@ -965,6 +974,8 @@ const HeroSlider = () => {
         uTexture1Size: { value: new THREE.Vector2(1, 1) },
         uTexture2Size: { value: new THREE.Vector2(1, 1) },
         uCurrentSlideIndex: { value: 0 },
+        uIsVideo1: { value: false },
+        uIsVideo2: { value: false },
       },
       vertexShader,
       fragmentShader,
@@ -974,22 +985,57 @@ const HeroSlider = () => {
 
     const loader = new THREE.TextureLoader();
     for (const slide of slides) {
-      const texture = await new Promise((resolve) =>
-        loader.load(slide.image, resolve)
-      );
-      texture.minFilter = texture.magFilter = THREE.LinearFilter;
-      texture.userData = {
-        size: new THREE.Vector2(texture.image.width, texture.image.height),
-      };
+      let texture;
+      if (slide.type === "image") {
+        texture = await new Promise((resolve) =>
+          loader.load(slide.image, resolve)
+        );
+        texture.minFilter = texture.magFilter = THREE.LinearFilter;
+        texture.userData = {
+          size: new THREE.Vector2(texture.image.width, texture.image.height),
+          type: "image"
+        };
+      } else if (slide.type === "video") {
+        // For videos, we'll create a video texture
+        texture = await new Promise((resolve) => {
+          const video = document.createElement('video');
+          video.src = slide.image;
+          video.crossOrigin = 'anonymous';
+          video.loop = true;
+          video.muted = true;
+          video.playsInline = true;
+          video.style.display = 'none';
+          document.body.appendChild(video);
+
+          video.addEventListener('loadedmetadata', () => {
+            // Create a video texture from the video element
+            const videoTexture = new THREE.VideoTexture(video);
+            videoTexture.minFilter = videoTexture.magFilter = THREE.LinearFilter;
+            videoTexture.userData = {
+              size: new THREE.Vector2(video.videoWidth, video.videoHeight),
+              type: "video",
+              videoElement: video
+            };
+            resolve(videoTexture);
+          });
+        });
+      }
       slideTextures.push(texture);
     }
 
-    shaderMaterial.uniforms.uTexture1.value = slideTextures[0];
-    shaderMaterial.uniforms.uTexture2.value = slideTextures[1];
-    shaderMaterial.uniforms.uTexture1Size.value =
-      slideTextures[0].userData.size;
-    shaderMaterial.uniforms.uTexture2Size.value =
-      slideTextures[1].userData.size;
+    // Set initial textures (only for image slides)
+    const firstImageSlide = slides.findIndex(slide => slide.type === "image");
+    const secondImageSlide = slides.findIndex((slide, index) => index > firstImageSlide && slide.type === "image");
+    
+    if (firstImageSlide !== -1) {
+      shaderMaterial.uniforms.uTexture1.value = slideTextures[firstImageSlide];
+      shaderMaterial.uniforms.uTexture1Size.value = slideTextures[firstImageSlide].userData.size;
+    }
+    
+    if (secondImageSlide !== -1) {
+      shaderMaterial.uniforms.uTexture2.value = slideTextures[secondImageSlide];
+      shaderMaterial.uniforms.uTexture2Size.value = slideTextures[secondImageSlide].userData.size;
+    }
 
     console.log('Shader material is now ready!');
 
@@ -1001,7 +1047,7 @@ const HeroSlider = () => {
   };
 
   const handleSlideChange = (direction = 'next') => {
-    if (isTransitioning || !shaderMaterial) return;
+    if (isTransitioning) return;
 
     isTransitioning = true;
     let nextIndex;
@@ -1012,32 +1058,46 @@ const HeroSlider = () => {
       nextIndex = currentSlideIndex === 0 ? slides.length - 1 : currentSlideIndex - 1;
     }
 
-    shaderMaterial.uniforms.uTexture1.value = slideTextures[currentSlideIndex];
-    shaderMaterial.uniforms.uTexture2.value = slideTextures[nextIndex];
-    shaderMaterial.uniforms.uTexture1Size.value =
-      slideTextures[currentSlideIndex].userData.size;
-    shaderMaterial.uniforms.uTexture2Size.value =
-      slideTextures[nextIndex].userData.size;
+    // Update video overlays
+    updateVideoOverlays(currentSlideIndex, nextIndex);
 
-    animateSlideTransition(nextIndex);
+    // Only use shader transitions for image-to-image slides
+    const currentSlide = slides[currentSlideIndex];
+    const nextSlide = slides[nextIndex];
+    
+    if (currentSlide.type === "image" && nextSlide.type === "image" && shaderMaterial) {
+      // Use shader transition for image-to-image
+      shaderMaterial.uniforms.uTexture1.value = slideTextures[currentSlideIndex];
+      shaderMaterial.uniforms.uTexture2.value = slideTextures[nextIndex];
+      shaderMaterial.uniforms.uTexture1Size.value =
+        slideTextures[currentSlideIndex].userData.size;
+      shaderMaterial.uniforms.uTexture2Size.value =
+        slideTextures[nextIndex].userData.size;
 
-    gsap.fromTo(
-      shaderMaterial.uniforms.uProgress,
-      { value: 0 },
-      {
-        value: 1,
-        duration: 2.5,
-        ease: "power2.inOut",
-        onComplete: () => {
-          shaderMaterial.uniforms.uProgress.value = 0;
-          shaderMaterial.uniforms.uTexture1.value = slideTextures[nextIndex];
-          shaderMaterial.uniforms.uTexture1Size.value =
-            slideTextures[nextIndex].userData.size;
-          // Update the current slide index uniform
-          shaderMaterial.uniforms.uCurrentSlideIndex.value = nextIndex;
-        },
-      }
-    );
+      gsap.fromTo(
+        shaderMaterial.uniforms.uProgress,
+        { value: 0 },
+        {
+          value: 1,
+          duration: 2.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            shaderMaterial.uniforms.uProgress.value = 0;
+            shaderMaterial.uniforms.uTexture1.value = slideTextures[nextIndex];
+            shaderMaterial.uniforms.uTexture1Size.value =
+              slideTextures[nextIndex].userData.size;
+            shaderMaterial.uniforms.uCurrentSlideIndex.value = nextIndex;
+            isTransitioning = false;
+            currentSlideIndex = nextIndex;
+          },
+        }
+      );
+    } else {
+      // For video slides or mixed transitions, just animate the content
+      animateSlideTransition(nextIndex);
+      isTransitioning = false;
+      currentSlideIndex = nextIndex;
+    }
   };
 
   const startAutoPlay = () => {
@@ -1150,6 +1210,76 @@ const HeroSlider = () => {
     }
   };
 
+  const createVideoOverlay = (slideData, slideIndex) => {
+    // Remove any existing video overlay for this slide
+    const existingVideo = videoRefs.current.get(slideIndex);
+    if (existingVideo) {
+      existingVideo.remove();
+      videoRefs.current.delete(slideIndex);
+    }
+
+    if (slideData.type === "video") {
+      const videoOverlay = document.createElement('div');
+      videoOverlay.className = 'video-overlay';
+      videoOverlay.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      `;
+
+      const video = document.createElement('video');
+      video.src = slideData.image;
+      video.style.cssText = `
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      `;
+      video.loop = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.autoPlay = true;
+
+      videoOverlay.appendChild(video);
+      sliderRef.current.appendChild(videoOverlay);
+      videoRefs.current.set(slideIndex, videoOverlay);
+
+      // Start playing the video
+      video.play().catch(e => console.log('Video autoplay failed:', e));
+    }
+  };
+
+  const removeVideoOverlay = (slideIndex) => {
+    const videoOverlay = videoRefs.current.get(slideIndex);
+    if (videoOverlay) {
+      videoOverlay.remove();
+      videoRefs.current.delete(slideIndex);
+    }
+  };
+
+  const updateVideoOverlays = (currentIndex, nextIndex) => {
+    // Remove current video overlay if it exists
+    removeVideoOverlay(currentIndex);
+    
+    // Add new video overlay if the next slide is a video
+    if (slides[nextIndex].type === "video") {
+      createVideoOverlay(slides[nextIndex], nextIndex);
+      
+      // Hide canvas when video is active to prevent interference
+      if (canvasRef.current) {
+        canvasRef.current.style.opacity = '0';
+      }
+    } else {
+      // Show canvas when image slide is active
+      if (canvasRef.current) {
+        canvasRef.current.style.opacity = '1';
+      }
+    }
+  };
+
   useEffect(() => {
     gsap.registerPlugin(SplitText);
     gsap.config({ nullTargetWarn: false });
@@ -1157,6 +1287,20 @@ const HeroSlider = () => {
          const initSlider = async () => {
        setupInitialSlide();
        await initializeRenderer();
+       
+       // Initialize video overlay for first slide if it's a video
+       if (slides[0].type === "video") {
+         createVideoOverlay(slides[0], 0);
+         // Hide canvas for video slides
+         if (canvasRef.current) {
+           canvasRef.current.style.opacity = '0';
+         }
+       } else {
+         // Show canvas for image slides
+         if (canvasRef.current) {
+           canvasRef.current.style.opacity = '1';
+         }
+       }
      };
 
      initSlider();
@@ -1174,6 +1318,14 @@ const HeroSlider = () => {
         }
         // Clean up auto-play interval
         stopAutoPlay();
+        
+        // Clean up video overlays
+        videoRefs.current.forEach((videoOverlay) => {
+          if (videoOverlay) {
+            videoOverlay.remove();
+          }
+        });
+        videoRefs.current.clear();
       };
   }, []);
 
@@ -1188,7 +1340,8 @@ const HeroSlider = () => {
         height: '100svh',
         color: '#fff',
         overflow: 'hidden',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        backgroundColor: '#000'
       }}
     >
       <canvas 
@@ -1196,7 +1349,11 @@ const HeroSlider = () => {
         style={{
           display: 'block',
           width: '100%',
-          height: '100%'
+          height: '100%',
+          position: 'relative',
+          zIndex: 1,
+          backgroundColor: 'transparent',
+          transition: 'opacity 0.5s ease-in-out'
         }}
       />
 
@@ -1419,6 +1576,32 @@ const HeroSlider = () => {
           display: inline-block;
           will-change: transform;
           position: relative;
+        }
+
+        .video-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .video-overlay video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        /* Ensure text content is always on top */
+        .slider-content {
+          z-index: 2 !important;
+        }
+
+        /* Ensure canvas is above videos but below text */
+        canvas {
+          z-index: 1 !important;
         }
 
         @media (max-width: 1000px) {
