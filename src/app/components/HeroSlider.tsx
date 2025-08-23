@@ -1012,6 +1012,20 @@ const HeroSlider = () => {
       nextIndex = currentSlideIndex === 0 ? slides.length - 1 : currentSlideIndex - 1;
     }
 
+    // Safety check: ensure both textures exist before proceeding
+    if (!slideTextures[currentSlideIndex] || !slideTextures[nextIndex]) {
+      console.warn('Textures not ready yet, skipping slide change');
+      isTransitioning = false;
+      return;
+    }
+
+    // Safety check: ensure userData.size exists
+    if (!slideTextures[currentSlideIndex].userData?.size || !slideTextures[nextIndex].userData?.size) {
+      console.warn('Texture size data not ready yet, skipping slide change');
+      isTransitioning = false;
+      return;
+    }
+
     shaderMaterial.uniforms.uTexture1.value = slideTextures[currentSlideIndex];
     shaderMaterial.uniforms.uTexture2.value = slideTextures[nextIndex];
     shaderMaterial.uniforms.uTexture1Size.value =
@@ -1048,8 +1062,12 @@ const HeroSlider = () => {
     
     // Start auto-play - change slide every 5 seconds
     autoPlayInterval = setInterval(() => {
-      if (!isTransitioning && shaderMaterial) {
-        handleSlideChange('next');
+      if (!isTransitioning && shaderMaterial && slideTextures.length > 0) {
+        // Additional safety check: ensure textures are loaded
+        const nextIndex = (currentSlideIndex + 1) % slides.length;
+        if (slideTextures[nextIndex] && slideTextures[nextIndex].userData?.size) {
+          handleSlideChange('next');
+        }
       }
     }, 5000); // 5 seconds
   };

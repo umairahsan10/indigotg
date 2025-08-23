@@ -50,11 +50,141 @@ const IndigoTimeline = () => {
   const [videoTransitionComplete, setVideoTransitionComplete] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
   const countAnimationStartedRef = useRef(false);
+  const [animationKey, setAnimationKey] = useState(0); // Force re-render key
+  const typewriterIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const countIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasTriggeredAnimationsRef = useRef(false);
+  const [animationsRunning, setAnimationsRunning] = useState(false);
+  const [sectionLocked, setSectionLocked] = useState(false);
 
   // Mount effect to prevent hydration issues
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Scroll prevention functions
+  const preventScroll = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
+
+  const disableScroll = () => {
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('wheel', preventScroll, { passive: false });
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+    document.addEventListener('keydown', (e) => {
+      if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
+        e.preventDefault();
+      }
+    });
+  };
+
+  const enableScroll = () => {
+    document.body.style.overflow = '';
+    document.removeEventListener('wheel', preventScroll);
+    document.removeEventListener('touchmove', preventScroll);
+    document.removeEventListener('keydown', preventScroll);
+  };
+
+  // Manual animation functions
+  const startTypewriterAnimation = () => {
+    if (!typewriterTextRef.current || hasTriggeredAnimationsRef.current) return;
+    
+    hasTriggeredAnimationsRef.current = true;
+    setAnimationsRunning(true);
+    
+    const text = "Celebrating Indigo";
+    typewriterTextRef.current.textContent = "";
+    setTypewriterComplete(false);
+    
+    let index = 0;
+         typewriterIntervalRef.current = setInterval(() => {
+       if (index < text.length && typewriterTextRef.current) {
+         index++;
+         typewriterTextRef.current.textContent = text.slice(0, index);
+       } else {
+         if (typewriterIntervalRef.current) {
+           clearInterval(typewriterIntervalRef.current);
+           typewriterIntervalRef.current = null;
+         }
+         setTypewriterComplete(true);
+         startCountAnimation();
+       }
+     }, 60);
+  };
+
+  const startCountAnimation = () => {
+    if (countAnimationStartedRef.current) return;
+    
+    countAnimationStartedRef.current = true;
+    let currentCount = 0;
+    setCurrentNumber(0);
+    
+         countIntervalRef.current = setInterval(() => {
+       if (currentCount <= 25) {
+         setCurrentNumber(currentCount);
+         if (currentCount === 25 && !confettiTriggered) {
+           setConfettiTriggered(true);
+           setTimeout(() => {
+             if (!window.confetti) {
+               const script = document.createElement("script");
+               script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js";
+               script.async = true;
+               script.onload = () => {
+                 if (window.confetti) {
+                   triggerConfetti();
+                 }
+               };
+               document.body.appendChild(script);
+             } else {
+               triggerConfetti();
+             }
+           }, 100);
+         }
+         currentCount++;
+       } else {
+         if (countIntervalRef.current) {
+           clearInterval(countIntervalRef.current);
+           countIntervalRef.current = null;
+         }
+         // Re-enable scrolling when all animations complete
+         setAnimationsRunning(false);
+         setSectionLocked(false);
+         enableScroll();
+       }
+     }, 60);
+  };
+
+  const resetAllAnimations = () => {
+    // Clear any running intervals
+    if (typewriterIntervalRef.current) {
+      clearInterval(typewriterIntervalRef.current);
+      typewriterIntervalRef.current = null;
+    }
+    if (countIntervalRef.current) {
+      clearInterval(countIntervalRef.current);
+      countIntervalRef.current = null;
+    }
+    
+    // Reset all states
+    setVideoTransitionComplete(false);
+    setTypewriterComplete(false);
+    setCurrentNumber(0);
+    setConfettiTriggered(false);
+    countAnimationStartedRef.current = false;
+    hasTriggeredAnimationsRef.current = false;
+    setAnimationsRunning(false);
+    setSectionLocked(false);
+    
+    // Re-enable scrolling when resetting
+    enableScroll();
+    
+    // Clear typewriter text
+    if (typewriterTextRef.current) {
+      typewriterTextRef.current.textContent = "";
+    }
+  };
 
   useEffect(() => {
     let scrollTriggerInstance: any;
@@ -88,8 +218,8 @@ const IndigoTimeline = () => {
     const initializeAnimations = () => {
       if (!window.gsap || !window.ScrollTrigger) return;
 
-      // Initial entrance animation
-      const entranceTl = window.gsap.timeline({ delay: 0.5 });
+             // Initial entrance animation
+       const entranceTl = window.gsap.timeline({ delay: 0.3 });
 
       // Set initial states for entrance
       window.gsap.set([videoRef.current, headingRef.current, descriptionRef.current, buttonRef.current], {
@@ -104,50 +234,139 @@ const IndigoTimeline = () => {
 
       // Animate elements in
       entranceTl
-        .to(videoRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out"
-        })
-        .to(headingRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out"
-        }, "-=0.6")
-        .to(descriptionRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out"
-        }, "-=0.6")
-        .to(buttonRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out"
-        }, "-=0.4");
+                 .to(videoRef.current, {
+           opacity: 1,
+           y: 0,
+           duration: 0.6,
+           ease: "power3.out"
+         })
+         .to(headingRef.current, {
+           opacity: 1,
+           y: 0,
+           duration: 0.5,
+           ease: "power3.out"
+         }, "-=0.4")
+         .to(descriptionRef.current, {
+           opacity: 1,
+           y: 0,
+           duration: 0.5,
+           ease: "power3.out"
+         }, "-=0.4")
+         .to(buttonRef.current, {
+           opacity: 1,
+           y: 0,
+           duration: 0.5,
+           ease: "power3.out"
+         }, "-=0.3");
 
       // Main scroll-triggered transition
       scrollTriggerInstance = window.ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
         end: "+=800vh", // Much longer animation height
-        scrub: 0.5, // Reduced scrub value for smoother, less stoppable feel
+        scrub: 0.3, // Faster scrub value for quicker animations
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        onEnter: () => {
+          // Lock the section when it comes to screen
+          setSectionLocked(true);
+          disableScroll();
+          
+           // Automatically complete the video transition with EXACT same motion
+           // Use the same mathematical formulas as the scroll-based animation
+           let progress = 0;
+           const duration = 1200; // 1.5 seconds total (half the time)
+           const startTime = Date.now();
+          
+          const animateTransition = () => {
+            const elapsed = Date.now() - startTime;
+            progress = Math.min(elapsed / duration, 1);
+            
+            // Calculate viewport dimensions (same as original)
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            
+                         // Video movement: EXACT same formula as original
+             const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
+             const videoY = progress * (vh * 0.1);
+            const videoScale = 1;
+            
+            // Curling effect: EXACT same mathematical formula as original
+            const curlIntensity = Math.sin(progress * Math.PI) * 12;
+            const skewX = curlIntensity;
+            const skewY = curlIntensity * 0.3;
+            const rotateZ = curlIntensity * 0.4;
+            
+            // Border radius: EXACT same formula as original
+            const borderRadius = 16 - (curlIntensity * 0.6);
+            
+            // Apply transforms (same as original)
+            window.gsap.set(videoRef.current, {
+              x: videoX,
+              y: videoY,
+              scale: videoScale,
+              zIndex: 10,
+              transformOrigin: "center center"
+            });
+            
+            window.gsap.set(videoInnerRef.current, {
+              skewX: skewX,
+              skewY: skewY,
+              rotateZ: rotateZ,
+              borderRadius: `${borderRadius}px`,
+              transformStyle: "preserve-3d"
+            });
+            
+            // Heading fade out: EXACT same formula as original
+            const headingOpacity = Math.max(0, 1 - (progress * 2));
+            window.gsap.set(headingRef.current, { opacity: headingOpacity });
+            
+            // Description fade out: EXACT same formula as original
+            const descriptionOpacity = Math.max(0, 1 - (progress * 3));
+            window.gsap.set(descriptionRef.current, { opacity: descriptionOpacity });
+            
+            // Button fade out: EXACT same formula as original
+            const buttonOpacity = Math.max(0, 1 - ((progress - 0.1) * 3));
+            window.gsap.set(buttonRef.current, { opacity: buttonOpacity });
+            
+            // Text container fade out: EXACT same formula as original
+            const containerOpacity = Math.max(0, 1 - (progress * 2));
+            window.gsap.set(textContainerRef.current, { opacity: containerOpacity });
+            
+            // New section appears: EXACT same formula as original
+            const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
+            window.gsap.set(newSectionRef.current, { opacity: newSectionOpacity, x: 0 });
+            
+            // Continue animation or complete
+            if (progress < 1) {
+              requestAnimationFrame(animateTransition);
+            } else {
+              // Animation complete - trigger next phase
+              if (sectionRef.current && !hasTriggeredAnimationsRef.current) {
+                setVideoTransitionComplete(true);
+                startTypewriterAnimation();
+              }
+            }
+          };
+          
+          // Start the animation loop
+          requestAnimationFrame(animateTransition);
+        },
         onUpdate: (self: any) => {
+          // Skip scroll-based animation only during initial automatic transition
+          // Allow it when scrolling back up for proper reverse animation
+          if (hasTriggeredAnimationsRef.current && sectionLocked) return;
+          
           const progress = self.progress;
           
           // Calculate viewport dimensions
           const vw = window.innerWidth;
           const vh = window.innerHeight;
           
-          // Video movement: from left to right side (same size)
-          const videoX = progress * (vw * 0.5); // Move to right side
-          const videoY = progress * (vh * 0.1); // Land a bit below for smooth transition
+                     // Video movement: from left to center-left side (same size)
+           const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
+           const videoY = progress * (vh * 0.1); // Land a bit below for smooth transition
           const videoScale = 1; // Keep same size
           
           // Curling effect: video deforms during transition
@@ -204,17 +423,26 @@ const IndigoTimeline = () => {
             opacity: containerOpacity
           });
 
-          // New section appears when video transition is complete (no fade in from left)
-          const newSectionOpacity = progress >= 0.9 ? 1 : 0;
+          // New section appears when video transition is nearly complete with smooth fade
+          const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
           
           window.gsap.set(newSectionRef.current, {
             opacity: newSectionOpacity,
             x: 0 // No horizontal movement
           });
 
-          // Mark video transition as complete when we reach 90%
-          if (progress >= 0.9 && !videoTransitionComplete) {
-            setVideoTransitionComplete(true);
+          // Reset animations when scrolling backwards below 85% (with some buffer)
+          // Note: Video transition motion continues automatically after screen lock
+          if (progress < 0.85 && hasTriggeredAnimationsRef.current) {
+            // Only reset if we're scrolling back up significantly
+            // This allows the video transition to work in reverse
+            if (progress < 0.5) {
+              resetAllAnimations();
+            } else {
+              // Unlock section when scrolling back up to allow reverse animation
+              setSectionLocked(false);
+              enableScroll();
+            }
           }
 
 
@@ -237,64 +465,19 @@ const IndigoTimeline = () => {
     };
   }, [isMounted]);
 
-  // Automatic typewriter animation when video transition completes
+  // Cleanup function for manual animations and scroll listeners
   useEffect(() => {
-    if (videoTransitionComplete && isMounted && typewriterTextRef.current) {
-      const text = "Celebrating Indigo";
-      typewriterTextRef.current.textContent = "";
-      
-      let index = 0;
-      const typeInterval = setInterval(() => {
-        if (index < text.length) {
-          index++;
-          typewriterTextRef.current!.textContent = text.slice(0, index);
-        } else {
-          clearInterval(typeInterval);
-          setTypewriterComplete(true);
-        }
-      }, 150); // Adjust speed as needed
-
-      return () => clearInterval(typeInterval);
-    }
-  }, [videoTransitionComplete, isMounted]);
-
-  // Automatic count animation when typewriter completes
-  useEffect(() => {
-    if (typewriterComplete && isMounted && !countAnimationStartedRef.current) {
-      countAnimationStartedRef.current = true;
-      let currentCount = 0;
-      const countInterval = setInterval(() => {
-        if (currentCount <= 25) {
-          setCurrentNumber(currentCount);
-          if (currentCount === 25 && !confettiTriggered) {
-            setConfettiTriggered(true);
-            // Trigger confetti when count reaches 25
-            setTimeout(() => {
-              // Load confetti script if not already loaded
-              if (!window.confetti) {
-                const script = document.createElement("script");
-                script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js";
-                script.async = true;
-                script.onload = () => {
-                  if (window.confetti) {
-                    triggerConfetti();
-                  }
-                };
-                document.body.appendChild(script);
-              } else {
-                triggerConfetti();
-              }
-            }, 200);
-          }
-          currentCount++;
-        } else {
-          clearInterval(countInterval);
-        }
-      }, 100); // Adjust speed as needed
-
-      return () => clearInterval(countInterval);
-    }
-  }, [typewriterComplete, isMounted]);
+    return () => {
+      if (typewriterIntervalRef.current) {
+        clearInterval(typewriterIntervalRef.current);
+      }
+      if (countIntervalRef.current) {
+        clearInterval(countIntervalRef.current);
+      }
+      // Ensure scrolling is re-enabled on unmount
+      enableScroll();
+    };
+  }, []);
 
   // Confetti function
   const triggerConfetti = () => {
@@ -312,73 +495,73 @@ const IndigoTimeline = () => {
         angle: 60
       });
       
-      // Second burst - more confetti from different angle
-      setTimeout(() => {
-        if (window.confetti) {
-          window.confetti({
-            particleCount: 200,
-            spread: 80,
-            origin: { x: 0.1, y: 0.7 },
-            colors: ['#EF4444', '#F97316', '#EAB308', '#84CC16', '#06B6D4'],
-            startVelocity: 30,
-            gravity: 0.9,
-            decay: 0.85,
-            ticks: 200,
-            angle: 45
-          });
-        }
-      }, 200);
-      
-      // Third burst from left-center
-      setTimeout(() => {
-        if (window.confetti) {
-          window.confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { x: 0.3, y: 0.5 },
-            colors: ['#8B5CF6', '#EC4899', '#F43F5E', '#F59E0B', '#10B981'],
-            startVelocity: 25,
-            gravity: 0.7,
-            decay: 0.8,
-            ticks: 220,
-            angle: 75
-          });
-        }
-      }, 400);
+             // Second burst - more confetti from different angle
+       setTimeout(() => {
+         if (window.confetti) {
+           window.confetti({
+             particleCount: 200,
+             spread: 80,
+             origin: { x: 0.1, y: 0.7 },
+             colors: ['#EF4444', '#F97316', '#EAB308', '#84CC16', '#06B6D4'],
+             startVelocity: 30,
+             gravity: 0.9,
+             decay: 0.85,
+             ticks: 200,
+             angle: 45
+           });
+         }
+       }, 100);
+       
+       // Third burst from left-center
+       setTimeout(() => {
+         if (window.confetti) {
+           window.confetti({
+             particleCount: 150,
+             spread: 70,
+             origin: { x: 0.3, y: 0.5 },
+             colors: ['#8B5CF6', '#EC4899', '#F43F5E', '#F59E0B', '#10B981'],
+             startVelocity: 25,
+             gravity: 0.7,
+             decay: 0.8,
+             ticks: 220,
+             angle: 75
+           });
+         }
+       }, 200);
 
-      // Fourth burst - additional explosion
-      setTimeout(() => {
-        if (window.confetti) {
-          window.confetti({
-            particleCount: 180,
-            spread: 90,
-            origin: { x: 0.15, y: 0.4 },
-            colors: ['#140079', '#9333EA', '#3B82F6', '#10B981', '#F59E0B', '#EF4444'],
-            startVelocity: 28,
-            gravity: 0.8,
-            decay: 0.88,
-            ticks: 180,
-            angle: 50
-          });
-        }
-      }, 600);
+       // Fourth burst - additional explosion
+       setTimeout(() => {
+         if (window.confetti) {
+           window.confetti({
+             particleCount: 180,
+             spread: 90,
+             origin: { x: 0.15, y: 0.4 },
+             colors: ['#140079', '#9333EA', '#3B82F6', '#10B981', '#F59E0B', '#EF4444'],
+             startVelocity: 28,
+             gravity: 0.8,
+             decay: 0.88,
+             ticks: 180,
+             angle: 50
+           });
+         }
+       }, 300);
 
-      // Fifth burst - final celebration
-      setTimeout(() => {
-        if (window.confetti) {
-          window.confetti({
-            particleCount: 120,
-            spread: 85,
-            origin: { x: 0.25, y: 0.3 },
-            colors: ['#F97316', '#EAB308', '#84CC16', '#06B6D4', '#8B5CF6'],
-            startVelocity: 32,
-            gravity: 0.75,
-            decay: 0.9,
-            ticks: 200,
-            angle: 65
-          });
-        }
-      }, 800);
+       // Fifth burst - final celebration
+       setTimeout(() => {
+         if (window.confetti) {
+           window.confetti({
+             particleCount: 120,
+             spread: 85,
+             origin: { x: 0.25, y: 0.3 },
+             colors: ['#F97316', '#EAB308', '#84CC16', '#06B6D4', '#8B5CF6'],
+             startVelocity: 32,
+             gravity: 0.75,
+             decay: 0.9,
+             ticks: 200,
+             angle: 65
+           });
+         }
+       }, 400);
     }
   };
 
@@ -523,20 +706,22 @@ const IndigoTimeline = () => {
           </div>
           
           {/* Number and Years Section */}
-          <div className="text-center">
-            <div className="flex flex-col items-center space-y-2">
-              <span 
-                ref={numberRef}
-                className="text-8xl md:text-9xl lg:text-[12rem] font-black text-[#140079] leading-none counter-number display-block font-roboto"
-                style={{ lineHeight: '0.8' }}
-              >
-                {isMounted ? currentNumber : 0}
-              </span>
-              <span className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
-                YEARS
-              </span>
+          {typewriterComplete && (
+            <div className="text-center">
+              <div className="flex flex-col items-center space-y-2">
+                <span 
+                  ref={numberRef}
+                  className="text-8xl md:text-9xl lg:text-[12rem] font-black text-[#140079] leading-none counter-number display-block font-roboto"
+                  style={{ lineHeight: '0.8' }}
+                >
+                  {isMounted ? currentNumber : 0}
+                </span>
+                <span className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
+                  YEARS
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -557,8 +742,8 @@ const IndigoTimeline = () => {
           white-space: nowrap;
           margin: 0 auto;
           letter-spacing: 0.05em;
-          animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
-          animation-delay: 0.5s;
+          animation: typing 2s steps(40, end), blink-caret 0.5s step-end infinite;
+          animation-delay: 0.3s;
           animation-fill-mode: both;
           line-height: 1.2;
           padding-bottom: 4px;
@@ -824,8 +1009,7 @@ const IndigoTimeline = () => {
           .video-container {
             display: none;
           }
-        }
-      `}</style>
+        }      `}</style>
     </section>
   );
 };
