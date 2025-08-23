@@ -243,7 +243,49 @@ const ScrollAnimation = () => {
           });
         },
       });
-    }
+         } else {
+       // Mobile animations - trigger when services header comes into view
+       const servicesHeader = document.querySelector('.services-header');
+       const mobileCards = document.querySelectorAll('.mobile-cards .card');
+       
+       if (servicesHeader) {
+         ScrollTrigger.create({
+           trigger: servicesHeader,
+           start: "top center",
+           end: "bottom center",
+           onEnter: () => {
+             // Start card animations when header comes into view
+             mobileCards.forEach((card, index) => {
+               setTimeout(() => {
+                 card.classList.add('animate-in');
+                 
+                 // Flip animation after card appears
+                 setTimeout(() => {
+                   card.classList.add('flip');
+                 }, 800); // Delay flip until card is fully visible
+               }, index * 600); // 600ms delay between each card
+             });
+           },
+           onLeave: () => {
+             // Reset animations when scrolling away
+             mobileCards.forEach(card => {
+               card.classList.remove('animate-in', 'flip');
+             });
+           },
+           onEnterBack: () => {
+             // Re-trigger animations when scrolling back up
+             mobileCards.forEach((card, index) => {
+               setTimeout(() => {
+                 card.classList.add('animate-in');
+                 setTimeout(() => {
+                   card.classList.add('flip');
+                 }, 800);
+               }, index * 600);
+             });
+           }
+         });
+       }
+     }
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -807,7 +849,7 @@ const ScrollAnimation = () => {
           width: 55%;
           display: flex;
           justify-content: center;
-          gap: 4rem;
+          gap: 2rem;
           z-index: 2;
         }
 
@@ -839,7 +881,7 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .hero-cards .card span,
         .scroll-animation-container .cards .card span {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           position: relative;
           z-index: 2;
           color: white;
@@ -1225,9 +1267,36 @@ const ScrollAnimation = () => {
           }
 
           .scroll-animation-container .hero-cards {
-            width: calc(100% - 1rem);
+            width: calc(100% - 2rem);
+            top: 65%;
+            gap: 1.5rem;
+          }
+          
+          .scroll-animation-container .hero-cards .card {
+            flex: 1;
+            position: relative;
+            aspect-ratio: 5/7;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            container-type: inline-size;
+            min-height: 200px;
           }
 
+          .scroll-animation-container .hero-cards .card span {
+            font-size: 0.6rem;
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-weight: 500;
+          }
+
+          .scroll-animation-container .card-center h2 {
+            font-size: clamp(1rem, 4vw, 1.8rem);
+            letter-spacing: 0.5px;
+          }
           .scroll-animation-container .about h1 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
@@ -1292,6 +1361,51 @@ const ScrollAnimation = () => {
             min-height: 500px;
           }
 
+          /* Additional mobile responsive styles for hero cards */
+          @media (max-width: 768px) {
+            .scroll-animation-container .hero-cards {
+              width: calc(100% - 1rem);
+              top: 70%;
+              gap: 1rem;
+            }
+
+            .scroll-animation-container .hero-cards .card {
+              padding: 0.4rem;
+              border-radius: 0.5rem;
+              min-height: 180px;
+            }
+
+            .scroll-animation-container .hero-cards .card span {
+              font-size: 0.5rem;
+            }
+
+            .scroll-animation-container .card-center h2 {
+              font-size: clamp(0.9rem, 3.5vw, 1.5rem);
+            }
+          }
+
+          @media (max-width: 480px) {
+            .scroll-animation-container .hero-cards {
+              width: calc(100% - 0.5rem);
+              top: 75%;
+              gap: 0.75rem;
+            }
+
+            .scroll-animation-container .hero-cards .card {
+              padding: 0.3rem;
+              border-radius: 0.4rem;
+              min-height: 160px;
+            }
+
+            .scroll-animation-container .hero-cards .card span {
+              font-size: 0.45rem;
+            }
+
+            .scroll-animation-container .card-center h2 {
+              font-size: clamp(0.8rem, 3vw, 1.3rem);
+            }
+          }
+
           .scroll-animation-container .about-features {
             gap: 0.5rem;
             margin-top: 0;
@@ -1330,27 +1444,145 @@ const ScrollAnimation = () => {
           }
 
           .scroll-animation-container .mobile-cards .cards-container {
-            width: calc(100% - 4rem);
-            display: block;
+            width: calc(100% - 2rem);
+            display: flex;
+            flex-direction: column;
             height: 100%;
-            margin: 4rem auto;
+            margin: 2rem auto;
+            gap: 4rem;
+            align-items: center;
+            justify-content: center;
           }
 
           .scroll-animation-container .mobile-cards .card {
-            margin-bottom: 2rem;
+            margin-bottom: 0;
             background-color: white;
             border-radius: 1rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 5/7;
+            min-height: 450px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
           }
 
           .scroll-animation-container .mobile-cards .cards-container .card-wrapper {
-            animation: none;
+            width: 100%;
+            height: 100%;
           }
 
           .scroll-animation-container .mobile-cards .card .flip-card-front {
-            transform: rotateY(180deg);
+            transform: rotateY(0deg);
             background-color: white;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
           }
+
+          .scroll-animation-container .mobile-cards .card .flip-card-front .card-title span {
+            font-size: 1rem;
+            color: #140079;
+            font-weight: 500;
+          }
+
+          .scroll-animation-container .mobile-cards .card .flip-card-back {
+            transform: rotateY(180deg);
+            background-color: #08048c;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem;
+          }
+
+          .scroll-animation-container .mobile-cards .card .card-title span {
+            font-size: 1rem;
+            color: white;
+            font-weight: 500;
+          }
+
+          .scroll-animation-container .mobile-cards .card .card-copy p {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            margin: 0.75rem 0;
+          }
+
+          /* Mobile services cards responsive styles */
+          @media (max-width: 768px) {
+            .scroll-animation-container .mobile-cards .card {
+              min-height: 400px;
+              max-width: 500px;
+              padding: 2rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .flip-card-front,
+            .scroll-animation-container .mobile-cards .card .flip-card-back {
+              padding: 2rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-title span {
+              font-size: 0.9rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-copy p {
+              font-size: 1.3rem;
+              margin: 0.6rem 0;
+            }
+
+            .scroll-animation-container .mobile-cards .cards-container {
+              gap: 3rem;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .scroll-animation-container .mobile-cards .card {
+              min-height: 350px;
+              max-width: 450px;
+              padding: 1.5rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .flip-card-front,
+            .scroll-animation-container .mobile-cards .card .flip-card-back {
+              padding: 1.5rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-title span {
+              font-size: 0.8rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-copy p {
+              font-size: 1.1rem;
+              margin: 0.5rem 0;
+            }
+
+            .scroll-animation-container .mobile-cards .cards-container {
+              gap: 2.5rem;
+            }
+          }
+
+          /* Mobile card animations */
+          .scroll-animation-container .mobile-cards .card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+          .scroll-animation-container .mobile-cards .card.flip .flip-card-inner {
+            transform: rotateY(180deg);
+          }
+
+          .scroll-animation-container .mobile-cards .card .flip-card-inner {
+            transition: transform 0.8s ease-in-out;
+            transform-style: preserve-3d;
+          }
+
+
 
           .scroll-animation-container #mobile-card-1 .flip-card-front {
             background-image: url('/card/card-1.png');
