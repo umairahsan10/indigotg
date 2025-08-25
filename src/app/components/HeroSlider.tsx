@@ -239,18 +239,18 @@ const HeroSlider = () => {
     const titleH1 = document.createElement("h1");
     const fontSize = (slideData.title === "NOC Services" || slideData.title === "Design, Deploy, Support") ? "6.5vw" : "7.5vw";
     titleH1.style.cssText = `
-        text-transform: uppercase;
-        font-size: ${fontSize};
-        font-weight: 700;
-        line-height: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 0.05em;
-        -webkit-text-stroke: 2px white;
-        color: #140079;
-      `;
+          text-transform: uppercase;
+          font-size: ${fontSize};
+          font-weight: 700;
+          line-height: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 0.05em;
+          -webkit-text-stroke: 2px ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "white" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#87ceeb" : "white"};
+          color: ${slideData.title === "Engineering a Digital Future" ? "white" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ff8c00" : "#140079"};
+        `;
 
     // Split title into words and characters
     const words = slideData.title.split(" ");
@@ -700,23 +700,23 @@ const HeroSlider = () => {
     const descriptionDiv = document.createElement("div");
     descriptionDiv.className = "slide-description";
 
-         // Adjust positioning based on slide title
-     let topPosition = "50%";
-     if (slideData.title === "Engineering a Digital Future") {
-       topPosition = "60%"; // Lower position for first slide
-     } else if (slideData.title === "Design, Deploy, Support") {
-       topPosition = "58%"; // Higher position for 3-line title
-     } else if (slideData.title === "Field Engineering") {
-       topPosition = "60%"; // Lower position for Field Engineering
-     } else if (slideData.title === "Survey & Design") {
-       topPosition = "60%"; // Lower position for Survey & Design
-     } else if (slideData.title === "Indigo Subsea") {
-       topPosition = "60%"; // Lower position for Indigo Subsea
-     } else if (slideData.title === "NOC Services") {
-       topPosition = "55%"; // Closer position for NOC Services
-     }
+    // Adjust positioning based on slide title
+    let topPosition = "50%";
+    if (slideData.title === "Engineering a Digital Future") {
+      topPosition = "60%"; // Lower position for first slide
+    } else if (slideData.title === "Design, Deploy, Support") {
+      topPosition = "58%"; // Higher position for 3-line title
+    } else if (slideData.title === "Field Engineering") {
+      topPosition = "60%"; // Lower position for Field Engineering
+    } else if (slideData.title === "Survey & Design") {
+      topPosition = "60%"; // Lower position for Survey & Design
+    } else if (slideData.title === "Indigo Subsea") {
+      topPosition = "60%"; // Lower position for Indigo Subsea
+    } else if (slideData.title === "NOC Services") {
+      topPosition = "55%"; // Closer position for NOC Services
+    }
 
-         descriptionDiv.style.cssText = `
+    descriptionDiv.style.cssText = `
          position: absolute;
          top: ${topPosition};
          left: 50%;
@@ -754,8 +754,8 @@ const HeroSlider = () => {
 
     const button = document.createElement("button");
     button.style.cssText = `
-      background: #140079;
-      border: 2px solid #140079;
+      background: ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ff8c00" : "#140079"};
+      border: 2px solid ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#919b1b" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#87ceeb" : "#140079"};
       color: white;
       padding: 8px 24px;
       font-size: 1rem;
@@ -773,14 +773,14 @@ const HeroSlider = () => {
     // Add hover effects
     button.addEventListener('mouseenter', () => {
       button.style.background = 'white';
-      button.style.border = '2px solid white';
-      button.style.color = '#140079';
+      button.style.border = slideData.title === "Design, Deploy, Support" ? '2px solid #87ceeb' : '2px solid white';
+      button.style.color = slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#140079" : "#140079";
       button.style.transform = 'scale(1.05)';
     });
 
     button.addEventListener('mouseleave', () => {
-      button.style.background = '#140079';
-      button.style.border = '2px solid #140079';
+      button.style.background = slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ff8c00" : "#140079";
+      button.style.border = slideData.title === "Engineering a Digital Future" ? "2px solid #991b1b" : slideData.title === "Field Engineering" ? "2px solid white" : slideData.title === "Survey & Design" ? "2px solid #00ffff" : slideData.title === "Indigo Subsea" ? "2px solid #d8bfd8" : slideData.title === "NOC Services" ? "2px solid #87ceeb" : slideData.title === "Design, Deploy, Support" ? "2px solid #87ceeb" : "2px solid #140079";
       button.style.color = 'white';
       button.style.transform = 'scale(1)';
     });
@@ -1411,8 +1411,8 @@ const HeroSlider = () => {
             justifyContent: 'center',
             alignItems: 'center',
             gap: '0.05em',
-            WebkitTextStroke: '2px white',
-            color: 'transparent'
+            WebkitTextStroke: '2px #991b1b',
+            color: 'white'
           }}>
             {/* First line: "Engineering a" */}
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -1552,8 +1552,8 @@ const HeroSlider = () => {
         >
           <button
             style={{
-              background: '#140079',
-              border: '2px solid #140079',
+              background: '#991b1b',
+              border: '2px solid white',
               color: 'white',
               padding: '8px 24px',
               fontSize: '1rem',
@@ -1573,12 +1573,12 @@ const HeroSlider = () => {
             onMouseEnter={(e) => {
               (e.target as HTMLElement).style.background = 'white';
               (e.target as HTMLElement).style.border = '2px solid white';
-              (e.target as HTMLElement).style.color = '#140079';
+              (e.target as HTMLElement).style.color = '#991b1b';
               (e.target as HTMLElement).style.transform = 'scale(1.05)';
             }}
             onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.background = '#140079';
-              (e.target as HTMLElement).style.border = '2px solid #140079';
+              (e.target as HTMLElement).style.background = '#991b1b';
+              (e.target as HTMLElement).style.border = '2px solid white';
               (e.target as HTMLElement).style.color = 'white';
               (e.target as HTMLElement).style.transform = 'scale(1)';
             }}
