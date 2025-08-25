@@ -21,7 +21,7 @@ const Navigation = () => {
   const lastScrollY = useRef(0);
   const scrollThreshold = 10; // Minimum scroll distance before hiding nav
   const navHideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   const menuToggleBtnRef = useRef<HTMLDivElement>(null);
   const menuOverlayRef = useRef<HTMLDivElement>(null);
   const menuOverlayContainerRef = useRef<HTMLDivElement>(null);
@@ -36,8 +36,8 @@ const Navigation = () => {
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/who-we-are', label: 'Who We Are' },
-    { 
-      href: '/our-services', 
+    {
+      href: '/our-services',
       label: 'Our Services',
       hasDropdown: true,
       dropdownItems: [
@@ -46,13 +46,13 @@ const Navigation = () => {
         { href: '/solutions2/support', label: 'Support' }
       ]
     },
-    { 
-      href: '/solutions2', 
+    {
+      href: '/solutions2',
       label: 'Solutions',
       hasDropdown: true,
       dropdownItems: [
         { href: '/solutions/fixedline', label: 'Fixed\u00A0line' },
-        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
+        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems' },
         { href: '/solutions/data-centres', label: 'Data\u00A0Centres' },
         { href: '/solutions/wireless', label: 'Wireless' },
         { href: '/solutions/network', label: 'Network\u00A0Services' },
@@ -70,17 +70,17 @@ const Navigation = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1000);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-         // Check initial scroll position
-     if (lenisRef.current) {
-       const initialScroll = lenisRef.current.scroll;
-       setIsScrolled(initialScroll > 20);
-       lastScrollY.current = initialScroll;
-     }
-    
+    // Check initial scroll position
+    if (lenisRef.current) {
+      const initialScroll = lenisRef.current.scroll;
+      setIsScrolled(initialScroll > 20);
+      lastScrollY.current = initialScroll;
+    }
+
     // Register GSAP plugins
     gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
     CustomEase.create("hop", ".87,0,.13,1");
@@ -94,9 +94,9 @@ const Navigation = () => {
         // Use Lenis scroll position for more accurate detection
         const scrollTop = e.scroll;
         const scrollDelta = scrollTop - lastScrollY.current;
- 
+
         setIsScrolled(scrollTop > 20);
-        
+
         // Hide nav immediately when scrolling down, show when scrolling up or at top
         if (scrollTop <= 20) {
           // At top - always show nav
@@ -112,7 +112,7 @@ const Navigation = () => {
           // This catches cases where scrollDelta is 0 but we're still not at top
           setIsNavVisible(false);
         }
-      
+
         lastScrollY.current = scrollTop;
       });
     }
@@ -128,7 +128,7 @@ const Navigation = () => {
     if (copyContainersRef.current) {
       gsap.set(copyContainersRef.current, { opacity: 1 });
     }
-    
+
     // Set initial state for menu overlay content
     if (menuOverlayContainerRef.current) {
       gsap.set(menuOverlayContainerRef.current, { yPercent: -100 });
@@ -218,7 +218,7 @@ const Navigation = () => {
 
       // Store current scroll position first
       scrollYRef.current = typeof window !== 'undefined' ? window.scrollY : 0;
-      
+
       if (lenisRef.current) {
         lenisRef.current.stop();
       }
@@ -243,7 +243,7 @@ const Navigation = () => {
 
         // Slide the (now fixed) page content downward until it is completely out of view
         const targetY = scrollYRef.current + window.innerHeight + 100;
-        
+
         tl.to(pageContent, {
           y: targetY,
           duration: 1,
@@ -343,7 +343,7 @@ const Navigation = () => {
       if (hamburgerIconRef.current) {
         hamburgerIconRef.current.classList.remove("active");
       }
-      
+
       const tl = gsap.timeline();
 
       // First hide the menu overlay
@@ -819,7 +819,7 @@ const Navigation = () => {
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -45%);
           opacity: 1;
         }
 
@@ -837,7 +837,7 @@ const Navigation = () => {
         .menu-col {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 1.25rem;
           opacity: 1;
         }
 
@@ -853,6 +853,8 @@ const Navigation = () => {
           display: block; /* Ensure proper container behavior */
         }
 
+
+
         /* Force SplitText container to prevent wrapping */
         .menu-link .split-text-container {
           white-space: nowrap !important;
@@ -867,24 +869,44 @@ const Navigation = () => {
           text-overflow: ellipsis !important;
         }
 
-        .menu-link-underline {
-          position: absolute !important;
-          left: 0 !important;
-          bottom: -0.3em !important;
-          width: 0% !important;
-          height: 2px !important;
-          background-color: #ffffff !important;
-          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1) !important;
-          pointer-events: none; /* Prevent interference with hover detection */
+
+        /* ------------------------------------------------------------------ */
+        /* Menu links – use :global() so rules hit the <a> generated by Link   */
+        /* ------------------------------------------------------------------ */
+
+        /* Base link style  */
+        .menu-link :global(a) {
+          font-size: 2.8rem;
+          font-weight: 500;
+          line-height: 1.2;
+          color: #ffffff;
+          position: relative;
+          display: inline-block;
+          transition: color 0.3s ease;
+          text-decoration: none;
         }
-        /* Maximum specificity override for menu links */
-        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
-          font-size: 2.8rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
-          position: relative !important;
-          display: inline-block !important;
+
+        .menu-link :global(a:hover) {
+          color: #cccccc;
+        }
+
+        /* Underline pseudo-element */
+        .menu-link :global(a)::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0; /* baseline */
+          width: 0%;
+          height: 2px;
+          background-color: #ffffff;
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+          pointer-events: none;
+        }
+
+        /* Expand underline on hover of link OR its wrapper */
+        .menu-link :global(a:hover)::after,
+        .menu-link:hover :global(a)::after {
+          width: 100%;
         }
 
 
@@ -895,8 +917,8 @@ const Navigation = () => {
           justify-content: space-between;
           align-items: center;
           gap: 2rem;
-          margin-top: 2rem;
-          padding-top: 2rem;
+          margin-top: 0.5rem;
+          padding-top: 1rem;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
           width: 100%;
         }
@@ -910,6 +932,7 @@ const Navigation = () => {
           transition: color 0.3s ease;
         }
 
+        /* Option 3: Simplified fix for small links */
         .menu-small-link::after {
           content: '';
           position: absolute;
@@ -925,6 +948,8 @@ const Navigation = () => {
           width: 100%;
         }
 
+
+
         /* Dropdown styles */
         .menu-link-with-dropdown {
           position: relative;
@@ -934,11 +959,12 @@ const Navigation = () => {
           position: absolute;
           top: 0%;
           left: 100%;
-          background-color: var(--menu-bg);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background-color: transparent;
+          border: none;
           border-radius: 0.5rem;
           padding: 0.2rem 0;
-          min-width: 120px;
+          min-width: 200px;
+          width: 200px;
           opacity: 0;
           visibility: hidden;
           transform: translateY(-10px);
@@ -963,19 +989,22 @@ const Navigation = () => {
 
         .menu-dropdown-item {
           padding: 0.05rem 0.5rem;
-          transition: background-color 0.2s ease;
-          background-color: rgba(255, 255, 255, 0.1);
+          transition: all 0.2s ease;
+          background-color: transparent;
           white-space: nowrap !important;
           overflow: hidden;
           width: 100%;
+          position: relative;
         }
 
+
+
         .menu-dropdown-item:hover {
-          background-color: rgba(255, 255, 255, 0.2);
+          background-color: transparent;
         }
 
         .menu-dropdown-item a {
-          font-size: 14px !important;
+          font-size: 18px !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
           color: #ffffff !important;
@@ -988,9 +1017,14 @@ const Navigation = () => {
           overflow: hidden;
           text-overflow: ellipsis;
           width: 100%;
+          transition: color 0.3s ease;
         }
 
-        /* Underline animation for dropdown items */
+        .menu-dropdown-item a:hover {
+          color: #cccccc !important;
+        }
+
+        /* Option 3: Simplified fix for dropdown items */
         .menu-dropdown-item a::after {
           content: '';
           position: absolute;
@@ -1005,6 +1039,8 @@ const Navigation = () => {
         .menu-dropdown-item a:hover::after {
           width: 100%;
         }
+
+
 
         .line {
           position: relative;
@@ -1066,6 +1102,8 @@ const Navigation = () => {
             text-overflow: ellipsis;
           }
 
+
+
           /* Mobile small links styling */
           .menu-small-links {
             flex-direction: column;
@@ -1077,6 +1115,8 @@ const Navigation = () => {
           .menu-small-link {
             font-size: 0.75rem !important;
           }
+
+
 
                      /* Mobile dropdown styles */
            .menu-dropdown {
@@ -1094,11 +1134,14 @@ const Navigation = () => {
            .menu-dropdown-item {
              padding: 0.05rem 0;
              background-color: #000000;
+             position: relative;
            }
 
            .menu-dropdown-item a {
              font-size: 12px !important;
            }
+
+
 
 
         }
@@ -1107,7 +1150,7 @@ const Navigation = () => {
       <nav ref={navRef}>
         <div className={`menu-bar ${isScrolled ? 'scrolled' : ''} ${!isNavVisible ? 'nav-hidden' : ''} ${isDarkHeroPage ? 'dark-hero' : ''}`}>
           <div className="menu-logo">
-            <Link 
+            <Link
               href="/"
               onClick={() => {
                 if (isMenuOpen) {
@@ -1138,11 +1181,11 @@ const Navigation = () => {
         <div className="menu-overlay" ref={menuOverlayRef}>
           <div className="menu-overlay-content" ref={menuOverlayContainerRef}>
             <div className="menu-media-wrapper" ref={menuMediaWrapperRef}>
-              <video 
-                src="/Glass &quotKnot_ _ Motion graphics design Graphic design background texture Learning graphic design.mp4" 
-                autoPlay 
-                muted 
-                loop 
+              <video
+                src="/Glass &quotKnot_ _ Motion graphics design Graphic design background texture Learning graphic design.mp4"
+                autoPlay
+                muted
+                loop
                 playsInline
                 style={{
                   width: '100%',
@@ -1156,27 +1199,11 @@ const Navigation = () => {
               <div className="menu-content-main" ref={copyContainersRef}>
                 <div className="menu-col">
                   {navItems.map((item, index) => (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className={`menu-link ${item.hasDropdown ? 'menu-link-with-dropdown' : ''}`}
-                      onMouseEnter={(e) => {
-                        // Find the underline element within this menu-link container
-                        const menuLinkContainer = e.currentTarget;
-                        const underline = menuLinkContainer.querySelector('.menu-link-underline') as HTMLElement;
-                        if (underline) {
-                          underline.style.width = '100%';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        // Find the underline element within this menu-link container
-                        const menuLinkContainer = e.currentTarget;
-                        const underline = menuLinkContainer.querySelector('.menu-link-underline') as HTMLElement;
-                        if (underline) {
-                          underline.style.width = '0%';
-                        }
-                      }}
                     >
-                      <Link 
+                      <Link
                         href={item.href}
                         onClick={() => {
                           if (isMenuOpen) {
@@ -1195,14 +1222,13 @@ const Navigation = () => {
                       >
                         <span className="menu-link-text">{item.label}</span>
                       </Link>
-                      <div className="menu-link-underline"></div>
                       {item.hasDropdown && (
-                        <div 
+                        <div
                           className={`menu-dropdown ${item.label === 'Solutions' ? 'solutions-dropdown' : ''}`}
                         >
                           {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
                             <div key={dropdownIndex} className="menu-dropdown-item">
-                              <Link 
+                              <Link
                                 href={dropdownItem.href}
                                 onClick={() => {
                                   if (isMenuOpen) {
@@ -1210,7 +1236,7 @@ const Navigation = () => {
                                   }
                                 }}
                                 style={{
-                                  fontSize: '16px',
+                                  fontSize: '24px',
                                   fontWeight: '500',
                                   lineHeight: '1.2',
                                   color: '#ffffff',
@@ -1218,7 +1244,7 @@ const Navigation = () => {
                                   backgroundColor: 'transparent',
                                   padding: '0px',
                                   border: 'none',
-                                  transform: 'scale(0.4)',
+                                  transform: 'none',
                                   transformOrigin: 'left center'
                                 }}
                               >
@@ -1232,12 +1258,54 @@ const Navigation = () => {
                   ))}
 
                 </div>
-                                 <div className="menu-small-links">
-                   <Link href="/resources" className="menu-small-link">Resources</Link>
-                   <Link href="/partner-portal" className="menu-small-link">Partner Portal</Link>
-                   <Link href="/customer-support" className="menu-small-link">Customer Support</Link>
-                   <Link href="/responsibilities" className="menu-small-link">Responsibilities</Link>
-                 </div>
+
+                
+                <div className="menu-small-links">
+                  <Link
+                    href="/resources"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Resources
+                  </Link>
+                  <Link
+                    href="/partner-portal"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Partner Portal
+                  </Link>
+                  <Link
+                    href="https://indigotg.my.site.com/CustomerPortal/s/login/?ec=302&startURL=%2FCustomerPortal%2Fs%2F"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Customer Support
+                  </Link>
+                  <Link
+                    href="/responsibilities"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Responsibilities
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
