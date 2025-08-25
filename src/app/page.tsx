@@ -16,13 +16,15 @@ import GetInTouchForm from "./components/GetInTouchForm";
 import { orbitron } from "./fonts";
 import { BrandsSection } from "./components/brands";
 import ScrollAnimation from "./components/ScrollAnimation";
+import HeroGlobe from "./components/HeroGlobe";
 
 export default function Home() {
   return (
     <div className="overflow-x-hidden">
       <BackgroundMusic audioSrc="/music/bg_music.mp3" />
 
-      {/* <Hero /> */}
+      {/* <Hero />
+      <HeroGlobe /> */}
 
       {/* Hero Slider */}
       <HeroSlider />
@@ -45,8 +47,7 @@ export default function Home() {
       {/* Brands Marquee */}
       <BrandsSection />
 
-      {/* News Section */}
-      <Carousel3D />
+
 
       {/* Interactive Map */}
       <section className="py-24 bg-white">
