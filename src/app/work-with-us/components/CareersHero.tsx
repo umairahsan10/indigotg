@@ -152,7 +152,7 @@ export default function CareersHero() {
 
           {/* Enhanced Description */}
           <p className="text-xl text-white/90 mb-10 leading-relaxed mt-8 font-roboto">
-            Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
+          Looking to set your skills in motion and fulfil your potential? Join us and discover a dynamic career that values your talents as part of an ambitious and committed team working as one to deliver the future of digital infrastructure.
           </p>
 
           {/* Enhanced CTA Buttons */}
@@ -164,10 +164,10 @@ export default function CareersHero() {
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
-            <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3 font-roboto">
+            {/* <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3 font-roboto">
               <span>Learn More</span>
               <span className="text-lg group-hover:rotate-45 transition-transform duration-300">↗</span>
-            </button>
+            </button> */}
           </div>
 
           {/* Stats Section */}
