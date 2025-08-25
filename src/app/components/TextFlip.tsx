@@ -5,45 +5,25 @@ import { useEffect, useMemo, useRef } from "react";
 export default function TextFlip() {
   const words = useMemo(() => ["Enabling", "Maintaining"], []);
 
-  const tallestRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (tallestRef.current) {
-      let maxHeight = 0;
-
-      words.forEach((word) => {
-        const span = document.createElement("span");
-        span.className = "absolute opacity-0";
-        span.textContent = word;
-        tallestRef.current?.appendChild(span);
-        const height = span.offsetHeight;
-        tallestRef.current?.removeChild(span);
-
-        if (height > maxHeight) {
-          maxHeight = height;
-        }
-      });
-
-      // Add extra padding to account for descenders (g, j, p, q, y)
-      tallestRef.current.style.height = `${maxHeight + 12}px`;
-    }
-  }, [words]);
-
   return (
     <>
       <style jsx>{`
         .text-flip-container {
-          display: inline-flex;
-          flex-direction: column;
+          display: inline-block;
           overflow: hidden;
           color: #00ffff;
           font-weight: 700;
           font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
           text-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
           transition: all 0.3s ease;
-          min-width: 200px;
-          border: 2px solid transparent;
-          padding: 4px 0;
+          vertical-align: baseline;
+          line-height: 1.2;
+          position: relative;
+          white-space: nowrap;
+          width: 450px;
+          height: 80px;
+          padding: 12px 16px;
+          text-align: left;
         }
 
         .text-flip-container:hover {
@@ -53,19 +33,54 @@ export default function TextFlip() {
         }
 
         .text-flip-word {
-          animation: flip-words 4s ease-in-out infinite;
-          line-height: 1.2;
-          margin-bottom: 4px;
+          display: block;
+          position: absolute;
+          width: 100%;
+          white-space: nowrap;
+          top: 0;
+          text-align: left;
         }
 
-        @keyframes flip-words {
-          0%, 45% { transform: translateY(0); }
-          50%, 95% { transform: translateY(-110%); }
-          100% { transform: translateY(0); }
+        .text-flip-word:nth-child(1) {
+          animation: flip-words-1 4s ease-in-out infinite;
+        }
+
+        .text-flip-word:nth-child(2) {
+          animation: flip-words-2 4s ease-in-out infinite;
+        }
+
+        @keyframes flip-words-1 {
+          0%, 45% { 
+            transform: translateY(0); 
+            opacity: 1;
+          }
+          50%, 95% { 
+            transform: translateY(-100%); 
+            opacity: 0;
+          }
+          100% { 
+            transform: translateY(0); 
+            opacity: 1;
+          }
+        }
+
+        @keyframes flip-words-2 {
+          0%, 45% { 
+            transform: translateY(100%); 
+            opacity: 0;
+          }
+          50%, 95% { 
+            transform: translateY(0); 
+            opacity: 1;
+          }
+          100% { 
+            transform: translateY(100%); 
+            opacity: 0;
+          }
         }
       `}</style>
 
-      <div ref={tallestRef} className="text-flip-container">
+      <div className="text-flip-container">
         {words.map((word, index) => (
           <span key={index} className="text-flip-word">
             {word}

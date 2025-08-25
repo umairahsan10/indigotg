@@ -47,7 +47,7 @@ function horizontalLoop(items: HTMLElement[], config?: HorizontalLoopConfig): gs
     (xPercents[length - 1] / 100) * widths[length - 1] -
     startX +
     items[length - 1].offsetWidth *
-      (gsap.getProperty(items[length - 1], "scaleX") as number) +
+    (gsap.getProperty(items[length - 1], "scaleX") as number) +
     (parseFloat(config.paddingRight?.toString() || "0"));
 
   for (i = 0; i < length; i++) {
@@ -175,9 +175,9 @@ export default function Solutions2() {
         onUpdate: (self) => {
           const progress = self.progress;
           gsap.set(cardImg, { scale: 2 - progress });
-          gsap.set(imgContainer, { 
+          gsap.set(imgContainer, {
             borderRadius: 150 - progress * 125 + "px",
-            opacity: progress 
+            opacity: progress
           });
         },
       });
@@ -195,10 +195,10 @@ export default function Solutions2() {
         onEnter: () => {
           // Create a timeline for proper sequencing
           const tl = gsap.timeline();
-          
+
           // First animate title and description
           tl.add(() => animateContentIn(cardTitleChars, cardDescription));
-          
+
           // Then animate button after a delay
           tl.to(cardButton, {
             x: 0,
@@ -661,7 +661,7 @@ export default function Solutions2() {
 
         .intro h1 {
           opacity: 0;
-          transform: translateY(30px);
+          transform: translateY(0);
           animation: introTextAppear 1.2s ease-out 0.5s forwards;
           text-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
           transition: all 0.3s ease;
@@ -677,7 +677,7 @@ export default function Solutions2() {
         @keyframes introTextAppear {
           0% {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(0);
           }
           100% {
             opacity: 1;
@@ -958,25 +958,25 @@ export default function Solutions2() {
       `}</style>
 
       <main>
-        
-                <section className="intro">
+
+        <section className="intro">
           <div className="container-md">
             <div className="hero-content text-white">
               <div className="hero-left">
-              <span className="section-title">Digital Infrastructure Solutions</span>
-                              <h1><TextFlip /> Connectivity</h1>
-              <div className="description-block">
-                <p>
+                <span className="section-title">Digital Infrastructure Solutions</span>
+                <h1><TextFlip /> Connectivity</h1>
+                <div className="description-block">
+                  <p>
                     25+ years delivering digital infrastructure solutions across fixed line, subsea, data centres, and wireless networks. From 5G to legacy systems, we solve complex challenges in any environment with 24/7 NOC support.
-                </p>
+                  </p>
+                </div>
               </div>
-            </div>
               <div className="hero-right">
                 {/* Empty right column */}
-          </div>
+              </div>
             </div>
           </div>
-          
+
           {/* Custom blinking server lights */}
           <div className="server-light server-light-1"></div>
           <div className="server-light server-light-2"></div>
@@ -987,7 +987,7 @@ export default function Solutions2() {
           <div className="server-light server-light-7"></div>
           <div className="server-light server-light-8"></div>
         </section>
-        
+
         {/* Breadcrumb Navigation */}
         <section className="breadcrumb-section bg-white py-4">
           <div className="container-md">
@@ -998,7 +998,7 @@ export default function Solutions2() {
                     Home
                   </a>
                 </li>
-                                 <li className="text-[#140079]">•</li>
+                <li className="text-[#140079]">•</li>
                 <li className="text-[#140079]">
                   Digital Infrastructure Solutions
                 </li>
@@ -1006,7 +1006,7 @@ export default function Solutions2() {
             </nav>
           </div>
         </section>
-        
+
         <section className="cards">
           <div className="card">
             <div className="card-wrapper">
@@ -1145,7 +1145,7 @@ export default function Solutions2() {
             </div>
           </div>
         </section>
-        
+
         <section className="outro">
           <div className="outro-container">
             <div className="outro-content">
@@ -1157,7 +1157,7 @@ export default function Solutions2() {
                 <button className="contact-button">
                   Contact us
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
               </Link>
