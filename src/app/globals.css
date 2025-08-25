@@ -268,8 +268,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Menu link font size overrides */
-.menu-link a {
+/* Menu link font size overrides - DISABLED due to Navigation component conflicts */
+/* .menu-link a {
   font-size: 3rem !important;
   font-weight: 500 !important;
   line-height: 1.2 !important;
@@ -312,10 +312,10 @@ body {
 
 .menu-link .line:hover::after {
   width: 100%;
-}
+} */
 
-/* Mobile menu link font size overrides */
-@media (max-width: 1000px) {
+/* Mobile menu link font size overrides - DISABLED due to Navigation component conflicts */
+/* @media (max-width: 1000px) {
   .menu-link a {
     font-size: 2rem !important;
     position: relative;
@@ -356,7 +356,7 @@ body {
   .menu-link .line:hover::after {
     width: 100%;
   }
-}
+} */
 
 /* Page Transition Loader Styles */
 .transition-overlay {
