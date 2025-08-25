@@ -17,8 +17,10 @@ const ScrollAnimation = () => {
     // Note: Lenis is handled by the main Navigation component to avoid conflicts
 
     const smoothStep = (p: number) => p * p * (3 - 2 * p);
+    const isMobile = window.innerWidth <= 1000;
 
-    if (window.innerWidth > 1000) {
+    if (!isMobile) {
+      // Desktop animations - only apply when screen width > 1000px
       ScrollTrigger.create({
         trigger: ".hero",
         start: "top top",
@@ -243,49 +245,98 @@ const ScrollAnimation = () => {
           });
         },
       });
-         } else {
-       // Mobile animations - trigger when services header comes into view
-       const servicesHeader = document.querySelector('.services-header');
-       const mobileCards = document.querySelectorAll('.mobile-cards .card');
-       
-       if (servicesHeader) {
-         ScrollTrigger.create({
-           trigger: servicesHeader,
-           start: "top center",
-           end: "bottom center",
-           onEnter: () => {
-             // Start card animations when header comes into view
-             mobileCards.forEach((card, index) => {
-               setTimeout(() => {
-                 card.classList.add('animate-in');
-                 
-                 // Flip animation after card appears
-                 setTimeout(() => {
-                   card.classList.add('flip');
-                 }, 800); // Delay flip until card is fully visible
-               }, index * 600); // 600ms delay between each card
-             });
-           },
-           onLeave: () => {
-             // Reset animations when scrolling away
-             mobileCards.forEach(card => {
-               card.classList.remove('animate-in', 'flip');
-             });
-           },
-           onEnterBack: () => {
-             // Re-trigger animations when scrolling back up
-             mobileCards.forEach((card, index) => {
-               setTimeout(() => {
-                 card.classList.add('animate-in');
-                 setTimeout(() => {
-                   card.classList.add('flip');
-                 }, 800);
-               }, index * 600);
-             });
-           }
-         });
-       }
-     }
+    } else {
+      // Mobile animations - exactly matching the provided mobile animation code
+      const servicesHeader = document.querySelector('.services-header');
+      const mobileCards = document.querySelectorAll('.mobile-cards .card');
+      
+      if (servicesHeader && mobileCards.length > 0) {
+        // Set initial states for mobile cards - exactly like the provided code
+        mobileCards.forEach((card) => {
+          gsap.set(card, {
+            // Start fully visible (remove fade-in) - exactly like provided code
+            opacity: 1,
+            y: 60,
+            scale: 0.9,
+            rotation: 0,
+            position: "relative",
+            left: "auto",
+            top: "auto",
+            transform: "none",
+            zIndex: 1,
+          });
+        });
+
+        // First, animate the header to appear
+        gsap.fromTo(servicesHeader, 
+          { y: "100px", opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
+        );
+
+        // Create simple reveal animations for each card - exactly like provided code
+        mobileCards.forEach((card) => {
+          // Simple reveal animation - exactly like provided code
+          gsap.to(card, {
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%", // exactly like provided code
+              end: "bottom 80%", // exactly like provided code
+              toggleActions: "play none none reverse",
+              markers: false,
+            },
+          });
+
+          // Simple flip animation when card comes into view - exactly like provided code
+          const frontEl = card.querySelector(".flip-card-front") as HTMLElement;
+          const backEl = card.querySelector(".flip-card-back") as HTMLElement;
+
+          // Use scrubbed progress so rotation reverses visibly as it crosses 50vh
+          // Front side rotates to back - exactly like provided code
+          if (frontEl && backEl) {
+            gsap.fromTo(
+              frontEl,
+              { rotateY: 0 },
+              {
+                rotateY: -180,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top 70%", // exactly like provided code
+                  end: "center center", // exactly like provided code
+                  scrub: true,
+                  markers: false,
+                  // Disable clicks when the card is showing its back side
+                  onUpdate: (self) => {
+                    // Always keep front face non-interactive
+                    frontEl.style.pointerEvents = "none";
+                  },
+                },
+              },
+            );
+
+            gsap.fromTo(
+              backEl,
+              { rotateY: 180 },
+              {
+                rotateY: 0,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top 70%", // exactly like provided code
+                  end: "center center", // exactly like provided code
+                  scrub: true,
+                  markers: false,
+                },
+              },
+            );
+          }
+        });
+      }
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -1036,6 +1087,13 @@ const ScrollAnimation = () => {
           background-color: white;
         }
 
+        /* Ensure desktop cards are visible on larger screens */
+        @media (min-width: 1001px) {
+          .scroll-animation-container .cards {
+            display: flex !important;
+          }
+        }
+
         .scroll-animation-container .cards::before {
           content: '';
           position: absolute;
@@ -1260,6 +1318,13 @@ const ScrollAnimation = () => {
           z-index: 2;
         }
 
+        /* Hide mobile cards on desktop */
+        @media (min-width: 1001px) {
+          .scroll-animation-container .mobile-cards {
+            display: none !important;
+          }
+        }
+
         @media (max-width: 1000px) {
           .scroll-animation-container .hero-header h1 {
             font-size: 2.5rem;
@@ -1438,6 +1503,11 @@ const ScrollAnimation = () => {
             transform: translateY(0%);
           }
 
+          /* Hide desktop cards and services animations on mobile */
+          .scroll-animation-container .cards {
+            display: none !important;
+          }
+
           .scroll-animation-container .mobile-cards {
             display: block;
             height: 100%;
@@ -1465,7 +1535,7 @@ const ScrollAnimation = () => {
             max-width: 600px;
             margin: 0 auto 2rem auto;
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(100px);
             transition: all 0.6s ease-out;
           }
 
@@ -1567,15 +1637,7 @@ const ScrollAnimation = () => {
             }
           }
 
-          /* Mobile card animations */
-          .scroll-animation-container .mobile-cards .card.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-          }
-
-          .scroll-animation-container .mobile-cards .card.flip .flip-card-inner {
-            transform: rotateY(180deg);
-          }
+          /* Mobile card animations handled by GSAP */
 
           .scroll-animation-container .mobile-cards .card .flip-card-inner {
             transition: transform 0.8s ease-in-out;
