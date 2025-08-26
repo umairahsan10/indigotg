@@ -34,6 +34,7 @@ const IndigoTimeline = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLDivElement>(null);
   const videoInnerRef = useRef<HTMLDivElement>(null);
+  const thumbnailRef = useRef<HTMLImageElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -56,6 +57,8 @@ const IndigoTimeline = () => {
   const hasTriggeredAnimationsRef = useRef(false);
   const [animationsRunning, setAnimationsRunning] = useState(false);
   const [sectionLocked, setSectionLocked] = useState(false);
+  // Ref to store ScrollTrigger instance so we can disable / kill it from anywhere
+  const scrollTriggerRef = useRef<any>(null);
 
   // Mount effect to prevent hydration issues
   useEffect(() => {
@@ -148,6 +151,14 @@ const IndigoTimeline = () => {
            clearInterval(countIntervalRef.current);
            countIntervalRef.current = null;
          }
+
+         // Kill the ScrollTrigger instance (this also removes pinning) before
+         // we re-enable scroll so there is no chance of it snapping elements.
+         if (scrollTriggerRef.current) {
+           scrollTriggerRef.current.kill();
+           scrollTriggerRef.current = null;
+         }
+
          // Re-enable scrolling when all animations complete
          setAnimationsRunning(false);
          setSectionLocked(false);
@@ -183,6 +194,12 @@ const IndigoTimeline = () => {
     // Clear typewriter text
     if (typewriterTextRef.current) {
       typewriterTextRef.current.textContent = "";
+    }
+
+    // Ensure thumbnail overlay is visible again for the next play-through
+    if (thumbnailRef.current) {
+      thumbnailRef.current.style.opacity = "0";
+      thumbnailRef.current.style.display = "none";
     }
   };
 
@@ -260,6 +277,7 @@ const IndigoTimeline = () => {
          }, "-=0.3");
 
       // Main scroll-triggered transition
+      // Create the ScrollTrigger and store it in a ref so other callbacks can reach it
       scrollTriggerInstance = window.ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
@@ -272,6 +290,12 @@ const IndigoTimeline = () => {
           // Lock the section when it comes to screen
           setSectionLocked(true);
           disableScroll();
+
+          // Freeze ScrollTrigger updates while we run our manual autoplay so it
+          // can no longer override our transforms and cause a snap-back frame.
+          if (scrollTriggerInstance) {
+            scrollTriggerInstance.disable();
+          }
           
            // Automatically complete the video transition with EXACT same motion
            // Use the same mathematical formulas as the scroll-based animation
@@ -346,6 +370,11 @@ const IndigoTimeline = () => {
               if (sectionRef.current && !hasTriggeredAnimationsRef.current) {
                 setVideoTransitionComplete(true);
                 startTypewriterAnimation();
+              }
+
+              // After animation finished, ensure thumbnail overlay is removed so YouTube play button is visible
+              if (thumbnailRef.current) {
+                thumbnailRef.current.style.display = "none";
               }
             }
           };
@@ -431,6 +460,18 @@ const IndigoTimeline = () => {
             x: 0 // No horizontal movement
           });
 
+          // Update thumbnail opacity during scroll-scrub too
+          if (thumbnailRef.current) {
+            const thumbOpacityScrub = 1 - Math.min(progress * 1.2, 1);
+            thumbnailRef.current.style.opacity = String(thumbOpacityScrub);
+
+            if (progress >= 0.95) {
+              thumbnailRef.current.style.display = "none";
+            } else {
+              thumbnailRef.current.style.display = "block";
+            }
+          }
+
           // Reset animations when scrolling backwards below 85% (with some buffer)
           // Note: Video transition motion continues automatically after screen lock
           if (progress < 0.85 && hasTriggeredAnimationsRef.current) {
@@ -448,6 +489,9 @@ const IndigoTimeline = () => {
 
         }
       });
+
+      // Keep a reference accessible to other functions
+      scrollTriggerRef.current = scrollTriggerInstance;
     };
 
     if (isMounted) {
@@ -648,6 +692,15 @@ const IndigoTimeline = () => {
                 loading="lazy"
               />
               
+              {/* Thumbnail overlay to mask iframe flashes during transform */}
+              <img
+                ref={thumbnailRef}
+                src="https://img.youtube.com/vi/qF-GaYki4lA/hqdefault.jpg"
+                alt="video thumbnail"
+                className="absolute inset-0 w-full h-full object-cover rounded-2xl pointer-events-none transition-opacity duration-300"
+                style={{ opacity: 0, display: 'none' }}
+              />
+              
               {/* Curling effect overlay */}
               <div className="absolute inset-0 pointer-events-none">
                 <div className="curl-shadow absolute inset-0 opacity-0 transition-opacity duration-300"></div>
@@ -804,6 +857,9 @@ const IndigoTimeline = () => {
             0 25px 50px -12px rgba(0, 0, 0, 0.25),
             0 10px 20px -5px rgba(20, 0, 121, 0.1);
           transition: border-radius 0.1s ease;
+          /* Prevent black flash while parent div is transformed */
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
 
         /* Curling effect shadows */
