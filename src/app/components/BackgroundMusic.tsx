@@ -140,7 +140,7 @@ export default function BackgroundMusic({ audioSrc }: BackgroundMusicProps) {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 text-white">
+    <div className="fixed bottom-4 right-4 z-50 text-white background-music-control">
       <audio
         ref={audioRef}
         src={audioSrc}

@@ -558,7 +558,8 @@ const Navigation = () => {
           left: 0;
           width: 100vw;
           height: 100svh;
-          pointer-events: auto;
+          /* Allow hero slider clicks to pass through */
+          pointer-events: none;
           overflow: hidden;
           z-index: 9999;
         }
