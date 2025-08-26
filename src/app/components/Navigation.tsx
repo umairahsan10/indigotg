@@ -41,9 +41,9 @@ const Navigation = () => {
       label: 'Our Services',
       hasDropdown: true,
       dropdownItems: [
-        { href: '/solutions2/design', label: 'Design' },
-        { href: '/solutions2/deploy', label: 'Deploy' },
-        { href: '/solutions2/support', label: 'Support' }
+        { href: '/our-services/design', label: 'Design' },
+        { href: '/our-services/deploy', label: 'Deploy' },
+        { href: '/our-services/support', label: 'Support' }
       ]
     },
     {
@@ -905,7 +905,7 @@ const Navigation = () => {
 
         /* Expand underline on hover of link OR its wrapper */
         .menu-link :global(a:hover)::after,
-        .menu-link:hover :global(a)::after {
+        .menu-link:hover > :global(a)::after {
           width: 100%;
         }
 
