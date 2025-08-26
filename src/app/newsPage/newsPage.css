@@ -3,28 +3,9 @@
   display: none;
 }
 
-/* Hero section with white gradient overlay */
+/* Hero section - removed white gradient overlay */
 .hero-section {
   position: relative;
-}
-
-.hero-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 30%,
-    rgba(255, 255, 255, 0.3) 60%,
-    rgba(255, 255, 255, 0.8) 85%,
-    rgba(255, 255, 255, 1) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* Hide scrollbar for Firefox */
@@ -48,7 +29,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom progress bar gradient */
+/* Custom progress bar gradient - removed black elements */
 .progress-bar::after {
   content: "";
   position: absolute;
@@ -58,11 +39,11 @@ html, body {
   height: 100%;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0) 20%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 0, 0, 0) 80%,
-    rgba(0, 0, 0, 1) 100%
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
   );
   pointer-events: none;
 }
@@ -93,7 +74,7 @@ html, body {
 /* News Tile Hover Effects */
 .news-page > div > div:hover {
   transform: translateY(-4px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
 }
 
 /* Image hover effect */
@@ -119,17 +100,17 @@ html, body {
 /* Card styling for white and sky blue backgrounds */
 .news-page .bg-white {
   border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.05);
 }
 
 .news-page .bg-sky-100 {
   border: 1px solid #bae6fd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.05);
 }
 
 .news-page .bg-white:hover,
 .news-page .bg-sky-100:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
 }
 
 /* Pagination Button Styles */

@@ -96,12 +96,14 @@ export default function ArmedForcesCovenant() {
             }`}>
               We are proud to be Armed Forces Friendly, employing a number of ex-service personnel across our business and supporting employees who have volunteered to serve in the Reserve Forces.
             </p>
-            <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 w-fit font-roboto transition-all duration-1000 delay-800 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              Service Leavers Information
-              <span>→</span>
-            </button>
+            <a href="https://www.indigotg.com/careers-service-leavers/" target="_blank" rel="noopener noreferrer">
+              <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 w-fit font-roboto transition-all duration-1000 delay-800 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+                Service Leavers Information
+                <span>→</span>
+              </button>
+            </a>
           </div>
         </div>
       </div>

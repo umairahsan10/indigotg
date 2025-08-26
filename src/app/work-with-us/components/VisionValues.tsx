@@ -51,12 +51,14 @@ export default function VisionValues() {
             }`}>
               Our vision and values keep us ahead of the curve and make us the partner of choice for the world's most <span className='text-[#140079] font-bold'> ambitious companies </span> and projects.
             </p>
-            <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 w-fit font-roboto ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              Explore
-              <span>→</span>
-            </button>
+            <a href="https://www.indigotg.com/vision-values/" target="_blank" rel="noopener noreferrer">
+              <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 w-fit font-roboto ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+                Explore
+                <span>→</span>
+              </button>
+            </a>
           </div>
         </div>
       </div>

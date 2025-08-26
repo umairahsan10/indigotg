@@ -109,12 +109,14 @@ export default function EmployeeBenefits() {
             </div>
 
             <div className="pl-12 ml-32">
-              <button className={`bg-[#140079] text-white text-center px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-200 flex items-center gap-2 w-fit font-roboto ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}>
-                See open roles
-                <span>→</span>
-              </button>
+              <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer">
+                <button className={`bg-[#140079] text-white text-center px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-200 flex items-center gap-2 w-fit font-roboto ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}>
+                  See open roles
+                  <span>→</span>
+                </button>
+              </a>
             </div>
           </div>
         </div>

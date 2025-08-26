@@ -154,13 +154,13 @@ export default function UnifiedWorkforce() {
             </div>
 
             {/* CTA Button */}
-            <button className={`group bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl font-roboto ${textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            {/* <button className={`group bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl font-roboto ${textAnimationStage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
               <span className="flex items-center gap-2">
                 Join Our Team
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
               </span>
-            </button>
+            </button> */}
           </div>
 
           {/* Right Column - Enhanced Image */}

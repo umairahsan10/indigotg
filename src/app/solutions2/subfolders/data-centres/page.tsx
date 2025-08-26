@@ -190,6 +190,7 @@ export default function DataCentresPage() {
         .text-content.animate-in li:nth-child(7) { animation: fadeInLine 0.4s ease-out 1.4s both; }
         .text-content.animate-in li:nth-child(8) { animation: fadeInLine 0.4s ease-out 1.5s both; }
         .text-content.animate-in li:nth-child(9) { animation: fadeInLine 0.4s ease-out 1.6s both; }
+        .text-content.animate-in li:nth-child(10) { animation: fadeInLine 0.4s ease-out 1.7s both; }
 
         /* Directional image animations */
         .image-content.image-left {
@@ -389,49 +390,55 @@ export default function DataCentresPage() {
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef2} className="space-y-3 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
-                  Data Centre Solutions
-                </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+              <div ref={textRef2} className="space-y-6 text-content">
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-roboto font-black text-[#140079] leading-tight tracking-tight drop-shadow-lg">
+                    Data Centre Solutions
+                  </h2>
+                </div>
+                <p className="text-xl md:text-2xl text-[#140079] leading-relaxed font-roboto font-medium">
                   Our solutions ensure uninterrupted critical services
                 </p>
-                <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Remote, reliable and accessible</a>
+                <ul className="space-y-4 text-lg md:text-xl text-[#140079] font-roboto">
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/equipment-racking-and-stacking-server-builds/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Racking, stacking and server builds</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Colocation and connectivity</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/structured-cabling-installation-and-test/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Colocation and containerisation</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">24/7 and on-site personnel</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/hot-and-cold-aisle-containment-services/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Hot and cold aisle containment</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Redundant power</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/structured-cabling-installation-and-test/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Structured cabling</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Uninterrupted power supply</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/cross-connects-and-meet-me-room-mmr-services/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Cross connects and MMR</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Environmental controls</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/digitisation/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Digitisation and asset inventory</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Monitoring and reporting</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/network-monitoring-service/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Remote monitoring</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Maintenance and warranties</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/smart-hands/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Remote Hands – Break fix, spares and repair</a>
                   </li>
-                  <li className="flex items-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Guaranteed service level certification</a>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/operations-and-maintenance/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Maintenance and upgrades</a>
+                  </li>
+                  <li className="flex items-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                    <a href="https://www.indigotg.com/services/decommissioning/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Equipment disposal and certification</a>
                   </li>
                 </ul>
               </div>
@@ -480,7 +487,7 @@ export default function DataCentresPage() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
                   Alongside this analysis, the eBook outlines how Indigo can help with your bespoke requirements through our wide range of solutions.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/data-centre-ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
               </div>
             </div>
           </div>

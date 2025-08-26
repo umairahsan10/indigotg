@@ -14,21 +14,24 @@ export default function WorkingAtIndigo() {
   const imageCards = [
     {
       leftImage: "/careers/1.1.jpg",
-      rightImage: "/careers/1.2.jpg",
+      rightImage: "/careers/img_6.png",
       title: "Digital Infrastructure Excellence",
-      description: "Building the backbone of tomorrow's connected world"
+      description: "Building the backbone of tomorrow's connected world",
+      readMoreLink: "https://www.indigotg.com/testimonial/discovering-a-career-in-system-development/"
     },
     {
       leftImage: "/careers/2.1.jpg",
-      rightImage: "/careers/2.2.jpg",
+      rightImage: "/careers/img_4.png",
       title: "Innovation at Every Level",
-      description: "Pushing boundaries with cutting-edge technology"
+      description: "Pushing boundaries with cutting-edge technology",
+      readMoreLink: "https://www.indigotg.com/testimonial/rich-hollins-global-operations-director/"
     },
     {
       leftImage: "/careers/3.1.jpg",
-      rightImage: "/careers/3.2.jpg",
+      rightImage: "/careers/img_5.png",
       title: "Team Collaboration & Growth",
-      description: "Fostering a culture of excellence and continuous learning"
+      description: "Fostering a culture of excellence and continuous learning",
+      readMoreLink: "https://www.indigotg.com/testimonial/usa-field-engineer/"
     }
   ];
 
@@ -123,7 +126,7 @@ export default function WorkingAtIndigo() {
       <div className="absolute inset-0">
         <div
           className="w-full h-full bg-cover bg-center bg-no-repeat opacity-10"
-          style={{ backgroundImage: 'url(/careers/Digital-Future.png)' }}
+          style={{ backgroundImage: 'url(/careers/img_1.png)' }}
         ></div>
       </div>
 
@@ -217,70 +220,89 @@ export default function WorkingAtIndigo() {
              'transform translate-x-0'
            }`}>
              {/* Left Image Section */}
-             <div className="w-1/2 relative overflow-hidden bg-yellow-400 flex items-center justify-center pt-4 sm:pt-8">
-               <img
-                 src={current.leftImage}
-                 alt={current.title}
-                 className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
-               />
+             <div className="w-1/2 relative overflow-hidden flex flex-col items-center justify-between p-2" style={{ backgroundColor: '#ffc404' }}>
+               {/* Image with increased size */}
+               <div className="w-full flex-1 flex items-center justify-center">
+                 <img
+                   src={current.leftImage}
+                   alt={current.title}
+                   className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                 />
+               </div>
+               
+               {/* Read More Button positioned at center */}
+               <div className="w-full flex justify-center">
+                 <a href={current.readMoreLink} target="_blank" rel="noopener noreferrer">
+                   <button className="border-2 border-blue-800 text-blue-800 px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2 group shadow-md text-sm hover:text-white" style={{ backgroundColor: '#ffc404' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#29186e'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#ffc404'}>
+                     <span>Read more</span>
+                     <span className="text-sm group-hover:translate-x-1 transition-transform duration-300">{'>'}</span>
+                   </button>
+                 </a>
+               </div>
               </div>
               
              {/* Right Image Section */}
-             <div className="w-1/2 relative overflow-hidden bg-gray-100">
+             <div className="w-1/2 relative overflow-hidden" style={{ backgroundColor: '#f3f8ff' }}>
                <img
                  src={current.rightImage}
                  alt={current.title}
-                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                />
                 </div>
               </div>
-              
-          {/* Read More Button - Lower Left */}
-          <div className="flex justify-start w-full max-w-4xl mt-3">
-            <button className="bg-yellow-400 border-2 border-blue-800 text-blue-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-all duration-300 flex items-center gap-2 group shadow-md text-sm">
-              <span>Read more</span>
-              <span className="text-base group-hover:translate-x-1 transition-transform duration-300">{'>'}</span>
-            </button>
-          </div>
         </div>
 
         {/* Enhanced Navigation */}
-        <div className={`flex justify-center items-center gap-4 sm:gap-8 transition-all duration-1000 delay-800 mb-8 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        <div className={`flex flex-col items-center gap-6 transition-all duration-1000 delay-800 mb-8 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          {/* Previous Button */}
-          <button 
-            onClick={prevCard}
-            className="group w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
-          >
-            <span className="text-lg sm:text-xl group-hover:-translate-x-0.5 transition-transform duration-300">←</span>
-          </button>
           
-          {/* Enhanced Pagination Dots */}
-          <div className="flex gap-2 sm:gap-3">
-             {imageCards.map((_, i: number) => (
-              <button
-                key={i}
-                onClick={() => {
-                    if (slideDirection) return;
-                    setSlideDirection('right');
-                    setCurrentTestimonial(i);
-                    setTimeout(() => setSlideDirection(null), 300);
-                  }}
-                 className={`transition-all duration-300 rounded-full ${i === currentTestimonial
-                    ? 'w-6 sm:w-8 h-2 sm:h-3 bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg' 
-                    : 'w-2 sm:w-3 h-2 sm:h-3 bg-gray-300 hover:bg-gray-400 hover:scale-125'
-                }`}
-              ></button>
-            ))}
+          {/* Navigation Controls */}
+          <div className="flex justify-center items-center gap-4 sm:gap-8">
+            {/* Previous Button */}
+            <button 
+              onClick={prevCard}
+              className="group w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
+            >
+              <span className="text-lg sm:text-xl group-hover:-translate-x-0.5 transition-transform duration-300">←</span>
+            </button>
+            
+            {/* Enhanced Pagination Dots */}
+            <div className="flex gap-2 sm:gap-3">
+               {imageCards.map((_, i: number) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                      if (slideDirection) return;
+                      setSlideDirection('right');
+                      setCurrentTestimonial(i);
+                      setTimeout(() => setSlideDirection(null), 300);
+                    }}
+                   className={`transition-all duration-300 rounded-full ${i === currentTestimonial
+                      ? 'w-6 sm:w-8 h-2 sm:h-3 bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg' 
+                      : 'w-2 sm:w-3 h-2 sm:h-3 bg-gray-300 hover:bg-gray-400 hover:scale-125'
+                  }`}
+                ></button>
+              ))}
+            </div>
+            
+            {/* Next Button */}
+            <button 
+              onClick={nextCard}
+              className="group w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
+            >
+              <span className="text-lg sm:text-xl group-hover:translate-x-0.5 transition-transform duration-300">→</span>
+            </button>
           </div>
-          
-          {/* Next Button */}
-          <button 
-            onClick={nextCard}
-            className="group w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
-          >
-            <span className="text-lg sm:text-xl group-hover:translate-x-0.5 transition-transform duration-300">→</span>
-          </button>
+
+          {/* View All Stories Button - Centered Below Navigation */}
+          <div className={`transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <a href="https://www.indigotg.com/working-at-indigo/" target="_blank" rel="noopener noreferrer">
+              <button className="bg-[#140079] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 group shadow-md hover:shadow-lg">
+                <span>View all Stories</span>
+                <span className="text-sm group-hover:translate-x-1 transition-transform duration-300">→</span>
+              </button>
+            </a>
+          </div>
         </div>
 
         {/* Professional Metrics Section */}
@@ -329,13 +351,12 @@ export default function WorkingAtIndigo() {
             </div>
             <div className="text-gray-800 font-semibold text-sm sm:text-base mb-1">Career Growth Rate</div>
             <div className="text-gray-600 text-xs">Average promotion frequency</div>
-            </div>
+          </div>
         </div>
-      </div>
-
       {/* Corner Accents */}
       <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-[#140079]/20 to-transparent"></div>
       <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tl from-[#140079]/15 to-transparent"></div>
+      </div>
     </section>
   );
 }
