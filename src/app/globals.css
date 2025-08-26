@@ -268,95 +268,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Menu link font size overrides */
-.menu-link a {
-  font-size: 3rem !important;
-  font-weight: 500 !important;
-  line-height: 1.2 !important;
-  position: relative;
-  display: inline-block;
-}
+/* Menu link styles are now handled in the Navigation component with proper CSS specificity */
 
-.menu-link a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -0.15em;
-  width: 0%;
-  height: 2px;
-  background-color: var(--foreground);
-  transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-}
-
-.menu-link a:hover::after {
-  width: 100%;
-}
-
-.menu-link .line {
-  font-size: 3rem !important;
-  font-weight: 500 !important;
-  line-height: 1.2 !important;
-  position: relative;
-}
-
-.menu-link .line::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -0.15em;
-  width: 0%;
-  height: 2px;
-  background-color: var(--foreground);
-  transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-}
-
-.menu-link .line:hover::after {
-  width: 100%;
-}
-
-/* Mobile menu link font size overrides */
-@media (max-width: 1000px) {
-  .menu-link a {
-    font-size: 2rem !important;
-    position: relative;
-    display: inline-block;
-  }
-  
-  .menu-link a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -0.15em;
-    width: 0%;
-    height: 2px;
-    background-color: var(--foreground);
-    transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-  }
-
-  .menu-link a:hover::after {
-    width: 100%;
-  }
-  
-  .menu-link .line {
-    font-size: 2rem !important;
-    position: relative;
-  }
-
-  .menu-link .line::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -0.15em;
-    width: 0%;
-    height: 2px;
-    background-color: var(--foreground);
-    transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-  }
-
-  .menu-link .line:hover::after {
-    width: 100%;
-  }
-}
+/* Mobile menu link styles are now handled in the Navigation component */
 
 /* Page Transition Loader Styles */
 .transition-overlay {
