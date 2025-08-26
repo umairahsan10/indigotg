@@ -139,6 +139,23 @@ export default function NewsPage() {
                     }
                 });
             }
+
+            // Animate Trending News heading with fade-in effect
+            const trendingNewsHeading = document.querySelector('.sticky-header h1');
+            if (trendingNewsHeading) {
+                gsap.set(trendingNewsHeading, { opacity: 0, y: -50 });
+                gsap.to(trendingNewsHeading, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: trendingNewsHeading,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            }
         }
     }, [currentPage]); // Re-run when page changes
 
@@ -428,12 +445,27 @@ export default function NewsPage() {
         <div className="w-full">
             {/* Hero Section */}
             <section
-                className="w-screen h-screen overflow-hidden bg-black hero-section"
+                className="w-screen h-screen overflow-hidden bg-black hero-section relative flex items-center"
                 style={{
-                    background: 'url(/news/hero.jpg) no-repeat 50% 50%',
+                    background: 'url(/news/news_bg1.png) no-repeat 50% 50%',
                     backgroundSize: 'cover'
                 }}
-            />
+            >
+                {/* Dark overlay for better text readability */}
+                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                
+                {/* Content */}
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-white">
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                            News
+                        </h1>
+                        <p className="text-xl md:text-2xl leading-relaxed max-w-3xl">
+                            Find out more about our business through our News, Blogs, and Press Releases here.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             {/* Pinned Section */}
             <section
