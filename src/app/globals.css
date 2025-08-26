@@ -210,7 +210,7 @@
 /* Ensure images are always visible */
 img {
   opacity: 1 !important;
-  transform: none !important;
+  /* Removed global transform reset to prevent issues with elements (e.g., Leaflet map tiles) that rely on CSS transforms for positioning */
 }
 
 /* Animation Classes - Triggered State (Visible) */
