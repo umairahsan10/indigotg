@@ -510,7 +510,7 @@ export default function InteractiveMap() {
          <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
            {/* Main paragraph */}
            <p className="text-lg lg:text-xl mb-12 leading-relaxed" style={{ color: '#140A8E', fontFamily: 'fk grotesk, sans-serif' }}>
-             With a global footprint in over 90 countries and as partner to most of the world's biggest companies, we empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
+             With a global footprint and legprint in over 90 countries and as partner to most of the world's biggest companies, we empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
            </p>
            
            {/* KPI Grid */}
