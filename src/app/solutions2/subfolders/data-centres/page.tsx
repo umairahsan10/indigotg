@@ -190,6 +190,7 @@ export default function DataCentresPage() {
         .text-content.animate-in li:nth-child(7) { animation: fadeInLine 0.4s ease-out 1.4s both; }
         .text-content.animate-in li:nth-child(8) { animation: fadeInLine 0.4s ease-out 1.5s both; }
         .text-content.animate-in li:nth-child(9) { animation: fadeInLine 0.4s ease-out 1.6s both; }
+        .text-content.animate-in li:nth-child(10) { animation: fadeInLine 0.4s ease-out 1.7s both; }
 
         /* Directional image animations */
         .image-content.image-left {
@@ -486,7 +487,7 @@ export default function DataCentresPage() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
                   Alongside this analysis, the eBook outlines how Indigo can help with your bespoke requirements through our wide range of solutions.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
+                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/data-centre-ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
               </div>
             </div>
           </div>
