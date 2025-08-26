@@ -17,7 +17,7 @@ export default function BackgroundMusic({ audioSrc }: BackgroundMusicProps) {
   const isHomePage = pathname === '/';
   const { hasPlayingVideo, hasYouTubeVideo, hasOtherVideo } = useVideoDetection();
   
-  // Store music state in localStorage for persistence
+  // Store music state in sessionStorage for persistence
   const MUSIC_STATE_KEY = 'indigo_bg_music_state';
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function BackgroundMusic({ audioSrc }: BackgroundMusicProps) {
     audio.playbackRate = 0.8; // Slow down to 80% speed
 
     // Load saved music state
-    const savedState = localStorage.getItem(MUSIC_STATE_KEY);
+    const savedState = sessionStorage.getItem(MUSIC_STATE_KEY);
     if (savedState) {
       const { savedTime, wasPlaying, wasMuted } = JSON.parse(savedState);
       audio.currentTime = savedTime || 0;
@@ -70,7 +70,7 @@ export default function BackgroundMusic({ audioSrc }: BackgroundMusicProps) {
         wasPlaying: isPlaying,
         wasMuted: isMuted
       };
-      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify(musicState));
+      sessionStorage.setItem(MUSIC_STATE_KEY, JSON.stringify(musicState));
     };
 
     // Save state when component unmounts or pathname changes
@@ -92,7 +92,7 @@ export default function BackgroundMusic({ audioSrc }: BackgroundMusicProps) {
       setIsPlaying(false);
     } else if (!shouldPauseMusic && !isPlaying && isHomePage && !isMuted) {
       // Resume music if no videos are playing and music is not muted
-      const savedState = localStorage.getItem(MUSIC_STATE_KEY);
+      const savedState = sessionStorage.getItem(MUSIC_STATE_KEY);
       if (savedState) {
         const { wasPlaying } = JSON.parse(savedState);
         if (wasPlaying) {

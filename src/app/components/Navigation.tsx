@@ -15,15 +15,13 @@ const Navigation = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
-  const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false);
-  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const isAnimatingRef = useRef(false);
   const scrollYRef = useRef(0);
   const lastScrollY = useRef(0);
   const scrollThreshold = 10; // Minimum scroll distance before hiding nav
   const navHideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   const menuToggleBtnRef = useRef<HTMLDivElement>(null);
   const menuOverlayRef = useRef<HTMLDivElement>(null);
   const menuOverlayContainerRef = useRef<HTMLDivElement>(null);
@@ -38,23 +36,23 @@ const Navigation = () => {
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/who-we-are', label: 'Who We Are' },
-    { 
-      href: '/our-services', 
+    {
+      href: '/our-services',
       label: 'Our Services',
       hasDropdown: true,
       dropdownItems: [
-        { href: '/solutions2/design', label: 'Design' },
-        { href: '/solutions2/deploy', label: 'Deploy' },
-        { href: '/solutions2/support', label: 'Support' }
+        { href: '/our-services/design', label: 'Design' },
+        { href: '/our-services/deploy', label: 'Deploy' },
+        { href: '/our-services/support', label: 'Support' }
       ]
     },
-    { 
-      href: '/solutions2', 
+    {
+      href: '/solutions2',
       label: 'Solutions',
       hasDropdown: true,
       dropdownItems: [
         { href: '/solutions/fixedline', label: 'Fixed\u00A0line' },
-        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems\u00A0Operator' },
+        { href: '/solutions/subsea', label: 'Subsea\u00A0Systems' },
         { href: '/solutions/data-centres', label: 'Data\u00A0Centres' },
         { href: '/solutions/wireless', label: 'Wireless' },
         { href: '/solutions/network', label: 'Network\u00A0Services' },
@@ -67,26 +65,22 @@ const Navigation = () => {
     { href: '/get-in-touch', label: 'Get In Touch' },
   ];
 
-  const menuTags: { text: string; href: string }[] = [];
-
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1000);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
 
-    
-         // Check initial scroll position
-     if (lenisRef.current) {
-       const initialScroll = lenisRef.current.scroll;
-       setIsScrolled(initialScroll > 20);
-       lastScrollY.current = initialScroll;
-     }
-    
+    // Check initial scroll position
+    if (lenisRef.current) {
+      const initialScroll = lenisRef.current.scroll;
+      setIsScrolled(initialScroll > 20);
+      lastScrollY.current = initialScroll;
+    }
+
     // Register GSAP plugins
     gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
     CustomEase.create("hop", ".87,0,.13,1");
@@ -100,11 +94,9 @@ const Navigation = () => {
         // Use Lenis scroll position for more accurate detection
         const scrollTop = e.scroll;
         const scrollDelta = scrollTop - lastScrollY.current;
-        
 
-        
         setIsScrolled(scrollTop > 20);
-        
+
         // Hide nav immediately when scrolling down, show when scrolling up or at top
         if (scrollTop <= 20) {
           // At top - always show nav
@@ -120,9 +112,7 @@ const Navigation = () => {
           // This catches cases where scrollDelta is 0 but we're still not at top
           setIsNavVisible(false);
         }
-        
 
-        
         lastScrollY.current = scrollTop;
       });
     }
@@ -138,7 +128,7 @@ const Navigation = () => {
     if (copyContainersRef.current) {
       gsap.set(copyContainersRef.current, { opacity: 1 });
     }
-    
+
     // Set initial state for menu overlay content
     if (menuOverlayContainerRef.current) {
       gsap.set(menuOverlayContainerRef.current, { yPercent: -100 });
@@ -157,14 +147,25 @@ const Navigation = () => {
 
           textElements.forEach((element) => {
             try {
-              const split = SplitText.create(element, {
-                type: "lines",
-                mask: "lines",
-                linesClass: "line",
-              }) as unknown as SplitResult;
-              containerSplits.push(split);
-
-              gsap.set(split.lines, { y: "-110%" });
+              // Only apply SplitText to elements that don't have spaces (single words)
+              const hasSpaces = element.textContent && element.textContent.includes(' ');
+              if (!hasSpaces) {
+                const split = SplitText.create(element, {
+                  type: "lines",
+                  mask: "lines",
+                  linesClass: "line",
+                }) as unknown as SplitResult;
+                containerSplits.push(split);
+                gsap.set(split.lines, { y: "-110%" });
+              } else {
+                // For elements with spaces, just animate them as a whole
+                gsap.set(element, { y: "-110%" });
+                // Add a dummy split result for animation consistency
+                containerSplits.push({
+                  lines: [element],
+                  type: "lines"
+                } as any);
+              }
             } catch (error) {
               console.log("SplitText error:", error);
             }
@@ -202,7 +203,11 @@ const Navigation = () => {
     '/solutions/data-centres',
     '/solutions/wireless',
     '/solutions/network',
-    '/solutions/noc'
+    '/solutions/noc',
+    '/resources',
+    '/partner-portal',
+    '/customer-support',
+    '/responsibilities'
   ].includes(pathname);
 
   const handleMenuToggle = () => {
@@ -213,7 +218,7 @@ const Navigation = () => {
 
       // Store current scroll position first
       scrollYRef.current = typeof window !== 'undefined' ? window.scrollY : 0;
-      
+
       if (lenisRef.current) {
         lenisRef.current.stop();
       }
@@ -238,7 +243,7 @@ const Navigation = () => {
 
         // Slide the (now fixed) page content downward until it is completely out of view
         const targetY = scrollYRef.current + window.innerHeight + 100;
-        
+
         tl.to(pageContent, {
           y: targetY,
           duration: 1,
@@ -283,8 +288,6 @@ const Navigation = () => {
           "-=1.2"
         );
       }
-
-
 
       if (menuMediaWrapperRef.current) {
         tl.to(
@@ -340,7 +343,7 @@ const Navigation = () => {
       if (hamburgerIconRef.current) {
         hamburgerIconRef.current.classList.remove("active");
       }
-      
+
       const tl = gsap.timeline();
 
       // First hide the menu overlay
@@ -555,7 +558,7 @@ const Navigation = () => {
           left: 0;
           width: 100vw;
           height: 100svh;
-          pointer-events: none;
+          pointer-events: auto;
           overflow: hidden;
           z-index: 9999;
         }
@@ -564,7 +567,7 @@ const Navigation = () => {
 
         .menu-bar.nav-hidden {
           transform: translateY(-100%);
-          pointer-events: none;
+          visibility: hidden;
           opacity: 0.8;
         }
 
@@ -577,7 +580,7 @@ const Navigation = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          pointer-events: all;
+          pointer-events: auto;
           color: #ffffff;
           z-index: 10002;
           background: transparent;
@@ -816,15 +819,17 @@ const Navigation = () => {
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -45%);
           opacity: 1;
         }
 
         .menu-content-main {
-          width: 75%;
+          width: 90%;
           padding: 2rem;
+          padding-right: 8rem;
           display: flex;
-          align-items: flex-end;
+          flex-direction: column;
+          align-items: flex-start;
           gap: 2rem;
           background-color: var(--menu-bg);
         }
@@ -832,7 +837,7 @@ const Navigation = () => {
         .menu-col {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 1.25rem;
           opacity: 1;
         }
 
@@ -842,147 +847,108 @@ const Navigation = () => {
 
         .menu-link {
           opacity: 1;
-        }
-
-        .menu-link a {
-          font-size: 3rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          opacity: 1;
-          color: #ffffff !important;
-          position: relative;
-          display: inline-block;
-        }
-
-        /* Underline animation */
-        .menu-link a::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -0.15em;
-          width: 0%;
-          height: 2px;
-          background-color: #ffffff;
-          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-        }
-
-        .menu-link a:hover::after {
-          width: 100%;
-        }
-
-        /* Ensure SplitText-generated lines inherit the same styling */
-        .menu-link .line {
-          position: relative;
-          font-size: 3rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
-        }
-
-        /* Underline animation for SplitText lines */
-        .menu-link .line::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -0.15em;
-          width: 0%;
-          height: 2px;
-          background-color: #ffffff;
-          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-        }
-
-        .menu-link .line:hover::after {
-          width: 100%;
-        }
-
-        /* Additional specificity for menu links */
-        .menu-content-main .menu-col .menu-link a {
-          font-size: 3rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
-        }
-
-        /* Override global a styles for menu links */
-        nav .menu-overlay .menu-content-main .menu-col .menu-link a {
-          font-size: 3rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
-        }
-
-        /* Maximum specificity override for menu links */
-        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
-          font-size: 3rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
+          white-space: nowrap !important;
+          overflow: visible !important;
           position: relative !important;
+          display: block; /* Ensure proper container behavior */
+        }
+
+
+
+        /* Force SplitText container to prevent wrapping */
+        .menu-link .split-text-container {
+          white-space: nowrap !important;
+          overflow: hidden !important;
           display: inline-block !important;
         }
 
-        /* Override for SplitText lines with maximum specificity */
-        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
-          position: relative !important;
-          font-size: 3rem !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
+        /* Ensure links with spaces don't wrap */
+        .menu-link a:not(.line) {
+          white-space: nowrap !important;
+          overflow: visible !important;
+          text-overflow: ellipsis !important;
         }
 
-        /* Additional override to ensure white text */
-        .menu-overlay .menu-content-main .menu-col .menu-link a,
-        .menu-overlay .menu-content-main .menu-col .menu-link .line {
-          color: #ffffff !important;
+
+        /* ------------------------------------------------------------------ */
+        /* Menu links – use :global() so rules hit the <a> generated by Link   */
+        /* ------------------------------------------------------------------ */
+
+        /* Base link style  */
+        .menu-link :global(a) {
+          font-size: 2.8rem;
+          font-weight: 500;
+          line-height: 1.2;
+          color: #ffffff;
+          position: relative;
+          display: inline-block;
+          transition: color 0.3s ease;
+          text-decoration: none;
         }
 
-        /* Underline animation for maximum specificity SplitText lines */
-        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line::after {
+        .menu-link :global(a:hover) {
+          color: #cccccc;
+        }
+
+        /* Underline pseudo-element */
+        .menu-link :global(a)::after {
           content: '';
           position: absolute;
           left: 0;
-          bottom: -0.15em;
+          bottom: 0; /* baseline */
           width: 0%;
           height: 2px;
-          background-color: #ffffff !important;
+          background-color: #ffffff;
           transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+          pointer-events: none;
         }
 
-        nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
+        /* Expand underline on hover of link OR its wrapper */
+        .menu-link :global(a:hover)::after,
+        .menu-link:hover > :global(a)::after {
           width: 100%;
         }
 
-        /* Remove any conflicting color declarations */
-        .menu-link a {
+
+
+        /* New smaller links styling */
+        .menu-small-links {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 2rem;
+          margin-top: 0.5rem;
+          padding-top: 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          width: 100%;
+        }
+
+        .menu-small-link {
+          font-size: 0.875rem !important;
+          font-weight: 400 !important;
           color: #ffffff !important;
+          text-decoration: none;
+          position: relative;
+          transition: color 0.3s ease;
         }
 
-        .menu-link .line {
-          color: #ffffff !important;
+        /* Option 3: Simplified fix for small links */
+        .menu-small-link::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.2em;
+          width: 0%;
+          height: 1px;
+          background-color: #ffffff;
+          transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
-        /* Override any global styles */
-        nav a {
-          color: #ffffff !important;
+        .menu-small-link:hover::after {
+          width: 100%;
         }
 
-        /* Ensure menu content is white */
-        .menu-content-main a {
-          color: #ffffff !important;
-        }
 
-        .menu-content-main .line {
-          color: #ffffff !important;
-        }
-
-        .menu-tag {
-          opacity: 1;
-        }
-
-        .menu-tag a {
-          color: var(--menu-fg-secondary);
-          opacity: 1;
-        }
 
         /* Dropdown styles */
         .menu-link-with-dropdown {
@@ -992,22 +958,22 @@ const Navigation = () => {
         .menu-dropdown {
           position: absolute;
           top: 0%;
-          left: 65%;
-          background-color: var(--menu-bg);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          left: 100%;
+          background-color: transparent;
+          border: none;
           border-radius: 0.5rem;
           padding: 0.2rem 0;
-          min-width: 120px;
+          min-width: 200px;
+          width: 200px;
           opacity: 0;
           visibility: hidden;
           transform: translateY(-10px);
           transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
           z-index: 10003;
+          margin-left: 1rem;
         }
 
-
-
-        .menu-dropdown.open {
+        .menu-link-with-dropdown:hover .menu-dropdown {
           opacity: 1;
           visibility: visible;
           transform: translateY(0);
@@ -1016,26 +982,29 @@ const Navigation = () => {
         /* Specific width for Solutions dropdown */
         .solutions-dropdown {
           width: 250px;
-          left: 70%;
+          left: 100%;
           // min-width: 200px;
           // max-width: 200px;
         }
 
         .menu-dropdown-item {
           padding: 0.05rem 0.5rem;
-          transition: background-color 0.2s ease;
-          background-color: rgba(255, 255, 255, 0.1);
+          transition: all 0.2s ease;
+          background-color: transparent;
           white-space: nowrap !important;
           overflow: hidden;
           width: 100%;
+          position: relative;
         }
 
+
+
         .menu-dropdown-item:hover {
-          background-color: rgba(255, 255, 255, 0.2);
+          background-color: transparent;
         }
 
         .menu-dropdown-item a {
-          font-size: 10px !important;
+          font-size: 18px !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
           color: #ffffff !important;
@@ -1048,40 +1017,14 @@ const Navigation = () => {
           overflow: hidden;
           text-overflow: ellipsis;
           width: 100%;
+          transition: color 0.3s ease;
         }
 
-        /* Maximum specificity selectors to override global styles */
-        .menu-overlay .menu-dropdown .menu-dropdown-item a {
-          font-size: 10px !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
+        .menu-dropdown-item a:hover {
+          color: #cccccc !important;
         }
 
-        /* Override global menu-link styles for dropdown items */
-        .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
-          font-size: 10px !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
-        }
-
-        /* Maximum specificity override */
-        nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
-          font-size: 10px !important;
-          font-weight: 500 !important;
-          line-height: 1.2 !important;
-          color: #ffffff !important;
-        }
-
-
-
-        /* Additional override using CSS custom property */
-        .menu-dropdown-item a {
-          font-size: 10px !important;
-        }
-
-        /* Underline animation for dropdown items */
+        /* Option 3: Simplified fix for dropdown items */
         .menu-dropdown-item a::after {
           content: '';
           position: absolute;
@@ -1096,6 +1039,8 @@ const Navigation = () => {
         .menu-dropdown-item a:hover::after {
           width: 100%;
         }
+
+
 
         .line {
           position: relative;
@@ -1142,9 +1087,6 @@ const Navigation = () => {
             background-color: var(--menu-bg);
             padding-top: 18rem;
             padding-right: 8rem;
-          }
-
-          .menu-content-main {
             top: 40%;
             flex-direction: column;
             align-items: flex-start;
@@ -1152,85 +1094,29 @@ const Navigation = () => {
           }
 
           .menu-link a {
-            font-size: 1.8rem !important;
+            font-size: 1.6rem !important;
             position: relative;
             display: inline-block;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: ellipsis;
           }
 
-          /* Mobile underline animation */
-          .menu-link a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -0.15em;
-            width: 0%;
-            height: 2px;
-            background-color: #ffffff;
-            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+
+
+          /* Mobile small links styling */
+          .menu-small-links {
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
           }
 
-          .menu-link a:hover::after {
-            width: 100%;
+          .menu-small-link {
+            font-size: 0.75rem !important;
           }
 
-          /* Maximum specificity override for mobile menu links */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a {
-            font-size: 1.8rem !important;
-            position: relative;
-            display: inline-block;
-          }
 
-          /* Mobile maximum specificity underline animation */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -0.15em;
-            width: 0%;
-            height: 2px;
-            background-color: #ffffff !important;
-            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-          }
-
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link a:hover::after {
-            width: 100%;
-          }
-
-          /* Override for SplitText lines with maximum specificity on mobile */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line {
-            position: relative;
-            font-size: 1.8rem !important;
-            color: #ffffff !important;
-          }
-
-          /* Mobile SplitText lines underline animation */
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -0.15em;
-            width: 0%;
-            height: 2px;
-            background-color: #ffffff !important;
-            transition: width 0.35s cubic-bezier(0.87, 0, 0.13, 1);
-          }
-
-          nav .menu-overlay .menu-overlay-content .menu-content-wrapper .menu-content-main .menu-col .menu-link .line:hover::after {
-            width: 100%;
-          }
-
-          /* Additional mobile overrides */
-          .menu-link a {
-            color: #ffffff !important;
-          }
-
-          .menu-link .line {
-            color: #ffffff !important;
-          }
-
-          .menu-tag a {
-            font-size: 1.25rem;
-          }
 
                      /* Mobile dropdown styles */
            .menu-dropdown {
@@ -1248,23 +1134,23 @@ const Navigation = () => {
            .menu-dropdown-item {
              padding: 0.05rem 0;
              background-color: #000000;
+             position: relative;
            }
 
            .menu-dropdown-item a {
-             font-size: 8px !important;
+             font-size: 12px !important;
            }
 
-          /* Mobile maximum specificity override */
-          nav .menu-overlay .menu-content-main .menu-col .menu-link-with-dropdown .menu-dropdown .menu-dropdown-item a {
-            font-size: 8px !important;
-          }
+
+
+
         }
       `}</style>
 
       <nav ref={navRef}>
         <div className={`menu-bar ${isScrolled ? 'scrolled' : ''} ${!isNavVisible ? 'nav-hidden' : ''} ${isDarkHeroPage ? 'dark-hero' : ''}`}>
           <div className="menu-logo">
-            <Link 
+            <Link
               href="/"
               onClick={() => {
                 if (isMenuOpen) {
@@ -1295,11 +1181,11 @@ const Navigation = () => {
         <div className="menu-overlay" ref={menuOverlayRef}>
           <div className="menu-overlay-content" ref={menuOverlayContainerRef}>
             <div className="menu-media-wrapper" ref={menuMediaWrapperRef}>
-              <video 
-                src="/Glass &quotKnot_ _ Motion graphics design Graphic design background texture Learning graphic design.mp4" 
-                autoPlay 
-                muted 
-                loop 
+              <video
+                src="/Glass &quotKnot_ _ Motion graphics design Graphic design background texture Learning graphic design.mp4"
+                autoPlay
+                muted
+                loop
                 playsInline
                 style={{
                   width: '100%',
@@ -1313,98 +1199,44 @@ const Navigation = () => {
               <div className="menu-content-main" ref={copyContainersRef}>
                 <div className="menu-col">
                   {navItems.map((item, index) => (
-                    <div key={index} className={`menu-link ${item.hasDropdown ? 'menu-link-with-dropdown' : ''}`}>
-                      <Link 
+                    <div
+                      key={index}
+                      className={`menu-link ${item.hasDropdown ? 'menu-link-with-dropdown' : ''}`}
+                    >
+                      <Link
                         href={item.href}
                         onClick={() => {
                           if (isMenuOpen) {
                             handleMenuToggle();
                           }
                         }}
-                        onMouseEnter={() => {
-                          if (item.hasDropdown && !isMobile) {
-                            // Clear any existing timeout
-                            if (dropdownTimeoutRef.current) {
-                              clearTimeout(dropdownTimeoutRef.current);
-                              dropdownTimeoutRef.current = null;
-                            }
-                            
-                            // Close the other dropdown immediately
-                            if (item.label === 'Our Services') {
-                              setSolutionsDropdownOpen(false);
-                              setServicesDropdownOpen(true);
-                            } else if (item.label === 'Solutions') {
-                              setServicesDropdownOpen(false);
-                              setSolutionsDropdownOpen(true);
-                            }
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          if (item.hasDropdown && !isMobile) {
-                            // Add a small delay to prevent immediate closing
-                            dropdownTimeoutRef.current = setTimeout(() => {
-                              if (item.label === 'Our Services') {
-                                setServicesDropdownOpen(false);
-                              } else if (item.label === 'Solutions') {
-                                setSolutionsDropdownOpen(false);
-                              }
-                            }, 250);
-                          }
-                        }}
                         style={{
-                          fontSize: isMobile ? '1.8rem' : '3rem',
+                          fontSize: isMobile ? '1.6rem' : '2.8rem',
                           fontWeight: '500',
                           lineHeight: '1.2',
                           color: '#ffffff',
-                          textDecoration: 'none'
+                          textDecoration: 'none',
+                          position: 'relative',
+                          display: 'inline-block'
                         }}
                       >
-                        {item.label}
-
+                        <span className="menu-link-text">{item.label}</span>
                       </Link>
                       {item.hasDropdown && (
-                        <div 
-                          className={`menu-dropdown ${item.label === 'Solutions' ? 'solutions-dropdown' : ''} ${(item.label === 'Our Services' && servicesDropdownOpen) || (item.label === 'Solutions' && solutionsDropdownOpen) ? 'open' : ''}`}
-                          onMouseEnter={() => {
-                            if (!isMobile) {
-                              // Clear the timeout to prevent dropdown from closing
-                              if (dropdownTimeoutRef.current) {
-                                clearTimeout(dropdownTimeoutRef.current);
-                                dropdownTimeoutRef.current = null;
-                              }
-                              if (item.label === 'Our Services') {
-                                setServicesDropdownOpen(true);
-                              } else if (item.label === 'Solutions') {
-                                setSolutionsDropdownOpen(true);
-                              }
-                            }
-                          }}
-                          onMouseLeave={() => {
-                            if (!isMobile) {
-                              if (item.label === 'Our Services') {
-                                setServicesDropdownOpen(false);
-                              } else if (item.label === 'Solutions') {
-                                setSolutionsDropdownOpen(false);
-                              }
-                            }
-                          }}
+                        <div
+                          className={`menu-dropdown ${item.label === 'Solutions' ? 'solutions-dropdown' : ''}`}
                         >
                           {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
                             <div key={dropdownIndex} className="menu-dropdown-item">
-                              <Link 
+                              <Link
                                 href={dropdownItem.href}
                                 onClick={() => {
                                   if (isMenuOpen) {
                                     handleMenuToggle();
                                   }
-                                  if (item.label === 'Our Services') {
-                                    setServicesDropdownOpen(false);
-                                  } else if (item.label === 'Solutions') {
-                                    setSolutionsDropdownOpen(false);
-                                  }
                                 }}
                                 style={{
-                                  fontSize: '16px',
+                                  fontSize: '24px',
                                   fontWeight: '500',
                                   lineHeight: '1.2',
                                   color: '#ffffff',
@@ -1412,10 +1244,10 @@ const Navigation = () => {
                                   backgroundColor: 'transparent',
                                   padding: '0px',
                                   border: 'none',
-                                  transform: 'scale(0.4)',
+                                  transform: 'none',
                                   transformOrigin: 'left center'
                                 }}
-                                                              >
+                              >
                                 {dropdownItem.label}
                               </Link>
                             </div>
@@ -1424,20 +1256,55 @@ const Navigation = () => {
                       )}
                     </div>
                   ))}
-                  {menuTags.map((tag, index) => (
-                    <div key={index} className="menu-tag">
-                      <Link 
-                        href={tag.href}
-                        onClick={() => {
-                          if (isMenuOpen) {
-                            handleMenuToggle();
-                          }
-                        }}
-                      >
-                        {tag.text}
-                      </Link>
-                    </div>
-                  ))}
+
+                </div>
+
+                
+                <div className="menu-small-links">
+                  <Link
+                    href="/resources"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Resources
+                  </Link>
+                  <Link
+                    href="/partner-portal"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Partner Portal
+                  </Link>
+                  <Link
+                    href="https://indigotg.my.site.com/CustomerPortal/s/login/?ec=302&startURL=%2FCustomerPortal%2Fs%2F"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Customer Support
+                  </Link>
+                  <Link
+                    href="/responsibilities"
+                    className="menu-small-link"
+                    onClick={() => {
+                      if (isMenuOpen) {
+                        handleMenuToggle();
+                      }
+                    }}
+                  >
+                    Responsibilities
+                  </Link>
                 </div>
               </div>
             </div>
@@ -1450,4 +1317,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-//das
