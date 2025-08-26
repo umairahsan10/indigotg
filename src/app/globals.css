@@ -397,6 +397,8 @@ body {
   transform-origin: left;
   position: relative;
   z-index: 99999;
+  /* Prevent blocks from capturing mouse/touch events once hidden */
+  pointer-events: none;
 }
 
 /* Triangle loading animation styles */
@@ -432,4 +434,9 @@ body {
 .scroll-animation-container .hero-header h1.font-roboto,
 .font-roboto {
   font-family: 'Roboto', sans-serif !important;
+}
+
+/* Ensure background-music control stays on top of hero slider */
+.background-music-control {
+  z-index: 11001;
 }

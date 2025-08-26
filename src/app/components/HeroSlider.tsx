@@ -1259,6 +1259,7 @@ const HeroSlider = () => {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        pointer-events: none;
       `;
       video.loop = true;
       video.muted = true;
@@ -1365,7 +1366,10 @@ const HeroSlider = () => {
         color: '#fff',
         overflow: 'hidden',
         cursor: 'pointer',
-        backgroundColor: '#000'
+        backgroundColor: '#000',
+        // Ensure slider is above generic overlays (except explicit UI controls)
+        zIndex: 9000,
+        pointerEvents: 'auto',
       }}
     >
       <canvas
