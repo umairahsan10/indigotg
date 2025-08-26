@@ -158,16 +158,18 @@ export default function CareersHero() {
           {/* Enhanced CTA Buttons */}
           <div className={`flex gap-4 transition-all duration-1000 delay-600 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
             }`}>
-            <button className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:from-yellow-300 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center gap-3 relative overflow-hidden font-roboto">
-              <span className="relative z-10">Open Positions</span>
-              <span className="text-xl group-hover:translate-x-1 transition-transform duration-300 relative z-10">→</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
+            <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer">
+              <button className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:from-yellow-300 hover:to-orange-400 hover:scale-105 hover:shadow-2xl flex items-center gap-3 relative overflow-hidden font-roboto">
+                <span className="relative z-10">Open Positions</span>
+                <span className="text-xl group-hover:translate-x-1 transition-transform duration-300 relative z-10">→</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+            </a>
 
-            <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3 font-roboto">
+            {/* <button className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:bg-white/20 hover:scale-105 flex items-center gap-3 font-roboto">
               <span>Learn More</span>
               <span className="text-lg group-hover:rotate-45 transition-transform duration-300">↗</span>
-            </button>
+            </button> */}
           </div>
 
           {/* Stats Section */}

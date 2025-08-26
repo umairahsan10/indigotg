@@ -76,12 +76,14 @@ export default function LifeAtIndigo() {
             }`}>
               Indigo has been headquartered in South Wales for 25 years with hubs in Ireland and Denver, USA. Join us as we grow globally.
             </p>
-            <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 font-roboto ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              View open roles
-              <span>→</span>
-                </button>
+            <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer">
+              <button className={`bg-[#140079] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-300 flex items-center gap-2 font-roboto ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+                View open roles
+                <span>→</span>
+              </button>
+            </a>
           </div>
         </div>
       </div>

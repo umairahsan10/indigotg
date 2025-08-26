@@ -30,7 +30,7 @@ const EbookPromo = () => {
   }, []);
 
   const handleDownloadClick = () => {
-    router.push('/ebook');
+    router.push('/connecting-people-nurturing-talent-ebook');
   };
 
   return (
@@ -41,7 +41,7 @@ const EbookPromo = () => {
           <div ref={imageRef} className="relative image-content">
             <div className="relative rounded-2xl overflow-hidden image-shadow">
               <img
-                src="/ebook/Support-ebook-social-post-1-1024x1024.png"
+                src="/ebook/Indigo-HR-ebook-cover-page.png"
                 alt="eBook Cover"
                 className="w-[617px] h-[370px] object-cover"
               />
@@ -51,10 +51,10 @@ const EbookPromo = () => {
           {/* Right Section - Text Content */}
           <div ref={textRef} className="space-y-8 text-content">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-roboto font-medium text-[#140079] leading-tight">
-              Free eBook
+            Download our eBook
             </h2>
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-roboto">
-              Whether you are a traditional telco, tech company or data centre, this eBook will help you <span className='text-[#140079] font-bold'> maximise uptime </span> in your network.
+            <p className="text-lg md:text-xl leading-relaxed font-roboto text-[#140079]">
+            If you are considering starting your journey with us, our Connecting People, Nurturing Talent guide will help you decide whether our story, vision, values, and company culture is right for you.
             </p>
             
             {/* Animated Button */}
@@ -62,7 +62,7 @@ const EbookPromo = () => {
               <span className="circle">
                 <span className="icon arrow"></span>
               </span>
-              <span className="button-text font-roboto">Download eBook</span>
+              <span className="button-text font-roboto underline">Download Here</span>
             </button> 
           </div>
         </div>
