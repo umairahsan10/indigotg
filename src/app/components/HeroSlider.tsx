@@ -787,19 +787,19 @@ const HeroSlider = () => {
     descriptionDiv.className = "slide-description";
 
     // Adjust positioning based on slide title
-    let topPosition = "50%";
+    let topPosition = "45%"; // move up by 5%
     if (slideData.title === "Engineering a Digital Future") {
-      topPosition = "60%"; // Lower position for first slide
+      topPosition = "55%"; // moved up from 60%
     } else if (slideData.title === "Design, Deploy, Support") {
-      topPosition = "58%"; // Higher position for 3-line title
+      topPosition = "53%"; // moved up from 58%
     } else if (slideData.title === "Field Engineering") {
-      topPosition = "60%"; // Lower position for Field Engineering
+      topPosition = "55%"; // moved up
     } else if (slideData.title === "Survey & Design") {
-      topPosition = "60%"; // Lower position for Survey & Design
+      topPosition = "55%";
     } else if (slideData.title === "Indigo Subsea") {
-      topPosition = "60%"; // Lower position for Indigo Subsea
+      topPosition = "55%";
     } else if (slideData.title === "NOC Services") {
-      topPosition = "55%"; // Closer position for NOC Services
+      topPosition = "50%"; // moved up from 55%
     }
 
     descriptionDiv.style.cssText = `
@@ -807,7 +807,7 @@ const HeroSlider = () => {
          top: ${topPosition};
          left: 50%;
          transform: translate(-50%, -50%);
-         width: ${slideData.title === "Design, Deploy, Support" ? "60%" : slideData.title === "NOC Services" ? "50%" : "55%"};
+         width: ${slideData.title === "Design, Deploy, Support" ? "70%" : slideData.title === "NOC Services" ? "75%" : "85%"};
          display: flex;
          flex-direction: column;
          gap: 2rem;
@@ -816,11 +816,43 @@ const HeroSlider = () => {
 
     // Main description paragraph
     const descP = document.createElement("p");
-    const descFontSize = (slideData.title === "Engineering a Digital Future" || slideData.title === "Design, Deploy, Support" || slideData.title === "NOC Services" || slideData.title === "Field Engineering" || slideData.title === "Survey & Design" || slideData.title === "Indigo Subsea") ? "1.4rem" : "1.1rem";
-    descP.style.fontSize = descFontSize;
+    const descFontSize = (slideData.title === "Engineering a Digital Future" || slideData.title === "Design, Deploy, Support" || slideData.title === "NOC Services" || slideData.title === "Field Engineering" || slideData.title === "Survey & Design" || slideData.title === "Indigo Subsea") ? "1rem" : "0.8rem";
+    // Override for desktop
+    descP.style.fontSize = window.innerWidth > 1000 ? '1.5rem' : descFontSize;
     descP.style.lineHeight = "1.6";
     descP.style.letterSpacing = "0.02em";
     descP.style.wordSpacing = "0.1em";
+
+    // Determine stroke and text colors
+    let strokeColor = "#140079";
+    let textColor = "white";
+    switch (slideData.title) {
+      case "Engineering a Digital Future":
+        strokeColor = "white"; // flipped: white border
+        textColor = "#991b1b"; // red text
+        break;
+      case "Field Engineering":
+        strokeColor = "#d4a574";
+        break;
+      case "Survey & Design":
+        strokeColor = "#ff8c00";
+        break;
+      case "Indigo Subsea":
+        strokeColor = "#d8bfd8";
+        break;
+      case "NOC Services":
+        strokeColor = "#87ceeb";
+        break;
+      case "Design, Deploy, Support":
+        strokeColor = "#87ceeb";
+        break;
+    }
+
+    descP.style.color = textColor;
+
+    // Apply stroke to each letter (Webkit browsers) and fallback shadow for others
+    descP.style.setProperty('-webkit-text-stroke', `1px ${strokeColor}`);
+    descP.style.textShadow = `0 0 1px ${strokeColor}`;
     descP.textContent = slideData.description;
     descriptionDiv.appendChild(descP);
 
@@ -844,7 +876,7 @@ const HeroSlider = () => {
       border: 2px solid ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#919b1b" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#87ceeb" : "#140079"};
       color: white;
       padding: 8px 24px;
-      font-size: 1rem;
+      font-size: ${window.innerWidth > 380 ? (window.innerWidth > 1000 ? '1rem' : '1rem') : '0.75rem'};
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -854,6 +886,11 @@ const HeroSlider = () => {
       overflow: hidden;
       border-radius: 9999px;
     `;
+    // Shrink button text for very small screens (e.g., iPhone SE)
+    if (window.innerWidth < 380) {
+      button.style.fontSize = '0.75rem';
+      button.style.padding = '10px 24px';
+    }
     button.textContent = slideData.buttonText;
 
     // Add hover effects
@@ -1522,7 +1559,7 @@ const HeroSlider = () => {
         >
           <h1 style={{
             textTransform: 'uppercase',
-            fontSize: '6.5vw',
+            fontSize: '7vw',
             fontWeight: 700,
             lineHeight: 1,
             display: 'flex',
@@ -1638,10 +1675,10 @@ const HeroSlider = () => {
           className="slide-description"
           style={{
             position: 'absolute',
-            top: '60%',
+            top: '55%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '55%',
+            width: '85%',
             display: 'flex',
             flexDirection: 'column',
             gap: '2rem',
@@ -1649,10 +1686,13 @@ const HeroSlider = () => {
           }}
         >
           <p style={{
-            fontSize: '1.4rem',
+            fontSize: '1rem',
             lineHeight: '1.6',
             letterSpacing: '0.02em',
-            wordSpacing: '0.1em'
+            wordSpacing: '0.1em',
+            color: '#991b1b',
+            WebkitTextStroke: '1px white',
+            textShadow: '0 0 1px white'
           }}>
             We design, deploy, and support digital infrastructure to maximise value in fixed line, subsea, data centres and wireless networks.
           </p>
@@ -1747,17 +1787,11 @@ const HeroSlider = () => {
         }
 
         @media (max-width: 1000px) {
-          .slide-title {
-            top: 50% !important;
-          }
+          /* (no positional override here; positioning handled inline) */
 
           .slide-description {
             width: 75% !important;
             text-align: center !important;
-            top: unset !important;
-            bottom: 15% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
           }
 
           .slide-button {
@@ -1765,9 +1799,43 @@ const HeroSlider = () => {
           }
 
           .slide-button button {
-            padding: 12px 30px !important;
             font-size: 1rem !important;
+            padding: 12px 34px !important;
           }
+        }
+
+        /* Very small devices (e.g., iPhone SE) */
+        @media (max-width: 380px) {
+          .slide-button button {
+            font-size: 0.75rem !important;
+            padding: 10px 24px !important;
+          }
+        }
+
+        /* Desktop enhancements */
+        @media (min-width: 1001px) {
+          .slide-title h1 {
+            font-size: 7.5vw !important; /* uniform desktop heading size */
+          }
+
+          .slide-description p {
+            font-size: 1.5rem !important; /* enlarge body text */
+          }
+
+          .slide-button button {
+            font-size: 1rem !important;
+            padding: 12px 34px !important;
+          }
+        }
+      `}</style>
+
+      {/* Global styles for dynamically created slides */}
+      <style jsx global>{`
+        @media (max-width: 1000px) {
+          .slide-title h1 {
+            font-size: 10vw !important;
+          }
+
         }
       `}</style>
     </div>
