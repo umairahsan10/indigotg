@@ -644,7 +644,7 @@ export default function SubseaPage() {
 
             {/* Timeline Item 2 - Right */}
             <div className="timeline-item flex items-center mb-16 transform transition-all duration-1000 ease-out hover:scale-105 animate-slide-in-right">
-              <div className="sm:hidden md:block w-1/2 pr-12 flex justify-end transform transition-all duration-700 ease-out hover:-translate-x-2">
+              <div className="hidden md:block w-1/2 pr-12 flex justify-end transform transition-all duration-700 ease-out hover:-translate-x-2">
                 <div className="w-48 h-48 rounded-lg overflow-hidden flex justify-end transform transition-all duration-500 ease-out hover:scale-105">
                   <Image
                     src="/solutions/subsea/JF.jpg"
