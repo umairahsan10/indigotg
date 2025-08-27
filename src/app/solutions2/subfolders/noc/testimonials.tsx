@@ -126,12 +126,12 @@ export default function WorkingAtIndigo() {
                 {/* Enhanced Image Card */}
                 <div className={`flex flex-col items-center mb-6 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                     }`}>
-                    <div className={`flex w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-300 group h-64 sm:h-80 ${slideDirection === 'left' ? 'transform -translate-x-4' :
+                    <div className={`flex w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-300 group h-48 sm:h-64 md:h-80 ${slideDirection === 'left' ? 'transform -translate-x-4' :
                         slideDirection === 'right' ? 'transform translate-x-4' :
                             'transform translate-x-0'
                         }`}>
                         {/* Left Image Section */}
-                        <div className="w-1/2 relative overflow-hidden bg-yellow-400 flex items-center justify-center pt-4 sm:pt-8">
+                        <div className="w-1/2 relative overflow-hidden bg-yellow-400 flex items-center justify-center pt-2 sm:pt-4 md:pt-8">
                             <img
                                 src={current.leftImage}
                                 alt={current.title}
@@ -150,27 +150,27 @@ export default function WorkingAtIndigo() {
                     </div>
 
                     {/* Read More Button - Lower Left */}
-                    <div className="flex justify-start w-full max-w-4xl mt-3">
-                        <button className="bg-yellow-400 border-2 border-blue-800 text-blue-800 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-all duration-300 flex items-center gap-2 group shadow-md text-sm">
+                    <div className="flex justify-start w-full max-w-4xl mt-2 sm:mt-3">
+                        <button className="bg-yellow-400 border-2 border-blue-800 text-blue-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-all duration-300 flex items-center gap-1 sm:gap-2 group shadow-md text-xs sm:text-sm">
                             <span>Read more</span>
-                            <span className="text-base group-hover:translate-x-1 transition-transform duration-300">{'>'}</span>
+                            <span className="text-sm sm:text-base group-hover:translate-x-1 transition-transform duration-300">{'>'}</span>
                         </button>
                     </div>
                 </div>
 
                 {/* Enhanced Navigation */}
-                <div className={`flex justify-center items-center gap-4 sm:gap-8 transition-all duration-1000 delay-800 mb-8 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                <div className={`flex justify-center items-center gap-3 sm:gap-4 md:gap-8 transition-all duration-1000 delay-800 mb-6 sm:mb-8 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                     }`}>
                     {/* Previous Button */}
                     <button
                         onClick={prevCard}
-                        className="group w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
+                        className="group w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
                     >
-                        <span className="text-lg sm:text-xl group-hover:-translate-x-0.5 transition-transform duration-300">←</span>
+                        <span className="text-base sm:text-lg md:text-xl group-hover:-translate-x-0.5 transition-transform duration-300">←</span>
                     </button>
 
                     {/* Enhanced Pagination Dots */}
-                    <div className="flex gap-2 sm:gap-3">
+                    <div className="flex gap-1.5 sm:gap-2 md:gap-3">
                         {imageCards.map((_, i: number) => (
                             <button
                                 key={i}
@@ -181,8 +181,8 @@ export default function WorkingAtIndigo() {
                                     setTimeout(() => setSlideDirection(null), 300);
                                 }}
                                 className={`transition-all duration-300 rounded-full ${i === currentTestimonial
-                                    ? 'w-6 sm:w-8 h-2 sm:h-3 bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg'
-                                    : 'w-2 sm:w-3 h-2 sm:h-3 bg-gray-300 hover:bg-gray-400 hover:scale-125'
+                                    ? 'w-4 sm:w-6 md:w-8 h-1.5 sm:h-2 md:h-3 bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg'
+                                    : 'w-1.5 sm:w-2 md:w-3 h-1.5 sm:h-2 md:h-3 bg-gray-300 hover:bg-gray-400 hover:scale-125'
                                     }`}
                             ></button>
                         ))}
@@ -191,9 +191,9 @@ export default function WorkingAtIndigo() {
                     {/* Next Button */}
                     <button
                         onClick={nextCard}
-                        className="group w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
+                        className="group w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white hover:bg-blue-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
                     >
-                        <span className="text-lg sm:text-xl group-hover:translate-x-0.5 transition-transform duration-300">→</span>
+                        <span className="text-base sm:text-lg md:text-xl group-hover:translate-x-0.5 transition-transform duration-300">→</span>
                     </button>
                 </div>
             </div>

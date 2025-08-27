@@ -337,15 +337,15 @@ export default function WirelessPage() {
 
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative z-10">
             {/* Left Div - Content */}
-            <div className="flex items-center justify-center px-8 lg:px-16">
-              <div className="text-white max-w-2xl">
+            <div className="flex items-center justify-center px-8 lg:px-16 pt-16 md:pt-0">
+              <div className="text-white max-w-2xl text-center lg:text-left">
                 <p className="text-sm md:text-base text-gray-300 mb-4 font-roboto">
                   SOLUTIONS
                 </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
                   Wireless
                 </h1>
-                <p className="text-lg md:text-xl leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   Indigo has been providing wireless solutions to network operators for 25 years, from the first generation of mobile to emerging 5G technologies. In a fast-changing market with spiraling demand for high-speed data, we deliver a range of design, deploy and support services to assure the resiliency and reliability of your networks.                </p>
                 <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
                   JOIN THE TEAM
@@ -386,13 +386,13 @@ export default function WirelessPage() {
         </section>
 
         {/* First Section - Design and Deployment Services */}
-        <section className="min-h-[90vh] flex items-center mb-10 mt-10 bg-white">
+        <section className="min-h-[100vh] md:min-h-[90vh] flex items-center mb-10 mt-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Video */}
-              <div ref={videoRef1} className="relative video-content video-left">
-                <div className="relative rounded-2xl overflow-hidden video-shadow">
-                  <div className="video-player h-[400px] w-full">
+              <div ref={videoRef1} className="relative video-content video-left order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden video-shadow w-[90%] lg:w-full">
+                  <div className="video-player h-[200px] md:h-[300px] lg:h-[400px] w-full">
                     <iframe
                       src="https://www.youtube.com/embed/JDZRSnYTon0?rel=0&modestbranding=1"
                       title="Indigo Global Network Solutions"
@@ -406,15 +406,15 @@ export default function WirelessPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-6 text-content">
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+              <div ref={textRef1} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   As well as designing and planning new network infrastructure, we offer upgrade, refresh, equipment swap, decommissioning /NTQ and network sharing solutions. We design and deploy greenfield, rooftop and street works sites. Our diversity has enabled us to support the development of emerging technologies such as Private 5G networks and small cell deployment, to ensure high-speed coverage in urban areas.
 
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   We can carry out detailed site surveys and complete complex design and deployment projects across multiple radio technologies and both microwave and fixed line backhaul solutions. We offer either full turnkey or tailored services to include site access, traffic/pedestrian management, MEWP/rope access, equipment installation, commissioning and upgrades.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   At ground level, we also provide power connection and upgrade services.
 
                 </p>
@@ -424,49 +424,49 @@ export default function WirelessPage() {
         </section>
 
         {/* Second Section - Partners in Business Strategy */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-purple-200 to-orange-100">
+        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-purple-200 to-orange-100">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Left Section - Text Content */}
-              <div ref={textRef2} className="space-y-6 text-content">
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  We make it our business to stay ahead of the curve of next-generation wireless networks and services which are delivered by a highly qualified team of mobile engineers, working to best-in-class industry standards.
-
-                </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Our purpose-built centralised Network Operations Centre (NOC) is the single point of contact for all reactive and proactive wireless support and maintenance requirements. Our NOC support staff manage the dispatch of the field service engineers 24x7x365, whether related to a rigging fault, test error or fault diagnosis. Our field service engineers also provide first line maintenance on ground level equipment to ensure end-to-end service delivery.
-
-                </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Our rapid response and global footprint means that we are always available to provide on-site support to meet the 2 hour, 4 hour or pre-arranged time to site service level agreement.
-
-                </p>
-              </div>
-
-              {/* Right Section - Image */}
-              <div ref={imageRef2} className="relative image-content image-right">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left Section - Image */}
+              <div ref={imageRef2} className="relative image-content image-right order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/card-images-4.jpg"
                     alt="Telecommunications Tower"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
+              </div>
+
+              {/* Right Section - Text Content */}
+              <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  We make it our business to stay ahead of the curve of next-generation wireless networks and services which are delivered by a highly qualified team of mobile engineers, working to best-in-class industry standards.
+
+                </p>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Our purpose-built centralised Network Operations Centre (NOC) is the single point of contact for all reactive and proactive wireless support and maintenance requirements. Our NOC support staff manage the dispatch of the field service engineers 24x7x365, whether related to a rigging fault, test error or fault diagnosis. Our field service engineers also provide first line maintenance on ground level equipment to ensure end-to-end service delivery.
+
+                </p>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Our rapid response and global footprint means that we are always available to provide on-site support to meet the 2 hour, 4 hour or pre-arranged time to site service level agreement.
+
+                </p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Third Section - Wireless Services Include */}
-        <section className="min-h-[90vh] flex items-center mb-0 bg-white">
+        <section className="min-h-[100vh] md:min-h-[90vh] flex items-center mb-0 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Video */}
-              <div ref={videoRef3} className="relative video-content video-left">
-                <div className="relative rounded-2xl overflow-hidden video-shadow">
-                  <div className="video-player h-[400px] w-full">
+              <div ref={videoRef3} className="relative video-content video-left order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden video-shadow w-[90%] lg:w-full">
+                  <div className="video-player h-[200px] md:h-[300px] lg:h-[400px] w-full">
                     <iframe
                       src="https://www.youtube.com/embed/W-ARen5UcG0?rel=0&modestbranding=1"
                       title="Indigo Global Network Solutions"
@@ -480,67 +480,67 @@ export default function WirelessPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef3} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Our wireless services include:
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300     ">
+                <div className="grid grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-8">
+                  <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Survey and Design</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Town Planning</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Passive Build</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Logistics and Warehousing</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Active Build</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Site Acceptance</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Network Integration</span>
                     </li>
                   </ul>
-                  <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                  <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Project Management</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Site Access</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Network Optimisation</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Operations & Maintenance</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Network Monitoring</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Network Upgrades</span>
                     </li>
-                    <li className="flex items-start hover:text-yellow-500 transition-all duration-300 ">
+                    <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
                       <span className="text-[#140079] font-bold mr-3">•</span>
                       <span>Global Spare Parts Management</span>
                     </li>

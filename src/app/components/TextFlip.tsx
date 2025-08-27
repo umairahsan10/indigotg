@@ -78,6 +78,64 @@ export default function TextFlip() {
             opacity: 0;
           }
         }
+
+        @media (max-width: 900px) {
+          .text-flip-container {
+            width: 320px;
+            height: 70px;
+            padding: 10px 15px 0 15px;
+            font-size: 2.2rem;
+            text-align: left;
+            margin: 1rem 0 0 0;
+            display: block;
+            position: relative;
+            left: -10px;
+            transform: none;
+          }
+
+          .text-flip-container .flip-word {
+            text-align: left;
+            justify-content: flex-start;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .text-flip-container {
+            width: 280px;
+            height: 60px;
+            padding: 8px 12px 0 12px;
+            font-size: 1.8rem;
+            display: block;
+            position: relative;
+            left: -8px;
+            transform: none;
+            margin: 0.75rem 0 0 0;
+          }
+
+          .text-flip-container .flip-word {
+            text-align: left;
+            justify-content: flex-start;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .text-flip-container {
+            width: 240px;
+            height: 55px;
+            padding: 7px 10px 0 10px;
+            font-size: 1.6rem;
+            display: block;
+            position: relative;
+            left: -6px;
+            transform: none;
+            margin: 0.5rem 0 0 0;
+          }
+
+          .text-flip-container .flip-word {
+            text-align: left;
+            justify-content: flex-start;
+          }
+        }
       `}</style>
 
       <div className="text-flip-container">
