@@ -41,51 +41,61 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
             setIsComplete(true);
             options.onComplete?.();
           }
-        }, 10000); // 10 second global timeout
+        }, 15000); // Increased to 15 seconds for complex pages
 
         // Phase 1: Wait for images to load (or skip if none)
         if (!mountedRef.current) return;
         setMessage('Loading images...');
-        setProgress(10); // Start with some progress
+        setProgress(10);
         options.onProgress?.(10, 'Loading images...');
         
         await waitForImages();
-        setProgress(40);
-        options.onProgress?.(40, 'Loading images...');
+        setProgress(30);
+        options.onProgress?.(30, 'Images loaded');
 
-        // Phase 2: Wait for GSAP components
+        // Phase 2: Wait for GSAP to be fully ready
+        if (!mountedRef.current) return;
+        setMessage('Initializing GSAP...');
+        setProgress(40);
+        options.onProgress?.(40, 'Initializing GSAP...');
+        
+        await waitForGSAPReady();
+        setProgress(60);
+        options.onProgress?.(60, 'GSAP ready');
+
+        // Phase 3: Wait for GSAP components to be fully initialized
         if (!mountedRef.current) return;
         setMessage('Initializing animations...');
-        setProgress(50); // Ensure progress moves
-        options.onProgress?.(50, 'Initializing animations...');
-        
-        await waitForGSAPComponents();
         setProgress(70);
         options.onProgress?.(70, 'Initializing animations...');
+        
+        await waitForGSAPComponents();
+        setProgress(80);
+        options.onProgress?.(80, 'Animations ready');
 
-        // Phase 3: Wait for 3D components
+        // Phase 4: Wait for 3D components
         if (!mountedRef.current) return;
         setMessage('Preparing 3D components...');
-        setProgress(80); // Ensure progress moves
-        options.onProgress?.(80, 'Preparing 3D components...');
+        setProgress(85);
+        options.onProgress?.(85, 'Preparing 3D components...');
         
         await waitFor3DComponents();
         setProgress(90);
-        options.onProgress?.(90, 'Preparing 3D components...');
+        options.onProgress?.(90, '3D components ready');
 
-        // Phase 4: Final preparation
+        // Phase 5: Final preparation and ensure smooth transitions
         if (!mountedRef.current) return;
         setMessage('Finalizing...');
-        setProgress(95); // Ensure progress moves
+        setProgress(95);
         options.onProgress?.(95, 'Finalizing...');
         
         await waitForFinalPreparation();
         setProgress(100);
-        options.onProgress?.(100, 'Finalizing...');
+        options.onProgress?.(100, 'Ready');
 
-        // Ensure minimum loading time (at least 1.5 seconds total)
+        // Ensure minimum loading time (at least 2 seconds total for smooth UX)
         const elapsed = Date.now() - startTimeRef.current;
-        const minLoadingTime = 1500; // 1.5 seconds minimum
+        const minLoadingTime = 2000; // 2 seconds minimum
         
         if (elapsed < minLoadingTime) {
           await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsed));
@@ -127,7 +137,7 @@ const waitForImages = (): Promise<void> => {
     
     if (images.length === 0) {
       // No images to wait for, but add a small delay for consistency
-      setTimeout(resolve, 200);
+      setTimeout(resolve, 300);
       return;
     }
 
@@ -151,44 +161,99 @@ const waitForImages = (): Promise<void> => {
     });
     
     // Fallback: if images take too long, resolve anyway
-    setTimeout(resolve, 3000); // Max 3 seconds wait for images
+    setTimeout(resolve, 5000); // Max 5 seconds wait for images
+  });
+};
+
+const waitForGSAPReady = (): Promise<void> => {
+  return new Promise((resolve) => {
+    // Wait for GSAP to be fully loaded and available
+    const checkGSAP = () => {
+      if (typeof window !== 'undefined' && (window as any).gsap) {
+        const gsap = (window as any).gsap;
+        
+        // Check if GSAP is fully loaded with core functionality
+        if (gsap.to && gsap.from && gsap.timeline && gsap.registerPlugin) {
+          // Wait a bit more for GSAP to be fully ready
+          setTimeout(resolve, 200);
+          return;
+        }
+      }
+      
+      // If GSAP isn't ready yet, check again
+      setTimeout(checkGSAP, 50);
+    };
+    
+    checkGSAP();
+    
+    // Fallback timeout
+    setTimeout(resolve, 3000);
   });
 };
 
 const waitForGSAPComponents = (): Promise<void> => {
   return new Promise((resolve) => {
-    // Wait a bit for GSAP components to initialize
-    // Add a fallback timeout to prevent getting stuck
-    const timeout = setTimeout(resolve, 500);
+    // Wait for GSAP components to be fully initialized
+    // This is critical for proper animation loading
     
-    // Try to detect if GSAP is actually being used
-    if (typeof window !== 'undefined' && (window as any).gsap) {
-      // GSAP is available, wait a bit longer for components
-      clearTimeout(timeout);
-      setTimeout(resolve, 800);
-    }
+    const checkComponents = () => {
+      // Check if key GSAP components are present in the DOM
+      const hasHeroSlider = document.querySelector('.slider') !== null;
+      const hasScrollAnimation = document.querySelector('[data-gsap-component="scroll-animation"]') !== null;
+      
+      // Wait for at least one major GSAP component to be ready
+      if (hasHeroSlider || hasScrollAnimation) {
+        // Give extra time for GSAP animations to initialize
+        setTimeout(resolve, 800);
+        return;
+      }
+      
+      // If components aren't ready yet, check again
+      setTimeout(checkComponents, 100);
+    };
+    
+    checkComponents();
+    
+    // Fallback timeout to prevent getting stuck
+    setTimeout(resolve, 4000);
   });
 };
 
 const waitFor3DComponents = (): Promise<void> => {
   return new Promise((resolve) => {
     // Wait for 3D components to be ready
-    // Add a fallback timeout to prevent getting stuck
-    const timeout = setTimeout(resolve, 800);
+    const check3D = () => {
+      // Try to detect if Three.js or other 3D libraries are being used
+      if (typeof window !== 'undefined' && 
+          ((window as any).THREE || (window as any).mapboxgl)) {
+        // 3D libraries detected, wait a bit longer for initialization
+        setTimeout(resolve, 600);
+        return;
+      }
+      
+      // Check for Three.js canvas elements
+      const threeCanvas = document.querySelector('canvas[data-three]') || 
+                         document.querySelector('canvas[data-3d]');
+      
+      if (threeCanvas) {
+        setTimeout(resolve, 800);
+        return;
+      }
+      
+      // If no 3D components found, resolve quickly
+      setTimeout(resolve, 200);
+    };
     
-    // Try to detect if Three.js or other 3D libraries are being used
-    if (typeof window !== 'undefined' && 
-        ((window as any).THREE || (window as any).mapboxgl)) {
-      // 3D libraries detected, wait a bit longer
-      clearTimeout(timeout);
-      setTimeout(resolve, 1200);
-    }
+    check3D();
+    
+    // Fallback timeout
+    setTimeout(resolve, 3000);
   });
 };
 
 const waitForFinalPreparation = (): Promise<void> => {
   return new Promise((resolve) => {
-    // Final preparation time
-    setTimeout(resolve, 300);
+    // Final preparation time - ensure smooth transitions
+    setTimeout(resolve, 400);
   });
 };

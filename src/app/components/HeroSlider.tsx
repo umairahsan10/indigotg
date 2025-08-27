@@ -167,6 +167,30 @@ const HeroSlider = () => {
   const sliderRef = useRef(null);
   const rippleRefs = useRef(new Map());
   const videoRefs = useRef(new Map());
+  const [isGSAPReady, setIsGSAPReady] = useState(false);
+
+  // Initialize GSAP
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).gsap) {
+      const gsap = (window as any).gsap;
+      
+      if (gsap.to && gsap.from && gsap.timeline && gsap.registerPlugin) {
+        setTimeout(() => setIsGSAPReady(true), 200);
+      } else {
+        const checkGSAP = setInterval(() => {
+          if (gsap.to && gsap.from && gsap.timeline && gsap.registerPlugin) {
+            clearInterval(checkGSAP);
+            setIsGSAPReady(true);
+          }
+        }, 50);
+        
+        setTimeout(() => {
+          clearInterval(checkGSAP);
+          setIsGSAPReady(true);
+        }, 3000);
+      }
+    }
+  }, []);
 
   // Keep these as module-level variables like in the original
   let currentSlideIndex = 0;
