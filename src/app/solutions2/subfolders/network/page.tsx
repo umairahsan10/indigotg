@@ -252,15 +252,15 @@ export default function NetworkPage() {
 
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative z-10">
             {/* Left Div - Content */}
-            <div className="flex items-center justify-center px-8 lg:px-16">
-              <div className="text-white max-w-2xl">
+            <div className="flex items-center justify-center px-8 lg:px-16 pt-16 md:pt-0">
+              <div className="text-white max-w-2xl text-center lg:text-left">
                 <p className="text-sm md:text-base text-gray-300 mb-4 font-roboto">
                   SOLUTIONS
                 </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
                   Network Services
                 </h1>
-                <p className="text-lg md:text-xl leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   We work efficiently to minimize outage times to keep society collaborating. We monitor, maintain, and upgrade services around the clock, deploying our operations and multi-vendor engineers within hours or the next day to provide expert on-site support.
                 </p>
                 <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
@@ -302,32 +302,32 @@ export default function NetworkPage() {
         </section>
 
         {/* First Section - Global Footprint */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
+        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef1} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef1} className="relative image-content image-left order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/net/n1.png"
                     alt="Network Operations Center"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-6 text-content">
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+              <div ref={textRef1} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
 
                   With a global footprint in over 60 countries and as an experienced fibre services provider, Indigo has developed an integrated services solution to assist telecommunications operators and service providers in meeting the growing demand for high-speed connectivity                </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   We offer tried and tested network de-installation/de-commissioning solutions to safeguard any interruption to existing traffic on the network.
 
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Our highly skilled and fully accredited multi-vendor field engineers work hand in hand with our Prince 2 project management teams to ensure deployments are delivered right first time, to budget and customer quality requirements.
 
                 </p>
@@ -337,118 +337,119 @@ export default function NetworkPage() {
         </section>
 
         {/* Second Section - Network Operations Centre */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-gray-300 to-gray-200">
+        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-gray-300 to-gray-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Left Section - Text Content */}
-              <div ref={textRef2} className="space-y-6 text-content">
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Our purpose-built Network Operations Centre (NOC) is the single point of contact for all reactive and proactive support and maintenance requirements.
-                </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Fully staffed 24x7x365, our NOC support staff manage the dispatch of the field service engineers and can jointly control the escalation to second/third line support in conjunction with owning the spares parts management process.
-                </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Should engineers have to be dispatched to your site, our rapid response and global footprint means that we are always available to provide on-site support to meet 2 hour, 4 hour or pre-arranged time to site service level agreements.
-                </p>
-              </div>
-
-              {/* Right Section - Image */}
-              <div ref={imageRef2} className="relative image-content image-right">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left Section - Image */}
+              <div ref={imageRef2} className="relative image-content image-right order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/net/n2.png"
                     alt="Network Operations Center Staff"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
+              </div>
+
+              {/* Right Section - Text Content */}
+              <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Our purpose-built Network Operations Centre (NOC) is the single point of contact for all reactive and proactive support and maintenance requirements.
+                </p>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Fully staffed 24x7x365, our NOC support staff manage the dispatch of the field service engineers and can jointly control the escalation to second/third line support in conjunction with owning the spares parts management process.
+                </p>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Should engineers have to be dispatched to your site, our rapid response and global footprint means that we are always available to provide on-site support to meet 2 hour, 4 hour or pre-arranged time to site service level agreements.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Third Section - Network Services Include */}
-        <section className="min-h-[90vh] flex items-center mb-0 bg-white">
+        <section className="min-h-[140vh] md:min-h-[120vh] flex items-center mb-0 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef3} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef3} className="relative image-content image-left order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/net/n3.png"
                     alt="Indigo Field Engineers"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-2 text-content mb-10">
-                <h2 className="text-3xl md:text-5xl lg:text-4xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef3} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-roboto font-bold text-[#140079] leading-tight">
                   Our Network Services Include
                 </h2>
-                <ul className="space-y-2 text-lg md:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start">
+                <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Site survey and audit</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Logistics and warehousing</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Design, commissioning and project coordination (Fibre, FTTX, OSP)</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Site access</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Power supply and visual install</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Site survey, network audits and transmission (radio and fibre)</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Fibre characterisation and testing</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Active equipment installation & commissioning, decommissioning and migrations</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Config, Build, Provision and Operate (Documentation & testing)</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">NOC Remote network monitoring</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">NOC Proactive and reactive (on-site support)</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">End to end network testing</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">24/7/365 maintenance and monitoring services</a>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <a href="#" className="transition-all duration-300 cursor-pointer">Spare parts management service (SPMS)</a>
                   </li>
                 </ul>
+                <div className="h-8 lg:h-12"></div>
               </div>
             </div>
           </div>

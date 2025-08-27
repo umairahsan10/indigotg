@@ -298,15 +298,15 @@ export default function DataCentresPage() {
 
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative z-10">
             {/* Left Div - Content */}
-            <div className="flex items-center justify-center px-8 lg:px-16">
-              <div className="text-white max-w-2xl">
+            <div className="flex items-center justify-center px-8 lg:px-16 pt-16 md:pt-0">
+              <div className="text-white max-w-2xl text-center lg:text-left">
                 <p className="text-sm md:text-base text-gray-300 mb-4 font-roboto">
                   SOLUTIONS
                 </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
                   Data Centres
                 </h1>
-                <p className="text-lg md:text-xl leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   Indigo partners closely with clients to tailor data centre engineering services to their specific infrastructure needs. We offer an extensive range of design, deployment, and support solutions focused on maximising the availability of high-performance data centre equipment, while optimising for cost, energy efficiency, and overall performance.
                 </p>
                 <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
@@ -350,33 +350,33 @@ export default function DataCentresPage() {
         {/* Experienced Data Centre Engineers Section */}
         <section className="min-h-[90vh] flex items-center mb-10 bg-white mt-10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef1} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef1} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/dc/dc1.png"
                     alt="Data Centre Engineers"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-2 text-content mt-10 mb-10">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl mb-4 font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef1} className="space-y-4 lg:space-y-6 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl mb-4 font-roboto font-bold text-[#140079] leading-tight">
                   Experienced Data Centre Engineers
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Our qualified technicians are constantly adapting the latest tools and technology to make sure critical services and POPs (points-of-presence) are always available and never compromised. Our engineering experts meet the fast-changing challenges of security and safety at all times.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   In addition to providing comprehensive data centre design services, we deliver a complete range of deployment services such as rack, cabinet and power installation, together with commissioning and integration/migration of active equipment and servers.
 
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   To further optimise quality and performance, we offer clients the option of warranted pre-terminated solutions to reduce deployment times. We also offer structured cabling and cross connects/Meet-Me Room connectivity.  In addition, we provide on-site power and energy management and maintenance services.
 
                 </p>
@@ -386,72 +386,72 @@ export default function DataCentresPage() {
         </section>
 
         {/* Data Centre Solutions Section */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#b3c8cf] to-green-200">
+        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#b3c8cf] to-green-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef2} className="space-y-6 text-content">
+              <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-1 text-center lg:text-left">
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-roboto font-black text-[#140079] leading-tight tracking-tight drop-shadow-lg">
+                  <h2 className="text-2xl md:text-3xl lg:text-6xl font-roboto font-black text-[#140079] leading-tight tracking-tight drop-shadow-lg">
                     Data Centre Solutions
                   </h2>
                 </div>
-                <p className="text-xl md:text-2xl text-[#140079] leading-relaxed font-roboto font-medium">
+                <p className="text-lg md:text-xl lg:text-2xl text-[#140079] leading-relaxed font-roboto font-medium">
                   Our solutions ensure uninterrupted critical services
                 </p>
-                <ul className="space-y-4 text-lg md:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                <ul className="space-y-3 lg:space-y-4 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/equipment-racking-and-stacking-server-builds/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Racking, stacking and server builds</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/structured-cabling-installation-and-test/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Colocation and containerisation</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/hot-and-cold-aisle-containment-services/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Hot and cold aisle containment</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/structured-cabling-installation-and-test/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Structured cabling</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/cross-connects-and-meet-me-room-mmr-services/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Cross connects and MMR</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/digitisation/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Digitisation and asset inventory</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/network-monitoring-service/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Remote monitoring</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/smart-hands/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Remote Hands – Break fix, spares and repair</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/operations-and-maintenance/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Maintenance and upgrades</a>
                   </li>
-                  <li className="flex items-start group">
-                    <span className="text-[#140079] font-bold mr-3 text-xl">•</span>
+                  <li className="flex items-start justify-center lg:justify-start group">
+                    <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/decommissioning/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Equipment disposal and certification</a>
                   </li>
                 </ul>
               </div>
 
               {/* Right Section - Image */}
-              <div ref={imageRef2} className="relative image-content image-right">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef2} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/dc/dc2.png"
                     alt="Data Centre Solutions"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
@@ -462,32 +462,32 @@ export default function DataCentresPage() {
         {/* Data Centre eBook Section */}
         <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef3} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef3} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/dc/dc3.png"
                     alt="Data Centre eBook"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef3} className="space-y-4 lg:space-y-8 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Data Centre eBook
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Our latest Data Centre eBook <strong>"How to design and maintain fit-for-purpose Data Centres"</strong> explores the demand for data centres, and identifies the challenges within the market currently.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Alongside this analysis, the eBook outlines how Indigo can help with your bespoke requirements through our wide range of solutions.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/data-centre-ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">Download our eBook by clicking <a href="/data-centre-ebook" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">here</a>.</p>
               </div>
             </div>
           </div>
@@ -497,11 +497,11 @@ export default function DataCentresPage() {
         <section className="min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-[#b3c8cf] to-green-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <div ref={textRef4} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef4} className="space-y-4 lg:space-y-8 text-content">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight pt-8 lg:pt-0">
                   Data Sheets
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center items-center mt-12 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 justify-center items-center mt-8 lg:mt-12 max-w-4xl mx-auto">
                   {/* Data Centre Design Card */}
                   <div className="relative bg-transparent rounded-2xl p-8 floating-div">
                     <div className="relative z-10">

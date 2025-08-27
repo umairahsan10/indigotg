@@ -271,15 +271,15 @@ export default function NOCPage() {
 
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative z-10">
             {/* Left Div - Content */}
-            <div className="flex items-center justify-center px-8 lg:px-16">
-              <div className="text-white max-w-2xl">
+            <div className="flex items-center justify-center px-8 lg:px-16 pt-16 md:pt-0">
+              <div className="text-white max-w-2xl text-center lg:text-left">
                 <p className="text-sm md:text-base text-gray-300 mb-4 font-roboto">
                   SOLUTIONS
                 </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
                   Network Operations Centre
                 </h1>
-                <p className="text-lg md:text-xl leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   Our NOC Services minimize outage times and keeps society collaborating. Fully staffed 24x7x365.
 
                 </p>
@@ -324,26 +324,26 @@ export default function NOCPage() {
         {/* Around the clock support Section */}
         <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef1} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef1} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/noc/noc1.png"
                     alt="24/7 Clock Display"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef1} className="space-y-4 lg:space-y-8 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Around the clock support
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Our purpose-built Network Operations Centre (NOC) is the single point of contact for all reactive and proactive support and maintenance requirements. Fully staffed 24x7x365, Our NOC Engineering Team triage, troubleshoot and resolve faults, including the dispatch of the field service engineers and can jointly control the escalation to customer, supplier and vendor support in conjunction with owning the spares parts management process.
                 </p>
               </div>
@@ -354,26 +354,26 @@ export default function NOCPage() {
         {/* In 60+ countries Section */}
         <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef2} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef2} className="space-y-4 lg:space-y-8 text-content order-1 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   In 90+ countries
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
-                  With a global footprint in over 90 countries and as partner to most of the world’s top 12 biggest companies, we pair dynamism and diligence to empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  With a global footprint in over 90 countries and as partner to most of the world's top 12 biggest companies, we pair dynamism and diligence to empower our customers to adapt and scale at pace. Our clients trust us to deliver with expertise, wherever they are in the world, and whatever technology they need.
                 </p>
               </div>
 
               {/* Right Section - Image */}
-              <div ref={imageRef2} className="relative image-content image-right">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef2} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/noc/noc2.png"
                     alt="Global Presence Map"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
@@ -384,55 +384,55 @@ export default function NOCPage() {
         {/* Core Services Section */}
         <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef3} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef3} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/noc/noc3.png"
                     alt="Network Operations Center"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef3} className="space-y-4 lg:space-y-8 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Core Services
                 </h2>
-                <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start">
+                <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span><strong>Basic 1st Line Support</strong> – Log and pass</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span><strong>1st Line Technical Support</strong> – Log, triage, escalate and pass</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span><strong>1st and 2nd Line Full NOC Services</strong> – Log, triage, dispatch, resolve, escalate</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Deliver monthly service reporting</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Service Commissioning and Provisioning</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Capacity Management</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>24/7 Support, OOH Support, Ad-Hoc Support</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Consultative Services</span>
                   </li>
@@ -443,43 +443,43 @@ export default function NOCPage() {
         </section>
 
         {/* Optional Services Section */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
+        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef4} className="space-y-3 text-content">
-                <h2 className="text-4xl md:text-5xl mb-6 lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef4} className="space-y-4 lg:space-y-3 text-content order-1 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl mb-6 lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Optional Services
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Additional services can be tailored to meet your specific customer needs and requirements.
                 </p>
-                <ul className="space-y-3 text-lg md:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start">
+                <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>First and Second technical support with escalation to vendor third line</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Monitor and assist with resolution of network elements</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Coordinate and assist with repairs for network elements (RMA process)</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Provide escalations to backhaul providers</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Escalations to suppliers (build contractors)</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Manage and communicate planned engineering works</span>
                   </li>
-                  <li className="flex items-start">
+                  <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Bespoke monthly reporting</span>
                   </li>
@@ -487,14 +487,14 @@ export default function NOCPage() {
               </div>
 
               {/* Right Section - Image */}
-              <div ref={imageRef4} className="relative image-content image-right">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef4} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/noc/noc4.png"
                     alt="Professional Office Environment"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
@@ -504,26 +504,26 @@ export default function NOCPage() {
 
         <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef5} className="relative image-content image-left">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef5} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[80%] lg:w-full">
                   <Image
                     src="/solutions/noc/noc5.jpg"
                     alt="Indigo Network subsea"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[150px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef5} className="space-y-8 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef5} className="space-y-4 lg:space-y-8 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   Indigo Subsea
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   We have a dedicated NOC to provide system operator support for modern submarine networks, transforming the legacy fault reporting process into a modern proactive network analysis model, managing the entire system end to end.
                 </p>
                                  <a href="/solutions/subsea">
@@ -537,21 +537,21 @@ export default function NOCPage() {
         </section>
 
         {/* How we're different Section */}
-        <section className="min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
+        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-[#F5ecd5] to-[#fffdf6]">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef6} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef6} className="space-y-4 lg:space-y-6 text-content order-1 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
                   How we're different
                 </h2>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Our people are our greatest assets. Powered by the brightest minds and leading technical insights, we maximise the value of connectivity for leading global businesses.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   An ambitious and committed team working as one to securely deliver the future of digital infrastructure.
                 </p>
-                <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   We're ISO accredited and work to ITILv4 standards. Find out more about <a href="#" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">our certifications</a>.
                 </p>
                 {/*vacancies pr jaye ga button and responsiblities certifications*/}
@@ -561,14 +561,14 @@ export default function NOCPage() {
               </div>
 
               {/* Right Section - Image */}
-              <div ref={imageRef6} className="relative image-content image-right">
-                <div className="relative rounded-2xl overflow-hidden image-shadow">
+              <div ref={imageRef6} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
                     src="/solutions/noc/noc6.jpg"
                     alt="Indigo Team"
                     width={700}
                     height={400}
-                    className="w-full h-[400px] object-cover"
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
                   />
                 </div>
               </div>
@@ -577,8 +577,8 @@ export default function NOCPage() {
         </section>
 
         {/* Testimonial Section */}
-        <div className="text-center mb-8 mt-8">
-          <h2 className="text-4xl md:text-5xl lg:text-5xl py-2 mb-2 font-roboto font-bold text-[#140079]">
+        <div className="text-center mb-8 mt-8 px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl py-2 mb-2 font-roboto font-bold text-[#140079]">
             A team with professionalism, drive and creativity <br /> in everything they do
           </h2>
         </div>

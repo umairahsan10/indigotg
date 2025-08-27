@@ -868,6 +868,14 @@ export default function Solutions2() {
             letter-spacing: 0;
           }
 
+          .intro h1 span:not(.text-flip-container) {
+            font-size: 2.2rem;
+            color: #00ffff;
+            font-weight: 700;
+            font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+            text-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+          }
+
           .intro h1,
           .outro h1 {
             width: 100%;
@@ -881,11 +889,22 @@ export default function Solutions2() {
 
           .hero-content {
             flex-direction: column;
+            min-height: 100vh;
+            justify-content: flex-end;
+            align-items: flex-start;
+            text-align: left;
+            padding-bottom: 4rem;
+            padding-top: 0;
           }
 
           .hero-left {
             width: 100%;
-            margin-bottom: 2rem;
+            margin-bottom: 0;
+            text-align: left;
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 2rem;
           }
 
           .hero-right {
@@ -916,7 +935,19 @@ export default function Solutions2() {
 
           .section-title {
             font-size: 1rem;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+          }
+
+          .intro h1 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 0;
+            margin-top: 0;
           }
 
           .intro p {
@@ -924,6 +955,7 @@ export default function Solutions2() {
             padding: 0;
             text-align: left;
             max-width: 100%;
+            margin-bottom: 0;
           }
 
           .card-content .card-description {
@@ -955,6 +987,99 @@ export default function Solutions2() {
             font-size: 1rem;
           }
         }
+
+        @media (max-width: 480px) {
+          .intro h1 {
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 0;
+            margin-top: 0;
+          }
+
+          .intro h1 span:not(.text-flip-container) {
+            font-size: 1.6rem;
+            color: #00ffff;
+            font-weight: 700;
+            font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+            text-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+          }
+
+          .section-title {
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+          }
+
+          .intro p {
+            font-size: 0.85rem;
+            line-height: 1.2;
+            padding: 0 0.25rem;
+            text-align: left;
+            max-width: 100%;
+          }
+
+          .hero-content {
+            padding: 0;
+            justify-content: flex-end;
+            padding-bottom: 3rem;
+          }
+
+          .container-md {
+            padding: 0 0.5rem;
+          }
+        }
+
+        @media (max-width: 375px) {
+          .intro h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 0;
+            margin-top: 0;
+          }
+
+          .intro h1 span:not(.text-flip-container) {
+            font-size: 1.6rem;
+            color: #00ffff;
+            font-weight: 700;
+            font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+            text-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+          }
+
+          .section-title {
+            font-size: 0.7rem;
+            margin-bottom: 0.4rem;
+            text-align: left;
+          }
+
+          .intro p {
+            font-size: 0.8rem;
+            line-height: 1.1;
+            padding: 0 0.2rem;
+            text-align: left;
+            max-width: 100%;
+          }
+
+          .hero-content {
+            padding: 0;
+            min-height: 100vh;
+            justify-content: flex-end;
+            padding-bottom: 2rem;
+          }
+
+          .container-md {
+            padding: 0 0.25rem;
+          }
+        }
       `}</style>
 
       <main>
@@ -964,7 +1089,7 @@ export default function Solutions2() {
             <div className="hero-content text-white">
               <div className="hero-left">
                 <span className="section-title">Digital Infrastructure Solutions</span>
-                <h1><TextFlip /> Connectivity</h1>
+                <h1><TextFlip /> <span>Connectivity</span></h1>
                 <div className="description-block">
                   <p>
                     25+ years delivering digital infrastructure solutions across fixed line, subsea, data centres, and wireless networks. From 5G to legacy systems, we solve complex challenges in any environment with 24/7 NOC support.
