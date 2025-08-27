@@ -1676,12 +1676,12 @@ export default function OurServices2() {
           <div className="text-center mb-12 md:mb-16">
             <div className="h-20 md:h-24 lg:h-32 flex items-center justify-center">
               <VaporizeTextCycle
-                texts={["OUR CORE SERVICES", "Discover our comprehensive range of digital infrastructure services"]}
+                texts={["OUR CORE SERVICES", "Comprehensive digital infrastructure"]}
                 font={{
                   fontFamily: "Inter, sans-serif",
                   fontSize: {
-                    mobile: "10px",
-                    desktop: "24px"
+                    mobile: "20px",
+                    desktop: "36px"
                   },
                   fontWeight: 600
                 }}
