@@ -13,6 +13,7 @@ const Navigation = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSE, setIsSE] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
 
@@ -68,7 +69,9 @@ const Navigation = () => {
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 1000);
+      const width = window.innerWidth;
+      setIsMobile(width <= 1000);
+      setIsSE(width <= 375);
     };
 
     checkMobile();
@@ -838,7 +841,7 @@ const Navigation = () => {
         .menu-col {
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
+          gap: 0.5rem;
           opacity: 1;
         }
 
@@ -877,7 +880,7 @@ const Navigation = () => {
 
         /* Base link style  */
         .menu-link :global(a) {
-          font-size: 2.8rem;
+          font-size: 2.2rem;
           font-weight: 500;
           line-height: 1.2;
           color: #ffffff;
@@ -917,7 +920,7 @@ const Navigation = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 2rem;
+          gap: 0.75rem;
           margin-top: 0.5rem;
           padding-top: 1rem;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -1005,7 +1008,7 @@ const Navigation = () => {
         }
 
         .menu-dropdown-item a {
-          font-size: 18px !important;
+          font-size: 16px !important;
           font-weight: 500 !important;
           line-height: 1.2 !important;
           color: #ffffff !important;
@@ -1095,7 +1098,7 @@ const Navigation = () => {
           }
 
           .menu-link a {
-            font-size: 1.6rem !important;
+            font-size: 1.5rem !important;
             position: relative;
             display: inline-block;
             white-space: nowrap;
@@ -1107,14 +1110,19 @@ const Navigation = () => {
 
           /* Mobile small links styling */
           .menu-small-links {
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 150%;
+            gap: 1rem 1.5rem;
+            justify-content: flex-start;
           }
 
-          .menu-small-link {
-            font-size: 0.75rem !important;
+          .menu-small-link,
+          .menu-small-link :global(a) {
+            font-size: 6px !important;
+            line-height: 10px !important;
+            flex: 0 0 calc(50% - 1.5rem);
+            text-align: center;
           }
 
 
@@ -1138,14 +1146,40 @@ const Navigation = () => {
              position: relative;
            }
 
-           .menu-dropdown-item a {
-             font-size: 12px !important;
-           }
+                                               .menu-dropdown-item a {
+               font-size: 10px !important;
+             }
 
 
 
 
         }
+
+        /* iPhone SE specific tweaks */
+        @media (max-width: 375px) {
+          .menu-small-links {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0rem;
+            padding-top: 0.25rem;
+          }
+
+          .menu-small-link,
+          .menu-small-link :global(a) {
+            font-size: 6px !important;
+            line-height: 10px !important;
+            min-width: 80px;
+            text-align: center;
+          }
+
+          .menu-content-main {
+            top: 35%; /* shift slightly down on SE */
+            padding-top: 14rem;
+          }
+        }
+
       `}</style>
 
       <nav ref={navRef}>
@@ -1212,7 +1246,7 @@ const Navigation = () => {
                           }
                         }}
                         style={{
-                          fontSize: isMobile ? '1.6rem' : '2.8rem',
+                          fontSize: isMobile ? (isSE ? '1.1rem' : '1.3rem') : '2.2rem',
                           fontWeight: '500',
                           lineHeight: '1.2',
                           color: '#ffffff',
@@ -1237,7 +1271,7 @@ const Navigation = () => {
                                   }
                                 }}
                                 style={{
-                                  fontSize: '24px',
+                                  fontSize: isMobile ? (isSE ? '13px' : '15px') : '20px',
                                   fontWeight: '500',
                                   lineHeight: '1.2',
                                   color: '#ffffff',
@@ -1262,50 +1296,29 @@ const Navigation = () => {
 
                 
                 <div className="menu-small-links">
-                  <Link
-                    href="/resources"
-                    className="menu-small-link"
-                    onClick={() => {
-                      if (isMenuOpen) {
-                        handleMenuToggle();
-                      }
-                    }}
-                  >
-                    Resources
-                  </Link>
-                  <Link
-                    href="/partner-portal"
-                    className="menu-small-link"
-                    onClick={() => {
-                      if (isMenuOpen) {
-                        handleMenuToggle();
-                      }
-                    }}
-                  >
-                    Partner Portal
-                  </Link>
-                  <Link
-                    href="https://indigotg.my.site.com/CustomerPortal/s/login/?ec=302&startURL=%2FCustomerPortal%2Fs%2F"
-                    className="menu-small-link"
-                    onClick={() => {
-                      if (isMenuOpen) {
-                        handleMenuToggle();
-                      }
-                    }}
-                  >
-                    Customer Support
-                  </Link>
-                  <Link
-                    href="/responsibilities"
-                    className="menu-small-link"
-                    onClick={() => {
-                      if (isMenuOpen) {
-                        handleMenuToggle();
-                      }
-                    }}
-                  >
-                    Responsibilities
-                  </Link>
+                  {[
+                    { href: '/resources', label: 'Resources' },
+                    { href: '/partner-portal', label: 'Partner Portal' },
+                    { href: 'https://indigotg.my.site.com/CustomerPortal/s/login/?ec=302&startURL=%2FCustomerPortal%2Fs%2F', label: 'Customer Support', external: true },
+                    { href: '/responsibilities', label: 'Responsibilities' }
+                  ].map(({ href, label, external }, idx) => {
+                    return (
+                      <Link
+                        key={idx}
+                        href={href}
+                        className="menu-small-link"
+                        target={external ? '_blank' : undefined}
+                        onClick={() => {
+                          if (isMenuOpen) {
+                            handleMenuToggle();
+                          }
+                        }}
+                        style={isSE ? { fontSize: '10px' } : undefined}
+                      >
+                        {label}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
