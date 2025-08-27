@@ -170,7 +170,93 @@ const HeroSlider = () => {
 
   // Keep these as module-level variables like in the original
   let currentSlideIndex = 0;
-  let isTransitioning = false;
+  // Use ref so the transitioning flag persists across component re-renders
+  const isTransitioningRef = useRef(false);
+
+  // --- Rapid-tap handling ---
+  // Accumulate net taps (+1 for next / -1 for prev) within 500 ms window
+  const pendingDeltaRef = useRef(0);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Track current GSAP timeline so we can cancel it when jumping directly
+  const currentTimelineRef = useRef<gsap.core.Animation | null>(null);
+
+  // If a flush happens during a running transition, we queue the target slide here
+  const queuedTargetRef = useRef<number | null>(null);
+
+  const maybeStartQueued = () => {
+    if (queuedTargetRef.current !== null) {
+      const t = queuedTargetRef.current;
+      queuedTargetRef.current = null;
+      // Start after slight delay to allow DOM cleanup
+      setTimeout(() => goToSlide(t), 10);
+    }
+  };
+
+  const goToSlide = (targetIndex: number) => {
+    if (targetIndex === currentSlideIndex) return;
+
+    // Update video overlays appropriately
+    updateVideoOverlays(currentSlideIndex, targetIndex);
+
+    // Determine slide types
+    const currentSlide = slides[currentSlideIndex];
+    const nextSlide = slides[targetIndex];
+
+    isTransitioningRef.current = true;
+
+    if (currentSlide.type === "image" && nextSlide.type === "image" && shaderMaterial) {
+      // Shader-based transition for image → image
+      shaderMaterial.uniforms.uTexture1.value = slideTextures[currentSlideIndex];
+      shaderMaterial.uniforms.uTexture2.value = slideTextures[targetIndex];
+      shaderMaterial.uniforms.uTexture1Size.value = slideTextures[currentSlideIndex].userData.size;
+      shaderMaterial.uniforms.uTexture2Size.value = slideTextures[targetIndex].userData.size;
+
+      const tl = gsap.fromTo(
+        shaderMaterial.uniforms.uProgress,
+        { value: 0 },
+        {
+          value: 1,
+          duration: 2.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            if (shaderMaterial) {
+              shaderMaterial.uniforms.uProgress.value = 0;
+              shaderMaterial.uniforms.uTexture1.value = slideTextures[targetIndex];
+              shaderMaterial.uniforms.uTexture1Size.value = slideTextures[targetIndex].userData.size;
+              shaderMaterial.uniforms.uCurrentSlideIndex.value = targetIndex;
+            }
+            currentTimelineRef.current = null;
+            isTransitioningRef.current = false;
+            currentSlideIndex = targetIndex;
+            maybeStartQueued();
+          },
+        }
+      );
+
+      currentTimelineRef.current = tl;
+    } else {
+      // Mixed or video slides – use DOM/GSAP text transition helper
+      animateSlideTransition(targetIndex);
+    }
+  };
+
+  const flushPendingDelta = () => {
+    const delta = pendingDeltaRef.current;
+    pendingDeltaRef.current = 0;
+    if (delta === 0) return;
+
+    // Compute target slide index (supports negative / positive delta, wraps around)
+    const targetIndex = (currentSlideIndex + delta + slides.length * 10) % slides.length;
+
+    if (isTransitioningRef.current) {
+      // queue target; it will start when current finishes
+      queuedTargetRef.current = targetIndex;
+    } else {
+      goToSlide(targetIndex);
+    }
+  };
+
   let slideTextures: THREE.Texture[] = [];
   let shaderMaterial: THREE.ShaderMaterial | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
@@ -806,6 +892,7 @@ const HeroSlider = () => {
     const sliderElement = slider as HTMLElement;
 
     const timeline = gsap.timeline();
+    currentTimelineRef.current = timeline;
 
     timeline
       .to([...currentContent.querySelectorAll(".char span")], {
@@ -823,6 +910,12 @@ const HeroSlider = () => {
           ease: "power2.inOut",
         },
         0.1
+      )
+      // fade out the button container quickly so it doesn't linger
+      .to(
+        currentContent.querySelector(".slide-button"),
+        { opacity: 0, duration: 0.3, ease: "power2.inOut" },
+        0 // start simultaneously with char animation
       )
       .call(
         () => {
@@ -859,8 +952,10 @@ const HeroSlider = () => {
             gsap
               .timeline({
                 onComplete: () => {
-                  isTransitioning = false;
+                  currentTimelineRef.current = null;
+                  isTransitioningRef.current = false;
                   currentSlideIndex = nextIndex;
+                  maybeStartQueued();
                 },
               })
               .to(newChars, {
@@ -1063,9 +1158,9 @@ const HeroSlider = () => {
   };
 
   const handleSlideChange = (direction = 'next') => {
-    if (isTransitioning) return;
+    if (isTransitioningRef.current) return;
 
-    isTransitioning = true;
+    isTransitioningRef.current = true;
     let nextIndex;
 
     if (direction === 'next') {
@@ -1105,7 +1200,7 @@ const HeroSlider = () => {
                 slideTextures[nextIndex].userData.size;
               shaderMaterial.uniforms.uCurrentSlideIndex.value = nextIndex;
             }
-            isTransitioning = false;
+            isTransitioningRef.current = false;
             currentSlideIndex = nextIndex;
           },
         }
@@ -1113,7 +1208,7 @@ const HeroSlider = () => {
     } else {
       // For video slides or mixed transitions, just animate the content
       animateSlideTransition(nextIndex);
-      isTransitioning = false;
+      isTransitioningRef.current = false;
       currentSlideIndex = nextIndex;
     }
   };
@@ -1126,7 +1221,7 @@ const HeroSlider = () => {
 
     // Start auto-play - change slide every 5 seconds
     autoPlayInterval = setInterval(() => {
-      if (!isTransitioning && shaderMaterial && slideTextures.length > 0) {
+      if (!isTransitioningRef.current && shaderMaterial && slideTextures.length > 0) {
         // Additional safety check: ensure textures are loaded
         const nextIndex = (currentSlideIndex + 1) % slides.length;
         if (slideTextures[nextIndex] && slideTextures[nextIndex].userData?.size) {
@@ -1206,20 +1301,21 @@ const HeroSlider = () => {
       return;
     }
 
-    // Determine which side was clicked
     const rect = event.currentTarget.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const isRightSide = clickX > rect.width / 2;
 
-    console.log('Click side:', isRightSide ? 'right' : 'left');
+    // Update pending delta (+1 next, -1 prev)
+    pendingDeltaRef.current += isRightSide ? 1 : -1;
 
-    // Handle the slide change based on click position
-    handleSlideChange(isRightSide ? 'next' : 'prev');
-
-    // Restart auto-play after a short delay
-    setTimeout(() => {
-      startAutoPlay();
-    }, 1000); // Wait 1 second before restarting auto-play
+    // Reset / start debounce timer (500 ms)
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    debounceTimerRef.current = setTimeout(() => {
+      flushPendingDelta();
+      startAutoPlay(); // resume autoplay after processing
+    }, 500);
   };
 
   const handleResize = () => {
@@ -1309,6 +1405,19 @@ const HeroSlider = () => {
     gsap.registerPlugin(SplitText);
     gsap.config({ nullTargetWarn: false });
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Tab is in background – stop autoplay and any ongoing transition timers
+        stopAutoPlay();
+      } else {
+        // Tab is visible again – restart autoplay after a brief delay to let the browser re-render the page
+        setTimeout(() => {
+          // Ensure we are not already playing
+          startAutoPlay();
+        }, 300);
+      }
+    };
+
     const initSlider = async () => {
       setupInitialSlide();
       await initializeRenderer();
@@ -1330,6 +1439,7 @@ const HeroSlider = () => {
 
     initSlider();
     window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     // Start auto-play after initialization
     setTimeout(() => {
@@ -1338,6 +1448,7 @@ const HeroSlider = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (renderer) {
         renderer.dispose();
       }
