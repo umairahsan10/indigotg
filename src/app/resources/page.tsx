@@ -282,6 +282,48 @@ export default function Resources() {
           border-bottom: none;
         }
 
+        /* Responsive font sizing for taller phones */
+        @media (min-height: 800px) {
+          .hero-heading {
+            font-size: 3.5rem !important;
+          }
+          
+          .section-heading {
+            font-size: 2.75rem !important;
+          }
+        }
+
+        @media (min-height: 900px) {
+          .hero-heading {
+            font-size: 4rem !important;
+          }
+          
+          .section-heading {
+            font-size: 3rem !important;
+          }
+        }
+
+        @media (min-height: 1000px) {
+          .hero-heading {
+            font-size: 4.5rem !important;
+          }
+          
+          .section-heading {
+            font-size: 3.25rem !important;
+          }
+        }
+
+        /* iPhone 14 Pro Max and similar tall phones */
+        @media (min-height: 900px) and (max-height: 950px) {
+          .hero-heading {
+            font-size: 3.75rem !important;
+          }
+          
+          .section-heading {
+            font-size: 2.875rem !important;
+          }
+        }
+
                  .document-icon {
            width: 24px;
            height: 24px;
@@ -351,7 +393,7 @@ export default function Resources() {
                 <p className="text-sm md:text-base text-gray-300 mb-4">
                   RESOURCES
                 </p>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight hero-heading">
                   Resources
                 </h1>
                 <p className="text-lg md:text-xl leading-relaxed">
@@ -390,7 +432,7 @@ export default function Resources() {
         <section className="min-h-[90vh] flex items-center mb-10 bg-white mt-10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6 section-heading">
                 Videos
               </h2>
             </div>
@@ -417,7 +459,7 @@ export default function Resources() {
 
               {/* Right Section - Text Content */}
               <div ref={textRef1} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold text-[#140079] leading-tight">
+                <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold text-[#140079] leading-tight section-heading">
                   Indigo Overview
                 </h2>
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed">
@@ -437,7 +479,7 @@ export default function Resources() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - Text Content */}
               <div ref={textRef2} className="space-y-6 text-content">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold text-white leading-tight">
+                <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold text-white leading-tight section-heading">
                   Meet the Indigo team
                 </h2>
                 <p className="text-lg md:text-xl text-white leading-relaxed">
@@ -475,7 +517,7 @@ export default function Resources() {
         <section className="min-h-[90vh] flex items-center mb-10 bg-gray-50">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6 section-heading">
                 Download
               </h2>
             </div>
@@ -532,7 +574,7 @@ export default function Resources() {
         <section className="min-h-[90vh] flex items-center mb-10 bg-gray-50">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#140079] mb-6 section-heading">
                 eBooks
               </h2>
             </div>
