@@ -183,7 +183,7 @@ export default function Responsibilities() {
       
       <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section */}
-        <section className="relative h-screen flex items-center overflow-hidden">
+        <section className="relative h-[50vh] lg:h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -200,13 +200,13 @@ export default function Responsibilities() {
             {/* Left Div - Content */}
             <div className="flex items-center justify-center px-8 lg:px-16">
               <div className="text-white max-w-2xl">
-                <p className="text-sm md:text-base text-gray-300 mb-4">
+                {/* <p className="text-sm md:text-base text-gray-300 mb-4">
                   RESPONSIBILITIES
-                </p>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                </p> */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mt-28 mb-8 leading-tight">
                   Responsibilities
                 </h1>
-                <p className="text-lg md:text-xl leading-relaxed">
+                <p className="text-lg md:text-xl leading-relaxed mt-8">
                   Our commitment to sustainability, safety, and excellence in everything we do.
                 </p>
               </div>
@@ -239,7 +239,7 @@ export default function Responsibilities() {
         </section>
 
         {/* ESG Section */}
-        <section className="min-h-[90vh] flex items-center mb-10 bg-white mt-10">
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white -mt-4 lg:mt-10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Section - ESG Image */}

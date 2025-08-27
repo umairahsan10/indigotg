@@ -282,7 +282,7 @@ export default function PartnerPortalPage() {
       `}</style>
       <div className="min-h-screen bg-white overflow-hidden">
         {/* Hero Section */}
-        <section className="relative h-screen flex items-center overflow-hidden">
+        <section className="relative h-[50vh] lg:h-screen flex items-center overflow-hidden">
           {/* Background Image - Full Width */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -321,7 +321,7 @@ export default function PartnerPortalPage() {
         
 
         {/* Password Protection Section */}
-        <section className="min-h-[70vh] flex items-center mb-0 bg-white">
+        <section className="min-h-[50vh] lg:min-h-[70vh] flex items-center mb-0 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <div ref={textRef4} className="space-y-8 text-content">
@@ -335,12 +335,12 @@ export default function PartnerPortalPage() {
                       <label htmlFor="password" className="text-lg font-semibold text-[#140079]">
                         Password:
                       </label>
-                      <input
-                        type="password"
-                        id="password"
-                        className="w-128 px-60 py-2 bg-gray-100 border border-[#140079] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#140079] focus:border-transparent"
-                        placeholder="Enter password"
-                      />
+                                             <input
+                         type="password"
+                         id="password"
+                         className="w-64 lg:w-128 px-4 lg:px-60 py-2 bg-gray-100 border border-[#140079] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#140079] focus:border-transparent"
+                         placeholder="Enter password"
+                       />
                     </div>
                     <button className="inline-flex items-center space-x-2 bg-yellow-400 text-[#140079] px-8 py-2 rounded-xl font-semibold hover:bg-yellow-500 transition-colors duration-300">
                       <span>Enter</span>
