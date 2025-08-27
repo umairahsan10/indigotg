@@ -14,21 +14,21 @@ export default function WorkingAtIndigo() {
   const imageCards = [
     {
       leftImage: "/careers/1.1.jpg",
-      rightImage: "/careers/img_6.png",
+      rightImage: "/careers/img_6.PNG",
       title: "Digital Infrastructure Excellence",
       description: "Building the backbone of tomorrow's connected world",
       readMoreLink: "https://www.indigotg.com/testimonial/discovering-a-career-in-system-development/"
     },
     {
       leftImage: "/careers/2.1.jpg",
-      rightImage: "/careers/img_4.png",
+      rightImage: "/careers/img_4.PNG",
       title: "Innovation at Every Level",
       description: "Pushing boundaries with cutting-edge technology",
       readMoreLink: "https://www.indigotg.com/testimonial/rich-hollins-global-operations-director/"
     },
     {
       leftImage: "/careers/3.1.jpg",
-      rightImage: "/careers/img_5.png",
+      rightImage: "/careers/img_5.PNG",
       title: "Team Collaboration & Growth",
       description: "Fostering a culture of excellence and continuous learning",
       readMoreLink: "https://www.indigotg.com/testimonial/usa-field-engineer/"
