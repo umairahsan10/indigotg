@@ -66,10 +66,10 @@ export default function EbookPage() {
         />
       </div>
 
-      <div style={{position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: '64px 16px'}}>
+              <div style={{position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: '32px 16px'}} className="pt-8 sm:pt-16 lg:pt-16">
         {/* Header with Logo */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center mb-8">
+        <div className="text-center mt-8 sm:mb-12 lg:mb-20">
+                      <div className="inline-flex items-center mb-4 sm:mb-6 lg:mb-8">
             {/* <img 
               src="/ebook/indigo_logo_blue.svg" 
               alt="INDIGO Logo" 
@@ -77,12 +77,38 @@ export default function EbookPage() {
             /> */}
           </div>
           
-          <h1 style={{textAlign: 'center', fontSize: '55px'}}><span style={{color: '#140177'}} className="font-bold">Maximize Network Uptime: Improve Network Infrastructure Efficiency with Our Free eBook!</span></h1>
+          <h1 className="text-center font-bold text-[#140177] text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl leading-tight px-4">
+            Maximize Network Uptime: Improve Network Infrastructure Efficiency with Our Free eBook!
+          </h1>
+        </div>
+
+        {/* Mobile Cards Section - Above content on mobile */}
+        <div className="lg:hidden mt-12 mb-8">
+          <div className="flex justify-center">
+            <div className="relative">
+              <EbookStackedCards
+                cards={[
+                  {
+                    image: "/ebook/card1.jpeg"
+                  },
+                  {
+                    image: "/ebook/card2.jpeg"
+                  },
+                  {
+                    image: "/ebook/card3.jpeg"
+                  }
+                ]}
+                spreadDistance={40}
+                rotationAngle={5}
+                animationDelay={0.1}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left Section - Content Description */}
-          <div className="space-y-8 relative z-30">
+          <div className="lg:col-span-1 space-y-8 relative z-30">
             <h2 style={{...geometricSans, color: '#04048b'}} className="text-3xl font-bold">
               What's inside?
             </h2>
@@ -336,8 +362,8 @@ export default function EbookPage() {
             </div>
           </div>
 
-          {/* Right Section - Stacked Cards */}
-          <div className="flex justify-center lg:justify-end mt-[-12rem] relative z-30">
+          {/* Desktop Right Section - Stacked Cards (hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-1 lg:-mt-30 relative z-30">
             <div className="relative">
               <EbookStackedCards
                 cards={[
@@ -357,7 +383,7 @@ export default function EbookPage() {
               />
               
               {/* Book Image Below Cards */}
-              <div className="mt-[-0.5rem] flex justify-center">
+              <div className="mt-8 flex justify-center">
                 <img 
                   src="/ebook/Support eBook cover page.webp" 
                   alt="Network Infrastructure eBook" 
@@ -368,6 +394,20 @@ export default function EbookPage() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Book Image - Below form content */}
+        <div className="lg:hidden mt-12 mb-8">
+          <div className="flex justify-center">
+            <img 
+              src="/ebook/Support eBook cover page.webp" 
+              alt="Network Infrastructure eBook" 
+              className="max-w-80 max-h-80 object-contain shadow-2xl"
+              style={{
+                boxShadow: '0 20px 40px rgba(0,0,0,0.15)'
+              }}
+            />
           </div>
         </div>
       </div>
