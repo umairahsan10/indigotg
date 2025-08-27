@@ -151,7 +151,7 @@ type VaporizeTextCycleProps = {
   texts: string[];
   font?: {
     fontFamily?: string;
-    fontSize?: string;
+    fontSize?: string | { mobile: string; desktop: string };
     fontWeight?: number;
   };
   color?: string;
@@ -256,7 +256,19 @@ function VaporizeTextCycle({
 
   // Memoize font and spread calculations
   const fontConfig = useMemo(() => {
-    const fontSize = parseInt(font.fontSize?.replace("px", "") || "50");
+    const getFontSize = () => {
+      if (typeof font.fontSize === 'string') {
+        return parseInt(font.fontSize.replace("px", "") || "50");
+      } else if (font.fontSize?.mobile && font.fontSize?.desktop) {
+        // Check if mobile based on window width
+        const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+        const fontSizeStr = isMobile ? font.fontSize.mobile : font.fontSize.desktop;
+        return parseInt(fontSizeStr.replace("px", "") || "50");
+      }
+      return 50; // fallback
+    };
+    
+    const fontSize = getFontSize();
     const VAPORIZE_SPREAD = calculateVaporizeSpread(fontSize);
     const MULTIPLIED_VAPORIZE_SPREAD = VAPORIZE_SPREAD * spread;
     return {
@@ -473,8 +485,30 @@ function VaporizeTextCycle({
     });
 
     resizeObserver.observe(container);
+    
+    // Also handle window resize for responsive font changes
+    const handleWindowResize = () => {
+      renderCanvas({
+        framerProps: {
+          texts,
+          font,
+          color,
+          alignment,
+        },
+        canvasRef: canvasRef as React.RefObject<HTMLCanvasElement>,
+        wrapperSize: { width: container.clientWidth, height: container.clientHeight },
+        particlesRef,
+        globalDpr,
+        currentTextIndex,
+        transformedDensity,
+      });
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+    
     return () => {
       resizeObserver.disconnect();
+      window.removeEventListener('resize', handleWindowResize);
     };
   }, [wrapperRef.current]);
 
@@ -619,7 +653,19 @@ const renderCanvas = ({
   canvas.height = Math.floor(height * globalDpr);
 
   // Parse font size
-  const fontSize = parseInt(framerProps.font?.fontSize?.replace("px", "") || "50");
+  const getFontSize = (): number => {
+    if (typeof framerProps.font?.fontSize === 'string') {
+      return parseInt(framerProps.font.fontSize.replace("px", "") || "50");
+    } else if (framerProps.font?.fontSize?.mobile && framerProps.font?.fontSize?.desktop) {
+      // Check if mobile based on window width
+      const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+      const fontSizeStr = isMobile ? framerProps.font.fontSize.mobile : framerProps.font.fontSize.desktop;
+      return parseInt(fontSizeStr.replace("px", "") || "50");
+    }
+    return 50; // fallback
+  };
+  
+  const fontSize: number = getFontSize();
   const font = `${framerProps.font?.fontWeight ?? 400} ${fontSize * globalDpr}px ${framerProps.font?.fontFamily ?? "sans-serif"}`;
   const color = parseColor(framerProps.color ?? "rgb(153, 153, 153)");
 
@@ -1628,12 +1674,15 @@ export default function OurServices2() {
       <section className="py-16 md:py-24 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 md:mb-16">
-            <div className="h-24 md:h-32 flex items-center justify-center">
+            <div className="h-20 md:h-24 lg:h-32 flex items-center justify-center">
               <VaporizeTextCycle
                 texts={["OUR CORE SERVICES", "Discover our comprehensive range of digital infrastructure services"]}
                 font={{
                   fontFamily: "Inter, sans-serif",
-                  fontSize: "24px",
+                  fontSize: {
+                    mobile: "10px",
+                    desktop: "24px"
+                  },
                   fontWeight: 600
                 }}
                 color="rgb(251, 191, 36)"
