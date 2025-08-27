@@ -1180,6 +1180,21 @@ const Navigation = () => {
           }
         }
 
+        /* Tall-phone layout: move video under Indigo logo */
+        @media (max-width: 1000px) and (min-height: 812px) {
+          .menu-media-wrapper {
+            top: 6rem; /* below logo */
+            left: 1rem;
+            right: auto;
+          }
+
+          /* Center the 4th small link (Responsibilities) */
+          .menu-small-links .menu-small-link:nth-child(4) {
+            flex: 0 0 100%;
+            text-align: center;
+          }
+        }
+
       `}</style>
 
       <nav ref={navRef}>
