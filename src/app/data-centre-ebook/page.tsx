@@ -80,9 +80,33 @@ export default function EbookPage() {
           <h1 style={{textAlign: 'center', fontSize: '55px'}}><span style={{color: '#140177'}} className="font-bold">Download Your Free Data Centre eBook</span></h1>
         </div>
 
+        {/* Mobile Cards Section - Below main heading on mobile */}
+        <div className="lg:hidden mt-12 mb-8">
+          <div className="flex justify-center">
+            <div className="relative">
+              <EbookStackedCards
+                cards={[
+                  {
+                    image: "/ebook/card1.jpeg"
+                  },
+                  {
+                    image: "/ebook/card2.jpeg"
+                  },
+                  {
+                    image: "/ebook/card3.jpeg"
+                  }
+                ]}
+                spreadDistance={40}
+                rotationAngle={5}
+                animationDelay={0.1}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left Section - Content Description */}
-          <div className="space-y-8 relative z-30">
+          <div className="lg:col-span-1 space-y-8 relative z-30">
             <div className="space-y-6 text-xl text-gray-700 leading-relaxed">
               <p>
                 This Data Centre eBook explores the current market and current trends, and what is driving the demand for data centres.
@@ -359,8 +383,8 @@ export default function EbookPage() {
             </div>
           </div>
 
-          {/* Right Section - Stacked Cards */}
-          <div className="flex justify-center lg:justify-end mt-[-12rem] relative z-30">
+          {/* Desktop Right Section - Book Image Only (hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-1 lg:-mt-30 relative z-30">
             <div className="relative">
               <EbookStackedCards
                 cards={[
@@ -380,7 +404,7 @@ export default function EbookPage() {
               />
               
               {/* Book Image Below Cards */}
-              <div className="mt-[-0.5rem] flex justify-center">
+              <div className="mt-8 flex justify-center">
                 <img 
                   src="/ebook/Data Centre ebook cover.webp" 
                   alt="Data Centre ebook cover" 
@@ -391,6 +415,20 @@ export default function EbookPage() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Book Image - Below form content */}
+        <div className="lg:hidden mt-12 mb-8">
+          <div className="flex justify-center">
+            <img 
+              src="/ebook/Data Centre ebook cover.webp" 
+              alt="Data Centre ebook cover" 
+              className="max-w-80 max-h-80 object-contain shadow-2xl"
+              style={{
+                boxShadow: '0 20px 40px rgba(0,0,0,0.15)'
+              }}
+            />
           </div>
         </div>
       </div>

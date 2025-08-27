@@ -20,7 +20,7 @@ const EbookCard = ({
   return (
     <div
       className={cn(
-        "w-[350px] cursor-pointer h-[400px] overflow-hidden bg-white rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.02)] border border-gray-200/80",
+        "w-[240px] sm:w-[320px] md:w-[350px] cursor-pointer h-[280px] sm:h-[360px] md:h-[400px] overflow-hidden bg-white rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.02)] border border-gray-200/80",
         className
       )}
       onClick={onClick}
@@ -39,24 +39,24 @@ const EbookCard = ({
              <div className="absolute inset-0 p-6 flex flex-col justify-between text-white">
                                {/* Logo at top */}
                <div className="text-left">
-                 <div className="inline-flex items-center mb-8">
+                 <div className="inline-flex items-center mb-4 sm:mb-6 md:mb-8">
                    <img 
                      src="/ebook/indigo_logo_white.svg" 
                      alt="INDIGO Logo" 
-                     className="w-20 h-20"
+                     className="w-16 h-16 sm:w-20 sm:h-20"
                    />
                  </div>
                </div>
                
-                             {/* Main content in center */}
-               <div className="text-left mb-auto">
-                 <h3 className="text-2xl font-bold mb-3 leading-tight" style={{color: '#eab04b'}}>
-                   Network experts: Make the right call
-                 </h3>
-                 <p className="text-sm text-blue-100 leading-relaxed max-w-xs">
-                   An Indigo guide to successfully outsourcing network infrastructure support services.
-                 </p>
-               </div>
+              {/* Main content in center */}
+              <div className="text-left mb-auto -mt-2 sm:mt-0">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 leading-tight" style={{color: '#eab04b'}}>
+                  Network experts: Make the right call
+                </h3>
+                <p className="text-xs sm:text-sm text-blue-100 leading-relaxed max-w-xs">
+                  An Indigo guide to successfully outsourcing network infrastructure support services.
+                </p>
+              </div>
                
               {/* Tagline at bottom */}
               <div className="text-left mt-auto">
@@ -104,7 +104,7 @@ const EbookStackedCards = ({
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="relative w-[350px] h-[400px]">
+      <div className="relative w-[240px] sm:w-[320px] md:w-[350px] h-[280px] sm:h-[360px] md:h-[400px]">
         {limitedCards.map((card, index) => {
           const isFrontCard = index === frontCardIndex;
 

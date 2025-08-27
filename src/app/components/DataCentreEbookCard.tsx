@@ -20,7 +20,7 @@ const EbookCard = ({
   return (
     <div
       className={cn(
-        "w-[350px] cursor-pointer h-[400px] overflow-hidden bg-white rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.02)] border border-gray-200/80",
+        "w-[240px] sm:w-[320px] md:w-[350px] cursor-pointer h-[280px] sm:h-[360px] md:h-[400px] overflow-hidden bg-white rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.02)] border border-gray-200/80",
         className
       )}
       onClick={onClick}
@@ -37,34 +37,34 @@ const EbookCard = ({
                                 {/* Text overlay */}
            <div className="absolute inset-0 rounded-2xl" style={{backgroundColor: 'rgba(0, 0, 0, 0.4)'}}>
              <div className="absolute inset-0 p-6 flex flex-col justify-between text-white">
-                               {/* Logo at top */}
-               <div className="text-left">
-                 <div className="inline-flex items-center mb-8">
-                   <img 
-                     src="/ebook/indigo_logo_white.svg" 
-                     alt="INDIGO Logo" 
-                     className="w-20 h-20"
-                   />
-                 </div>
-               </div>
-               
-                             {/* Main content in center */}
-               <div className="text-left mb-auto">
-                 <h3 className="text-2xl font-bold mb-3 leading-tight" style={{color: '#eab04b'}}>
-                 How to Design and Maintain Fit-for-Purpose Data Centres
-                 </h3>
-                 <p className="text-sm text-blue-100 leading-relaxed max-w-xs">
-                 Hosting infrastructure that enables the digital world has become a business-critical service
-                 </p>
-               </div>
-               
-              {/* Tagline at bottom */}
-              <div className="text-left mt-auto">
-                <p className="text-xs text-blue-200">
-                  ENGINEERING A DIGITAL FUTURE
-                </p>
+                {/* Logo at top */}
+                <div className="text-left">
+                  <div className="inline-flex items-center mb-0 sm:mb-2 md:mb-4">
+                    <img 
+                      src="/ebook/indigo_logo_white.svg" 
+                      alt="INDIGO Logo" 
+                      className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
+                    />
+                  </div>
+                </div>
+                
+                {/* Main content in center */}
+                <div className="text-left mb-auto -mt-2 sm:-mt-1 md:mt-0">
+                  <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 leading-tight" style={{color: '#eab04b'}}>
+                    How to Design and Maintain Fit-for-Purpose Data Centres
+                  </h3>
+                  <p className="text-xs sm:text-sm text-white mb-2 sm:mb-3 leading-tight">
+                    Hosting infrastructure that enables the digital world has become a business-critical service
+                  </p>
+                </div>
+
+                {/* Tagline at bottom */}
+                <div className="text-left mt-auto">
+                  <p className="text-xs text-white/90 font-medium">
+                    ENGINEERING A DIGITAL FUTURE
+                  </p>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       )}
@@ -104,7 +104,7 @@ const EbookStackedCards = ({
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="relative w-[350px] h-[400px]">
+      <div className="relative w-[240px] sm:w-[320px] md:w-[350px] h-[280px] sm:h-[360px] md:h-[400px]">
         {limitedCards.map((card, index) => {
           const isFrontCard = index === frontCardIndex;
 
