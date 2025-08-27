@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import CTASection from '../solutions2/subfolders/cta';
 
 export default function Resources() {
@@ -422,9 +423,9 @@ export default function Resources() {
                 <p className="text-lg md:text-xl text-[#140079] leading-relaxed">
                   How is Indigo 'Engineering a Digital Future'? We have the engineering skills to help you design, deploy and support your fixed line, subsea, data centres, and wireless/5G infrastructure.
                 </p>
-                <button className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300">
+                <Link href="/who-we-are" className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 inline-block">
                   Find out more →
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -442,9 +443,9 @@ export default function Resources() {
                 <p className="text-lg md:text-xl text-white leading-relaxed">
                   Find out what it's like to engineer a digital future from the people at Indigo. Join us and discover a dynamic career that values your talents.
                 </p>
-                <button className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300">
+                <Link href="/work-with-us" className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 inline-block">
                   Work With Us →
-                </button>
+                </Link>
               </div>
 
               {/* Right Section - Video Card */}

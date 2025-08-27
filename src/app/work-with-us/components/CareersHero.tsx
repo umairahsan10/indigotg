@@ -152,7 +152,7 @@ export default function CareersHero() {
 
           {/* Enhanced Description */}
           <p className="text-xl text-white/90 mb-10 leading-relaxed mt-8 font-roboto">
-            Ready to unleash your potential? Join our ambitious team and help deliver the future of digital infrastructure.
+          Looking to set your skills in motion and fulfil your potential? Join us and discover a dynamic career that values your talents as part of an ambitious and committed team working as one to deliver the future of digital infrastructure.
           </p>
 
           {/* Enhanced CTA Buttons */}

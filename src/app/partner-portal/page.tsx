@@ -286,18 +286,18 @@ export default function PartnerPortalPage() {
           {/* Background Image - Full Width */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/solutions/card-images-3.jpg"
-              alt="Data Centres Background"
+              src="/partnerportal/pp_bg4.png"
+              alt="Partner Portal Background"
               fill
               style={{ objectFit: 'cover' }}
               priority
             />
-            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30"></div>
           </div>
 
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative z-10">
             {/* Left Div - Content */}
-            <div className="flex items-center justify-center px-8 lg:px-16">
+            <div className="flex items-center px-8 lg:px-16">
               <div className="text-white max-w-2xl">
                 <p className="text-sm md:text-base text-gray-300 mb-4 font-roboto">
                   PARTNER PORTAL
@@ -306,11 +306,8 @@ export default function PartnerPortalPage() {
                   Partner Portal
                 </h1>
                 <p className="text-lg md:text-xl leading-relaxed font-roboto">
-                  Indigo partners closely with clients to tailor data centre engineering services to their specific infrastructure needs. We offer an extensive range of design, deployment, and support solutions focused on maximising the availability of high-performance data centre equipment, while optimising for cost, energy efficiency, and overall performance.
+                Protected: Sub-contractor Policies
                 </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
-                  JOIN THE TEAM
-                </button>
               </div>
             </div>
 
