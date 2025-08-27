@@ -15,6 +15,7 @@ interface CompanyStory {
   industry: string;
   size: string;
   region: string;
+  url: string;
 }
 
 const companyStories: CompanyStory[] = [
@@ -27,7 +28,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/wp-content/uploads/2025/03/Indigo-Lightspeed-Success-Story.pdf"
   },
   {
     id: 2,
@@ -38,7 +40,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Technology",
     size: "Mid-market",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/ogi/"
   },
   {
     id: 3,
@@ -49,7 +52,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/cellnex/"
   },
   {
     id: 4,
@@ -60,7 +64,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Technology",
     size: "Mid-market",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/netomnia/"
   },
   {
     id: 5,
@@ -71,7 +76,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Technology",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/rm/"
   },
   {
     id: 6,
@@ -82,7 +88,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/nbi/"
   },
   {
     id: 7,
@@ -93,7 +100,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/orange/"
   },
   {
     id: 8,
@@ -104,7 +112,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Mid-market",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/siro/"
   },
   {
     id: 9,
@@ -115,7 +124,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Media",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/2rn/"
   },
   {
     id: 10,
@@ -126,7 +136,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/cityfibre/"
   },
   {
     id: 11,
@@ -137,7 +148,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Transportation",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    url: "https://www.indigotg.com/success-story/transport-turnkey-project/"
   },
   {
     id: 12,
@@ -148,7 +160,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Global"
+    region: "Global",
+    url: "https://www.indigotg.com/success-story/mobile-turnkey-project-2/"
   }
 ];
 
@@ -176,20 +189,20 @@ const RevealLinks = () => {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="mt-8 max-w-3xl mx-auto px-4"
       >
-        <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
+        {/* <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
           Real Results, Real Impact
         </h2>
         <p className="text-lg md:text-xl text-white leading-relaxed">
           Discover how we've helped leading telecommunications and technology companies transform their network infrastructure and achieve remarkable growth.
-        </p>
-        <motion.button
+        </p> */}
+        {/* <motion.button
           initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mt-6 bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
         >
           View Success Stories
-        </motion.button>
+        </motion.button> */}
       </motion.div>
     </div>
   );
@@ -200,7 +213,7 @@ const STAGGER = 0.025;
 
 const FlipLink = ({ children, href }: { children: string; href: string }) => {
   return (
-    <div className="text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-9xl text-center text-white">
+    <div className="text-2xl sm:text-4xl font-black uppercase sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-center text-white">
       {children}
     </div>
   );
@@ -222,21 +235,21 @@ const TextParallaxContentExample = () => {
       >
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-          <h1 className="text-6xl md:text-8xl font-black uppercase mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black uppercase mb-4">
             SUCCESS
           </h1>
-          <h1 className="text-6xl md:text-8xl font-black uppercase mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black uppercase mb-8">
             STORIES
           </h1>
-          <h2 className="text-2xl md:text-4xl font-bold mb-4 max-w-3xl">
+          {/* <h2 className="text-2xl md:text-4xl font-bold mb-4 max-w-3xl">
             Real Results, Real Impact
           </h2>
           <p className="text-lg md:text-xl mb-8 max-w-2xl leading-relaxed">
             Discover how we've helped leading telecommunications and technology companies transform their network infrastructure and achieve remarkable growth.
-          </p>
-          <button className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+          </p> */}
+          {/* <button className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
             View Success Stories
-          </button>
+          </button> */}
         </div>
       </div>
       
@@ -250,7 +263,7 @@ const TextParallaxContentExample = () => {
           <ExampleContent 
             title="End-to-End Network Solutions"
             description="From LightSpeed Networks to Cellnex, we've delivered comprehensive network infrastructure projects that drive operational efficiency and customer satisfaction."
-            buttonText="Explore Case Studies"
+            // buttonText="Explore Case Studies"
           />
         </TextParallaxContent>
         
@@ -262,7 +275,7 @@ const TextParallaxContentExample = () => {
           <ExampleContent 
             title="Infrastructure That Matters"
             description="Our work with NBI, CityFibre, and SIRO demonstrates our commitment to building networks that connect rural communities and enable digital transformation."
-            buttonText="Read Our Stories"
+            // buttonText="Read Our Stories"
           />
         </TextParallaxContent>
         
@@ -274,7 +287,7 @@ const TextParallaxContentExample = () => {
           <ExampleContent 
             title="Cutting-Edge Technology"
             description="Partnering with companies like Netomnia and Orange, we're building the next generation of network infrastructure that powers tomorrow's digital economy."
-            buttonText="Partner With Us"
+            // buttonText="Partner With Us"
           />
         </TextParallaxContent>
       </div>
@@ -282,7 +295,7 @@ const TextParallaxContentExample = () => {
   );
 };
 
-const IMG_PADDING = 6;
+const IMG_PADDING = 0;
 
 const TextParallaxContent = ({ imgUrl, subheading, heading, children, isHero = false }: {
   imgUrl: string;
@@ -292,12 +305,7 @@ const TextParallaxContent = ({ imgUrl, subheading, heading, children, isHero = f
   isHero?: boolean;
 }) => {
   return (
-    <div
-      style={{
-        paddingLeft: IMG_PADDING,
-        paddingRight: IMG_PADDING,
-      }}
-    >
+    <div>
       <div className="relative h-[150vh]">
         <StickyImage imgUrl={imgUrl} />
         <OverlayCopy heading={heading} subheading={subheading} isHero={isHero} />
@@ -315,16 +323,19 @@ const StickyImage = ({ imgUrl }: { imgUrl: string }) => {
   return (
     <motion.div
       style={{
-        backgroundImage: `url(${imgUrl})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: `calc(100vh - ${IMG_PADDING * 2}px)`,
-        top: IMG_PADDING,
+        height: '100vh',
+        top: 0,
         scale,
         opacity
       }}
-      className="sticky z-0 overflow-hidden rounded-3xl"
+      className="sticky z-0 overflow-hidden relative"
     >
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${imgUrl})`,
+        }}
+      />
       <div className="absolute inset-0 bg-neutral-950/40" />
     </motion.div>
   );
@@ -351,7 +362,7 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="text-lg text-white max-w-2xl mx-auto mt-8 text-center font-medium" 
+          className="text-sm sm:text-base md:text-lg text-white max-w-xs sm:max-w-sm md:max-w-2xl mx-auto mt-4 sm:mt-6 md:mt-8 text-center font-medium px-4" 
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >
           Our engineers work with some of the world&apos;s leading brands to create new and better experiences for their customers.
@@ -366,12 +377,12 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
   return (
     <motion.div
       style={{ y, opacity }}
-      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
+      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white px-4"
     >
-      <p className="mb-2 text-center text-xl md:mb-4 md:text-3xl font-semibold text-white">
+      <p className="mb-2 text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white">
         {subheading}
       </p>
-      <p className="text-center text-4xl font-bold md:text-7xl text-white">{heading}</p>
+      <p className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white">{heading}</p>
     </motion.div>
   );
 };
@@ -379,24 +390,26 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
 const ExampleContent = ({ title, description, buttonText }: {
   title: string;
   description: string;
-  buttonText: string;
+  buttonText?: string;
 }) => (
-  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
-    <h2 className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900">
+  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:gap-8 px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24 pt-8 sm:pt-10 lg:pt-12 md:grid-cols-12">
+    <h2 className="col-span-1 text-2xl sm:text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left">
       {title}
     </h2>
-    <div className="col-span-1 md:col-span-8">
-      <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
+    <div className="col-span-1 md:col-span-8 text-center md:text-left">
+      <p className="mb-4 text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-600">
         {description}
       </p>
-      <p className="mb-8 text-xl text-neutral-600 md:text-2xl">
+      <p className="mb-6 sm:mb-8 text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-600">
         From telecommunications infrastructure to enterprise networks, we deliver solutions that drive digital transformation and enable sustainable growth for our partners.
       </p>
-      <button className="w-full rounded bg-blue-900 px-9 py-4 text-xl text-white transition-colors hover:bg-blue-700 md:w-fit">
-        {buttonText} <FiArrowUpRight className="inline" />
-      </button>
-            </div>
-          </div>
+      {buttonText && (
+        <button className="w-full bg-blue-900 px-6 sm:px-9 py-3 sm:py-4 text-base sm:text-lg lg:text-xl text-white transition-colors hover:bg-blue-700 md:w-fit">
+          {buttonText} <FiArrowUpRight className="inline" />
+        </button>
+      )}
+    </div>
+  </div>
 );
 
 // Drag Cards Component (Commented Out)
@@ -598,68 +611,69 @@ const HorizontalScrollCarousel = () => {
 
   if (!isVisible) {
     return (
-      <section className="relative min-h-screen bg-[#141414] py-20 overflow-x-hidden">
-        <div className="flex flex-col items-center justify-center gap-8 h-full">
+      <section className="relative min-h-screen bg-[#141414] py-16 md:py-24 lg:py-32 overflow-x-hidden">
+        <div className="flex flex-col items-center justify-center gap-6 md:gap-8 h-full">
           <div className="text-white text-lg">Loading...</div>
-            </div>
+        </div>
       </section>
     );
   }
 
   return (
-    <section className="relative min-h-screen bg-[#141414] py-20 overflow-x-hidden">
-      <div className="flex flex-col items-center justify-center gap-8 h-full">
-        {/* First row - Left to Right */}
-        <motion.div 
-          className="flex gap-4"
-          initial={{ x: 0 }}
-          animate={{ x: -2400 }}
-          transition={{
-            duration: 40,
-            repeat: Infinity,
-            ease: "linear",
-            repeatType: "loop"
-          }}
-        >
-          {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
-            <StoryCard story={story} key={`row1-${story.id}-${index}`} />
-          ))}
-        </motion.div>
-        
-        {/* Second row - Right to Left */}
-        <motion.div 
-          className="flex gap-4"
-          initial={{ x: -2400 }}
-          animate={{ x: 0 }}
-          transition={{
-            duration: 50,
-            repeat: Infinity,
-            ease: "linear",
-            repeatType: "loop"
-          }}
-        >
-          {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
-            <StoryCard story={story} key={`row2-${story.id}-${index}`} />
-          ))}
-        </motion.div>
-        
-        {/* Third row - Left to Right */}
-        <motion.div 
-          className="flex gap-4"
-          initial={{ x: 0 }}
-          animate={{ x: -2400 }}
-          transition={{
-            duration: 60,
-            repeat: Infinity,
-            ease: "linear",
-            repeatType: "loop"
-          }}
-        >
-          {[...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup].map((story, index) => (
-            <StoryCard story={story} key={`row3-${story.id}-${index}`} />
-          ))}
-        </motion.div>
+    <section className="relative min-h-screen bg-[#141414] py-16 md:py-24 lg:py-32 overflow-x-hidden">
+      <div className="container mx-auto flex flex-col items-center text-center px-4 md:px-6 lg:px-8">
+        <h2 className={`mb-6 md:mb-8 font-roboto text-3xl md:text-4xl lg:text-6xl font-semibold text-white tracking-wide`}>Success Stories</h2>
+
+        <div className="flex flex-col items-center justify-center gap-6 md:gap-8 h-full mt-6 md:mt-8">
+          {/* First row - Left to Right */}
+          <div className="flex gap-3 md:gap-4 overflow-hidden">
+            <div className="company-logos-scroll flex gap-3 md:gap-4">
+              {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
+                <StoryCard story={story} key={`row1-${story.id}-${index}`} />
+              ))}
+            </div>
           </div>
+          
+          {/* Second row - Right to Left */}
+          <div className="flex gap-3 md:gap-4 overflow-hidden">
+            <div className="company-logos-scroll-reverse flex gap-3 md:gap-4">
+              {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
+                <StoryCard story={story} key={`row2-${story.id}-${index}`} />
+              ))}
+            </div>
+          </div>
+          
+          {/* Third row - Left to Right */}
+          <div className="flex gap-3 md:gap-4 overflow-hidden">
+            <div className="company-logos-scroll flex gap-3 md:gap-4">
+              {[...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup].map((story, index) => (
+                <StoryCard story={story} key={`row3-${story.id}-${index}`} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <style jsx>{`
+          @keyframes scrollLeft {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+          }
+          @keyframes scrollRight {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+          }
+          .company-logos-scroll { 
+            animation: scrollLeft 80s linear infinite; 
+            width: max-content;
+          }
+          .company-logos-scroll:hover { animation-play-state: paused; }
+          .company-logos-scroll-reverse { 
+            animation: scrollRight 100s linear infinite; 
+            width: max-content;
+          }
+          .company-logos-scroll-reverse:hover { animation-play-state: paused; }
+        `}</style>
+      </div>
     </section>
   );
 };
@@ -668,7 +682,7 @@ const HorizontalScrollCarousel = () => {
 const StoryCard = ({ story }: { story: CompanyStory }) => {
   return (
     <div
-      className="group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200 rounded-3xl shadow-2xl"
+      className="group relative h-[280px] w-[280px] md:h-[350px] md:w-[350px] lg:h-[450px] lg:w-[450px] overflow-hidden bg-neutral-200 rounded-3xl shadow-2xl"
     >
       <div
         style={{
@@ -682,15 +696,15 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
       {/* Gradient Overlay */}
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
       
-            {/* Content */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
+      {/* Content */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-6 lg:p-8">
         {/* Company Name */}
-        <h3 className="text-3xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 md:mb-3" style={{ fontFamily: 'var(--font-geist-sans)' }}>
           {story.name}
         </h3>
         
         {/* Description */}
-        <p className="text-white/80 text-sm mb-4" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+        <p className="text-white/80 text-xs md:text-sm mb-3 md:mb-4" style={{ fontFamily: 'var(--font-geist-sans)' }}>
           {story.description}
         </p>
         
@@ -705,25 +719,27 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
             </span>
           </div>
 
-          <button
+          <a
+            href={story.url}
+            target="_blank"
+            rel="noopener noreferrer"
             className={`
-              px-4 py-2 rounded-full 
-              flex items-center gap-2 
+              px-3 py-1.5 md:px-4 md:py-2 rounded-full 
+              flex items-center gap-1 md:gap-2 
               text-white
               shadow-[-5px_-5px_10px_rgba(255,_255,_255,_0.8),_5px_5px_10px_rgba(0,_0,_0,_0.25)]
               transition-all
               hover:shadow-[-1px_-1px_5px_rgba(255,_255,_255,_0.6),_1px_1px_5px_rgba(0,_0,_0,_0.3),inset_-2px_-2px_5px_rgba(255,_255,_255,_1),inset_2px_2px_4px_rgba(0,_0,_0,_0.3)]
               hover:text-blue-200
-              text-sm font-medium
+              text-xs md:text-sm font-medium
             `}
             style={{ fontFamily: 'var(--font-geist-sans)' }}
           >
-            <FiSend />
             <span>Read Story</span>
-          </button>
-            </div>
-          </div>
+          </a>
         </div>
+      </div>
+    </div>
   );
 };
 
@@ -775,7 +791,7 @@ export default function SuccessStories() {
       <HorizontalScrollCarousel />
 
       {/* CTA Section */}
-      <section className="relative bg-blue-900 text-white py-16 overflow-hidden">
+      <section className="relative bg-blue-900 text-white py-12 sm:py-16 overflow-hidden">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
@@ -786,22 +802,22 @@ export default function SuccessStories() {
         {/* Blue overlay to blend with background */}
         <div className="absolute inset-0 bg-blue-900/20"></div>
 
-                <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <div className="bg-white rounded-3xl p-12 text-center shadow-2xl border border-gray-200">
-            <h2 className="text-4xl md:text-5xl font-bold text-blue-900 mb-6" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="bg-white p-6 sm:p-8 md:p-12 text-center shadow-2xl border border-gray-200 rounded-lg">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-900 mb-4 sm:mb-6" style={{ fontFamily: 'var(--font-geist-sans)' }}>
               Want to know more?
             </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+            <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-geist-sans)' }}>
               If you want to know more about how we can design, build and support your network and infrastructure, get in touch.
             </p>
-            <button className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-200 hover:scale-105 flex items-center gap-2 mx-auto shadow-lg" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+            <button className="bg-blue-900 hover:bg-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold transition-all duration-200 hover:scale-105 flex items-center gap-2 mx-auto shadow-lg rounded-lg" style={{ fontFamily: 'var(--font-geist-sans)' }}>
               Contact us
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="16" height="16" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-          </button>
-      </div>
+            </button>
           </div>
+        </div>
       </section>
 
       <style>{`
