@@ -34,36 +34,38 @@ const EbookPromo = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center bg-white">
+    <section className="min-h-screen flex items-center bg-white py-8 sm:py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
           {/* Left Section - eBook Cover Image */}
-          <div ref={imageRef} className="relative image-content">
+          <div ref={imageRef} className="relative image-content px-4 sm:px-6 lg:px-8">
             <div className="relative rounded-2xl overflow-hidden image-shadow">
               <img
                 src="/ebook/Indigo-HR-ebook-cover-page.png"
                 alt="eBook Cover"
-                className="w-[617px] h-[370px] object-cover"
+                className="w-full max-w-[617px] h-auto sm:h-[300px] md:h-[350px] lg:h-[370px] object-cover mx-auto"
               />
             </div>
           </div>
 
           {/* Right Section - Text Content */}
-          <div ref={textRef} className="space-y-8 text-content">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-roboto font-medium text-[#140079] leading-tight">
+          <div ref={textRef} className="space-y-6 sm:space-y-8 text-content px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-roboto font-medium text-[#140079] leading-tight">
             Download our eBook
             </h2>
-            <p className="text-lg md:text-xl leading-relaxed font-roboto text-[#140079]">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed font-roboto text-[#140079]">
             If you are considering starting your journey with us, our Connecting People, Nurturing Talent guide will help you decide whether our story, vision, values, and company culture is right for you.
             </p>
             
             {/* Animated Button */}
-            <button onClick={handleDownloadClick} className="learn-more">
-              <span className="circle">
-                <span className="icon arrow"></span>
-              </span>
-              <span className="button-text font-roboto underline">Download Here</span>
-            </button> 
+            <div className="pt-2 sm:pt-4">
+              <button onClick={handleDownloadClick} className="learn-more">
+                <span className="circle">
+                  <span className="icon arrow"></span>
+                </span>
+                <span className="button-text font-roboto underline">Download Here</span>
+              </button> 
+            </div>
           </div>
         </div>
       </div>

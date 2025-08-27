@@ -14,21 +14,21 @@ export default function WorkingAtIndigo() {
   const imageCards = [
     {
       leftImage: "/careers/1.1.jpg",
-      rightImage: "/careers/img_6.png",
+      rightImage: "/careers/img_6.PNG",
       title: "Digital Infrastructure Excellence",
       description: "Building the backbone of tomorrow's connected world",
       readMoreLink: "https://www.indigotg.com/testimonial/discovering-a-career-in-system-development/"
     },
     {
       leftImage: "/careers/2.1.jpg",
-      rightImage: "/careers/img_4.png",
+      rightImage: "/careers/img_4.PNG",
       title: "Innovation at Every Level",
       description: "Pushing boundaries with cutting-edge technology",
       readMoreLink: "https://www.indigotg.com/testimonial/rich-hollins-global-operations-director/"
     },
     {
       leftImage: "/careers/3.1.jpg",
-      rightImage: "/careers/img_5.png",
+      rightImage: "/careers/img_5.PNG",
       title: "Team Collaboration & Growth",
       description: "Fostering a culture of excellence and continuous learning",
       readMoreLink: "https://www.indigotg.com/testimonial/usa-field-engineer/"
@@ -205,7 +205,7 @@ export default function WorkingAtIndigo() {
             Working at Indigo
           </h2>
           
-          <p className={`text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 font-roboto ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          <p className={`text-base sm:text-sm lg:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 font-roboto ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
             Discover what makes our team passionate about building the future of digital infrastructure
           </p>
@@ -214,13 +214,13 @@ export default function WorkingAtIndigo() {
         {/* Enhanced Image Card */}
         <div className={`flex flex-col items-center mb-6 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
-          <div className={`flex w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-300 group h-64 sm:h-80 ${
+          <div className={`flex flex-col sm:flex-row w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-300 group h-104 sm:h-80 ${
              slideDirection === 'left' ? 'transform -translate-x-4' : 
              slideDirection === 'right' ? 'transform translate-x-4' : 
              'transform translate-x-0'
            }`}>
              {/* Left Image Section */}
-             <div className="w-1/2 relative overflow-hidden flex flex-col items-center justify-between p-2" style={{ backgroundColor: '#ffc404' }}>
+             <div className="w-full sm:w-1/2 relative overflow-hidden flex flex-col items-center justify-between p-2" style={{ backgroundColor: '#ffc404' }}>
                {/* Image with increased size */}
                <div className="w-full flex-1 flex items-center justify-center">
                  <img
@@ -242,7 +242,7 @@ export default function WorkingAtIndigo() {
               </div>
               
              {/* Right Image Section */}
-             <div className="w-1/2 relative overflow-hidden" style={{ backgroundColor: '#f3f8ff' }}>
+             <div className="w-full sm:w-1/2 relative overflow-hidden" style={{ backgroundColor: '#f3f8ff' }}>
                <img
                  src={current.rightImage}
                  alt={current.title}
@@ -354,8 +354,8 @@ export default function WorkingAtIndigo() {
           </div>
         </div>
       {/* Corner Accents */}
-      <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-[#140079]/20 to-transparent"></div>
-      <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tl from-[#140079]/15 to-transparent"></div>
+      {/* <div className="absolute top-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-[#140079]/10 to-transparent"></div>
+      <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tl from-[#140079]/5 to-transparent"></div> */}
       </div>
     </section>
   );

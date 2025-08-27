@@ -37,19 +37,19 @@ export default function InvestorsInPeople() {
   ];
 
   return (
-    <section ref={sectionRef} className="bg-[#E8EAF6] min-h-screen flex items-center">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+    <section ref={sectionRef} className="bg-[#E8EAF6] min-h-screen flex items-center py-8 sm:py-12 lg:py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
           {/* Left Column - Text Content */}
-          <div>
-            <h2 className={`text-5xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-200 font-roboto ${
+          <div className="px-2 sm:px-4 lg:px-6">
+            <h2 className={`text-4xl sm:text-4xl lg:text-5xl font-medium text-[#140079] mb-4 sm:mb-6 lg:mb-8 transition-all duration-1000 delay-200 font-roboto ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
             }`}>
               Investors in People
               <br />
-              <span className="text-6xl text-yellow-600">Gold</span>
+              <span className="text-4xl sm:text-5xl lg:text-6xl text-yellow-600">Gold</span>
             </h2>
-            <p className={`text-lg text-gray-700 leading-relaxed transition-all duration-1000 delay-400 font-roboto ${
+            <p className={`text-base sm:text-lg text-gray-700 leading-relaxed transition-all duration-1000 delay-400 font-roboto ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}>
               We were awarded Investors in People and received a Gold certificate. <span className='text-yellow-700 font-bold'> Gold accreditation </span> means that we have the policies in place but more than that, it means everyone takes ownership for making them come to life.
@@ -57,7 +57,7 @@ export default function InvestorsInPeople() {
           </div>
 
           {/* Right Column - Integrated Content */}
-          <div className="flex justify-center relative">
+          <div className="flex justify-center relative px-2 sm:px-4 lg:px-6">
             {/* Bubbles Background Effect */}
             <div className={`absolute inset-0 pointer-events-none transition-all duration-1000 delay-600 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'
@@ -92,19 +92,19 @@ export default function InvestorsInPeople() {
               ))}
             </div>
             
-            <div className="text-center relative z-10">
-              <div className={`w-24 h-24 bg-yellow-500 rounded-full mx-auto mb-8 flex items-center justify-center transition-all duration-1000 delay-800 ${
+            <div className="text-center relative z-10 py-4 sm:py-6 lg:py-8">
+              <div className={`w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-yellow-500 rounded-full mx-auto mb-4 sm:mb-6 lg:mb-8 flex items-center justify-center transition-all duration-1000 delay-800 ${
                 isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
               }`}>
-                <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               </div>
               
-              <h3 className={`text-4xl font-medium text-gray-800 mb-4 transition-all duration-1000 delay-1000 ${
+              <h3 className={`text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-800 mb-2 sm:mb-3 lg:mb-4 transition-all duration-1000 delay-1000 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>We are <span className='text-yellow-700 font-bold'> GOLD </span> </h3>
-              <p className={`text-lg text-gray-600 transition-all duration-1000 delay-1200 ${
+              <p className={`text-base sm:text-lg text-gray-600 transition-all duration-1000 delay-1200 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>Awarded for excellence in people development and organizational culture</p>
             </div>
