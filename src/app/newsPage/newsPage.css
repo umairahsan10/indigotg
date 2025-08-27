@@ -8,6 +8,8 @@
   position: relative;
 }
 
+
+
 /* Hide scrollbar for Firefox */
 html {
   scrollbar-width: none;
@@ -228,11 +230,234 @@ html, body {
   /* Remove CSS transitions - let GSAP handle animations */
 }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Mobile First Approach - Base styles for mobile */
+@media (max-width: 768px) {
+  /* Hero Section Mobile Adjustments */
+  .hero-section {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .hero-section p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Pinned Section Mobile Adjustments */
+  .sticky-header h1 {
+    font-size: 12vw !important;
+    -webkit-text-stroke: 1px #fff !important;
+    line-height: 0.9 !important;
+    padding: 0 1rem !important;
+  }
+
+  /* Cards Mobile Adjustments */
   .card {
-    width: 75% !important;
-    height: 40% !important;
+    width: 70% !important;
+    height: 45% !important;
+  }
+
+  .card-title h1 {
+    font-size: 0.5rem !important;
+    line-height: 1.1 !important;
+  }
+
+  .card-title h1 span {
+    -webkit-text-stroke: 0.3px #fff !important;
+  }
+
+  .card-phase p {
+    font-size: 0.4rem !important;
+    line-height: 1.2 !important;
+    padding: 0 0.2rem !important;
+  }
+
+  /* Indices Mobile Adjustments */
+  .indices {
+    right: 1rem !important;
+    gap: 2rem !important;
+  }
+
+  .index p:nth-child(2),
+  .index p:nth-child(3) {
+    display: none !important;
+  }
+
+  .index p:first-child {
+    font-size: 0.75rem !important;
+  }
+
+  /* Progress Bar Mobile */
+  .progress-bar {
+    width: 3px !important;
+    right: 0.5rem !important;
+  }
+
+  /* News Section Mobile Adjustments */
+  #news-section {
+    padding: 2rem 1rem !important;
+  }
+
+  #news-section h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #news-section p {
+    font-size: 1rem !important;
+  }
+
+  .news-page > div {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 1rem !important;
+  }
+
+  .news-page > div a {
+    margin-left: 0 !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .news-page h2 {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .news-page h3 {
+    font-size: 1.125rem !important;
+  }
+
+  .news-page p {
+    font-size: 0.875rem !important;
+  }
+
+  /* Pagination Mobile */
+  .pagination-container {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    margin-top: 2rem !important;
+  }
+
+  .pagination-btn {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    min-width: 35px !important;
+    height: 35px !important;
+  }
+
+  .pagination-btn:first-child,
+  .pagination-btn:last-child {
+    min-width: 60px !important;
+  }
+
+  /* News Cards Mobile */
+  .news-card {
+    height: auto !important;
+    min-height: 400px !important;
+  }
+
+  .news-card .h-48 {
+    height: 200px !important;
+  }
+
+  .news-card h3 {
+    font-size: 1rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .news-card p {
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Footer Mobile */
+  .footer h1 {
+    font-size: 6vw !important;
+    line-height: 1.1 !important;
+  }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-section h1 {
+    font-size: 4rem !important;
+  }
+
+  .hero-section p {
+    font-size: 1.25rem !important;
+  }
+
+  .sticky-header h1 {
+    font-size: 10vw !important;
+  }
+
+  .card {
+    width: 60% !important;
+    height: 55% !important;
+  }
+
+  .card-title h1 {
+    font-size: 2.5rem !important;
+  }
+
+  .card-phase p {
+    font-size: 1rem !important;
+  }
+
+  .indices {
+    right: 2rem !important;
+    gap: 3rem !important;
+  }
+
+  #news-section h2 {
+    font-size: 3rem !important;
+  }
+
+  .news-card {
+    height: 450px !important;
+  }
+}
+
+/* Small Desktop Adjustments */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .hero-section h1 {
+    font-size: 5rem !important;
+  }
+
+  .sticky-header h1 {
+    font-size: 9vw !important;
+  }
+
+  .card {
+    width: 50% !important;
+    height: 55% !important;
+  }
+
+  .card-title h1 {
+    font-size: 3rem !important;
+  }
+
+  .indices {
+    right: 3rem !important;
+    gap: 4rem !important;
+  }
+}
+
+/* Large Desktop - Keep original design */
+@media (min-width: 1441px) {
+  /* Maintain original styles for large screens */
+  .card {
+    width: 45% !important;
+    height: 55% !important;
   }
   
   .card-phase p {
@@ -263,31 +488,6 @@ html, body {
   .footer h1 {
     font-size: 8vw !important;
   }
-
-  /* Mobile News Section Adjustments */
-  .news-page > div {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .news-page > div a {
-    margin-left: 0 !important;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .news-page h2 {
-    font-size: 3rem !important;
-  }
-
-  .news-page h3 {
-    font-size: 1.125rem !important;
-  }
-
-  .news-page p {
-    font-size: 0.875rem !important;
-  }
 }
 
 /* Responsive grid adjustments */
@@ -310,5 +510,83 @@ html, body {
   
   .news-page .col-span-4 {
     grid-column: span 1 !important;
+  }
+}
+
+/* Landscape Mobile Adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-section {
+    padding: 1rem !important;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem !important;
+  }
+
+  .sticky-header h1 {
+    font-size: 8vw !important;
+  }
+
+  .card {
+    width: 70% !important;
+    height: 70% !important;
+  }
+
+  .card-title h1 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card {
+    border-width: 1px !important;
+  }
+
+  .sticky-header h1 {
+    -webkit-text-stroke: 0.5px #fff !important;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .news-page,
+  .news-card,
+  .card,
+  .pagination-btn {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .news-page > div > div:hover {
+    transform: none !important;
+  }
+
+  .news-page > div > div:hover img {
+    transform: none !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .hero-section {
+    background: none !important;
+    color: black !important;
+  }
+
+  .card {
+    background: none !important;
+    border: 2px solid black !important;
+    color: black !important;
+  }
+
+  .news-page {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .pagination-container {
+    display: none !important;
   }
 }

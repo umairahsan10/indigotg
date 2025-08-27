@@ -339,33 +339,33 @@ export default function NewsPage() {
     // News Item Component with animation ref
     const NewsItem = ({ item, index }: { item: any; index: number }) => (
         <div 
-            className={`${item.bgColor} rounded-lg overflow-hidden border ${item.borderColor} transition-all duration-300 group h-[500px] flex flex-col news-card`}
+            className={`${item.bgColor} rounded-lg overflow-hidden border ${item.borderColor} transition-all duration-300 group h-[500px] lg:h-[500px] md:h-[450px] sm:h-[400px] flex flex-col news-card`}
             data-index={index}
         >
-            <div className="h-48 overflow-hidden">
+            <div className="h-48 sm:h-48 md:h-48 lg:h-48 overflow-hidden">
                 <img 
                     src={item.image} 
                     alt={item.title} 
                     className="w-full h-full object-cover transition-transform duration-300"
                 />
             </div>
-            <div className="p-4 flex flex-col flex-1">
+            <div className="p-4 sm:p-3 md:p-4 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-600">{item.date}</span>
+                    <span className="text-sm sm:text-xs md:text-sm text-gray-600">{item.date}</span>
                     <span className={`text-xs text-white ${item.numberColor} px-2 py-1 rounded-full`}>
                         {item.id.toString().padStart(2, '0')}
                     </span>
                 </div>
                 <a 
                     href={`/newsPage/news/${item.slug}`}
-                    className="text-xl font-semibold text-[#140079] mb-3 line-clamp-2 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+                    className="text-xl sm:text-lg md:text-xl font-semibold text-[#140079] mb-3 line-clamp-2 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
                 >
                     {item.title}
                 </a>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">{item.description}</p>
+                <p className="text-gray-600 text-sm sm:text-xs md:text-sm mb-4 line-clamp-3 flex-1">{item.description}</p>
                                 <a
                     href={`/newsPage/news/${item.slug}`}
-                    className={`inline-flex items-center justify-center w-full px-4 py-2 ${item.buttonColor} text-white font-semibold rounded-lg transition-all duration-200 text-sm mt-auto hover:bg-white hover:text-[#140079] hover:border-2 hover:border-[#140079]`}
+                    className={`inline-flex items-center justify-center w-full px-4 py-2 sm:px-3 sm:py-2 ${item.buttonColor} text-white font-semibold rounded-lg transition-all duration-200 text-sm sm:text-xs mt-auto hover:bg-white hover:text-[#140079] hover:border-2 hover:border-[#140079]`}
                 >
                     Read More
                 </a>
@@ -455,12 +455,12 @@ export default function NewsPage() {
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 
                 {/* Content */}
-                <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-white">
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-4 md:px-6 lg:px-8">
+                    <div className="text-white text-center sm:text-left">
+                        <h1 className="text-5xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
                             News
                         </h1>
-                        <p className="text-xl md:text-2xl leading-relaxed max-w-3xl">
+                        <p className="text-xl sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto sm:mx-0">
                             Find out more about our business through our News, Blogs, and Press Releases here.
                         </p>
                     </div>
@@ -477,7 +477,7 @@ export default function NewsPage() {
                     ref={stickyHeaderRef}
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-100 sticky-header"
                 >
-                    <h1 className="text-[8vw] font-bold text-[#140079] [-webkit-text-stroke:2px_#fff] text-center whitespace-nowrap underline">
+                    <h1 className="text-[8vw] sm:text-[12vw] md:text-[10vw] lg:text-[9vw] xl:text-[8vw] font-bold text-[#140079] [-webkit-text-stroke:2px_#fff] sm:[-webkit-text-stroke:1px_#fff] text-center whitespace-nowrap underline">
                         Trending News
                     </h1>
                 </div>
@@ -485,7 +485,7 @@ export default function NewsPage() {
                 {/* Progress Bar */}
                 <div
                     ref={progressBarContainerRef}
-                    className="absolute top-0 right-0 w-2 h-full bg-white opacity-0 progress-bar"
+                    className="absolute top-0 right-0 w-2 sm:w-3 md:w-2 lg:w-2 h-full bg-white opacity-0 progress-bar"
                 >
                     <div
                         ref={progressBarRef}
@@ -496,35 +496,35 @@ export default function NewsPage() {
                 {/* Indices */}
                 <div
                     ref={indicesContainerRef}
-                    className="absolute top-0 right-6 h-full flex flex-col justify-center gap-16 opacity-0 indices"
+                    className="absolute top-0 right-6 sm:right-4 md:right-6 h-full flex flex-col justify-center gap-16 sm:gap-8 md:gap-12 lg:gap-16 opacity-0 indices"
                 >
                     <div ref={(el) => addIndexRef(el, 0)} className="text-right opacity-25 index">
-                        <p className="text-[#ecb74c] line-through uppercase text-sm">
-                            <FaLightbulb className="inline w-4 h-4 mr-2" />
+                        <p className="text-[#ecb74c] line-through uppercase text-sm sm:text-xs md:text-sm">
+                            <FaLightbulb className="inline w-4 h-4 sm:w-3 sm:h-3 md:w-4 md:h-4 mr-2" />
                         </p>
-                        <p className="text-[#ecb74c] text-sm">03 July 2024</p>
-                        <p className="text-[#ecb74c] text-lg">US Fiber Podcast</p>
+                        <p className="text-[#ecb74c] text-sm sm:text-xs md:text-sm">03 July 2024</p>
+                        <p className="text-[#ecb74c] text-lg sm:text-sm md:text-lg">US Fiber Podcast</p>
                     </div>
                     <div ref={(el) => addIndexRef(el, 1)} className="text-right opacity-25 index">
-                        <p className="text-[#7dd8cd] line-through uppercase text-sm">
-                            <FaRocket className="inline w-4 h-4 mr-2" />
+                        <p className="text-[#7dd8cd] line-through uppercase text-sm sm:text-xs md:text-sm">
+                            <FaRocket className="inline w-4 h-4 sm:w-3 sm:h-3 md:w-4 md:h-4 mr-2" />
                         </p>
-                        <p className="text-[#7dd8cd] text-sm">07 June 2024</p>
-                        <p className="text-[#7dd8cd] text-lg">Indigo Company Growth</p>
+                        <p className="text-[#7dd8cd] text-sm sm:text-xs md:text-sm">07 June 2024</p>
+                        <p className="text-[#7dd8cd] text-lg sm:text-sm md:text-lg">Indigo Company Growth</p>
                     </div>
                     <div ref={(el) => addIndexRef(el, 2)} className="text-right opacity-25 index">
-                        <p className="text-[#e0ff57] line-through uppercase text-sm">
-                            <FaPuzzlePiece className="inline w-4 h-4 mr-2" />
+                        <p className="text-[#e0ff57] line-through uppercase text-sm sm:text-xs md:text-sm">
+                            <FaPuzzlePiece className="inline w-4 h-4 sm:w-3 sm:h-3 md:w-4 md:h-4 mr-2" />
                         </p>
-                        <p className="text-[#e0ff57] text-sm">27 May 2024</p>
-                        <p className="text-[#e0ff57] text-lg">Subsea Cables</p>
+                        <p className="text-[#e0ff57] text-sm sm:text-xs md:text-sm">27 May 2024</p>
+                        <p className="text-[#e0ff57] text-lg sm:text-sm md:text-lg">Subsea Cables</p>
                     </div>
                     <div ref={(el) => addIndexRef(el, 3)} className="text-right opacity-25 index">
-                        <p className="text-[#7dd8cd] line-through uppercase text-sm">
-                            <FaChartLine className="inline w-4 h-4 mr-2" />
+                        <p className="text-[#7dd8cd] line-through uppercase text-sm sm:text-xs md:text-sm">
+                            <FaChartLine className="inline w-4 h-4 sm:w-3 sm:h-3 md:w-4 md:h-4 mr-2" />
                         </p>
-                        <p className="text-[#7dd8cd] text-sm">24 May 2024</p>
-                        <p className="text-[#7dd8cd] text-lg">ISO Recertifications</p>
+                        <p className="text-[#7dd8cd] text-sm sm:text-xs md:text-sm">24 May 2024</p>
+                        <p className="text-[#7dd8cd] text-lg sm:text-sm md:text-lg">ISO Recertifications</p>
                     </div>
                 </div>
 
@@ -532,140 +532,140 @@ export default function NewsPage() {
                 <div
                     ref={(el) => addCardRef(el, 0)}
                     id="card-1"
-                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(236,183,76,0.35)] card"
+                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] lg:w-[45%] md:w-[60%] sm:w-[70%] h-[55%] lg:h-[55%] md:h-[55%] sm:h-[45%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(236,183,76,0.35)] card"
                     style={{
-                        background: 'url(/news/card-1.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-1.png) no-repeat center center',
                         backgroundSize: 'cover'
                     }}
                 >
-                    <div className="text-center">
-                        <h1 className="text-5xl font-light leading-[90%] text-white">
-                            US Fiber <span className="text-transparent [-webkit-text-stroke:1.25px_#fff]">Podcast</span>
-                        </h1>
-                        <p className="text-lg mt-4 px-6 leading-relaxed text-white">
-                            Brad Hine and Ray O'Connor, Sr. VP at Indigo, discuss private equity's role in fiber-to-the-home and its impact in the U.S. and U.K.
-                        </p>
-                        <a
-                            href="/newsPage/news/us-fiber-podcast"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center mt-4 px-5 py-2 bg-[#ecb74c] text-black font-semibold rounded-full text-sm"
-                        >
-                            Read More
-                            <FaArrowRight className="ml-2 w-3 h-3" />
-                        </a>
-                    </div>
+                                         <div className="text-center p-4 sm:p-2 md:p-4">
+                         <h1 className="text-5xl sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-light leading-[90%] text-white">
+                             US Fiber <span className="text-transparent [-webkit-text-stroke:1.25px_#fff] sm:[-webkit-text-stroke:0.5px_#fff] md:[-webkit-text-stroke:1px_#fff]">Podcast</span>
+                         </h1>
+                         <p className="text-lg sm:text-xs md:text-base lg:text-lg mt-4 px-6 sm:px-2 md:px-4 lg:px-6 leading-relaxed text-white">
+                             Brad Hine and Ray O'Connor, Sr. VP at Indigo, discuss private equity's role in fiber-to-the-home and its impact in the U.S. and U.K.
+                         </p>
+                         <a
+                             href="/newsPage/news/us-fiber-podcast"
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center mt-4 px-5 py-2 sm:px-2 sm:py-1 md:px-4 md:py-2 bg-[#ecb74c] text-black font-semibold rounded-full text-sm sm:text-xs md:text-sm"
+                         >
+                             Read More
+                             <FaArrowRight className="ml-2 w-3 h-3 sm:w-2 sm:h-2 md:w-3 md:h-3" />
+                         </a>
+                     </div>
                 </div>
 
                 <div
                     ref={(el) => addCardRef(el, 1)}
                     id="card-2"
-                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(125,216,205,0.35)] card"
+                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] lg:w-[45%] md:w-[60%] sm:w-[70%] h-[55%] lg:h-[55%] md:h-[55%] sm:h-[45%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(125,216,205,0.35)] card"
                     style={{
-                        background: 'url(/news/card-2.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-2.png) no-repeat center center',
                         backgroundSize: 'cover'
                     }}
                 >
 
-                    <div className="text-center">
-                        <h1 className="text-5xl font-light leading-[90%] text-white">
-                            Indigo Company <span className="text-transparent [-webkit-text-stroke:1.25px_#fff]">Growth</span>
-                        </h1>
-                        <p className="text-lg mt-4 px-6 leading-relaxed text-white">
-                            Indigo announces new leaders, ISO certification, a Grant Thornton award, and U.S. expansion, showcasing our growth and excellence.
-                        </p>
-                        <a
-                            href="/newsPage/news/indigo-company-growth"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center mt-4 px-5 py-2 bg-[#7dd8cd] text-black font-semibold rounded-full text-sm"
-                        >
-                            Read More
-                            <FaArrowRight className="ml-2 w-3 h-3" />
-                        </a>
-                    </div>
+                                         <div className="text-center p-4 sm:p-2 md:p-4">
+                         <h1 className="text-5xl sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-light leading-[90%] text-white">
+                             Indigo Company <span className="text-transparent [-webkit-text-stroke:1.25px_#fff] sm:[-webkit-text-stroke:0.5px_#fff] md:[-webkit-text-stroke:1px_#fff]">Growth</span>
+                         </h1>
+                         <p className="text-lg sm:text-xs md:text-base lg:text-lg mt-4 px-6 sm:px-2 md:px-4 lg:px-6 leading-relaxed text-white">
+                             Indigo announces new leaders, ISO certification, a Grant Thornton award, and U.S. expansion, showcasing our growth and excellence.
+                         </p>
+                         <a
+                             href="/newsPage/news/indigo-company-growth"
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center mt-4 px-5 py-2 sm:px-2 sm:py-1 md:px-4 md:py-2 bg-[#7dd8cd] text-black font-semibold rounded-full text-sm sm:text-xs md:text-sm"
+                         >
+                             Read More
+                             <FaArrowRight className="ml-2 w-3 h-3 sm:w-2 sm:h-2 md:w-3 md:h-3" />
+                         </a>
+                     </div>
                 </div>
 
                 <div
                     ref={(el) => addCardRef(el, 2)}
                     id="card-3"
-                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(224,255,87,0.35)] card"
+                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] lg:w-[45%] md:w-[60%] sm:w-[70%] h-[55%] lg:h-[55%] md:h-[55%] sm:h-[45%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(224,255,87,0.35)] card"
                     style={{
-                        background: 'url(/news/card-3.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-3.png) no-repeat center center',
                         backgroundSize: 'cover'
                     }}
                 >
 
-                    <div className="text-center">
-                        <h1 className="text-5xl font-light leading-[90%] text-white">
-                            Keeping Subsea <span className="text-transparent [-webkit-text-stroke:1.25px_#fff]">Connected</span>
-                        </h1>
-                        <p className="text-lg mt-4 px-6 leading-relaxed text-white">
-                            Learn how we secure subsea cables against rising threats with proactive tracking, rapid repairs, and advanced tech. Insights from Kathy Kirchner, VP of Network Operations, Americas.
-                        </p>
-                        <a
-                            href="/newsPage/news/keeping-subsea-cables-connected"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center mt-4 px-5 py-2 bg-[#e0ff57] text-black font-semibold rounded-full text-sm"
-                        >
-                            Read More
-                            <FaArrowRight className="ml-2 w-3 h-3" />
-                        </a>
-                    </div>
+                                         <div className="text-center p-4 sm:p-2 md:p-4">
+                         <h1 className="text-5xl sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-light leading-[90%] text-white">
+                             Keeping Subsea <span className="text-transparent [-webkit-text-stroke:1.25px_#fff] sm:[-webkit-text-stroke:0.5px_#fff] md:[-webkit-text-stroke:1px_#fff]">Connected</span>
+                         </h1>
+                         <p className="text-lg sm:text-xs md:text-base lg:text-lg mt-4 px-6 sm:px-2 md:px-4 lg:px-6 leading-relaxed text-white">
+                            Securing subsea cables with proactive tracking, rapid repairs, and advanced tech insight from Kathy Kirchner, VP of Network Operations, Americas.
+                         </p>
+                         <a
+                             href="/newsPage/news/keeping-subsea-cables-connected"
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center mt-4 px-5 py-2 sm:px-2 sm:py-1 md:px-4 md:py-2 bg-[#e0ff57] text-black font-semibold rounded-full text-sm sm:text-xs md:text-sm"
+                         >
+                             Read More
+                             <FaArrowRight className="ml-2 w-3 h-3 sm:w-2 sm:h-2 md:w-3 md:h-3" />
+                         </a>
+                     </div>
                 </div>
 
                 <div
                     ref={(el) => addCardRef(el, 3)}
                     id="card-4"
-                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(125,216,205,0.35)] card"
+                    className="absolute top-[150%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 w-[45%] lg:w-[45%] md:w-[60%] sm:w-[70%] h-[55%] lg:h-[55%] md:h-[55%] sm:h-[45%] flex justify-center items-center bg-black rounded-2xl overflow-hidden border-2 border-[rgba(125,216,205,0.35)] card"
                     style={{
-                        background: 'url(/news/card-4.png) no-repeat 50% 50%',
+                        background: 'url(/news/card-4.png) no-repeat center center',
                         backgroundSize: 'cover'
                     }}
                 >
 
-                    <div className="text-center">
-                        <h1 className="text-5xl font-light leading-[90%] text-white">
-                            Empowering Your <span className="text-transparent [-webkit-text-stroke:1.25px_#fff]">Business</span>
-                        </h1>
-                        <p className="text-lg mt-4 px-6 leading-relaxed text-white">
-                            Our ISO 9001, 14001, and 45001 recertifications reaffirm Indigo's commitment to excellence, sustainability, security, and safety—empowering your business with the highest standards.
-                        </p>
-                        <a
-                            href="/newsPage/news/empowering-business-with-iso-recertifications/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center mt-4 px-5 py-2 bg-[#7dd8cd] text-black font-semibold rounded-full text-sm"
-                        >
-                            Read More
-                            <FaArrowRight className="ml-2 w-3 h-3" />
-                        </a>
-                    </div>
+                                         <div className="text-center p-4 sm:p-2 md:p-4">
+                         <h1 className="text-5xl sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-light leading-[90%] text-white">
+                             Empowering Your <span className="text-transparent [-webkit-text-stroke:1.25px_#fff] sm:[-webkit-text-stroke:0.5px_#fff] md:[-webkit-text-stroke:1px_#fff]">Business</span>
+                         </h1>
+                         <p className="text-lg sm:text-xs md:text-base lg:text-lg mt-4 px-6 sm:px-2 md:px-4 lg:px-6 leading-relaxed text-white">
+                         Indigo’s ISO 9001, 14001 & 45001 recertifications reaffirm our commitment to excellence, sustainability, security, and safety.
+                         </p>
+                         <a
+                             href="/newsPage/news/empowering-business-with-iso-recertifications/"
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center mt-4 px-5 py-2 sm:px-2 sm:py-1 md:px-4 md:py-2 bg-[#7dd8cd] text-black font-semibold rounded-full text-sm sm:text-xs md:text-sm"
+                         >
+                             Read More
+                             <FaArrowRight className="ml-2 w-3 h-3 sm:w-2 sm:h-2 md:w-3 md:h-3" />
+                         </a>
+                     </div>
                 </div>
             </section>
 
             {/* News Section */}
-            <section id="news-section" className="relative bg-blue-50 py-20">
+            <section id="news-section" className="relative bg-blue-50 py-20 sm:py-10 md:py-16 lg:py-20">
                 {/* Gradient overlay at top to merge with section above */}
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-blue-50 pointer-events-none"></div>
                 
-                <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="max-w-7xl mx-auto px-6 sm:px-4 md:px-6 relative z-10">
                     {/* Section Title */}
-                    <div className="text-center mb-16 mt-16">
-                        <h2 className="text-6xl font-light text-[#140079] text-bold mb-4">Latest News</h2>
-                        <p className="text-xl text-[#140079] opacity-80">Stay updated with our latest insights and achievements</p>
+                    <div className="text-center mb-16 mt-16 sm:mb-8 sm:mt-8 md:mb-12 md:mt-12 lg:mb-16 lg:mt-16">
+                        <h2 className="text-6xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light text-[#140079] text-bold mb-4 sm:mb-2 md:mb-3 lg:mb-4">Latest News</h2>
+                        <p className="text-xl sm:text-base md:text-lg lg:text-xl text-[#140079] opacity-80">Stay updated with our latest insights and achievements</p>
                     </div>
 
                     {/* News List */}
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-4 md:gap-5 lg:gap-6">
                         {newsData.map((page, pageIndex) => (
                             <div 
                                 key={pageIndex + 1}
-                                className={`news-page col-span-3 transition-all duration-500 ease-in-out ${pageIndex + 1 === currentPage ? '' : 'hidden'}`} 
+                                className={`news-page col-span-3 sm:col-span-1 md:col-span-2 lg:col-span-3 transition-all duration-500 ease-in-out ${pageIndex + 1 === currentPage ? '' : 'hidden'}`} 
                                 data-page={pageIndex + 1}
                             >
-                            <div className="grid grid-cols-3 gap-6">
+                            <div className="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-4 md:gap-5 lg:gap-6">
                                     {page.map((item, index) => (
                                         <NewsItem key={item.id} item={item} index={index} />
                                     ))}
@@ -675,7 +675,7 @@ export default function NewsPage() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex justify-center items-center gap-3 mt-16 pagination-container">
+                    <div className="flex justify-center items-center gap-3 mt-16 sm:mt-8 md:mt-12 lg:mt-16 pagination-container">
                         <button 
                             onClick={prevPage}
                             disabled={currentPage === 1}
@@ -684,7 +684,7 @@ export default function NewsPage() {
                             ←
                         </button>
                         
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 sm:gap-1">
                             <PaginationButtons />
                         </div>
                         
@@ -698,8 +698,8 @@ export default function NewsPage() {
                     </div>
                     
                     {/* Page Indicator */}
-                    <div className="text-center mt-6">
-                        <span className="text-gray-700 opacity-80 text-sm">
+                    <div className="text-center mt-6 sm:mt-4 md:mt-5 lg:mt-6">
+                        <span className="text-gray-700 opacity-80 text-sm sm:text-xs md:text-sm">
                             Page {currentPage} of {totalPages} • {newsData[currentPage - 1]?.length || 0} news articles
                         </span>
                     </div>
