@@ -24,15 +24,15 @@ export default function CanDoAttitude() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-[#E8EAF6] min-h-screen flex items-center">
-      <div className="max-w-6xl mx-auto px-4 w-full">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+    <section ref={sectionRef} className="bg-[#E8EAF6] min-h-screen flex items-center py-8 sm:py-12 lg:py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
           {/* Left Column - Text Content */}
-          <div>
-            <h2 className={`text-5xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-200 font-roboto ${
+          <div className="px-2 sm:px-4 lg:px-6">
+            <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-medium text-[#140079] mb-6 sm:mb-8 transition-all duration-1000 delay-200 font-roboto ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}>Can-do Attitude</h2>
-            <p className={`text-xl text-gray-700 leading-relaxed transition-all duration-1000 delay-400 font-roboto ${
+            <p className={`text-lg sm:text-xl text-gray-700 leading-relaxed transition-all duration-1000 delay-400 font-roboto ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
               We are adaptable and agile, working relentlessly to get real results. With our <span className='text-[#140079] font-bold'> expertise, enthusiasm, </span> and <span className='text-[#140079] font-bold'> mastery of emerging technologies </span> and complex systems, no job is too challenging.
@@ -40,7 +40,7 @@ export default function CanDoAttitude() {
           </div>
 
           {/* Right Column - Can-do Attitude Image with Floating Elements */}
-          <div className={`flex justify-center transition-all duration-1000 delay-600 ${
+          <div className={`flex justify-center px-4 sm:px-6 lg:px-8 transition-all duration-1000 delay-600 ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
           }`}>
             <div className="relative">
@@ -48,20 +48,20 @@ export default function CanDoAttitude() {
               <img 
                 src="/careers/attitude.png" 
                 alt="Can-do Attitude" 
-                className="w-full h-auto max-w-sm animate-float"
+                className="w-full h-auto max-w-xs sm:max-w-sm lg:max-w-md animate-float"
               />
               
               {/* Floating Black Boxes */}
-              <div className="absolute -top-2 -left-2 w-3 h-3 bg-black rounded-sm animate-float-delayed-1"></div>
-              <div className="absolute -top-4 -right-3 w-4 h-4 bg-black rounded-sm animate-float-delayed-2"></div>
-              <div className="absolute -bottom-3 -left-4 w-2.5 h-2.5 bg-black rounded-sm animate-float-delayed-3"></div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-black rounded-sm animate-float-delayed-4"></div>
+              <div className="absolute -top-2 -left-2 w-2 sm:w-3 h-2 sm:h-3 bg-black rounded-sm animate-float-delayed-1"></div>
+              <div className="absolute -top-4 -right-3 w-3 sm:w-4 h-3 sm:h-4 bg-black rounded-sm animate-float-delayed-2"></div>
+              <div className="absolute -bottom-3 -left-4 w-2 sm:w-2.5 h-2 sm:h-2.5 bg-black rounded-sm animate-float-delayed-3"></div>
+              <div className="absolute -bottom-1 -right-1 w-2 sm:w-3 h-2 sm:h-3 bg-black rounded-sm animate-float-delayed-4"></div>
               
               {/* Floating Dots */}
-              <div className="absolute top-4 -right-6 w-2.5 h-2.5 bg-black rounded-full animate-float-delayed-5"></div>
-              <div className="absolute top-8 -left-8 w-2 h-2 bg-black rounded-full animate-float-delayed-6"></div>
-              <div className="absolute bottom-6 -left-10 w-1.5 h-1.5 bg-black rounded-full animate-float-delayed-7"></div>
-              <div className="absolute bottom-10 -right-8 w-2 h-2 bg-black rounded-full animate-float-delayed-8"></div>
+              <div className="absolute top-4 -right-6 w-2 sm:w-2.5 h-2 sm:h-2.5 bg-black rounded-full animate-float-delayed-5"></div>
+              <div className="absolute top-8 -left-8 w-1.5 sm:w-2 h-1.5 sm:h-2 bg-black rounded-full animate-float-delayed-6"></div>
+              <div className="absolute bottom-6 -left-10 w-1 sm:w-1.5 h-1 sm:h-1.5 bg-black rounded-full animate-float-delayed-7"></div>
+              <div className="absolute bottom-10 -right-8 w-1.5 sm:w-2 h-1.5 sm:h-2 bg-black rounded-full animate-float-delayed-8"></div>
             </div>
           </div>
         </div>

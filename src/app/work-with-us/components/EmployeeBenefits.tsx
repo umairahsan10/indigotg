@@ -53,62 +53,57 @@ export default function EmployeeBenefits() {
           </div>
 
           {/* Right Column - Why Work For Us */}
-          <div className="flex flex-col justify-center">
-            <h2 className={`text-4xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-600 ml-32 font-roboto ${
+          <div className="flex flex-col justify-center pl-8">
+            <h2 className={`text-4xl font-medium text-[#140079] mb-8 transition-all duration-1000 delay-600 font-roboto ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
             }`}>Why Work For Us?</h2>
             
-            <div className="space-y-4 mb-8 pl-8">
-              {/* Row 1 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className={`flex items-center transition-all duration-700 ${
-                  bulletStates[0] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-                }`}>
-                  <span className="text-xl mr-3 text-[#140079]">•</span>
-                  <span className="text-lg text-[#140079] font-medium font-roboto">Your Career</span>
-                </div>
-                <div className={`flex items-center transition-all duration-700 ${
-                  bulletStates[1] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-                }`}>
-                  <span className="text-xl mr-3 text-[#140079]">•</span>
-                  <span className="text-lg text-[#140079] font-medium font-roboto">Your Way of Working</span>
-                </div>
+            <div className="space-y-4 mb-8">
+              {/* All bullet points in a single column */}
+              <div className={`flex items-center transition-all duration-700 ${
+                bulletStates[0] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+              }`}>
+                <span className="text-xl mr-3 text-[#140079]">•</span>
+                <span className="text-lg text-[#140079] font-medium font-roboto">Your Career</span>
               </div>
               
-              {/* Row 2 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className={`flex items-center transition-all duration-700 ${
-                  bulletStates[2] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-                }`}>
-                  <span className="text-xl mr-3 text-[#140079]">•</span>
-                  <span className="text-lg text-[#140079] font-medium font-roboto">Your Leave</span>
-                </div>
-                <div className={`flex items-center transition-all duration-700 ${
-                  bulletStates[3] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-                }`}>
-                  <span className="text-xl mr-3 text-[#140079]">•</span>
-                  <span className="text-lg text-[#140079] font-medium font-roboto">Your Voice Heard</span>
-                </div>
+              <div className={`flex items-center transition-all duration-700 ${
+                bulletStates[1] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+              }`}>
+                <span className="text-xl mr-3 text-[#140079]">•</span>
+                <span className="text-lg text-[#140079] font-medium font-roboto">Your Way of Working</span>
               </div>
               
-              {/* Row 3 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className={`flex items-center transition-all duration-700 ${
-                  bulletStates[4] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-                }`}>
-                  <span className="text-xl mr-3 text-[#140079]">•</span>
-                  <span className="text-lg text-[#140079] font-medium font-roboto">Your Happiness</span>
-                </div>
-                <div className={`flex items-center transition-all duration-700 ${
-                  bulletStates[5] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
-                }`}>
-                  <span className="text-xl mr-3 text-[#140079]">•</span>
-                  <span className="text-lg text-[#140079] font-medium font-roboto">Your Recognition</span>
-                </div>
+              <div className={`flex items-center transition-all duration-700 ${
+                bulletStates[2] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+              }`}>
+                <span className="text-xl mr-3 text-[#140079]">•</span>
+                <span className="text-lg text-[#140079] font-medium font-roboto">Your Leave</span>
+              </div>
+              
+              <div className={`flex items-center transition-all duration-700 ${
+                bulletStates[3] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+              }`}>
+                <span className="text-xl mr-3 text-[#140079]">•</span>
+                <span className="text-lg text-[#140079] font-medium font-roboto">Your Voice Heard</span>
+              </div>
+              
+              <div className={`flex items-center transition-all duration-700 ${
+                bulletStates[4] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+              }`}>
+                <span className="text-xl mr-3 text-[#140079]">•</span>
+                <span className="text-lg text-[#140079] font-medium font-roboto">Your Happiness</span>
+              </div>
+              
+              <div className={`flex items-center transition-all duration-700 ${
+                bulletStates[5] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'
+              }`}>
+                <span className="text-xl mr-3 text-[#140079]">•</span>
+                <span className="text-lg text-[#140079] font-medium font-roboto">Your Recognition</span>
               </div>
             </div>
 
-            <div className="pl-12 ml-32">
+            <div>
               <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer">
                 <button className={`bg-[#140079] text-white text-center px-8 py-4 rounded-lg font-medium hover:bg-[#140079]/90 transition-all duration-200 flex items-center gap-2 w-fit font-roboto ${
                   isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
