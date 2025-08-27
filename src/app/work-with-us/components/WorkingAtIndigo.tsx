@@ -13,6 +13,7 @@ export default function WorkingAtIndigo() {
 
   const imageCards = [
     {
+      //Image Fixes
       leftImage: "/careers/1.1.jpg",
       rightImage: "/careers/img_6.PNG",
       title: "Digital Infrastructure Excellence",

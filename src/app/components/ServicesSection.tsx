@@ -19,6 +19,20 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
   const advancedServicesGridRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState<'all' | 'design' | 'deploy' | 'support'>(defaultFilter);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSmallPhone, setIsSmallPhone] = useState(false);
+
+  // Detect very small viewport widths (e.g. iPhone SE ~320-380 px)
+  useEffect(() => {
+    const checkScreen = () => {
+      if (typeof window !== 'undefined') {
+        setIsSmallPhone(window.innerWidth <= 380);
+      }
+    };
+
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
 
   const serviceData = {
     all: {
@@ -311,12 +325,50 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
 
   return (
     <section className={`py-24 bg-[#04048b] ${className}`}>
+      {/* Filter dropdown placed at top for very small phones (iPhone SE) */}
+      {isSmallPhone && (
+        <div className="max-w-7xl mx-auto px-4 mb-6 sticky top-2 z-50 relative dropdown-container">
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="bg-transparent border-2 border-white text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:bg-white hover:text-blue-900 transition-colors w-full justify-between text-sm"
+          >
+            {serviceData[activeFilter].title}
+            <svg
+              className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="white"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {isDropdownOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-[#04048b] border border-white/20 rounded-lg shadow-xl z-50 overflow-hidden">
+              {Object.entries(serviceData).map(([key, data]) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setActiveFilter(key as keyof typeof serviceData);
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-white text-base transition-colors ${
+                    activeFilter === key ? 'bg-white/10' : 'hover:bg-white/10'
+                  } ${key === 'all' ? 'rounded-t-lg' : ''} ${key === 'support' ? 'rounded-b-lg' : ''}`}
+                >
+                  {data.title}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Left Panel */}
             <div className="lg:w-1/3">
-              <div className="mb-8 relative dropdown-container">
+              <div className={`${isSmallPhone ? 'hidden' : 'mb-8'} relative dropdown-container`}>
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-white hover:text-blue-900 transition-colors w-full justify-between"
@@ -360,9 +412,9 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
 
             {/* Right Panel */}
             <div className="lg:w-2/3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6" ref={advancedServicesGridRef} style={{ gridTemplateAreas: '"terrestrial dataCentres" "networkServices wireless"' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6" ref={advancedServicesGridRef}>
                 {/* Terrestrial Services */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6" style={{ gridArea: 'terrestrial' }}>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
                   <h3 className="text-xl font-bold text-white mb-4">
                     {activeFilter === 'all' ? 'Terrestrial' : `${serviceData[activeFilter].title} - Terrestrial`}
                   </h3>
@@ -377,7 +429,7 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
                 </div>
 
                 {/* Data Centres Services */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6" style={{ gridArea: 'dataCentres' }}>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
                   <h3 className="text-xl font-bold text-white mb-4">
                     {activeFilter === 'all' ? 'Data Centres' : `${serviceData[activeFilter].title} - Data Centres`}
                   </h3>
@@ -392,7 +444,7 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
                 </div>
 
                 {/* Network Services */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6" style={{ gridArea: 'networkServices' }}>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
                   <h3 className="text-xl font-bold text-white mb-4">
                     {activeFilter === 'all' ? 'Network Services' : `${serviceData[activeFilter].title} - Network Services`}
                   </h3>
@@ -407,7 +459,7 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
                 </div>
 
                 {/* Wireless Services */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6" style={{ gridArea: 'wireless' }}>
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
                   <h3 className="text-xl font-bold text-white mb-4">
                     {activeFilter === 'all' ? 'Wireless' : `${serviceData[activeFilter].title} - Wireless`}
                   </h3>
@@ -427,4 +479,4 @@ export default function ServicesSection({ className = "", defaultFilter = 'all' 
       </div>
     </section>
   );
-} 
+}

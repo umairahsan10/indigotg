@@ -17,6 +17,7 @@ const RevealLinks = () => {
       >
         <FlipLink href="#">SUPPORT</FlipLink>
       </motion.div>
+      
     </div>
   );
 };
@@ -155,7 +156,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Our trusted partnership approach helps diagnose and fix faults faster
           </motion.h2>
@@ -164,7 +165,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               As network experts with turnkey knowledge, we have always been strong in diagnostics and fault-finding. Our 24x7x365 operations and multi-vendor engineers can provide on-site support in hours or the next day, depending on the Service Level Agreement (SLA).
@@ -176,7 +177,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Tailor services to align to unique client needs
           </motion.h2>
@@ -185,7 +186,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               No network or data centre is identical which is why our maintenance and support services are customised to meet each client's needs. From rapid response field service engineers to escalation plans for second and third-line support, we can cover any requirement.
@@ -197,7 +198,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Manage assets to best-practice standards
           </motion.h2>
@@ -206,7 +207,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               Certified to the highest standard ISOs we are always compliant with local health and safety standards. We use well-defined processes and quality management systems to stand over our repairs, logistics and spares management processes for network infrastructure and data centres.
@@ -218,7 +219,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Continuous improvement and visibility
           </motion.h2>
@@ -227,7 +228,7 @@ export default function SupportServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               We continuously expand and improve our Integrated Management Systems to stay agile and relevant to a fast-changing telecommunications landscape. Our goal is for digital infrastructure to achieve optimum performance, and to provide clients with pathways for continual improvement. Increase visibility and drive faster decision making with access to our web portal (through an API or Self-service Ticket portal).
