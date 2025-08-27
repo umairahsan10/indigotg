@@ -18,6 +18,7 @@ const RevealLinks = () => {
         <FlipLink href="#">DEPLOY</FlipLink>
       </motion.div>
     </div>
+    
   );
 };
 
@@ -188,7 +189,7 @@ export default function DeployServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Take the pain out of surveys and acquisition
           </motion.h2>
@@ -197,7 +198,7 @@ export default function DeployServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               Our acquisition, wayleave and consenting expertise paves the way for overground and underground installations in every kind of environment. Our survey teams comprise multi-discipline skillsets, including radio engineers, property specialists, planners and builders.
@@ -209,7 +210,7 @@ export default function DeployServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Solve design-to-deploy technical issues
           </motion.h2>
@@ -218,7 +219,7 @@ export default function DeployServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               We are quick to diagnose and resolve issues that occasionally arise when plans are executed. We also offer network de-installation/de-commissioning solutions to provide fast and efficient migration paths, speeding up the value we deliver on every project.
@@ -230,7 +231,7 @@ export default function DeployServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+            className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
           >
             Minimise disruption with accredited experts
           </motion.h2>
@@ -239,7 +240,7 @@ export default function DeployServicesPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-            className="col-span-1 md:col-span-8"
+            className="col-span-1 md:col-span-8 text-center md:text-left"
           >
             <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
               Our multi-vendor field engineers are fully accredited and skilled at working hand-in-hand with our project management teams. They ensure every deployment maintains the integrity of the design. The collective goal is to implement networks as quickly possible while minimising downtime and service interruptions. We have developed skills that span new and legacy networks, enabling our experienced field installation and commissioning teams to build out projects that increasingly rely on hybrid technologies.

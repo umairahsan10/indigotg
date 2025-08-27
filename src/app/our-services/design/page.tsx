@@ -16,6 +16,7 @@ const RevealLinks = () => {
         transition={{ duration: 1, ease: "easeOut" }}
       >
         <FlipLink href="#">DESIGN</FlipLink>
+        
       </motion.div>
     </div>
   );
@@ -96,10 +97,10 @@ const OverlayCopy = ({ subheading, heading, isHero = false }: {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="text-lg text-white/90 max-w-4xl mx-auto mt-8 text-center" 
+          className="text-lg text-white/90 max-w-4xl mx-auto mt-8 text-center sm:text-center md:text-center" 
           style={{ fontFamily: 'var(--font-geist-sans)' }}
         >
-          Surveys, Planning, Acquisition & Design for Wireless, Subsea, Fixed Line and Data Centre Infrastructure
+          Surveys, Planning, Acquisition & Design
         </motion.p>
       </motion.div>
     );
@@ -135,7 +136,7 @@ const ContentSection = ({ title, description, title2, description2, title3, desc
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-      className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+      className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
     >
       {title}
     </motion.h2>
@@ -144,7 +145,7 @@ const ContentSection = ({ title, description, title2, description2, title3, desc
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
       viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-      className="col-span-1 md:col-span-8"
+      className="col-span-1 md:col-span-8 text-center md:text-left"
     >
       <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
         {description}
@@ -155,7 +156,7 @@ const ContentSection = ({ title, description, title2, description2, title3, desc
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-      className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+      className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
     >
       {title2}
     </motion.h2>
@@ -164,7 +165,7 @@ const ContentSection = ({ title, description, title2, description2, title3, desc
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
       viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-      className="col-span-1 md:col-span-8"
+      className="col-span-1 md:col-span-8 text-center md:text-left"
     >
       <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
         {description2}
@@ -175,7 +176,7 @@ const ContentSection = ({ title, description, title2, description2, title3, desc
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-      className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900"
+      className="col-span-1 text-3xl font-bold md:col-span-4 text-blue-900 text-center md:text-left"
     >
       {title3}
     </motion.h2>
@@ -184,7 +185,7 @@ const ContentSection = ({ title, description, title2, description2, title3, desc
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
       viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-      className="col-span-1 md:col-span-8"
+      className="col-span-1 md:col-span-8 text-center md:text-left"
     >
       <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
         {description3}

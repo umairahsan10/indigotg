@@ -1146,17 +1146,102 @@ interface ParticleTextEffectProps {
 }
 
 const DEFAULT_WORDS = ["WE ARE INDIGO", "OUR SERVICES", "WE DESIGN", "WE DEPLOY", "WE SUPPORT"]
+const MOBILE_WORDS = ["INDIGO", "SERVICES", "WE DESIGN", "WE DEPLOY", "WE SUPPORT"]
 
-export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffectProps) {
+export function ParticleTextEffect({ words }: ParticleTextEffectProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number | null>(null)
   const particlesRef = useRef<Particle[]>([])
   const frameCountRef = useRef(0)
   const wordIndexRef = useRef(0)
   const mouseRef = useRef({ x: 0, y: 0, isPressed: false, isRightClick: false })
+  const [isMobile, setIsMobile] = useState(false)
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 })
 
   const pixelSteps = 6
   const drawAsPoints = true
+
+  // Use appropriate words array based on device type
+  const currentWords = useMemo(() => {
+    if (words) return words // Use custom words if provided
+    return isMobile ? MOBILE_WORDS : DEFAULT_WORDS
+  }, [words, isMobile])
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = window.innerWidth <= 768 || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      setIsMobile(isMobileDevice)
+      
+      // Set appropriate canvas size for mobile
+      if (isMobileDevice) {
+        const width = window.innerWidth
+        const height = window.innerHeight
+        setCanvasSize({ width, height })
+      } else {
+        setCanvasSize({ width: window.innerWidth, height: window.innerHeight })
+      }
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Touch event handlers for mobile - only for destroying particles
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile) return
+    const touch = e.touches[0]
+    const canvas = canvasRef.current
+    if (canvas && particlesRef.current.length > 0) {
+      const rect = canvas.getBoundingClientRect()
+      const touchX = touch.clientX - rect.left
+      const touchY = touch.clientY - rect.top
+      
+      // Convert touch coordinates to canvas coordinates
+      const canvasX = (touchX / rect.width) * canvas.width
+      const canvasY = (touchY / rect.height) * canvas.height
+      
+      // Destroy particles within 50px of touch point
+      particlesRef.current.forEach((particle) => {
+        const distance = Math.sqrt(
+          Math.pow(particle.pos.x - canvasX, 2) + Math.pow(particle.pos.y - canvasY, 2)
+        )
+        if (distance < 50) {
+          particle.kill(canvas.width, canvas.height)
+        }
+      })
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile) return
+    
+    // Destroy particles near touch point
+    const canvas = canvasRef.current
+    if (canvas && particlesRef.current.length > 0) {
+      const touch = e.touches[0]
+      const rect = canvas.getBoundingClientRect()
+      const touchX = touch.clientX - rect.left
+      const touchY = touch.clientY - rect.top
+      
+      // Convert touch coordinates to canvas coordinates
+      const canvasX = (touchX / rect.width) * canvas.width
+      const canvasY = (touchY / rect.height) * canvas.height
+      
+      // Destroy particles within 50px of touch point
+      particlesRef.current.forEach((particle) => {
+        const distance = Math.sqrt(
+          Math.pow(particle.pos.x - canvasX, 2) + Math.pow(particle.pos.y - canvasY, 2)
+        )
+        if (distance < 50) {
+          particle.kill(canvas.width, canvas.height)
+        }
+      })
+    }
+  }
 
   const generateRandomPos = (x: number, y: number, mag: number): Vector2D => {
     const canvas = canvasRef.current
@@ -1189,12 +1274,20 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     offscreenCanvas.height = canvas.height
     const offscreenCtx = offscreenCanvas.getContext("2d")!
 
+    // Calculate font size based on screen dimensions for better mobile scaling
+    const baseFontSize = Math.min(canvas.width, canvas.height) * 0.15
+    const fontSize = Math.max(40, Math.min(baseFontSize, 120)) // Clamp between 40px and 120px
+
     // Draw text
     offscreenCtx.fillStyle = "white"
-    offscreenCtx.font = "bold 100px Arial"
+    offscreenCtx.font = `bold ${fontSize}px Arial`
     offscreenCtx.textAlign = "center"
     offscreenCtx.textBaseline = "middle"
-    offscreenCtx.fillText(word, canvas.width / 2, canvas.height / 2)
+    
+    // Center text in canvas
+    const centerX = canvas.width / 2
+    const centerY = canvas.height / 2
+    offscreenCtx.fillText(word, centerX, centerY)
 
     const imageData = offscreenCtx.getImageData(0, 0, canvas.width, canvas.height)
     const pixels = imageData.data
@@ -1300,8 +1393,8 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
       }
     }
 
-    // Handle mouse interaction
-    if (mouseRef.current.isPressed && mouseRef.current.isRightClick) {
+    // Handle mouse interaction (desktop only)
+    if (!isMobile && mouseRef.current.isPressed && mouseRef.current.isRightClick) {
       particles.forEach((particle) => {
         const distance = Math.sqrt(
           Math.pow(particle.pos.x - mouseRef.current.x, 2) + Math.pow(particle.pos.y - mouseRef.current.y, 2),
@@ -1315,8 +1408,8 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     // Auto-advance words
     frameCountRef.current++
     if (frameCountRef.current % 240 === 0) {
-      wordIndexRef.current = (wordIndexRef.current + 1) % words.length
-      nextWord(words[wordIndexRef.current], canvas)
+      wordIndexRef.current = (wordIndexRef.current + 1) % currentWords.length
+      nextWord(currentWords[wordIndexRef.current], canvas)
     }
 
     animationRef.current = requestAnimationFrame(animate)
@@ -1326,68 +1419,85 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
     const canvas = canvasRef.current
     if (!canvas) return
 
-    // Set canvas to full screen size
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
+    // Set canvas size based on device type
+    if (isMobile) {
+      canvas.width = canvasSize.width
+      canvas.height = canvasSize.height
+    } else {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
 
-    // Initialize with first word
-    nextWord(words[0], canvas)
-
-    // Start animation
+    // Initialize particles and start animation for both mobile and desktop
+    nextWord(currentWords[0], canvas)
     animate()
 
     // Handle window resize
     const handleResize = () => {
       if (canvas) {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+        if (isMobile) {
+          canvas.width = canvasSize.width
+          canvas.height = canvasSize.height
+        } else {
+          canvas.width = window.innerWidth
+          canvas.height = window.innerHeight
+        }
         // Reinitialize with current word after resize
-        nextWord(words[wordIndexRef.current], canvas)
+        nextWord(currentWords[wordIndexRef.current], canvas)
       }
     }
 
     window.addEventListener('resize', handleResize)
 
-    // Mouse event handlers
-    const handleMouseDown = (e: MouseEvent) => {
-      mouseRef.current.isPressed = true
-      mouseRef.current.isRightClick = e.button === 2
-      const rect = canvas.getBoundingClientRect()
-      mouseRef.current.x = e.clientX - rect.left
-      mouseRef.current.y = e.clientY - rect.top
-    }
+    // Mouse event handlers - only for desktop
+    if (!isMobile) {
+      const handleMouseDown = (e: MouseEvent) => {
+        mouseRef.current.isPressed = true
+        mouseRef.current.isRightClick = e.button === 2
+        const rect = canvas.getBoundingClientRect()
+        mouseRef.current.x = e.clientX - rect.left
+        mouseRef.current.y = e.clientY - rect.top
+      }
 
-    const handleMouseUp = () => {
-      mouseRef.current.isPressed = false
-      mouseRef.current.isRightClick = false
-    }
+      const handleMouseUp = () => {
+        mouseRef.current.isPressed = false
+        mouseRef.current.isRightClick = false
+      }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      mouseRef.current.x = e.clientX - rect.left
-      mouseRef.current.y = e.clientY - rect.top
-    }
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = canvas.getBoundingClientRect()
+        mouseRef.current.x = e.clientX - rect.left
+        mouseRef.current.y = e.clientY - rect.top
+      }
 
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault()
-    }
+      const handleContextMenu = (e: MouseEvent) => {
+        e.preventDefault()
+      }
 
-    canvas.addEventListener("mousedown", handleMouseDown)
-    canvas.addEventListener("mouseup", handleMouseUp)
-    canvas.addEventListener("mousemove", handleMouseMove)
-    canvas.addEventListener("contextmenu", handleContextMenu)
+      canvas.addEventListener("mousedown", handleMouseDown)
+      canvas.addEventListener("mouseup", handleMouseUp)
+      canvas.addEventListener("mousemove", handleMouseMove)
+      canvas.addEventListener("contextmenu", handleContextMenu)
+
+      return () => {
+        if (animationRef.current !== null) {
+          cancelAnimationFrame(animationRef.current)
+        }
+        window.removeEventListener('resize', handleResize)
+        canvas.removeEventListener("mousedown", handleMouseDown)
+        canvas.removeEventListener("mouseup", handleMouseUp)
+        canvas.removeEventListener("mousemove", handleMouseMove)
+        canvas.removeEventListener("contextmenu", handleContextMenu)
+      }
+    }
 
     return () => {
       if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current)
       }
       window.removeEventListener('resize', handleResize)
-      canvas.removeEventListener("mousedown", handleMouseDown)
-      canvas.removeEventListener("mouseup", handleMouseUp)
-      canvas.removeEventListener("mousemove", handleMouseMove)
-      canvas.removeEventListener("contextmenu", handleContextMenu)
     }
-  }, [])
+  }, [isMobile, canvasSize, currentWords])
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full relative">
@@ -1395,20 +1505,24 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }: ParticleTextEffect
         ref={canvasRef}
         className="w-full h-full absolute inset-0"
         style={{ display: 'block' }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
       />
-      {/* Instruction text below the particle animation */}
-      {/* <div className="relative z-10 text-center mt-48"> */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 text-center">
-        <div className="text-center">
-          <p className="text-center whitespace-nowrap">
-            <TypingText
-              text="Our engineers solve the biggest problems in digital infrastructure."
-              color="primary"
-              size="lg"
-            />
-          </p>
+      
+      {/* Desktop instruction text only */}
+      {!isMobile && (
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 text-center">
+          <div className="text-center">
+            <p className="text-center whitespace-nowrap">
+              <TypingText
+                text="Our engineers solve the biggest problems in digital infrastructure."
+                color="primary"
+                size="lg"
+              />
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -1495,7 +1609,6 @@ export default function OurServices2() {
         <div id="scroll-progress-bar" className="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-yellow-400 to-orange-500" />
       </div>
 
-
       {/* Hero Section - Full Screen with Particle Text Effect */}
       <section className="h-screen relative flex items-center justify-center overflow-hidden">
         {/* Black background */}
@@ -1511,59 +1624,59 @@ export default function OurServices2() {
         </div>
       </section>
 
-             {/* Vaporize Text Section */}
-       <section className="py-24 bg-gradient-to-b from-black to-gray-900">
-         <div className="container mx-auto px-4">
-           <div className="text-center mb-16">
-             <div className="h-32 flex items-center justify-center">
-               <VaporizeTextCycle
-                 texts={["OUR CORE SERVICES", "Discover our comprehensive range of digital infrastructure services"]}
-                 font={{
-                   fontFamily: "Inter, sans-serif",
-                   fontSize: "30px",
-                   fontWeight: 600
-                 }}
-                 color="rgb(251, 191, 36)"
-                 spread={5}
-                 density={5}
-                 animation={{
-                   vaporizeDuration: 2,
-                   fadeInDuration: 1,
-                   waitDuration: 0.5
-                 }}
-                 direction="left-to-right"
-                 alignment="center"
-                 tag={Tag.H2}
-               />
-             </div>
-           </div>
-           <div className="flex justify-center">
-             <CircularTestimonials 
-               testimonials={testimonials}
-               autoplay={true}
-               colors={{
-                 name: "#ffffff",
-                 designation: "#fbbf24",
-                 testimony: "#e5e7eb",
-                 arrowBackground: "#1f2937",
-                 arrowForeground: "#ffffff",
-                 arrowHoverBackground: "#f59e0b"
-               }}
-               fontSizes={{
-                 name: "1.75rem",
-                 designation: "1rem",
-                 quote: "1.25rem"
-               }}
-             />
-           </div>
-         </div>
-       </section>
+      {/* Vaporize Text Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-black to-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 md:mb-16">
+            <div className="h-24 md:h-32 flex items-center justify-center">
+              <VaporizeTextCycle
+                texts={["OUR CORE SERVICES", "Discover our comprehensive range of digital infrastructure services"]}
+                font={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "24px",
+                  fontWeight: 600
+                }}
+                color="rgb(251, 191, 36)"
+                spread={5}
+                density={5}
+                animation={{
+                  vaporizeDuration: 2,
+                  fadeInDuration: 1,
+                  waitDuration: 0.5
+                }}
+                direction="left-to-right"
+                alignment="center"
+                tag={Tag.H2}
+              />
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <CircularTestimonials 
+              testimonials={testimonials}
+              autoplay={true}
+              colors={{
+                name: "#ffffff",
+                designation: "#fbbf24",
+                testimony: "#e5e7eb",
+                arrowBackground: "#1f2937",
+                arrowForeground: "#ffffff",
+                arrowHoverBackground: "#f59e0b"
+              }}
+              fontSizes={{
+                name: "1.75rem",
+                designation: "1rem",
+                quote: "1.25rem"
+              }}
+            />
+          </div>
+        </div>
+      </section>
 
-               {/* All Services Section */}
-        <ServicesSection />
+      {/* All Services Section */}
+      <ServicesSection />
 
-            {/* Innovation Solutions Section */}
-      <section className="py-24 relative overflow-hidden">
+      {/* Innovation Solutions Section */}
+      <section className="py-16 md:py-24 relative overflow-hidden">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-fixed"
@@ -1573,8 +1686,8 @@ export default function OurServices2() {
         <div className="absolute inset-0 bg-black/70" />
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16" ref={advancedServicesHeaderRef}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent text-center">
+          <div className="text-center mb-12 md:mb-16" ref={advancedServicesHeaderRef}>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent text-center">
               ADVANCED SERVICES
             </h2>
             <BlurText 
@@ -1582,12 +1695,14 @@ export default function OurServices2() {
               animateBy="words"
               direction="bottom"
               delay={100}
-              className="text-xl text-white/80 max-w-3xl mx-auto text-center"
+              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto text-center"
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto" ref={advancedServicesGridRef}>
+          
+          {/* Mobile: Vertical layout, Desktop: Grid layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto" ref={advancedServicesGridRef}>
             {/* Fixed Line Card */}
-            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-4.jpg")',
@@ -1601,23 +1716,23 @@ export default function OurServices2() {
               <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               
               {/* Content */}
-              <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
-                <h3 className="text-3xl font-bold text-white mb-4">
+              <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-6 lg:p-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Fixed Line
                 </h3>
-                <p className="text-white/90 text-lg mb-6 max-w-md">
+                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
                   Expert end-to-end connections from pre-planning to upgrades
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1 md:gap-2">
+                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
                       End-to-End
                     </span>
-                    <span className="text-sm text-yellow-200">
+                    <span className="text-xs md:text-sm text-yellow-200">
                       Solutions
                     </span>
                   </div>
-                  <button className="px-6 py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
                     Learn More
                   </button>
                 </div>
@@ -1625,7 +1740,7 @@ export default function OurServices2() {
             </div>
 
             {/* Subsea Card */}
-            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-5.jpg")',
@@ -1639,23 +1754,23 @@ export default function OurServices2() {
               <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               
               {/* Content */}
-              <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
-                <h3 className="text-3xl font-bold text-white mb-4">
+              <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-6 lg:p-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Subsea
                 </h3>
-                <p className="text-white/90 text-lg mb-6 max-w-md">
+                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
                   Systems Operator Support for Submarine Networks
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1 md:gap-2">
+                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
                       Submarine
                     </span>
-                    <span className="text-sm text-yellow-200">
+                    <span className="text-xs md:text-sm text-yellow-200">
                       Networks
                     </span>
                   </div>
-                  <button className="px-6 py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
                     Learn More
                   </button>
                 </div>
@@ -1663,7 +1778,7 @@ export default function OurServices2() {
             </div>
 
             {/* Data Centres Card */}
-            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-6.jpg")',
@@ -1677,23 +1792,23 @@ export default function OurServices2() {
               <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               
               {/* Content */}
-              <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
-                <h3 className="text-3xl font-bold text-white mb-4">
+              <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-6 lg:p-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Data Centres
                 </h3>
-                <p className="text-white/90 text-lg mb-6 max-w-md">
+                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
                   Comprehensive solutions for leading edge and legacy infrastructure
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1 md:gap-2">
+                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
                       Leading Edge
                     </span>
-                    <span className="text-sm text-yellow-200">
+                    <span className="text-xs md:text-sm text-yellow-200">
                       Infrastructure
                     </span>
                   </div>
-                  <button className="px-6 py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
                     Learn More
                   </button>
                 </div>
@@ -1701,7 +1816,7 @@ export default function OurServices2() {
             </div>
 
             {/* Wireless Card */}
-            <div className="group relative h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-7.jpg")',
@@ -1715,23 +1830,23 @@ export default function OurServices2() {
               <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               
               {/* Content */}
-              <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
-                <h3 className="text-3xl font-bold text-white mb-4">
+              <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-6 lg:p-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Wireless
                 </h3>
-                <p className="text-white/90 text-lg mb-6 max-w-md">
+                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
                   Resilient and reliable wireless services for next-generation networks
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1 md:gap-2">
+                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
                       Next-Gen
                     </span>
-                    <span className="text-sm text-yellow-200">
+                    <span className="text-xs md:text-sm text-yellow-200">
                       Networks
                     </span>
                   </div>
-                  <button className="px-6 py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
                     Learn More
                   </button>
                 </div>
@@ -1742,21 +1857,21 @@ export default function OurServices2() {
       </section>
 
       {/* Contact Section (standard block, fixed bg image) */}
-      <section className="relative py-24 flex items-center justify-center overflow-hidden">
+      <section className="relative py-16 md:py-24 flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1920&q=80")' }}
         />
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
             Want to know more?
           </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto">
             Let&apos;s discuss how our services can help transform your business and drive growth.
           </p>
           <div className="flex justify-center">
-            <button className="bg-gradient-to-r from-orange-400 to-yellow-400 text-black px-8 py-4 rounded-lg font-semibold text-lg hover:from-orange-300 hover:to-yellow-300 transition-all duration-300 transform hover:scale-105">
+            <button className="bg-gradient-to-r from-orange-400 to-yellow-400 text-black px-6 md:px-8 py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg hover:from-orange-300 hover:to-yellow-300 transition-all duration-300 transform hover:scale-105">
               Get in Touch with Indigo
             </button>
           </div>
