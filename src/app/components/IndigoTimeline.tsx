@@ -494,8 +494,8 @@ const IndigoTimeline = () => {
       scrollTriggerRef.current = scrollTriggerInstance;
     };
 
-    if (isMounted && gsapLoaded) {
-      initializeAnimations();
+    if (isMounted) {
+      loadGSAP();
     }
 
     // Cleanup function
@@ -507,7 +507,7 @@ const IndigoTimeline = () => {
         window.ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill());
       }
     };
-  }, [isMounted, gsapLoaded]);
+  }, [isMounted]);
 
   // Cleanup function for manual animations and scroll listeners
   useEffect(() => {

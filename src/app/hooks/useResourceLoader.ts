@@ -53,11 +53,21 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
         setProgress(30);
         options.onProgress?.(30, 'Images loaded');
 
+        // Phase 1.5: Preload critical videos
+        if (!mountedRef.current) return;
+        setMessage('Preloading videos...');
+        setProgress(35);
+        options.onProgress?.(35, 'Preloading videos...');
+        
+        await preloadVideos();
+        setProgress(40);
+        options.onProgress?.(40, 'Videos ready');
+
         // Phase 2: Wait for GSAP to be fully ready
         if (!mountedRef.current) return;
         setMessage('Initializing GSAP...');
-        setProgress(40);
-        options.onProgress?.(40, 'Initializing GSAP...');
+        setProgress(45);
+        options.onProgress?.(45, 'Initializing GSAP...');
         
         await waitForGSAPReady();
         setProgress(60);
@@ -255,5 +265,65 @@ const waitForFinalPreparation = (): Promise<void> => {
   return new Promise((resolve) => {
     // Final preparation time - ensure smooth transitions
     setTimeout(resolve, 400);
+  });
+};
+
+// Preload critical videos
+const preloadVideos = (): Promise<void> => {
+  return new Promise((resolve) => {
+    const videoUrls = [
+      '/home/video1.mp4',
+      '/home/globe_video2.mp4', 
+      '/home/subsea_video.mp4',
+      '/home/218489.mp4',
+      '/home/video5.mp4',
+      '/home/video8.mp4'
+    ];
+
+    if (videoUrls.length === 0) {
+      setTimeout(resolve, 100);
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalVideos = videoUrls.length;
+
+    const checkComplete = () => {
+      loadedCount++;
+      if (loadedCount >= totalVideos) {
+        resolve();
+      }
+    };
+
+    videoUrls.forEach((url) => {
+      const video = document.createElement('video');
+      video.src = url;
+      video.preload = 'auto';
+      video.muted = true;
+      video.style.display = 'none';
+      
+      video.addEventListener('loadeddata', () => {
+        console.log(`Preloaded video: ${url}`);
+        checkComplete();
+      });
+      
+      video.addEventListener('error', () => {
+        console.warn(`Failed to preload video: ${url}`);
+        checkComplete(); // Continue even if some videos fail
+      });
+
+      // Add to DOM temporarily for preloading
+      document.body.appendChild(video);
+      
+      // Remove after a delay to clean up
+      setTimeout(() => {
+        if (video.parentNode) {
+          video.parentNode.removeChild(video);
+        }
+      }, 10000);
+    });
+
+    // Fallback timeout
+    setTimeout(resolve, 12000);
   });
 };

@@ -1289,6 +1289,16 @@ const HeroSlider = () => {
       video.muted = true;
       video.playsInline = true;
       video.autoplay = true;
+      video.preload = 'auto'; // Force preloading
+
+      // Wait for video to be ready before showing
+      video.addEventListener('loadeddata', () => {
+        console.log(`Video ${slideIndex} loaded:`, slideData.image);
+      });
+
+      video.addEventListener('canplaythrough', () => {
+        console.log(`Video ${slideIndex} can play through:`, slideData.image);
+      });
 
       videoOverlay.appendChild(video);
       if (sliderRef.current) {
