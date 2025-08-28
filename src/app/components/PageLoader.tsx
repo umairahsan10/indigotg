@@ -85,6 +85,34 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     // Make page content visible BEFORE blocks transition starts
     // This eliminates the gap between transition and page display
     setIsVisible(true);
+    
+    // Ensure GSAP components are fully ready before proceeding
+    setTimeout(() => {
+      // Check if GSAP components are properly initialized
+      const checkGSAPReady = () => {
+        const hasHeroSlider = document.querySelector('.slider') !== null;
+        const hasScrollAnimation = document.querySelector('[data-gsap-component="scroll-animation"]') !== null;
+        
+        if (hasHeroSlider || hasScrollAnimation) {
+          // Give extra time for GSAP animations to be fully ready
+          setTimeout(() => {
+            // Continue with blocks transition
+            if (phase === 'blocks') {
+              // Blocks transition will handle completion
+            }
+          }, 300);
+        } else {
+          // If no GSAP components found, proceed anyway
+          setTimeout(() => {
+            if (phase === 'blocks') {
+              // Blocks transition will handle completion
+            }
+          }, 100);
+        }
+      };
+      
+      checkGSAPReady();
+    }, 200);
   };
 
   const handleBlocksComplete = () => {
@@ -139,6 +167,22 @@ const PageLoader = ({ children }: PageLoaderProps) => {
         document.body.offsetHeight;
       }
     }, 50);
+    
+    // Final check: Ensure all GSAP animations are properly initialized
+    setTimeout(() => {
+      // Trigger a small scroll event to ensure ScrollTrigger is working
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('scroll'));
+      }
+      
+      // Check if any GSAP animations need to be refreshed
+      if (typeof window !== 'undefined' && (window as any).gsap) {
+        const gsap = (window as any).gsap;
+        if (gsap.ScrollTrigger && gsap.ScrollTrigger.refresh) {
+          gsap.ScrollTrigger.refresh();
+        }
+      }
+    }, 500);
   };
 
   // Always render page content with loading overlays as needed

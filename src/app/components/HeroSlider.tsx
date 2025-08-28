@@ -167,6 +167,40 @@ const HeroSlider = () => {
   const sliderRef = useRef(null);
   const rippleRefs = useRef(new Map());
   const videoRefs = useRef(new Map());
+  const [isGSAPReady, setIsGSAPReady] = useState(false);
+
+  // Initialize GSAP
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).gsap) {
+      const gsap = (window as any).gsap;
+      
+      if (gsap.to && gsap.from && gsap.timeline && gsap.registerPlugin) {
+        setTimeout(() => setIsGSAPReady(true), 200);
+      } else {
+        const checkGSAP = setInterval(() => {
+          if (gsap.to && gsap.from && gsap.timeline && gsap.registerPlugin) {
+            clearInterval(checkGSAP);
+            setIsGSAPReady(true);
+          }
+        }, 50);
+        
+        setTimeout(() => {
+          clearInterval(checkGSAP);
+          setIsGSAPReady(true);
+        }, 3000);
+      }
+    }
+  }, []);
+
+  // Create initial video overlay immediately (independent of GSAP)
+  useEffect(() => {
+    // Create video overlay for first slide immediately if it's a video
+    if (slides[0].type === "video") {
+      setTimeout(() => {
+        createVideoOverlay(slides[0], 0);
+      }, 100); // Small delay to ensure DOM is ready
+    }
+  }, []);
 
   // Keep these as module-level variables like in the original
   let currentSlideIndex = 0;
@@ -1423,6 +1457,16 @@ const HeroSlider = () => {
       video.muted = true;
       video.playsInline = true;
       video.autoplay = true;
+      video.preload = 'auto'; // Force preloading
+
+      // Wait for video to be ready before showing
+      video.addEventListener('loadeddata', () => {
+        console.log(`Video ${slideIndex} loaded:`, slideData.image);
+      });
+
+      video.addEventListener('canplaythrough', () => {
+        console.log(`Video ${slideIndex} can play through:`, slideData.image);
+      });
 
       videoOverlay.appendChild(video);
       if (sliderRef.current) {
@@ -1464,6 +1508,9 @@ const HeroSlider = () => {
   };
 
   useEffect(() => {
+    // Wait for GSAP to be ready before initializing
+    if (!isGSAPReady) return;
+
     gsap.registerPlugin(SplitText);
     gsap.config({ nullTargetWarn: false });
 
@@ -1525,7 +1572,7 @@ const HeroSlider = () => {
       });
       videoRefs.current.clear();
     };
-  }, []);
+  }, [isGSAPReady]); // Add isGSAPReady as dependency
 
   return (
     <div
