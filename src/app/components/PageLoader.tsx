@@ -146,7 +146,9 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     <>
       {/* Show loading overlays during loading phases */}
       {phase === 'triangle' && <TriangleLoader />}
-      {phase === 'loading' && <LoadingBar onComplete={handleLoadingComplete} />}
+      {phase === 'loading' && (
+        <LoadingBar onComplete={handleLoadingComplete} />
+      )}
       {phase === 'blocks' && <BlocksTransition onComplete={handleBlocksComplete} />}
       
       {/* Always render page content - ensure it's fully visible for animations */}

@@ -46,42 +46,62 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
         // Phase 1: Wait for images to load (or skip if none)
         if (!mountedRef.current) return;
         setMessage('Loading images...');
-        setProgress(10); // Start with some progress
+        setProgress(10);
         options.onProgress?.(10, 'Loading images...');
         
         await waitForImages();
-        setProgress(40);
-        options.onProgress?.(40, 'Loading images...');
+        setProgress(25);
+        options.onProgress?.(25, 'Images loaded');
+        
+        // Phase 2: Wait for web-fonts (if any) to be ready
+        if (!mountedRef.current) return;
+        setMessage('Loading fonts...');
+        setProgress(35);
+        options.onProgress?.(35, 'Loading fonts...');
 
-        // Phase 2: Wait for GSAP components
+        await waitForFonts();
+        setProgress(45);
+        options.onProgress?.(45, 'Fonts ready');
+        
+        // Phase 3: Wait for videos to buffer enough to play
+        if (!mountedRef.current) return;
+        setMessage('Buffering videos...');
+        setProgress(55);
+        options.onProgress?.(55, 'Buffering videos...');
+        
+        await waitForVideos();
+        setProgress(70);
+        options.onProgress?.(70, 'Videos ready');
+
+        // Phase 4: Wait for GSAP components
         if (!mountedRef.current) return;
         setMessage('Initializing animations...');
-        setProgress(50); // Ensure progress moves
-        options.onProgress?.(50, 'Initializing animations...');
+        setProgress(78);
+        options.onProgress?.(78, 'Initializing animations...');
         
         await waitForGSAPComponents();
-        setProgress(70);
-        options.onProgress?.(70, 'Initializing animations...');
+        setProgress(85);
+        options.onProgress?.(85, 'Animations ready');
 
-        // Phase 3: Wait for 3D components
+        // Phase 5: Wait for 3D components
         if (!mountedRef.current) return;
-        setMessage('Preparing 3D components...');
-        setProgress(80); // Ensure progress moves
-        options.onProgress?.(80, 'Preparing 3D components...');
+        setMessage('Preparing interactive components...');
+        setProgress(90);
+        options.onProgress?.(90, 'Preparing interactive components...');
         
         await waitFor3DComponents();
-        setProgress(90);
-        options.onProgress?.(90, 'Preparing 3D components...');
+        setProgress(96);
+        options.onProgress?.(96, 'Interactive components ready');
 
-        // Phase 4: Final preparation
+        // Final tiny delay to smooth things out
         if (!mountedRef.current) return;
-        setMessage('Finalizing...');
-        setProgress(95); // Ensure progress moves
-        options.onProgress?.(95, 'Finalizing...');
-        
+        setMessage('Finishing touches...');
+        setProgress(98);
+        options.onProgress?.(98, 'Finishing touches...');
+
         await waitForFinalPreparation();
         setProgress(100);
-        options.onProgress?.(100, 'Finalizing...');
+        options.onProgress?.(100, 'Ready');
 
         // Ensure minimum loading time (at least 1.5 seconds total)
         const elapsed = Date.now() - startTimeRef.current;
@@ -190,5 +210,61 @@ const waitForFinalPreparation = (): Promise<void> => {
   return new Promise((resolve) => {
     // Final preparation time
     setTimeout(resolve, 300);
+  });
+};
+
+// NEW: Wait for web-fonts to be ready using the Font Loading API
+const waitForFonts = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (typeof document === 'undefined' || !(document as any).fonts) {
+      resolve();
+      return;
+    }
+
+    // The FontFaceSet.ready promise resolves when all fonts in the document are loaded
+    (document as any).fonts.ready.then(() => resolve()).catch(() => resolve());
+    // As a fallback safety timeout
+    setTimeout(resolve, 2000);
+  });
+};
+
+// NEW: Wait for all <video> elements to have enough data to play
+const waitForVideos = (): Promise<void> => {
+  return new Promise((resolve) => {
+    const videos = Array.from(document.querySelectorAll('video')) as HTMLVideoElement[];
+
+    if (videos.length === 0) {
+      // No videos – resolve quickly
+      setTimeout(resolve, 200);
+      return;
+    }
+
+    let readyCount = 0;
+    const total = videos.length;
+
+    const check = () => {
+      readyCount++;
+      if (readyCount >= total) {
+        resolve();
+      }
+    };
+
+    videos.forEach((video) => {
+      // If the video is already sufficiently buffered
+      if (video.readyState >= 3) {
+        check();
+      } else {
+        const handler = () => {
+          video.removeEventListener('canplaythrough', handler);
+          video.removeEventListener('error', handler);
+          check();
+        };
+        video.addEventListener('canplaythrough', handler, { once: true });
+        video.addEventListener('error', handler, { once: true });
+      }
+    });
+
+    // Fallback timeout – don’t wait forever on slow connections
+    setTimeout(resolve, 5000);
   });
 };

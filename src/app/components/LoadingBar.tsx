@@ -54,7 +54,8 @@ const LoadingBar = ({ onComplete }: LoadingBarProps) => {
             {progress}%
           </div>
           <div className="text-sm text-gray-600">
-            {message}
+            {/* Show message only when larger screens or progress slow */}
+            <span className="hidden sm:inline">{message}</span>
           </div>
         </div>
       </div>
