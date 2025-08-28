@@ -106,4 +106,92 @@
     height: 16px !important;
     right: -8px !important;
   }
-}
+   
+    /* Core Pillars section responsive styles */
+    .stack-area {
+      min-height: 100vh !important;
+      padding-top: 2rem !important;
+      padding-bottom: 2rem !important;
+    }
+    
+    .stack-area .title {
+      font-size: 2rem !important;
+      line-height: 1.1 !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .stack-area h3 {
+      font-size: 1.5rem !important;
+      line-height: 1.2 !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .stack-area .sub-title {
+      font-size: 0.75rem !important;
+      line-height: 1.4 !important;
+      margin-bottom: 2rem !important;
+    }
+    
+    .stack-area .pillar-cards {
+      gap: 1rem !important;
+      width: 100% !important;
+    }
+    
+    .stack-area .pillar-card {
+      width: 100% !important;
+      max-width: 320px !important;
+      padding: 1rem !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .stack-area .pillar-card .sub {
+      font-size: 1.25rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+    
+    .stack-area .pillar-card .content {
+      font-size: 1.25rem !important;
+      line-height: 1.2 !important;
+    }
+    
+    .stack-area .pillar-card .desc {
+      font-size: 0.75rem !important;
+      line-height: 1.4 !important;
+      margin-top: 0.75rem !important;
+    }
+
+    .certifications-section-small {
+      padding-top: 2rem !important;
+      padding-bottom: 2rem !important;
+    }
+    .certifications-section-small .grid {
+      gap: 0.5rem !important;
+    }
+    .certifications-section-small .grid-cols-3 > div {
+      padding: 0.5rem !important;
+    }
+    .certifications-section-small .grid-cols-3 > div > div {
+      font-size: 0.625rem !important;
+    }
+
+    /* Timeline mobile fit */
+    .timeline-section {
+      min-height: 100vh !important;
+      padding-top: 4rem !important;
+      padding-bottom: 4rem !important;
+    }
+    .timeline-section .train-card {
+      padding: 1rem !important;
+      width: 240px !important;
+    }
+    .timeline-section .train-card .text-2xl {
+      font-size: 1rem !important;
+    }
+    .timeline-section .train-card h3 {
+      font-size: 0.875rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .timeline-section .train-card p {
+      font-size: 0.75rem !important;
+    }
+  }

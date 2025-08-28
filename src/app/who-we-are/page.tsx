@@ -172,7 +172,6 @@ export default function WhoWeAre() {
 
         <div className="container mx-auto px-4 md:px-6 lg:px-12 relative z-10 py-8 md:py-12 lg:py-16">
           <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16 items-center" style={{
-            minHeight: 'calc(100vh - 120px)',
             minHeight: 'calc(100dvh - 120px)'
           }}>
             <div className={`space-y-4 md:space-y-6 lg:space-y-8 text-center lg:text-left ${isVisible[0] ? 'animate-fadeInUp' : 'opacity-0'}`}>
@@ -292,20 +291,23 @@ export default function WhoWeAre() {
       </section>
 
       {/* Core Pillars - Stacked Cards Animation */}
-      <section ref={(el) => { stackAreaRef.current = el; sectionRefs.current[2] = el; }} className="stack-area flex flex-col lg:flex-row relative w-full bg-gradient-to-b from-white to-[#411fed]/10 text-gray-900">
+      <section ref={(el) => { 
+        sectionRefs.current[2] = el; 
+        stackAreaRef.current = el as HTMLDivElement;
+      }} className="stack-area flex flex-col lg:flex-row relative w-full bg-gradient-to-b from-white to-[#411fed]/10 text-gray-900">
         {/* Left copy */}
-        <div className={`left flex flex-col items-start justify-center lg:sticky top-0 lg:h-screen w-full lg:basis-1/2 p-6 pl-20 ${isVisible[2] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
-          <h2 className="title text-6xl lg:text-7xl font-bold leading-tight text-left text-[#140079]">
+        <div className={`left flex flex-col items-center lg:items-start justify-center lg:sticky top-0 lg:h-screen w-full lg:basis-1/2 p-6 ${isVisible[2] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
+          <h2 className="title lg:w-[420px] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-center lg:text-left text-[#140079]">
             <span className="block">Our Core</span>
             <span className="block">Pillars</span>
           </h2>
-          <h3 className="text-5xl lg:text-6xl font-semibold mt-8 mb-4 text-left text-[#140079] relative z-10" style={{color: '#140079', textShadow: '0 0 10px rgba(20, 0, 121, 0.3)'}}>
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold mt-4 md:mt-6 lg:mt-8 mb-4 text-center lg:text-left text-[#140079] relative z-10" style={{color: '#140079', textShadow: '0 0 10px rgba(20, 0, 121, 0.3)'}}>
             Excellence In Everything We Do
           </h3>
-          <div className="sub-title text-lg lg:text-xl mt-4 max-w-lg text-left leading-relaxed">
+          <div className="sub-title lg:w-[200px] text-sm sm:text-base md:text-lg lg:text-xl mt-4 max-w-sm md:max-w-lg text-center lg:text-left leading-relaxed">
             <span className="inline text-gray-600">Built from strategic thinking, safety, vision, and commitment to deliver transformational solutions across the globe.</span>
           </div>
-          </div>
+        </div>
 
         {/* Right stacked cards */}
         <div className="right w-full lg:basis-1/2 lg:h-screen lg:sticky top-0">
@@ -341,17 +343,17 @@ export default function WhoWeAre() {
                     boxShadow: '0 10px 25px rgba(20, 0, 121, 0.15)',
                   }}
                 >
-                  <div className="sub text-2xl lg:text-3xl font-semibold mb-4 text-white/80">
+                  <div className="sub text-xl sm:text-2xl md:text-3xl lg:text-3xl font-semibold mb-1 sm:mb-2 md:mb-3 lg:mb-4 text-white/80">
                     {item.num}
                   </div>
-                  <div className="content text-3xl lg:text-4xl font-bold leading-tight text-white flex-1 flex items-center">
+                  <div className="content text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold leading-tight text-white flex lg:flex-1 items-start lg:items-center">
                     {item.title}
                   </div>
-                  <div className="desc text-base lg:text-lg text-white/70 mt-4 leading-relaxed">
+                  <div className="desc text-sm sm:text-base md:text-lg lg:text-lg text-white/70 mt-1 sm:mt-2 md:mt-3 lg:mt-4 leading-relaxed">
                     {item.desc}
                   </div>
-              </div>
-            ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -360,30 +362,30 @@ export default function WhoWeAre() {
       {/* Certifications */}
       <section 
         ref={(el) => { sectionRefs.current[3] = el; }}
-        className="py-32 bg-[#411fed]/10 text-gray-900"
+        className="certifications-section-small py-16 md:py-32 bg-[#411fed]/10 text-gray-900"
       >
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-20 items-center">
             <div className={`${isVisible[3] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
               <div>
                 <span className="text-xs tracking-[0.3em] text-gray-600 uppercase">Industry Standards</span>
-                <h2 className="text-4xl lg:text-5xl font-light mt-4 mb-8">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light mt-4 mb-6 md:mb-8">
                   <span className="font-bold text-[#140079]">Certifications</span>
                 </h2>
               </div>
               
-              <p className="text-lg text-gray-700 leading-relaxed mb-12 font-light">
+              <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-8 md:mb-12 font-light">
                 Indigo is committed to continuously expanding and improving its Integrated Management Systems and keeping all certifications and accreditation up to date.
               </p>
               
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4">
                 {['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO 27001', 'ISO 50001', 'SOC 2'].map((cert, i) => (
                   <div 
                     key={i}
-                     className="group border border-gray-200 p-6 text-center transition-all duration-300 hover:border-[#140079] hover:bg-[#411fed]/10 bg-white shadow-sm hover:shadow-md"
+                     className="group border border-gray-200 p-3 sm:p-4 md:p-6 text-center transition-all duration-300 hover:border-[#140079] hover:bg-[#411fed]/10 bg-white shadow-sm hover:shadow-md"
                      style={{ animationDelay: `${i * 0.05}s` }}
                   >
-                    <div className="text-sm font-medium text-gray-700 group-hover:text-[#140079] transition-colors">{cert}</div>
+                    <div className="text-xs sm:text-sm font-medium text-gray-700 group-hover:text-[#140079] transition-colors">{cert}</div>
                   </div>
                 ))}
               </div>
@@ -428,7 +430,7 @@ export default function WhoWeAre() {
       {/* Timeline - Train Effect */}
       <section 
         ref={(el) => { sectionRefs.current[4] = el; }}
-        className="py-32 bg-white overflow-hidden"
+        className="timeline-section min-h-screen py-24 md:py-32 bg-white overflow-hidden"
       >
         <div className="container mx-auto px-6 lg:px-12">
           <div className={`text-center mb-20 ${isVisible[4] ? 'animate-fadeInUp' : 'opacity-0'}`}>
@@ -446,8 +448,15 @@ export default function WhoWeAre() {
                 <div 
                   key={index}
                   className="train-card group bg-white border border-gray-200 p-6 transition-all duration-500 hover:border-[#140079]/30 hover:shadow-lg flex-shrink-0"
-                  onMouseEnter={() => setIsTrainPaused(true)}
-                  onMouseLeave={() => setIsTrainPaused(false)}
+                  onMouseEnter={() => {
+                    if (window.innerWidth >= 1024) setIsTrainPaused(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (window.innerWidth >= 1024) setIsTrainPaused(false);
+                  }}
+                  onClick={() => {
+                    if (window.innerWidth < 1024) setIsTrainPaused(prev => !prev);
+                  }}
                 >
                   <div className="text-2xl font-bold bg-gradient-to-r from-[#140079] to-blue-600 bg-clip-text text-transparent mb-3">
                     {item.year}
