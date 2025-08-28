@@ -50,6 +50,7 @@ const IndigoTimeline = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [videoTransitionComplete, setVideoTransitionComplete] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
   const countAnimationStartedRef = useRef(false);
   const [animationKey, setAnimationKey] = useState(0); // Force re-render key
   const typewriterIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -63,7 +64,32 @@ const IndigoTimeline = () => {
   // Mount effect to prevent hydration issues
   useEffect(() => {
     setIsMounted(true);
+    
+    // Check screen size on mount
+    const checkScreenSize = () => {
+      const isLarge = window.innerWidth > 1000;
+      setIsLargeScreen(isLarge);
+      
+      // For mobile devices, let the scroll animation handle the transition
+      // Don't set video transition complete immediately
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
   }, []);
+
+  // Effect to handle screen size changes
+  useEffect(() => {
+    if (isMounted && !isLargeScreen) {
+      // For mobile devices, don't set video transition complete immediately
+      // Let the scroll animation handle the text fade out and celebration section appearance
+      // The typewriter will start after the text fade animation completes
+    }
+  }, [isLargeScreen, isMounted]);
 
   // Scroll prevention functions
   const preventScroll = (e: Event) => {
@@ -281,7 +307,7 @@ const IndigoTimeline = () => {
       scrollTriggerInstance = window.ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=800vh", // Much longer animation height
+        end: isLargeScreen ? "+=800vh" : "+=400vh", // Shorter animation height for mobile
         scrub: 0.3, // Faster scrub value for quicker animations
         pin: true,
         anticipatePin: 1,
@@ -297,90 +323,139 @@ const IndigoTimeline = () => {
             scrollTriggerInstance.disable();
           }
           
-           // Automatically complete the video transition with EXACT same motion
-           // Use the same mathematical formulas as the scroll-based animation
-           let progress = 0;
-           const duration = 1200; // 1.5 seconds total (half the time)
-           const startTime = Date.now();
-          
-          const animateTransition = () => {
-            const elapsed = Date.now() - startTime;
-            progress = Math.min(elapsed / duration, 1);
+          // Check if we should run video transition animations (only on large screens)
+          if (isLargeScreen) {
+            // Automatically complete the video transition with EXACT same motion
+            // Use the same mathematical formulas as the scroll-based animation
+            let progress = 0;
+            const duration = 1200; // 1.5 seconds total (half the time)
+            const startTime = Date.now();
             
-            // Calculate viewport dimensions (same as original)
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            
-                         // Video movement: EXACT same formula as original
-             const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
-             const videoY = progress * (vh * 0.1);
-            const videoScale = 1;
-            
-            // Curling effect: EXACT same mathematical formula as original
-            const curlIntensity = Math.sin(progress * Math.PI) * 12;
-            const skewX = curlIntensity;
-            const skewY = curlIntensity * 0.3;
-            const rotateZ = curlIntensity * 0.4;
-            
-            // Border radius: EXACT same formula as original
-            const borderRadius = 16 - (curlIntensity * 0.6);
-            
-            // Apply transforms (same as original)
-            window.gsap.set(videoRef.current, {
-              x: videoX,
-              y: videoY,
-              scale: videoScale,
-              zIndex: 10,
-              transformOrigin: "center center"
-            });
-            
-            window.gsap.set(videoInnerRef.current, {
-              skewX: skewX,
-              skewY: skewY,
-              rotateZ: rotateZ,
-              borderRadius: `${borderRadius}px`,
-              transformStyle: "preserve-3d"
-            });
-            
-            // Heading fade out: EXACT same formula as original
-            const headingOpacity = Math.max(0, 1 - (progress * 2));
-            window.gsap.set(headingRef.current, { opacity: headingOpacity });
-            
-            // Description fade out: EXACT same formula as original
-            const descriptionOpacity = Math.max(0, 1 - (progress * 3));
-            window.gsap.set(descriptionRef.current, { opacity: descriptionOpacity });
-            
-            // Button fade out: EXACT same formula as original
-            const buttonOpacity = Math.max(0, 1 - ((progress - 0.1) * 3));
-            window.gsap.set(buttonRef.current, { opacity: buttonOpacity });
-            
-            // Text container fade out: EXACT same formula as original
-            const containerOpacity = Math.max(0, 1 - (progress * 2));
-            window.gsap.set(textContainerRef.current, { opacity: containerOpacity });
-            
-            // New section appears: EXACT same formula as original
-            const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
-            window.gsap.set(newSectionRef.current, { opacity: newSectionOpacity, x: 0 });
-            
-            // Continue animation or complete
-            if (progress < 1) {
-              requestAnimationFrame(animateTransition);
-            } else {
-              // Animation complete - trigger next phase
-              if (sectionRef.current && !hasTriggeredAnimationsRef.current) {
-                setVideoTransitionComplete(true);
-                startTypewriterAnimation();
-              }
+            const animateTransition = () => {
+              const elapsed = Date.now() - startTime;
+              progress = Math.min(elapsed / duration, 1);
+              
+              // Calculate viewport dimensions (same as original)
+              const vw = window.innerWidth;
+              const vh = window.innerHeight;
+              
+              // Video movement: EXACT same formula as original
+              const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
+              const videoY = progress * (vh * 0.1);
+              const videoScale = 1;
+              
+              // Curling effect: EXACT same mathematical formula as original
+              const curlIntensity = Math.sin(progress * Math.PI) * 12;
+              const skewX = curlIntensity;
+              const skewY = curlIntensity * 0.3;
+              const rotateZ = curlIntensity * 0.4;
+              
+              // Border radius: EXACT same formula as original
+              const borderRadius = 16 - (curlIntensity * 0.6);
+              
+              // Apply transforms (same as original)
+              window.gsap.set(videoRef.current, {
+                x: videoX,
+                y: videoY,
+                scale: videoScale,
+                zIndex: 10,
+                transformOrigin: "center center"
+              });
+              
+              window.gsap.set(videoInnerRef.current, {
+                skewX: skewX,
+                skewY: skewY,
+                rotateZ: rotateZ,
+                borderRadius: `${borderRadius}px`,
+                transformStyle: "preserve-3d"
+              });
+              
+              // Heading fade out: EXACT same formula as original
+              const headingOpacity = Math.max(0, 1 - (progress * 2));
+              window.gsap.set(headingRef.current, { opacity: headingOpacity });
+              
+              // Description fade out: EXACT same formula as original
+              const descriptionOpacity = Math.max(0, 1 - (progress * 3));
+              window.gsap.set(descriptionRef.current, { opacity: descriptionOpacity });
+              
+              // Button fade out: EXACT same formula as original
+              const buttonOpacity = Math.max(0, 1 - ((progress - 0.1) * 3));
+              window.gsap.set(buttonRef.current, { opacity: buttonOpacity });
+              
+              // Text container fade out: EXACT same formula as original
+              const containerOpacity = Math.max(0, 1 - (progress * 2));
+              window.gsap.set(textContainerRef.current, { opacity: containerOpacity });
+              
+              // New section appears: EXACT same formula as original
+              const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
+              window.gsap.set(newSectionRef.current, { opacity: newSectionOpacity, x: 0 });
+              
+              // Continue animation or complete
+              if (progress < 1) {
+                requestAnimationFrame(animateTransition);
+              } else {
+                // Animation complete - trigger next phase
+                if (sectionRef.current && !hasTriggeredAnimationsRef.current) {
+                  setVideoTransitionComplete(true);
+                  startTypewriterAnimation();
+                }
 
-              // After animation finished, ensure thumbnail overlay is removed so YouTube play button is visible
-              if (thumbnailRef.current) {
-                thumbnailRef.current.style.display = "none";
+                // After animation finished, ensure thumbnail overlay is removed so YouTube play button is visible
+                if (thumbnailRef.current) {
+                  thumbnailRef.current.style.display = "none";
+                }
               }
-            }
-          };
-          
-          // Start the animation loop
-          requestAnimationFrame(animateTransition);
+            };
+            
+            // Start the animation loop
+            requestAnimationFrame(animateTransition);
+          } else {
+            // For mobile devices, animate text fade out and show celebration section
+            let progress = 0;
+            const duration = 800; // Faster animation for mobile
+            const startTime = Date.now();
+            
+            const animateMobileTransition = () => {
+              const elapsed = Date.now() - startTime;
+              progress = Math.min(elapsed / duration, 1);
+              
+              // Text fade out (same as desktop)
+              const headingOpacity = Math.max(0, 1 - (progress * 2));
+              window.gsap.set(headingRef.current, { opacity: headingOpacity });
+              
+              const descriptionOpacity = Math.max(0, 1 - (progress * 3));
+              window.gsap.set(descriptionRef.current, { opacity: descriptionOpacity });
+              
+              const buttonOpacity = Math.max(0, 1 - ((progress - 0.1) * 3));
+              window.gsap.set(buttonRef.current, { opacity: buttonOpacity });
+              
+              const containerOpacity = Math.max(0, 1 - (progress * 2));
+              window.gsap.set(textContainerRef.current, { opacity: containerOpacity });
+              
+              // Show celebration section when text is fading out
+              const newSectionOpacity = progress >= 0.5 ? Math.min(1, (progress - 0.5) * 2) : 0;
+              window.gsap.set(newSectionRef.current, { opacity: newSectionOpacity, x: 0 });
+              
+              // Continue animation or complete
+              if (progress < 1) {
+                requestAnimationFrame(animateMobileTransition);
+              } else {
+                // Animation complete - trigger next phase
+                if (sectionRef.current && !hasTriggeredAnimationsRef.current) {
+                  setVideoTransitionComplete(true);
+                  startTypewriterAnimation();
+                }
+                
+                // Remove thumbnail overlay for mobile
+                if (thumbnailRef.current) {
+                  thumbnailRef.current.style.display = "none";
+                }
+              }
+            };
+            
+            // Start the mobile animation loop
+            requestAnimationFrame(animateMobileTransition);
+          }
         },
         onUpdate: (self: any) => {
           // Skip scroll-based animation only during initial automatic transition
@@ -389,76 +464,73 @@ const IndigoTimeline = () => {
           
           const progress = self.progress;
           
-          // Calculate viewport dimensions
-          const vw = window.innerWidth;
-          const vh = window.innerHeight;
-          
-                     // Video movement: from left to center-left side (same size)
-           const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
-           const videoY = progress * (vh * 0.1); // Land a bit below for smooth transition
-          const videoScale = 1; // Keep same size
-          
-          // Curling effect: video deforms during transition
-          const curlIntensity = Math.sin(progress * Math.PI) * 12; // Bell curve for curl
-          const skewX = curlIntensity;
-          const skewY = curlIntensity * 0.3;
-          const rotateZ = curlIntensity * 0.4;
-          
-          // Apply curl effect with CSS transforms
-          const borderRadius = 16 - (curlIntensity * 0.6); // Reduce border radius during curl
-          
-          window.gsap.set(videoRef.current, {
-            x: videoX,
-            y: videoY,
-            scale: videoScale,
-            zIndex: 10,
-            transformOrigin: "center center"
-          });
+          if (isLargeScreen) {
+            // Large screen: Full video transition + text fade out
+            // Calculate viewport dimensions
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            
+            // Video movement: from left to center-left side (same size)
+            const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
+            const videoY = progress * (vh * 0.1); // Land a bit below for smooth transition
+            const videoScale = 1; // Keep same size
+            
+            // Curling effect: video deforms during transition
+            const curlIntensity = Math.sin(progress * Math.PI) * 12; // Bell curve for curl
+            const skewX = curlIntensity;
+            const skewY = curlIntensity * 0.3;
+            const rotateZ = curlIntensity * 0.4;
+            
+            // Apply curl effect with CSS transforms
+            const borderRadius = 16 - (curlIntensity * 0.6); // Reduce border radius during curl
+            
+            window.gsap.set(videoRef.current, {
+              x: videoX,
+              y: videoY,
+              scale: videoScale,
+              zIndex: 10,
+              transformOrigin: "center center"
+            });
 
-          // Apply curling effect to inner video container
-          window.gsap.set(videoInnerRef.current, {
-            skewX: skewX,
-            skewY: skewY,
-            rotateZ: rotateZ,
-            borderRadius: `${borderRadius}px`,
-            transformStyle: "preserve-3d"
-          });
+            // Apply curling effect to inner video container
+            window.gsap.set(videoInnerRef.current, {
+              skewX: skewX,
+              skewY: skewY,
+              rotateZ: rotateZ,
+              borderRadius: `${borderRadius}px`,
+              transformStyle: "preserve-3d"
+            });
 
-          // Heading fade out
+            // New section appears when video transition is nearly complete with smooth fade
+            const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
+            
+            window.gsap.set(newSectionRef.current, {
+              opacity: newSectionOpacity,
+              x: 0 // No horizontal movement
+            });
+          } else {
+            // Mobile: Only text fade out + celebration section appearance
+            // New section appears earlier on mobile for better timing
+            const newSectionOpacity = progress >= 0.4 ? Math.min(1, (progress - 0.4) * 1.67) : 0;
+            
+            window.gsap.set(newSectionRef.current, {
+              opacity: newSectionOpacity,
+              x: 0
+            });
+          }
+          
+          // Text fade out (same for both desktop and mobile)
           const headingOpacity = Math.max(0, 1 - (progress * 2));
-          
-          window.gsap.set(headingRef.current, {
-            opacity: headingOpacity
-          });
+          window.gsap.set(headingRef.current, { opacity: headingOpacity });
 
-          // Description fade out quickly
           const descriptionOpacity = Math.max(0, 1 - (progress * 3));
-          
-          window.gsap.set(descriptionRef.current, {
-            opacity: descriptionOpacity
-          });
+          window.gsap.set(descriptionRef.current, { opacity: descriptionOpacity });
 
-          // Button fade out after description
           const buttonOpacity = Math.max(0, 1 - ((progress - 0.1) * 3));
-          
-          window.gsap.set(buttonRef.current, {
-            opacity: buttonOpacity
-          });
+          window.gsap.set(buttonRef.current, { opacity: buttonOpacity });
 
-          // Text container fade out
           const containerOpacity = Math.max(0, 1 - (progress * 2));
-          
-          window.gsap.set(textContainerRef.current, {
-            opacity: containerOpacity
-          });
-
-          // New section appears when video transition is nearly complete with smooth fade
-          const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
-          
-          window.gsap.set(newSectionRef.current, {
-            opacity: newSectionOpacity,
-            x: 0 // No horizontal movement
-          });
+          window.gsap.set(textContainerRef.current, { opacity: containerOpacity });
 
           // Update thumbnail opacity during scroll-scrub too
           if (thumbnailRef.current) {
@@ -485,8 +557,6 @@ const IndigoTimeline = () => {
               enableScroll();
             }
           }
-
-
         }
       });
 
@@ -659,22 +729,30 @@ const IndigoTimeline = () => {
   }
 
   return (
-    <section 
-      ref={sectionRef}
-      className="h-screen bg-white relative overflow-hidden"
-    >
-      {/* Background overlay that appears during transition */}
-      <div 
-        className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-indigo-50/30 opacity-0 transition-opacity duration-1000 pointer-events-none"
-        style={{ 
-          background: 'radial-gradient(circle at center, rgba(20, 0, 121, 0.05) 0%, transparent 70%)'
-        }}
-      />
-      
+          <section 
+        ref={sectionRef}
+        className={`h-screen bg-white relative overflow-hidden ${
+          !isLargeScreen ? 'section-mobile' : ''
+        }`}
+      >
+        {/* Background overlay that appears during transition */}
+        <div 
+          className={`absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-indigo-50/30 opacity-0 transition-opacity duration-1000 pointer-events-none ${
+            !isLargeScreen ? 'px-4' : ''
+          }`}
+          style={{ 
+            background: 'radial-gradient(circle at center, rgba(20, 0, 121, 0.05) 0%, transparent 70%)'
+          }}
+        />
+        
 
-      
-      <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full relative">
+        
+        <div ref={containerRef} className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full ${
+          !isLargeScreen ? 'pt-16 pb-8 container-mobile' : ''
+        }`}>
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full relative ${
+            !isLargeScreen ? 'px-4 grid-mobile' : ''
+          }`}>
           
           {/* Left Section - YouTube Video */}
           <div ref={videoRef} className="relative video-container">
@@ -739,11 +817,23 @@ const IndigoTimeline = () => {
         </div>
       </div>
 
-      {/* New Section - Celebrating Indigo with Typewriter Animation */}
-              <div 
-          ref={newSectionRef}
-          className="absolute left-8 top-1/2 transform -translate-y-24 z-20 opacity-0"
-        >
+             {/* New Section - Celebrating Indigo with Typewriter Animation */}
+       <div 
+         ref={newSectionRef}
+         className={`absolute z-20 opacity-0 ${
+           isLargeScreen 
+             ? "left-8 top-1/2 transform -translate-y-24" 
+             : "left-4 right-4 top-1/2 transform -translate-y-12 text-center celebration-section-mobile"
+         }`}
+         style={{
+           // On mobile, position it where the text content was but with top spacing
+           ...(isLargeScreen ? {} : {
+             left: '50%',
+             transform: 'translateX(-50%) translateY(-50%)',
+             top: '60%' // Move down by changing from 50% to 60%
+           })
+         }}
+       >
         <div className="space-y-12">
           {/* Heading Section */}
           <div>
@@ -1029,9 +1119,113 @@ const IndigoTimeline = () => {
           }
         }
 
+        @media (max-width: 1000px) {
+          /* Disable video transitions on mobile but keep text animations */
+          .video-container {
+            transform: none !important;
+            transition: none !important;
+          }
+          
+          .video-inner {
+            transform: none !important;
+            transition: none !important;
+          }
+          
+          /* Allow text content to animate (fade out) */
+          .text-content {
+            transition: opacity 0.3s ease !important;
+          }
+          
+          .text-content h2,
+          .text-content p,
+          .text-content button {
+            transition: opacity 0.3s ease !important;
+          }
+          
+          /* Add mobile spacing */
+          .section-mobile {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+          }
+          
+          .container-mobile {
+            padding-top: 4rem !important;
+            padding-bottom: 2rem !important;
+          }
+          
+          .grid-mobile {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+        }
+
         @media (max-width: 768px) {
           .video-container {
             margin-bottom: 2rem;
+            margin-top: 1rem;
+          }
+          
+          .text-content {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+          }
+          
+          /* Mobile-specific positioning for celebration section */
+          .celebration-section-mobile {
+            position: absolute !important;
+            left: 50% !important;
+            top: 60% !important; /* Move down from 50% to 60% */
+            transform: translateX(-50%) translateY(-50%) !important;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            padding: 1rem;
+            min-height: 300px !important;
+            margin-top: 2rem !important; /* Additional top margin for mobile */
+          }
+          
+          /* Mobile-specific text sizes */
+          .celebration-section-mobile h2 {
+            font-size: 2.5rem !important;
+            line-height: 1.2 !important;
+          }
+          
+          .celebration-section-mobile .counter-number {
+            font-size: 4rem !important;
+            line-height: 1 !important;
+          }
+          
+          .celebration-section-mobile .text-lg {
+            font-size: 1rem !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          /* Extra small mobile devices */
+          .video-container {
+            margin-top: 1.5rem !important;
+            margin-bottom: 2.5rem !important;
+          }
+          
+          .text-content {
+            margin-top: 1.5rem !important;
+            margin-bottom: 1.5rem !important;
+          }
+          
+          .celebration-section-mobile {
+            width: 95% !important;
+            padding: 1.5rem !important;
+            min-height: 280px !important;
+            top: 65% !important; /* Even more top spacing for very small screens */
+            margin-top: 3rem !important; /* Additional top margin for extra small screens */
+          }
+          
+          .celebration-section-mobile h2 {
+            font-size: 2rem !important;
+          }
+          
+          .celebration-section-mobile .counter-number {
+            font-size: 3.5rem !important;
           }
         }
 
