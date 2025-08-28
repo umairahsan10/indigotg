@@ -153,13 +153,13 @@ const officeLocations: OfficeLocation[] = [
 
   // Helpers: choose zoom levels depending on viewport and map state
   const getDefaultZoom = () => {
-    if (typeof window === 'undefined') return 3;
-    return window.innerWidth < 768 ? 2 : 3; // minimized view
+    if (typeof window === 'undefined') return 2;
+    return 2; // Use zoom level 2 universally
   };
 
   const getExpandedZoom = () => {
     if (typeof window === 'undefined') return 3;
-    return window.innerWidth < 768 ? 4 : 3; // expanded view
+    return window.innerWidth < 768 ? 3 : 2; // expanded view
   };
 
 export default function InteractiveMap() {
@@ -569,7 +569,11 @@ export default function InteractiveMap() {
         {/* On mobile (below lg) we use a shorter fixed height that scales with the screen, */}
         {/* while keeping the original behaviour for larger view-ports. */}
         {/* Map column – give it a responsive height on small screens and full height on desktop */}
-        <div className="w-full lg:w-1/2 relative h-72 sm:h-80 md:h-96 lg:h-full flex items-center">
+        <div
+          className={`w-full lg:w-1/2 relative flex items-center transition-all duration-300 ease-in-out ${
+            isExpanded ? 'h-[400px]' : 'h-[250px]'
+          } lg:h-full`}
+        >
           <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#0b0e1a] border border-white/10">
             {/* Expand/Collapse Button */}
             <button
@@ -643,8 +647,8 @@ export default function InteractiveMap() {
             {/* Map Container */}
             <div
               ref={mapRef}
-              /* Use aspect-ratio on mobile for a square map, fallback to explicit height on lg+ */
-              className={`w-full transition-all duration-300 ease-in-out aspect-square lg:aspect-auto ${
+              /* Adjust height on mobile when expanded similar to OfficeMap */
+              className={`w-full h-full transition-all duration-300 ease-in-out lg:aspect-auto ${
                 isExpanded ? 'lg:min-h-[500px]' : 'lg:min-h-[400px]'
               }`}
             />
