@@ -192,6 +192,16 @@ const HeroSlider = () => {
     }
   }, []);
 
+  // Create initial video overlay immediately (independent of GSAP)
+  useEffect(() => {
+    // Create video overlay for first slide immediately if it's a video
+    if (slides[0].type === "video") {
+      setTimeout(() => {
+        createVideoOverlay(slides[0], 0);
+      }, 100); // Small delay to ensure DOM is ready
+    }
+  }, []);
+
   // Keep these as module-level variables like in the original
   let currentSlideIndex = 0;
   let isTransitioning = false;
@@ -1340,6 +1350,9 @@ const HeroSlider = () => {
   };
 
   useEffect(() => {
+    // Wait for GSAP to be ready before initializing
+    if (!isGSAPReady) return;
+
     gsap.registerPlugin(SplitText);
     gsap.config({ nullTargetWarn: false });
 
@@ -1386,7 +1399,7 @@ const HeroSlider = () => {
       });
       videoRefs.current.clear();
     };
-  }, []);
+  }, [isGSAPReady]); // Add isGSAPReady as dependency
 
   return (
     <div

@@ -208,13 +208,25 @@ const waitForGSAPComponents = (): Promise<void> => {
     
     const checkComponents = () => {
       // Check if key GSAP components are present in the DOM
-      const hasHeroSlider = document.querySelector('.slider') !== null;
+      const hasHeroSlider = document.querySelector('[data-gsap-component="hero-slider"]') !== null;
       const hasScrollAnimation = document.querySelector('[data-gsap-component="scroll-animation"]') !== null;
       
       // Wait for at least one major GSAP component to be ready
       if (hasHeroSlider || hasScrollAnimation) {
         // Give extra time for GSAP animations to initialize
-        setTimeout(resolve, 800);
+        setTimeout(() => {
+          // Additional check: ensure GSAP animations are actually working
+          if (typeof window !== 'undefined' && (window as any).gsap) {
+            const gsap = (window as any).gsap;
+            // Force a small animation to test if GSAP is working
+            gsap.to('body', { duration: 0.1, opacity: 1, onComplete: () => {
+              console.log('GSAP components ready');
+              resolve();
+            }});
+          } else {
+            resolve();
+          }
+        }, 1000);
         return;
       }
       
@@ -225,7 +237,7 @@ const waitForGSAPComponents = (): Promise<void> => {
     checkComponents();
     
     // Fallback timeout to prevent getting stuck
-    setTimeout(resolve, 4000);
+    setTimeout(resolve, 6000);
   });
 };
 

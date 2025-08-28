@@ -245,6 +245,7 @@ const ScrollAnimation = () => {
       });
     }
 
+    // Cleanup function
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
