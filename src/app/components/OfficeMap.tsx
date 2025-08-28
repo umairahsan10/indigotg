@@ -202,7 +202,19 @@ export default function InteractiveMap() {
     // Only fit bounds if explicitly requested (for initial load)
     if (shouldFitBounds && bounds.isValid()) {
       map.fitBounds(bounds, { padding: [20, 20] });
+
+      // Ensure we never zoom out below the desired default (mobile = 2)
+      const minZoom = getDefaultZoom();
+      if (map.getZoom() < minZoom) {
+        map.setZoom(minZoom);
+      }
     }
+  };
+
+  // Helper: choose zoom levels depending on viewport (mobile vs desktop)
+  const getDefaultZoom = () => {
+    if (typeof window === 'undefined') return 3;
+    return window.innerWidth < 768 ? 2 : 3; // Mobile uses 2, others 3
   };
 
   // Function to initialize map with specific expanded state
@@ -218,10 +230,11 @@ export default function InteractiveMap() {
     // Clear markers array for new map
     markersRef.current = [];
 
-    // Initialize map with the provided expanded state
+    const defaultZoom = getDefaultZoom();
+
     const map = L.map(mapRef.current, {
       center: [30, 0], // Center between all locations
-      zoom: 2,
+      zoom: defaultZoom,
       zoomControl: true,
       scrollWheelZoom: expandedState, // Use the provided state
       doubleClickZoom: true,
@@ -252,6 +265,9 @@ export default function InteractiveMap() {
     } else {
       streetLayer.addTo(map);
     }
+
+    // Enforce minimum zoom (esp. on mobile) so users can’t zoom out further than default
+    map.setMinZoom(defaultZoom);
 
     // Store map instance
     mapInstanceRef.current = map;
@@ -383,10 +399,19 @@ export default function InteractiveMap() {
           if (mapInstanceRef.current) {
             // Fly back to overview showing all markers
             const bounds = L.latLngBounds(officeLocations.map(office => office.coordinates));
+            const minZoom = getDefaultZoom();
+
             mapInstanceRef.current.flyToBounds(bounds, { 
               padding: [20, 20],
               duration: 2,
               easeLinearity: 0.25
+            });
+
+            // After movement ends, clamp zoom to minZoom if necessary
+            mapInstanceRef.current.once('moveend', () => {
+              if (mapInstanceRef.current && mapInstanceRef.current.getZoom() < minZoom) {
+                mapInstanceRef.current.setZoom(minZoom);
+              }
             });
           }
         }}
