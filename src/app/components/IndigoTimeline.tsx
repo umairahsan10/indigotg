@@ -43,6 +43,8 @@ const IndigoTimeline = () => {
   const newSectionRef = useRef<HTMLDivElement>(null);
   const typewriterTextRef = useRef<HTMLSpanElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
+  const yearsRef = useRef<HTMLSpanElement>(null);
+  const overlayTextRef = useRef<HTMLDivElement>(null);
   
   const [gsapLoaded, setGsapLoaded] = useState(false);
   const [confettiTriggered, setConfettiTriggered] = useState(false);
@@ -57,12 +59,21 @@ const IndigoTimeline = () => {
   const hasTriggeredAnimationsRef = useRef(false);
   const [animationsRunning, setAnimationsRunning] = useState(false);
   const [sectionLocked, setSectionLocked] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   // Ref to store ScrollTrigger instance so we can disable / kill it from anywhere
   const scrollTriggerRef = useRef<any>(null);
+  const mobileTriggeredRef = useRef(false);
 
   // Mount effect to prevent hydration issues
   useEffect(() => {
     setIsMounted(true);
+    // detect mobile on mount and on resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Scroll prevention functions
@@ -117,6 +128,24 @@ const IndigoTimeline = () => {
      }, 60);
   };
 
+  // NEW: Animate number into final heading and restore original text
+  const finalizeHeadingAnimation = () => {
+    if (!window.gsap || !numberRef.current || !typewriterTextRef.current || !overlayTextRef.current) return;
+    
+    const tl = window.gsap.timeline({ defaults: { ease: "power3.out" } });
+    // Zoom the "25" toward screen then fade out together with typewriter text
+    tl.to(numberRef.current, { scale: 4, opacity: 0, duration: 0.6, ease: "power3.in" })
+      .to([typewriterTextRef.current, yearsRef.current], { opacity: 0, duration: 0.4 }, "<")
+      // Fade in the overlay text section (duplicate of original text)
+      .to(overlayTextRef.current, { opacity: 1, duration: 0.7 }, ">-0.1")
+      .call(() => {
+        if (isMobile) {
+          setSectionLocked(false);
+          enableScroll();
+        }
+      });
+  };
+
   const startCountAnimation = () => {
     if (countAnimationStartedRef.current) return;
     
@@ -151,6 +180,8 @@ const IndigoTimeline = () => {
            clearInterval(countIntervalRef.current);
            countIntervalRef.current = null;
          }
+         // Trigger final heading merge animation
+         finalizeHeadingAnimation();
 
          // Kill the ScrollTrigger instance (this also removes pinning) before
          // we re-enable scroll so there is no chance of it snapping elements.
@@ -276,7 +307,30 @@ const IndigoTimeline = () => {
            ease: "power3.out"
          }, "-=0.3");
 
-      // Main scroll-triggered transition
+       if (isMobile) {
+         const triggerMobileSequence = () => {
+           if (mobileTriggeredRef.current || !sectionRef.current) return;
+           const rect = sectionRef.current.getBoundingClientRect();
+           if (rect.top <= 0) {
+             mobileTriggeredRef.current = true;
+             setSectionLocked(true);
+             disableScroll();
+
+             window.gsap.to(textContainerRef.current, { opacity: 0, duration: 0.5 });
+             window.gsap.to(newSectionRef.current, { opacity: 1, duration: 0.5 });
+             setVideoTransitionComplete(true);
+             startTypewriterAnimation();
+             window.removeEventListener('scroll', triggerMobileSequence);
+           }
+         };
+
+         window.addEventListener('scroll', triggerMobileSequence, { passive: true });
+         // call once in case already at top
+         triggerMobileSequence();
+         return; // Skip ScrollTrigger for mobile
+       }
+
+      // Desktop: Main scroll-triggered transition
       // Create the ScrollTrigger and store it in a ref so other callbacks can reach it
       scrollTriggerInstance = window.ScrollTrigger.create({
         trigger: sectionRef.current,
@@ -661,7 +715,7 @@ const IndigoTimeline = () => {
   return (
     <section 
       ref={sectionRef}
-      className="h-screen bg-white relative overflow-hidden"
+      className="h-screen bg-white relative overflow-hidden pt-24 md:pt-32 lg:pt-0"
     >
       {/* Background overlay that appears during transition */}
       <div 
@@ -709,7 +763,7 @@ const IndigoTimeline = () => {
           </div>
 
           {/* Right Section - Text Content */}
-          <div ref={textContainerRef} className="space-y-8 text-content relative z-10">
+          <div ref={textContainerRef} className="space-y-6 text-content relative z-10 ">
             <h2 
               ref={headingRef}
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#140079] leading-tight tracking-tight"
@@ -725,7 +779,7 @@ const IndigoTimeline = () => {
             </p>
             
             {/* Animated Button */}
-            <div ref={buttonRef} className="pt-4">
+            <div ref={buttonRef}>
               <Link href="/news" className="inline-block">
                 <button className="learn-more group">
                   <span className="circle">
@@ -740,11 +794,11 @@ const IndigoTimeline = () => {
       </div>
 
       {/* New Section - Celebrating Indigo with Typewriter Animation */}
-              <div 
-          ref={newSectionRef}
-          className="absolute left-8 top-1/2 transform -translate-y-24 z-20 opacity-0"
-        >
-        <div className="space-y-12">
+      <div 
+        ref={newSectionRef}
+        className="absolute left-1/2 lg:left-8 top-1/2 transform -translate-x-1/2 lg:-translate-x-0 -translate-y-24 z-20 opacity-0 mt-32 lg:mt-0"
+      >
+        <div className="space-y-12 ">
           {/* Heading Section */}
           <div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-[#140079] leading-normal font-roboto">
@@ -769,12 +823,30 @@ const IndigoTimeline = () => {
                 >
                   {isMounted ? currentNumber : 0}
                 </span>
-                <span className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
+                <span ref={yearsRef} className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
                   YEARS
                 </span>
               </div>
             </div>
           )}
+
+          {/* Overlay original text section to appear after celebration */}
+          <div ref={overlayTextRef} className="space-y-6 opacity-0 absolute inset-0 -translate-y-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#140079] leading-tight tracking-tight">
+              Celebrating 25 years
+            </h2>
+            <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-light max-w-2xl">
+              Throughout the last 25 years, we've seen our business grow and expand, all while staying true to our core values. We've been humbled by the trust, support and loyalty of our customers, old and new, and we look forward to many more years of creating beautiful, lasting memories for you.
+            </p>
+            <div>
+              <Link href="/news" className="inline-block">
+                <button className="learn-more group">
+                  <span className="circle"><span className="icon arrow"></span></span>
+                  <span className="button-text">Watch more videos</span>
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
