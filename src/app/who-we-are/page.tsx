@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
@@ -16,7 +17,7 @@ export default function WhoWeAre() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isTrainPaused, setIsTrainPaused] = useState(false);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
-  const stackAreaRef = useRef<HTMLDivElement>(null);
+  const stackAreaRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -272,11 +273,13 @@ export default function WhoWeAre() {
               </p>
               </div>
               
-              <div className="pt-8">
-                <button className="group relative overflow-hidden bg-[#140079] text-white px-8 py-4 transition-all duration-300">
+              <div className="pt-2">
+                <Link href="/get-in-touch">
+                <button className="group relative rounded-xl overflow-hidden bg-[#140079] text-white px-8 py-4 transition-all duration-300">
                   <span className="relative z-10 text-sm tracking-wider uppercase font-medium">Learn More</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
               </button>
+              </Link>
               </div>
             </div>
           </div>

@@ -48,7 +48,7 @@ const Navigation = () => {
       ]
     },
     {
-      href: '/solutions2',
+      href: '/solutions',
       label: 'Solutions',
       hasDropdown: true,
       dropdownItems: [
