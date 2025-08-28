@@ -17,8 +17,10 @@ const ScrollAnimation = () => {
     // Note: Lenis is handled by the main Navigation component to avoid conflicts
 
     const smoothStep = (p: number) => p * p * (3 - 2 * p);
+    const isMobile = window.innerWidth <= 1000;
 
-    if (window.innerWidth > 1000) {
+    if (!isMobile) {
+      // Desktop animations - only apply when screen width > 1000px
       ScrollTrigger.create({
         trigger: ".hero",
         start: "top top",
@@ -243,6 +245,97 @@ const ScrollAnimation = () => {
           });
         },
       });
+    } else {
+      // Mobile animations - exactly matching the provided mobile animation code
+      const servicesHeader = document.querySelector('.services-header');
+      const mobileCards = document.querySelectorAll('.mobile-cards .card');
+      
+      if (servicesHeader && mobileCards.length > 0) {
+        // Set initial states for mobile cards - exactly like the provided code
+        mobileCards.forEach((card) => {
+          gsap.set(card, {
+            // Start fully visible (remove fade-in) - exactly like provided code
+            opacity: 1,
+            y: 60,
+            scale: 0.9,
+            rotation: 0,
+            position: "relative",
+            left: "auto",
+            top: "auto",
+            transform: "none",
+            zIndex: 1,
+          });
+        });
+
+        // First, animate the header to appear
+        gsap.fromTo(servicesHeader, 
+          { y: "100px", opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
+        );
+
+        // Create simple reveal animations for each card - exactly like provided code
+        mobileCards.forEach((card) => {
+          // Simple reveal animation - exactly like provided code
+          gsap.to(card, {
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%", // exactly like provided code
+              end: "bottom 80%", // exactly like provided code
+              toggleActions: "play none none reverse",
+              markers: false,
+            },
+          });
+
+          // Simple flip animation when card comes into view - exactly like provided code
+          const frontEl = card.querySelector(".flip-card-front") as HTMLElement;
+          const backEl = card.querySelector(".flip-card-back") as HTMLElement;
+
+          // Use scrubbed progress so rotation reverses visibly as it crosses 50vh
+          // Front side rotates to back - exactly like provided code
+          if (frontEl && backEl) {
+            gsap.fromTo(
+              frontEl,
+              { rotateY: 0 },
+              {
+                rotateY: -180,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top 70%", // exactly like provided code
+                  end: "center center", // exactly like provided code
+                  scrub: true,
+                  markers: false,
+                  // Disable clicks when the card is showing its back side
+                  onUpdate: (self) => {
+                    // Always keep front face non-interactive
+                    frontEl.style.pointerEvents = "none";
+                  },
+                },
+              },
+            );
+
+            gsap.fromTo(
+              backEl,
+              { rotateY: 180 },
+              {
+                rotateY: 0,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top 70%", // exactly like provided code
+                  end: "center center", // exactly like provided code
+                  scrub: true,
+                  markers: false,
+                },
+              },
+            );
+          }
+        });
+      }
     }
 
     return () => {
@@ -395,38 +488,55 @@ const ScrollAnimation = () => {
         .scroll-animation-container .about,
         .scroll-animation-container .outro {
           display: flex;
-          justify-content: center;
-          align-items: center;
+          justify-content: space-between;
+          align-items: stretch;
           background-color: #04048b;
           color: var(--scroll-light);
-        }
-
-        .scroll-animation-container .about-content {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
           max-width: 1400px;
-          padding: 2rem;
-          gap: 2rem;
           width: 100%;
+          gap: 2rem;
+          padding: 4rem 2rem;
+          min-height: 100vh;
+          box-sizing: border-box;
+          overflow: hidden;
         }
 
         .scroll-animation-container .about-text {
-          flex: 1;
+          flex: 0 0 60%;
           text-align: left;
-          min-width: 500px;
+          max-width: 60%;
+          box-sizing: border-box;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+          hyphens: auto;
+          padding-right: 1rem;
+          padding-bottom: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .scroll-animation-container .about-video {
-          flex: 1;
+          flex: 0 0 40%;
           position: relative;
-          min-width: 500px;
+          max-width: 40%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          padding-left: 1rem;
+          padding-top: 2rem;
+        }
+
+        .scroll-animation-container .animation-wrapper {
+          width: 100%;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        .scroll-animation-container .about-content h1 {
+        .scroll-animation-container .about h1 {
           font-size: 2.25rem;
           margin-bottom: 2.5rem;
           line-height: 1.2;
@@ -439,19 +549,21 @@ const ScrollAnimation = () => {
         }
 
         @media (min-width: 768px) {
-          .scroll-animation-container .about-content h1 {
+          .scroll-animation-container .about h1 {
             font-size: 3rem;
           }
         }
 
-        .scroll-animation-container .about-content p {
+        .scroll-animation-container .about p {
           font-size: 1rem;
           margin-bottom: 3rem;
           line-height: 1.6;
           opacity: 0.9;
           font-weight: 400;
           font-family: -moz-system-ui, -moz-system, "Segoe UI", Roboto, sans-serif;
-          max-width: 42rem;
+          max-width: 100%;
+          overflow-wrap: break-word;
+          word-wrap: break-word;
         }
 
         .scroll-animation-container .about-features {
@@ -788,7 +900,7 @@ const ScrollAnimation = () => {
           width: 55%;
           display: flex;
           justify-content: center;
-          gap: 4rem;
+          gap: 2rem;
           z-index: 2;
         }
 
@@ -820,7 +932,7 @@ const ScrollAnimation = () => {
 
         .scroll-animation-container .hero-cards .card span,
         .scroll-animation-container .cards .card span {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           position: relative;
           z-index: 2;
           color: white;
@@ -973,6 +1085,13 @@ const ScrollAnimation = () => {
           justify-content: center;
           z-index: -1;
           background-color: white;
+        }
+
+        /* Ensure desktop cards are visible on larger screens */
+        @media (min-width: 1001px) {
+          .scroll-animation-container .cards {
+            display: flex !important;
+          }
         }
 
         .scroll-animation-container .cards::before {
@@ -1199,6 +1318,13 @@ const ScrollAnimation = () => {
           z-index: 2;
         }
 
+        /* Hide mobile cards on desktop */
+        @media (min-width: 1001px) {
+          .scroll-animation-container .mobile-cards {
+            display: none !important;
+          }
+        }
+
         @media (max-width: 1000px) {
           .scroll-animation-container .hero-header h1 {
             font-size: 2.5rem;
@@ -1206,49 +1332,166 @@ const ScrollAnimation = () => {
           }
 
           .scroll-animation-container .hero-cards {
-            width: calc(100% - 1rem);
+            width: calc(100% - 2rem);
+            top: 65%;
+            gap: 1.5rem;
           }
-
-          .scroll-animation-container .about-content h1 {
-            font-size: 2rem;
-          }
-
-          .scroll-animation-container .about-content {
+          
+          .scroll-animation-container .hero-cards .card {
+            flex: 1;
+            position: relative;
+            aspect-ratio: 5/7;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            display: flex;
             flex-direction: column;
-            gap: 3rem;
-            text-align: center;
-            padding: 2rem;
+            justify-content: space-between;
+            container-type: inline-size;
+            min-height: 200px;
+          }
+
+          .scroll-animation-container .hero-cards .card span {
+            font-size: 0.6rem;
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-weight: 500;
+          }
+
+          .scroll-animation-container .card-center h2 {
+            font-size: clamp(1rem, 4vw, 1.8rem);
+            letter-spacing: 0.5px;
+          }
+          .scroll-animation-container .about h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .scroll-animation-container .about {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+            padding: 2rem 1rem;
+            min-height: auto;
+            align-items: center;
+            justify-content: flex-start;
           }
 
           .scroll-animation-container .about-text {
-            text-align: center;
+            text-align: left;
             min-width: auto;
+            flex: 0 0 auto;
+            padding: 2rem 0;
+            max-width: 100%;
+            order: 2;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 0;
+            padding-bottom: 2rem;
           }
 
-          .scroll-animation-container .about-content h1 {
-            font-size: 2.5rem;
+          .scroll-animation-container .about h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
           }
 
-          .scroll-animation-container .about-content p {
-            font-size: 1.3rem;
+          .scroll-animation-container .about p {
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            max-width: 100%;
+            box-sizing: border-box;
+            line-height: 1.5;
           }
 
           .scroll-animation-container .about-video {
             min-width: auto;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            height: 200px;
+            max-width: 100%;
+            margin-top: 0;
+            order: 1;
+            width: 100%;
+            box-sizing: border-box;
           }
 
-                                                                                                                                                                                                                                                                                                                                                               .scroll-animation-container .circle-video-container {
-               max-width: 600px;
-               margin: 0 auto;
-               min-height: 500px;
-             }
+          .scroll-animation-container .circle-video-container {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 500px;
+          }
+
+          /* Additional mobile responsive styles for hero cards */
+          @media (max-width: 768px) {
+            .scroll-animation-container .hero-cards {
+              width: calc(100% - 1rem);
+              top: 70%;
+              gap: 1rem;
+            }
+
+            .scroll-animation-container .hero-cards .card {
+              padding: 0.4rem;
+              border-radius: 0.5rem;
+              min-height: 180px;
+            }
+
+            .scroll-animation-container .hero-cards .card span {
+              font-size: 0.5rem;
+            }
+
+            .scroll-animation-container .card-center h2 {
+              font-size: clamp(0.9rem, 3.5vw, 1.5rem);
+            }
+          }
+
+          @media (max-width: 480px) {
+            .scroll-animation-container .hero-cards {
+              width: calc(100% - 0.5rem);
+              top: 75%;
+              gap: 0.75rem;
+            }
+
+            .scroll-animation-container .hero-cards .card {
+              padding: 0.3rem;
+              border-radius: 0.4rem;
+              min-height: 160px;
+            }
+
+            .scroll-animation-container .hero-cards .card span {
+              font-size: 0.45rem;
+            }
+
+            .scroll-animation-container .card-center h2 {
+              font-size: clamp(0.8rem, 3vw, 1.3rem);
+            }
+          }
 
           .scroll-animation-container .about-features {
-            gap: 1rem;
+            gap: 0.5rem;
+            margin-top: 0;
           }
 
           .scroll-animation-container .feature {
             padding: 0.5rem 1rem;
+          }
+
+          .scroll-animation-container button.learn-more {
+            width: 12rem;
+            height: auto;
+          }
+
+          .scroll-animation-container button.learn-more .circle {
+            width: 2.5rem;
+            height: 2.5rem;
+          }
+
+          .scroll-animation-container button.learn-more .button-text {
+            font-size: 0.8rem;
           }
 
           .scroll-animation-container .services {
@@ -1260,78 +1503,193 @@ const ScrollAnimation = () => {
             transform: translateY(0%);
           }
 
+          /* Hide desktop cards and services animations on mobile */
+          .scroll-animation-container .cards {
+            display: none !important;
+          }
+
           .scroll-animation-container .mobile-cards {
             display: block;
             height: 100%;
           }
 
           .scroll-animation-container .mobile-cards .cards-container {
-            width: calc(100% - 4rem);
-            display: block;
+            width: calc(100% - 2rem);
+            display: flex;
+            flex-direction: column;
             height: 100%;
-            margin: 4rem auto;
+            margin: 2rem auto;
+            gap: 4rem;
+            align-items: center;
+            justify-content: center;
           }
 
           .scroll-animation-container .mobile-cards .card {
-            margin-bottom: 2rem;
+            margin-bottom: 0;
             background-color: white;
             border-radius: 1rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 5/7;
+            min-height: 450px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.6s ease-out;
           }
 
           .scroll-animation-container .mobile-cards .cards-container .card-wrapper {
-            animation: none;
+            width: 100%;
+            height: 100%;
           }
 
-                  .scroll-animation-container .mobile-cards .card .flip-card-front {
-          transform: rotateY(180deg);
-          background-color: white;
-        }
+          .scroll-animation-container .mobile-cards .card .flip-card-front {
+            transform: rotateY(0deg);
+            background-color: white;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+          }
 
-        .scroll-animation-container #mobile-card-1 .flip-card-front {
-          background-image: url('/card/card-1.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
+          .scroll-animation-container .mobile-cards .card .flip-card-front .card-title span {
+            font-size: 1rem;
+            color: #140079;
+            font-weight: 500;
+          }
 
-        .scroll-animation-container #mobile-card-2 .flip-card-front {
-          background-image: url('/card/card-2.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
+          .scroll-animation-container .mobile-cards .card .flip-card-back {
+            transform: rotateY(180deg);
+            background-color: #08048c;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem;
+          }
 
-        .scroll-animation-container #mobile-card-3 .flip-card-front {
-          background-image: url('/card/card-3.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
+          .scroll-animation-container .mobile-cards .card .card-title span {
+            font-size: 1rem;
+            color: white;
+            font-weight: 500;
+          }
 
-                  .scroll-animation-container .mobile-cards .flip-card-back {
-          transform: rotateY(0deg);
-          background-color: white;
-        }
+          .scroll-animation-container .mobile-cards .card .card-copy p {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            margin: 0.75rem 0;
+          }
 
-        .scroll-animation-container #mobile-card-1 .flip-card-back {
-          background-color: #08048c;
-        }
+          /* Mobile services cards responsive styles */
+          @media (max-width: 768px) {
+            .scroll-animation-container .mobile-cards .card {
+              min-height: 400px;
+              max-width: 500px;
+              padding: 2rem;
+            }
 
-        .scroll-animation-container #mobile-card-2 .flip-card-back {
-          background-color: #08048c;
-        }
+            .scroll-animation-container .mobile-cards .card .flip-card-front,
+            .scroll-animation-container .mobile-cards .card .flip-card-back {
+              padding: 2rem;
+            }
 
-        .scroll-animation-container #mobile-card-3 .flip-card-back {
-          background-color: #08048c;
-        }
+            .scroll-animation-container .mobile-cards .card .card-title span {
+              font-size: 0.9rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-copy p {
+              font-size: 1.3rem;
+              margin: 0.6rem 0;
+            }
+
+            .scroll-animation-container .mobile-cards .cards-container {
+              gap: 3rem;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .scroll-animation-container .mobile-cards .card {
+              min-height: 350px;
+              max-width: 450px;
+              padding: 1.5rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .flip-card-front,
+            .scroll-animation-container .mobile-cards .card .flip-card-back {
+              padding: 1.5rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-title span {
+              font-size: 0.8rem;
+            }
+
+            .scroll-animation-container .mobile-cards .card .card-copy p {
+              font-size: 1.1rem;
+              margin: 0.5rem 0;
+            }
+
+            .scroll-animation-container .mobile-cards .cards-container {
+              gap: 2.5rem;
+            }
+          }
+
+          /* Mobile card animations handled by GSAP */
+
+          .scroll-animation-container .mobile-cards .card .flip-card-inner {
+            transition: transform 0.8s ease-in-out;
+            transform-style: preserve-3d;
+          }
+
+
+
+          .scroll-animation-container #mobile-card-1 .flip-card-front {
+            background-image: url('/card/card-1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+
+          .scroll-animation-container #mobile-card-2 .flip-card-front {
+            background-image: url('/card/card-2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+
+          .scroll-animation-container #mobile-card-3 .flip-card-front {
+            background-image: url('/card/card-3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+
+          .scroll-animation-container .mobile-cards .flip-card-back {
+            transform: rotateY(0deg);
+            background-color: white;
+          }
+
+          .scroll-animation-container #mobile-card-1 .flip-card-back {
+            background-color: #08048c;
+          }
+
+          .scroll-animation-container #mobile-card-2 .flip-card-back {
+            background-color: #08048c;
+          }
+
+          .scroll-animation-container #mobile-card-3 .flip-card-back {
+            background-color: #08048c;
+          }
         }
       `}</style>
 
-      <nav>
+      {/* <nav>
         <div className="logo"><span>Indigo Network</span></div>
         <div className="menu-btn"><span>Menu</span></div>
-      </nav>
+      </nav> */}
 
       <section className="hero">
         <div className="hero-background"></div>
@@ -1375,25 +1733,23 @@ const ScrollAnimation = () => {
       </section>
 
       <section className="about">
-        <div className="about-content">
-          <div className="about-video">
-            <IndigoAnimation />
-          </div>
-          <div className="about-text">
-            <h1 className="font-roboto">Our Services</h1>
-            <p className="mt-4 max-w-3xl text-white !text-xl  !font-light font-roboto">
-              With our Design services we optimise and future-proof designs from the outset with leading-edge tools, survey techniques, processes, and data, saving our partners time and money.<br /><br />
-              Our Deployment team partners with digital infrastructure owners and operators to install, test, and optimise fixed line, subsea, wireless, and data centre digital infrastructure.<br /><br />
-              Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
-            </p>
-            <div className="about-features">
-              <button className="learn-more">
-                <span className="circle">
-                  <span className="icon arrow"></span>
-                </span>
-                <span className="button-text">Explore Services</span>
-              </button>
-            </div>
+        <div className="about-video">
+          <IndigoAnimation />
+        </div>
+        <div className="about-text">
+          <h1 className="font-roboto">Our Services</h1>
+          <p className="mt-4 max-w-3xl text-white !font-light font-roboto">
+            With our Design services we optimise and future-proof designs from the outset with leading-edge tools, survey techniques, processes, and data, saving our partners time and money.<br /><br />
+            Our Deployment team partners with digital infrastructure owners and operators to install, test, and optimise fixed line, subsea, wireless, and data centre digital infrastructure.<br /><br />
+            Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
+          </p>
+          <div className="about-features">
+            <button className="learn-more">
+              <span className="circle">
+                <span className="icon arrow"></span>
+              </span>
+              <span className="button-text">Explore Services</span>
+            </button>
           </div>
         </div>
       </section>

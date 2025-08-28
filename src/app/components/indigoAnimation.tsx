@@ -174,10 +174,8 @@ const IndigoAnimation: React.FC = () => {
         
         <div className="relative">
                      <svg
-             width="700"
-             height="600"
-             viewBox="0 0 800 600"
-             className=""
+             className="w-[200px] h-[200px] md:w-[500px] md:h-[500px]"
+             viewBox="140 0 500 500"
              style={{ backgroundColor: 'transparent' }}
            >
                          {/* Vertical Line (Left side of triangle) */}
