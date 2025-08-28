@@ -54,7 +54,7 @@ export default function EbookPage() {
         zIndex: 1,
         pointerEvents: 'none'
       }}>
-        <img
+        {/* <img
           src="/ebook/ebookbg.png"
           alt="Background"
           style={{
@@ -63,13 +63,13 @@ export default function EbookPage() {
             objectFit: 'cover',
             opacity: 0.3
           }}
-        />
+        /> */}
       </div>
 
               <div style={{position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: '32px 16px'}} className="pt-8 sm:pt-16 lg:pt-16">
         {/* Header with Logo */}
         <div className="text-center mt-8 sm:mb-12 lg:mb-20">
-                      <div className="inline-flex items-center mb-4 sm:mb-6 lg:mb-8">
+          <div className="inline-flex items-center mb-4 sm:mb-6 lg:mb-8">
             {/* <img 
               src="/ebook/indigo_logo_blue.svg" 
               alt="INDIGO Logo" 
@@ -82,7 +82,7 @@ export default function EbookPage() {
           </h1>
         </div>
 
-        {/* Mobile Cards Section - Above content on mobile */}
+        {/* Mobile Cards Section - Below main heading on mobile */}
         <div className="lg:hidden mt-12 mb-8">
           <div className="flex justify-center">
             <div className="relative">
