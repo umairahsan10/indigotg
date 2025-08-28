@@ -36,7 +36,7 @@ export default function Home() {
       <IndigoOverview />
 
       {/* Indigo Timeline */}
-      <IndigoTimeline />
+      {/* <IndigoTimeline /> */}
 
       {/* Scroll Animation */}
       <ScrollAnimation />

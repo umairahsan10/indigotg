@@ -158,8 +158,8 @@ const officeLocations: OfficeLocation[] = [
   };
 
   const getExpandedZoom = () => {
-    if (typeof window === 'undefined') return 3;
-    return window.innerWidth < 768 ? 3 : 2; // expanded view
+    if (typeof window === 'undefined') return 2;
+    return window.innerWidth < 768 ? 2 : 2; // expanded view
   };
 
 export default function InteractiveMap() {
