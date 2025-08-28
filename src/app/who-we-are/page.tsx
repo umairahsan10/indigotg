@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import './who-we-are.css';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -132,7 +133,7 @@ export default function WhoWeAre() {
       {/* Hero Section */}
       <section 
         ref={(el) => { sectionRefs.current[0] = el; }}
-        className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50"
+        className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50 pt-20 md:pt-0 hero-section-small"
       >
         {/* Sophisticated Grid Background */}
         <div className="absolute inset-0 opacity-10">
@@ -146,88 +147,94 @@ export default function WhoWeAre() {
         {/* Subtle Gradient Orbs */}
         <div className="absolute inset-0 overflow-hidden">
           <div 
-            className="absolute w-[600px] h-[600px] rounded-full opacity-20"
+            className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full opacity-20"
               style={{
               background: 'radial-gradient(circle, rgba(20, 0, 121, 0.3) 0%, transparent 70%)',
               filter: 'blur(40px)',
               transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`,
-              right: '-200px',
-              top: '-200px',
+              right: '-100px',
+              top: '-100px',
               transition: 'transform 0.3s ease-out'
             }}
           ></div>
           <div 
-            className="absolute w-[500px] h-[500px] rounded-full opacity-15"
+            className="absolute w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full opacity-15"
               style={{
               background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%)',
               filter: 'blur(40px)',
               transform: `translate(${-mousePosition.x * 0.02}px, ${-mousePosition.y * 0.02}px)`,
-              left: '-200px',
-              bottom: '-200px',
+              left: '-100px',
+              bottom: '-100px',
               transition: 'transform 0.3s ease-out'
             }}
           ></div>
         </div>
 
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className={`space-y-8 ${isVisible[0] ? 'animate-fadeInUp' : 'opacity-0'}`}>
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-[1px] bg-gradient-to-r from-transparent to-[#140079]"></div>
+        <div className="container mx-auto px-4 md:px-6 lg:px-12 relative z-10 py-8 md:py-12 lg:py-16">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16 items-center" style={{
+            minHeight: 'calc(100dvh - 120px)'
+          }}>
+            <div className={`space-y-4 md:space-y-6 lg:space-y-8 text-center lg:text-left ${isVisible[0] ? 'animate-fadeInUp' : 'opacity-0'}`}>
+              <div className="flex items-center justify-center lg:justify-start gap-3 md:gap-4 mb-4 md:mb-6 lg:mb-8">
+                <div className="w-10 md:w-12 lg:w-16 h-[1px] bg-gradient-to-r from-transparent to-[#140079]"></div>
                 <span className="text-xs tracking-[0.3em] text-gray-600 uppercase font-light">Digital Infrastructure</span>
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-light leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-light leading-tight">
                 <span className="font-thin text-gray-600">We are </span>
                 <span className="font-bold bg-gradient-to-r from-[#140079] to-blue-600 bg-clip-text text-transparent">
                   Indigo
                 </span>
               </h1>
               
-              <p className="text-lg text-gray-600 leading-relaxed max-w-xl font-light">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-xl font-light mx-auto lg:mx-0">
                 We engineer a digital future by designing, deploying, and supporting the world's digital infrastructure, delivering successful outcomes for our customers and great careers for our people.
               </p>
               
-                             <div className="flex gap-4 pt-6">
-                 <button 
-                   onClick={() => router.push('/solutions')}
-                   className="group relative overflow-hidden bg-[#140079] text-white px-12 py-5 font-medium text-sm tracking-wider uppercase transition-all duration-500 hover:text-white"
-                 >
-                   <span className="relative z-10">Explore Solutions</span>
-                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-                 </button>
-               </div>
+              <div className="flex justify-center lg:justify-start gap-3 md:gap-4 pt-4 md:pt-6">
+                <button 
+                  onClick={() => router.push('/solutions')}
+                  className="group relative overflow-hidden bg-[#140079] text-white px-6 md:px-8 lg:px-12 py-3 md:py-4 lg:py-5 font-medium text-sm tracking-wider uppercase transition-all duration-500 hover:text-white"
+                >
+                  <span className="relative z-10">Explore Solutions</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                </button>
+              </div>
 
-              <div className="flex gap-12 pt-8 border-t border-gray-200">
-                <div>
-                  <div className="text-4xl font-thin text-gray-900 mb-1">
+              <div className="flex flex-row gap-3 md:gap-4 sm:gap-6 md:gap-8 lg:gap-12 pt-4 md:pt-6 lg:pt-8 border-t border-gray-200 justify-center lg:justify-start stats-section">
+                <div className="text-center sm:text-left">
+                  <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-thin text-gray-900 mb-1">
                     <span className="counter" data-target="200">200</span>
                     <span className="text-[#140079]">+</span>
-                </div>
+                  </div>
                   <div className="text-xs text-gray-500 uppercase tracking-wider">Global Projects</div>
                 </div>
-                <div>
-                  <div className="text-4xl font-thin text-gray-900 mb-1">
+                <div className="text-center sm:text-left">
+                  <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-thin text-gray-900 mb-1">
                     <span className="counter" data-target="90">90</span>
                     <span className="text-[#140079]">+</span>
-                </div>
+                  </div>
                   <div className="text-xs text-gray-500 uppercase tracking-wider">Countries</div>
                 </div>
               </div>
             </div>
 
-              <div className={`relative ${isVisible[0] ? 'animate-fadeIn' : 'opacity-0'}`}>
-                <div className="relative w-full h-[600px] flex items-center justify-center">
-                  {/* Hero Image */}
-                  <div className="relative z-10 w-120 h-120" style={{ animation: 'gentleFloat 4s ease-in-out infinite' }}>
-                    <img 
-                      src="/who-we-are/whoweare.png" 
-                      alt="Indigo Digital Infrastructure" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+            <div className={`relative order-first lg:order-last ${isVisible[0] ? 'animate-fadeIn' : 'opacity-0'}`}>
+              <div className="relative w-full flex items-center justify-center image-container" style={{
+                minHeight: 'min(50vh, 300px)',
+                maxHeight: 'min(60vh, 400px)',
+                height: 'auto'
+              }}>
+                {/* Hero Image */}
+                <div className="relative z-10 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none h-full flex items-center justify-center" style={{ animation: 'gentleFloat 4s ease-in-out infinite' }}>
+                  <img 
+                    src="/who-we-are/whoweare.png" 
+                    alt="Indigo Digital Infrastructure" 
+                    className="w-full h-full object-contain max-h-full"
+                  />
                 </div>
               </div>
+            </div>
           </div>
         </div>
       </section>
@@ -235,48 +242,48 @@ export default function WhoWeAre() {
       {/* About Section */}
       <section 
         ref={(el) => { sectionRefs.current[1] = el; }}
-        className="py-32 bg-[#411fed]/10 text-gray-900 relative"
+        className="min-h-screen md:py-16 lg:py-24 xl:py-32 bg-[#411fed]/10 text-gray-900 relative about-section-small flex items-center"
       >
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-                                                   <div className={`relative ${isVisible[1] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
-                <div className="relative">
-                  {/* About Us Image */}
-                  <div className="relative z-10 w-full h-96 rounded-lg overflow-hidden shadow-2xl" style={{ animation: 'gentleFloat 5s ease-in-out infinite' }}>
-                    <img 
-                      src="/who-we-are/img-2.jpg" 
-                      alt="About Indigo Telecom Group" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+        <div className="container mx-auto px-4 md:px-6 lg:px-12 w-full">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-16 lg:gap-20 items-center">
+            <div className={`relative order-first lg:order-last ${isVisible[1] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
+              <div className="relative">
+                {/* About Us Image */}
+                <div className="relative z-10 w-full h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden shadow-2xl image-container" style={{ animation: 'gentleFloat 5s ease-in-out infinite' }}>
+                  <img 
+                    src="/who-we-are/img-2.jpg" 
+                    alt="About Indigo Telecom Group" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                
-                {/* Subtle geometric accent */}
-                <div className="absolute -right-10 top-0 w-40 h-40 rounded-full bg-gradient-to-br from-[#411fed]/20 to-[#411fed]/30 opacity-30 z-20" style={{ animation: 'gentleFloat 3s ease-in-out infinite' }}></div>
-              </div>
-
-            <div className={`space-y-8 ${isVisible[1] ? 'animate-fadeInRight' : 'opacity-0'}`}>
-              <div>
-                <span className="text-xs tracking-[0.3em] text-gray-600 uppercase">Since 1998</span>
-                <h2 className="text-4xl lg:text-5xl font-light mt-4 mb-8">
-                  <span className="font-bold text-[#140079]">About</span> Us
-                </h2>
-            </div>
-
-              <div className="space-y-6">
-                <p className="text-lg text-gray-700 leading-relaxed font-light">
-                Since 1998 we have been vital network and infrastructure partners to fixed, mobile carriers and hyperscalers across the enterprise sector. Rapidly expanding our footprint across North America, Europe and the world, we now operate in over 90 countries.
-              </p>
-                <p className="text-lg text-gray-700 leading-relaxed font-light">
-                By providing our international clients with a local and global presence, we support infrastructure across the globe with a single point of contact to keep societies collaborating, today and tomorrow.
-              </p>
               </div>
               
-              <div className="pt-8">
-                <button className="group relative overflow-hidden bg-[#140079] text-white px-8 py-4 transition-all duration-300">
+              {/* Subtle geometric accent */}
+              <div className="absolute -right-5 md:-right-10 top-0 w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full bg-gradient-to-br from-[#411fed]/20 to-[#411fed]/30 opacity-30 z-20 geometric-accent" style={{ animation: 'gentleFloat 3s ease-in-out infinite' }}></div>
+            </div>
+
+            <div className={`space-y-4 md:space-y-6 lg:space-y-8 text-center lg:text-left ${isVisible[1] ? 'animate-fadeInRight' : 'opacity-0'}`}>
+              <div>
+                <span className="text-xs tracking-[0.3em] text-gray-600 uppercase">Since 1998</span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mt-2 md:mt-4 mb-4 md:mb-8">
+                  <span className="font-bold text-[#140079]">About</span> Us
+                </h2>
+              </div>
+
+              <div className="space-y-3 md:space-y-4 lg:space-y-6">
+                <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed font-light">
+                  Since 1998 we have been vital network and infrastructure partners to fixed, mobile carriers and hyperscalers across the enterprise sector. Rapidly expanding our footprint across North America, Europe and the world, we now operate in over 90 countries.
+                </p>
+                <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed font-light">
+                  By providing our international clients with a local and global presence, we support infrastructure across the globe with a single point of contact to keep societies collaborating, today and tomorrow.
+                </p>
+              </div>
+              
+              <div className="pt-4 md:pt-6 lg:pt-8">
+                <button className="group relative overflow-hidden bg-[#140079] text-white px-6 md:px-8 py-3 md:py-4 transition-all duration-300">
                   <span className="relative z-10 text-sm tracking-wider uppercase font-medium">Learn More</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              </button>
+                </button>
               </div>
             </div>
           </div>
@@ -284,20 +291,23 @@ export default function WhoWeAre() {
       </section>
 
       {/* Core Pillars - Stacked Cards Animation */}
-      <section ref={(el) => { stackAreaRef.current = el; sectionRefs.current[2] = el; }} className="stack-area flex flex-col lg:flex-row relative w-full bg-gradient-to-b from-white to-[#411fed]/10 text-gray-900">
+      <section ref={(el) => { 
+        sectionRefs.current[2] = el; 
+        stackAreaRef.current = el as HTMLDivElement;
+      }} className="stack-area flex flex-col lg:flex-row relative w-full bg-gradient-to-b from-white to-[#411fed]/10 text-gray-900">
         {/* Left copy */}
-        <div className={`left flex flex-col items-start justify-center lg:sticky top-0 lg:h-screen w-full lg:basis-1/2 p-6 pl-20 ${isVisible[2] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
-          <h2 className="title text-6xl lg:text-7xl font-bold leading-tight text-left text-[#140079]">
+        <div className={`left flex flex-col items-center lg:items-start justify-center lg:sticky top-0 lg:h-screen w-full lg:basis-1/2 p-6 ${isVisible[2] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
+          <h2 className="title lg:w-[420px] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-center lg:text-left text-[#140079]">
             <span className="block">Our Core</span>
             <span className="block">Pillars</span>
           </h2>
-          <h3 className="text-5xl lg:text-6xl font-semibold mt-8 mb-4 text-left text-[#140079] relative z-10" style={{color: '#140079', textShadow: '0 0 10px rgba(20, 0, 121, 0.3)'}}>
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold mt-4 md:mt-6 lg:mt-8 mb-4 text-center lg:text-left text-[#140079] relative z-10" style={{color: '#140079', textShadow: '0 0 10px rgba(20, 0, 121, 0.3)'}}>
             Excellence In Everything We Do
           </h3>
-          <div className="sub-title text-lg lg:text-xl mt-4 max-w-lg text-left leading-relaxed">
+          <div className="sub-title lg:w-[200px] text-sm sm:text-base md:text-lg lg:text-xl mt-4 max-w-sm md:max-w-lg text-center lg:text-left leading-relaxed">
             <span className="inline text-gray-600">Built from strategic thinking, safety, vision, and commitment to deliver transformational solutions across the globe.</span>
           </div>
-          </div>
+        </div>
 
         {/* Right stacked cards */}
         <div className="right w-full lg:basis-1/2 lg:h-screen lg:sticky top-0">
@@ -333,17 +343,17 @@ export default function WhoWeAre() {
                     boxShadow: '0 10px 25px rgba(20, 0, 121, 0.15)',
                   }}
                 >
-                  <div className="sub text-2xl lg:text-3xl font-semibold mb-4 text-white/80">
+                  <div className="sub text-xl sm:text-2xl md:text-3xl lg:text-3xl font-semibold mb-1 sm:mb-2 md:mb-3 lg:mb-4 text-white/80">
                     {item.num}
                   </div>
-                  <div className="content text-3xl lg:text-4xl font-bold leading-tight text-white flex-1 flex items-center">
+                  <div className="content text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold leading-tight text-white flex lg:flex-1 items-start lg:items-center">
                     {item.title}
                   </div>
-                  <div className="desc text-base lg:text-lg text-white/70 mt-4 leading-relaxed">
+                  <div className="desc text-sm sm:text-base md:text-lg lg:text-lg text-white/70 mt-1 sm:mt-2 md:mt-3 lg:mt-4 leading-relaxed">
                     {item.desc}
                   </div>
-              </div>
-            ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -352,30 +362,30 @@ export default function WhoWeAre() {
       {/* Certifications */}
       <section 
         ref={(el) => { sectionRefs.current[3] = el; }}
-        className="py-32 bg-[#411fed]/10 text-gray-900"
+        className="certifications-section-small py-16 md:py-32 bg-[#411fed]/10 text-gray-900"
       >
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-20 items-center">
             <div className={`${isVisible[3] ? 'animate-fadeInLeft' : 'opacity-0'}`}>
               <div>
                 <span className="text-xs tracking-[0.3em] text-gray-600 uppercase">Industry Standards</span>
-                <h2 className="text-4xl lg:text-5xl font-light mt-4 mb-8">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light mt-4 mb-6 md:mb-8">
                   <span className="font-bold text-[#140079]">Certifications</span>
                 </h2>
               </div>
               
-              <p className="text-lg text-gray-700 leading-relaxed mb-12 font-light">
+              <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-8 md:mb-12 font-light">
                 Indigo is committed to continuously expanding and improving its Integrated Management Systems and keeping all certifications and accreditation up to date.
               </p>
               
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4">
                 {['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO 27001', 'ISO 50001', 'SOC 2'].map((cert, i) => (
                   <div 
                     key={i}
-                     className="group border border-gray-200 p-6 text-center transition-all duration-300 hover:border-[#140079] hover:bg-[#411fed]/10 bg-white shadow-sm hover:shadow-md"
+                     className="group border border-gray-200 p-3 sm:p-4 md:p-6 text-center transition-all duration-300 hover:border-[#140079] hover:bg-[#411fed]/10 bg-white shadow-sm hover:shadow-md"
                      style={{ animationDelay: `${i * 0.05}s` }}
                   >
-                    <div className="text-sm font-medium text-gray-700 group-hover:text-[#140079] transition-colors">{cert}</div>
+                    <div className="text-xs sm:text-sm font-medium text-gray-700 group-hover:text-[#140079] transition-colors">{cert}</div>
                   </div>
                 ))}
               </div>
@@ -420,7 +430,7 @@ export default function WhoWeAre() {
       {/* Timeline - Train Effect */}
       <section 
         ref={(el) => { sectionRefs.current[4] = el; }}
-        className="py-32 bg-white overflow-hidden"
+        className="timeline-section min-h-screen py-24 md:py-32 bg-white overflow-hidden"
       >
         <div className="container mx-auto px-6 lg:px-12">
           <div className={`text-center mb-20 ${isVisible[4] ? 'animate-fadeInUp' : 'opacity-0'}`}>
@@ -438,8 +448,15 @@ export default function WhoWeAre() {
                 <div 
                   key={index}
                   className="train-card group bg-white border border-gray-200 p-6 transition-all duration-500 hover:border-[#140079]/30 hover:shadow-lg flex-shrink-0"
-                  onMouseEnter={() => setIsTrainPaused(true)}
-                  onMouseLeave={() => setIsTrainPaused(false)}
+                  onMouseEnter={() => {
+                    if (window.innerWidth >= 1024) setIsTrainPaused(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (window.innerWidth >= 1024) setIsTrainPaused(false);
+                  }}
+                  onClick={() => {
+                    if (window.innerWidth < 1024) setIsTrainPaused(prev => !prev);
+                  }}
                 >
                   <div className="text-2xl font-bold bg-gradient-to-r from-[#140079] to-blue-600 bg-clip-text text-transparent mb-3">
                     {item.year}
