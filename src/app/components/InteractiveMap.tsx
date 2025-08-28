@@ -151,6 +151,10 @@ const officeLocations: OfficeLocation[] = [
   }
 ];
 
+  // Helper: choose a slightly closer zoom on small screens so the map isn’t a thin grey line
+  const getDefaultZoom = () =>
+    (typeof window !== 'undefined' && window.innerWidth < 768) ? 4 : 3;
+
 export default function InteractiveMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -345,7 +349,7 @@ export default function InteractiveMap() {
     // Initialize map with the provided expanded state
     const map = L.map(mapRef.current, {
       center: [25, 0], // Center between all locations, slightly lower
-      zoom: customZoom || 3,
+      zoom: customZoom ?? getDefaultZoom(),
       zoomControl: true,
       attributionControl: false, // Disable attribution control completely
       scrollWheelZoom: expandedState, // Use the provided state
@@ -472,8 +476,8 @@ export default function InteractiveMap() {
     setTimeout(() => {
       setIsAnimating(false);
       // Reinitialize map with new size and zoom controls using the new state
-      // When expanding, set zoom level to 3 directly during initialization
-      initializeMapWithState(newExpandedState, newExpandedState ? 3 : undefined);
+      // When expanding, use default zoom based on screen size
+      initializeMapWithState(newExpandedState, newExpandedState ? getDefaultZoom() : undefined);
     }, 300); // Match CSS transition duration
   };
 
@@ -544,7 +548,10 @@ export default function InteractiveMap() {
         </div>
 
         {/* Right Column - Map */}
-        <div className="lg:w-1/2 relative h-[500px] lg:h-full flex items-center">
+        {/* On mobile (below lg) we use a shorter fixed height that scales with the screen, */}
+        {/* while keeping the original behaviour for larger view-ports. */}
+        {/* Map column – give it a responsive height on small screens and full height on desktop */}
+        <div className="w-full lg:w-1/2 relative h-72 sm:h-80 md:h-96 lg:h-full flex items-center">
           <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[#0b0e1a] border border-white/10">
             {/* Expand/Collapse Button */}
             <button
@@ -574,7 +581,7 @@ export default function InteractiveMap() {
               onClick={() => {
                 if (mapInstanceRef.current) {
                   // Fly back to overview with zoom level 3
-                  mapInstanceRef.current.setView([25, 0], 3, { 
+                  mapInstanceRef.current.setView([25, 0], getDefaultZoom(), { 
                     duration: 2,
                     easeLinearity: 0.25
                   });
@@ -616,15 +623,12 @@ export default function InteractiveMap() {
             </button>
 
             {/* Map Container */}
-            <div 
-              ref={mapRef} 
-              className={`w-full h-full transition-all duration-300 ease-in-out ${
-                isExpanded ? 'min-h-[500px]' : 'min-h-[400px]'
+            <div
+              ref={mapRef}
+              /* Use aspect-ratio on mobile for a square map, fallback to explicit height on lg+ */
+              className={`w-full transition-all duration-300 ease-in-out aspect-square lg:aspect-auto ${
+                isExpanded ? 'lg:min-h-[500px]' : 'lg:min-h-[400px]'
               }`}
-              style={{ 
-                height: isExpanded ? '500px' : '400px',
-                minHeight: isExpanded ? '500px' : '400px'
-              }}
             />
           </div>
         </div>
