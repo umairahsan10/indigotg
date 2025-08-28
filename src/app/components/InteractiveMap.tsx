@@ -151,9 +151,16 @@ const officeLocations: OfficeLocation[] = [
   }
 ];
 
-  // Helper: choose a slightly closer zoom on small screens so the map isn’t a thin grey line
-  const getDefaultZoom = () =>
-    (typeof window !== 'undefined' && window.innerWidth < 768) ? 4 : 3;
+  // Helpers: choose zoom levels depending on viewport and map state
+  const getDefaultZoom = () => {
+    if (typeof window === 'undefined') return 3;
+    return window.innerWidth < 768 ? 2 : 3; // minimized view
+  };
+
+  const getExpandedZoom = () => {
+    if (typeof window === 'undefined') return 3;
+    return window.innerWidth < 768 ? 4 : 3; // expanded view
+  };
 
 export default function InteractiveMap() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -325,6 +332,11 @@ export default function InteractiveMap() {
     // Only fit bounds if explicitly requested (for initial load) and no force zoom
     if (shouldFitBounds && bounds.isValid() && !forceZoom) {
       map.fitBounds(bounds, { padding: [50, 50] });
+      // Ensure the zoom level isn’t lower than our desired default (helps narrow screens)
+      const minZoom = getDefaultZoom();
+      if (map.getZoom() < minZoom) {
+        map.setZoom(minZoom);
+      }
     }
     
     // If force zoom is specified, set the zoom level
@@ -346,10 +358,14 @@ export default function InteractiveMap() {
     // Clear markers array for new map
     markersRef.current = [];
 
+    // Calculate default zoom based on viewport
+    const defaultZoom = getDefaultZoom();
+
     // Initialize map with the provided expanded state
     const map = L.map(mapRef.current, {
       center: [25, 0], // Center between all locations, slightly lower
-      zoom: customZoom ?? getDefaultZoom(),
+      zoom: customZoom ?? defaultZoom,
+      minZoom: defaultZoom,
       zoomControl: true,
       attributionControl: false, // Disable attribution control completely
       scrollWheelZoom: expandedState, // Use the provided state
@@ -475,9 +491,11 @@ export default function InteractiveMap() {
     // Wait for CSS transition to complete, then reinitialize map
     setTimeout(() => {
       setIsAnimating(false);
-      // Reinitialize map with new size and zoom controls using the new state
-      // When expanding, use default zoom based on screen size
-      initializeMapWithState(newExpandedState, newExpandedState ? getDefaultZoom() : undefined);
+      // Reinitialize map with appropriate zoom
+      initializeMapWithState(
+        newExpandedState,
+        newExpandedState ? getExpandedZoom() : getDefaultZoom()
+      );
     }, 300); // Match CSS transition duration
   };
 
