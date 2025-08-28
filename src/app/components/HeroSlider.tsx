@@ -334,8 +334,8 @@ const HeroSlider = () => {
           justify-content: center;
           align-items: center;
           gap: 0.05em;
-          -webkit-text-stroke: 2px ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "white" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#87ceeb" : "white"};
-          color: ${slideData.title === "Engineering a Digital Future" ? "white" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ff8c00" : "#140079"};
+          -webkit-text-stroke: 2px ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "white" : slideData.title === "Survey & Design" ? "#ea580c" : slideData.title === "Indigo Subsea" ? "#140079" : slideData.title === "NOC Services" ? "#140079" : slideData.title === "Design, Deploy, Support" ? "#140079" : "white"};
+          color: ${slideData.title === "Engineering a Digital Future" ? "white" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ffedd5" : slideData.title === "NOC Services" ? "white" : slideData.title === "Design, Deploy, Support" ? "white" : slideData.title === "Indigo Subsea" ? "white" : "#140079"};
         `;
 
     // Split title into words and characters
@@ -826,25 +826,32 @@ const HeroSlider = () => {
     // Determine stroke and text colors
     let strokeColor = "#140079";
     let textColor = "white";
+    
+    // Special handling for NOC Services, Indigo Subsea, Design Deploy Support, and Survey & Design - plain white text without stroke
+    if (slideData.title === "NOC Services" || slideData.title === "Indigo Subsea" || slideData.title === "Design, Deploy, Support" || slideData.title === "Survey & Design") {
+      textColor = "white";
+      strokeColor = "transparent";
+    }
     switch (slideData.title) {
       case "Engineering a Digital Future":
-        strokeColor = "white"; // flipped: white border
-        textColor = "#991b1b"; // red text
+        strokeColor = "transparent"; // flipped: white border
+        textColor = "white"; 
         break;
       case "Field Engineering":
-        strokeColor = "#d4a574";
+        strokeColor = "transparent";
         break;
       case "Survey & Design":
-        strokeColor = "#ff8c00";
+        strokeColor = "transparent";
         break;
       case "Indigo Subsea":
-        strokeColor = "#d8bfd8";
+        strokeColor = "transparent";
+        textColor = "white";
         break;
       case "NOC Services":
-        strokeColor = "#87ceeb";
+        strokeColor = "transparent";
         break;
       case "Design, Deploy, Support":
-        strokeColor = "#87ceeb";
+        strokeColor = "transparent";
         break;
     }
 
@@ -872,9 +879,9 @@ const HeroSlider = () => {
 
     const button = document.createElement("button");
     button.style.cssText = `
-      background: ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ff8c00" : "#140079"};
-      border: 2px solid ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#919b1b" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#87ceeb" : "#140079"};
-      color: white;
+      background: ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#fed7aa" : slideData.title === "NOC Services" ? "white" : slideData.title === "Design, Deploy, Support" ? "white" : slideData.title === "Indigo Subsea" ? "#140079" : "#140079"};
+      border: 2px solid ${slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ea580c" : slideData.title === "Indigo Subsea" ? "#140079" : slideData.title === "NOC Services" ? "#140079" : slideData.title === "Design, Deploy, Support" ? "white" : "#140079"};
+              color: ${slideData.title === "NOC Services" || slideData.title === "Design, Deploy, Support" ? "#140079" : slideData.title === "Survey & Design" ? "#fb923c" : "white"};
       padding: 8px 24px;
       font-size: ${window.innerWidth > 380 ? (window.innerWidth > 1000 ? '1rem' : '1rem') : '0.75rem'};
       font-weight: 600;
@@ -894,18 +901,36 @@ const HeroSlider = () => {
     button.textContent = slideData.buttonText;
 
     // Add hover effects
-    button.addEventListener('mouseenter', () => {
-      button.style.background = 'white';
-      button.style.border = slideData.title === "Design, Deploy, Support" ? '2px solid #87ceeb' : '2px solid white';
-      button.style.color = slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#00ffff" : slideData.title === "Indigo Subsea" ? "#d8bfd8" : slideData.title === "NOC Services" ? "#87ceeb" : slideData.title === "Design, Deploy, Support" ? "#140079" : "#140079";
-      button.style.transform = 'scale(1.05)';
+        button.addEventListener('mouseenter', () => {
+      if (slideData.title === "NOC Services") {
+        button.style.transform = 'scale(1.05)';
+              } else if (slideData.title === "Design, Deploy, Support") {
+          button.style.background = '#140079';
+          button.style.border = '2px solid #140079';
+          button.style.color = 'white';
+          button.style.transform = 'scale(1.05)';
+        } else if (slideData.title === "Survey & Design") {
+          button.style.background = '#ea580c';
+          button.style.border = '2px solid #ea580c';
+          button.style.color = 'white';
+          button.style.transform = 'scale(1.05)';
+        } else {
+        button.style.background = 'white';
+        button.style.border = '2px solid white';
+        button.style.color = slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#fb923c" : slideData.title === "Indigo Subsea" ? "#140079" : slideData.title === "Design, Deploy, Support" ? "#140079" : "#140079";
+        button.style.transform = 'scale(1.05)';
+      }
     });
 
     button.addEventListener('mouseleave', () => {
-      button.style.background = slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#ff8c00" : "#140079";
-      button.style.border = slideData.title === "Engineering a Digital Future" ? "2px solid #991b1b" : slideData.title === "Field Engineering" ? "2px solid white" : slideData.title === "Survey & Design" ? "2px solid #00ffff" : slideData.title === "Indigo Subsea" ? "2px solid #d8bfd8" : slideData.title === "NOC Services" ? "2px solid #87ceeb" : slideData.title === "Design, Deploy, Support" ? "2px solid #87ceeb" : "2px solid #140079";
-      button.style.color = 'white';
-      button.style.transform = 'scale(1)';
+      if (slideData.title === "NOC Services") {
+        button.style.transform = 'scale(1)';
+      } else {
+              button.style.background = slideData.title === "Engineering a Digital Future" ? "#991b1b" : slideData.title === "Field Engineering" ? "#d4a574" : slideData.title === "Survey & Design" ? "#fed7aa" : slideData.title === "Design, Deploy, Support" ? "white" : slideData.title === "Indigo Subsea" ? "#140079" : "#140079";
+        button.style.border = slideData.title === "Engineering a Digital Future" ? "2px solid #991b1b" : slideData.title === "Field Engineering" ? "2px solid #d4a574" : slideData.title === "Survey & Design" ? "2px solid #ea580c" : slideData.title === "Indigo Subsea" ? "2px solid #140079" : slideData.title === "Design, Deploy, Support" ? "2px solid white" : "2px solid #140079";
+              button.style.color = slideData.title === "Design, Deploy, Support" ? "#140079" : slideData.title === "Survey & Design" ? "#fb923c" : "white";
+        button.style.transform = 'scale(1)';
+      }
     });
 
     // Add click handler for navigation
@@ -1690,9 +1715,9 @@ const HeroSlider = () => {
             lineHeight: '1.6',
             letterSpacing: '0.02em',
             wordSpacing: '0.1em',
-            color: '#991b1b',
-            WebkitTextStroke: '1px white',
-            textShadow: '0 0 1px white'
+            color: 'white',
+            WebkitTextStroke: '1px transparent',
+            textShadow: 'none'
           }}>
             We design, deploy, and support digital infrastructure to maximise value in fixed line, subsea, data centres and wireless networks.
           </p>
