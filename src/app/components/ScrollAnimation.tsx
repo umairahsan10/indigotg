@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { orbitron } from '../fonts';
@@ -8,6 +8,7 @@ import IndigoAnimation from './indigoAnimation';
 
 const ScrollAnimation = () => {
   const componentRef = useRef<HTMLDivElement>(null);
+  const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -17,10 +18,8 @@ const ScrollAnimation = () => {
     // Note: Lenis is handled by the main Navigation component to avoid conflicts
 
     const smoothStep = (p: number) => p * p * (3 - 2 * p);
-    const isMobile = window.innerWidth <= 1000;
 
-    if (!isMobile) {
-      // Desktop animations - only apply when screen width > 1000px
+    if (window.innerWidth > 1000) {
       ScrollTrigger.create({
         trigger: ".hero",
         start: "top top",
@@ -245,16 +244,19 @@ const ScrollAnimation = () => {
           });
         },
       });
-    } else {
-      // Mobile animations - exactly matching the provided mobile animation code
+         } else {
+      // Mobile animations
+      
+
+
+      // 2. Mobile service section animations
       const servicesHeader = document.querySelector('.services-header');
       const mobileCards = document.querySelectorAll('.mobile-cards .card');
       
       if (servicesHeader && mobileCards.length > 0) {
-        // Set initial states for mobile cards - exactly like the provided code
+        // Set initial states for mobile cards
         mobileCards.forEach((card) => {
           gsap.set(card, {
-            // Start fully visible (remove fade-in) - exactly like provided code
             opacity: 1,
             y: 60,
             scale: 0.9,
@@ -267,15 +269,15 @@ const ScrollAnimation = () => {
           });
         });
 
-        // First, animate the header to appear
+        // Animate the header to appear
         gsap.fromTo(servicesHeader, 
           { y: "100px", opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
         );
 
-        // Create simple reveal animations for each card - exactly like provided code
+        // Create reveal animations for each card
         mobileCards.forEach((card) => {
-          // Simple reveal animation - exactly like provided code
+          // Card reveal animation
           gsap.to(card, {
             y: 0,
             scale: 1,
@@ -283,60 +285,47 @@ const ScrollAnimation = () => {
             ease: "power2.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 80%", // exactly like provided code
-              end: "bottom 80%", // exactly like provided code
+              start: "top 80%",
+              end: "bottom 80%",
               toggleActions: "play none none reverse",
               markers: false,
             },
           });
-
-          // Simple flip animation when card comes into view - exactly like provided code
-          const frontEl = card.querySelector(".flip-card-front") as HTMLElement;
-          const backEl = card.querySelector(".flip-card-back") as HTMLElement;
-
-          // Use scrubbed progress so rotation reverses visibly as it crosses 50vh
-          // Front side rotates to back - exactly like provided code
-          if (frontEl && backEl) {
-            gsap.fromTo(
-              frontEl,
-              { rotateY: 0 },
-              {
-                rotateY: -180,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 70%", // exactly like provided code
-                  end: "center center", // exactly like provided code
-                  scrub: true,
-                  markers: false,
-                  // Disable clicks when the card is showing its back side
-                  onUpdate: (self) => {
-                    // Always keep front face non-interactive
-                    frontEl.style.pointerEvents = "none";
-                  },
-                },
-              },
-            );
-
-            gsap.fromTo(
-              backEl,
-              { rotateY: 180 },
-              {
-                rotateY: 0,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 70%", // exactly like provided code
-                  end: "center center", // exactly like provided code
-                  scrub: true,
-                  markers: false,
-                },
-              },
-            );
-          }
         });
+
+        // Simple Intersection Observer for flip trigger
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const cardId = (entry.target as HTMLElement).id;
+            if (cardId) {
+              if (entry.isIntersecting) {
+                // Card is coming into view - flip to back
+                setFlippedCards(prev => {
+                  const newSet = new Set(prev);
+                  newSet.add(cardId);
+                  return newSet;
+                });
+              } else {
+                // Card is leaving view - flip back to front
+                setFlippedCards(prev => {
+                  const newSet = new Set(prev);
+                  newSet.delete(cardId);
+                  return newSet;
+                });
+              }
+            }
+          });
+        }, {
+          threshold: 0.6 // Flip when 60% of card is visible/hidden
+        });
+
+        // Observe each mobile card
+        mobileCards.forEach(card => observer.observe(card));
+
+        // Cleanup observer
+        return () => observer.disconnect();
       }
-    }
+     }
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -900,7 +889,7 @@ const ScrollAnimation = () => {
           width: 55%;
           display: flex;
           justify-content: center;
-          gap: 2rem;
+          gap: 1rem;
           z-index: 2;
         }
 
@@ -1085,13 +1074,6 @@ const ScrollAnimation = () => {
           justify-content: center;
           z-index: -1;
           background-color: white;
-        }
-
-        /* Ensure desktop cards are visible on larger screens */
-        @media (min-width: 1001px) {
-          .scroll-animation-container .cards {
-            display: flex !important;
-          }
         }
 
         .scroll-animation-container .cards::before {
@@ -1318,13 +1300,6 @@ const ScrollAnimation = () => {
           z-index: 2;
         }
 
-        /* Hide mobile cards on desktop */
-        @media (min-width: 1001px) {
-          .scroll-animation-container .mobile-cards {
-            display: none !important;
-          }
-        }
-
         @media (max-width: 1000px) {
           .scroll-animation-container .hero-header h1 {
             font-size: 2.5rem;
@@ -1333,8 +1308,8 @@ const ScrollAnimation = () => {
 
           .scroll-animation-container .hero-cards {
             width: calc(100% - 2rem);
-            top: 65%;
-            gap: 1.5rem;
+            top: 35%;
+            gap: 0.5rem;
           }
           
           .scroll-animation-container .hero-cards .card {
@@ -1348,6 +1323,8 @@ const ScrollAnimation = () => {
             justify-content: space-between;
             container-type: inline-size;
             min-height: 200px;
+            
+            /* Mobile hero cards - no animations */
           }
 
           .scroll-animation-container .hero-cards .card span {
@@ -1430,8 +1407,8 @@ const ScrollAnimation = () => {
           @media (max-width: 768px) {
             .scroll-animation-container .hero-cards {
               width: calc(100% - 1rem);
-              top: 70%;
-              gap: 1rem;
+              top: 40%;
+              gap: 0.3rem;
             }
 
             .scroll-animation-container .hero-cards .card {
@@ -1452,8 +1429,8 @@ const ScrollAnimation = () => {
           @media (max-width: 480px) {
             .scroll-animation-container .hero-cards {
               width: calc(100% - 0.5rem);
-              top: 75%;
-              gap: 0.75rem;
+              top: 45%;
+              gap: 0.25rem;
             }
 
             .scroll-animation-container .hero-cards .card {
@@ -1503,56 +1480,53 @@ const ScrollAnimation = () => {
             transform: translateY(0%);
           }
 
-          /* Hide desktop cards and services animations on mobile */
-          .scroll-animation-container .cards {
-            display: none !important;
-          }
-
           .scroll-animation-container .mobile-cards {
             display: block;
             height: 100%;
           }
 
-          .scroll-animation-container .mobile-cards .cards-container {
-            width: calc(100% - 2rem);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            margin: 2rem auto;
-            gap: 4rem;
-            align-items: center;
-            justify-content: center;
-          }
+                     .scroll-animation-container .mobile-cards .cards-container {
+             width: calc(100% - 2rem);
+             display: flex;
+             flex-direction: column;
+             height: 100%;
+             margin: 2rem auto;
+             gap: 6rem;
+             align-items: center;
+             justify-content: center;
+           }
 
-          .scroll-animation-container .mobile-cards .card {
-            margin-bottom: 0;
-            background-color: white;
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            aspect-ratio: 5/7;
-            min-height: 450px;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
-            opacity: 0;
-            transform: translateY(100px);
-            transition: all 0.6s ease-out;
-          }
+           .scroll-animation-container .mobile-cards .card {
+             margin-bottom: 0;
+             background-color: transparent;
+             border-radius: 1rem;
+             box-shadow: none;
+             aspect-ratio: 5/7;
+             min-height: 450px;
+             width: 100%;
+             max-width: 600px;
+             margin: 0 auto;
+             opacity: 1;
+             transform: translateY(0);
+             transition: all 0.6s ease-out;
+             perspective: 1000px;
+           }
 
           .scroll-animation-container .mobile-cards .cards-container .card-wrapper {
             width: 100%;
             height: 100%;
           }
 
-          .scroll-animation-container .mobile-cards .card .flip-card-front {
-            transform: rotateY(0deg);
-            background-color: white;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-          }
+                     .scroll-animation-container .mobile-cards .card .flip-card-front {
+             transform: rotateY(0deg);
+             background-color: transparent;
+             padding: 2.5rem;
+             display: flex;
+             flex-direction: column;
+             justify-content: space-between;
+             align-items: center;
+             backface-visibility: hidden;
+           }
 
           .scroll-animation-container .mobile-cards .card .flip-card-front .card-title span {
             font-size: 1rem;
@@ -1568,6 +1542,7 @@ const ScrollAnimation = () => {
             flex-direction: column;
             justify-content: space-between;
             gap: 2rem;
+            backface-visibility: hidden;
           }
 
           .scroll-animation-container .mobile-cards .card .card-title span {
@@ -1637,12 +1612,17 @@ const ScrollAnimation = () => {
             }
           }
 
-          /* Mobile card animations handled by GSAP */
+                     /* Mobile card animations - CSS based flip */
+           .scroll-animation-container .mobile-cards .card .flip-card-inner {
+             transform-style: preserve-3d;
+             transition: transform 0.6s ease-in-out;
+           }
+           
+           .scroll-animation-container .mobile-cards .card.flipped .flip-card-inner {
+             transform: rotateY(180deg);
+           }
 
-          .scroll-animation-container .mobile-cards .card .flip-card-inner {
-            transition: transform 0.8s ease-in-out;
-            transform-style: preserve-3d;
-          }
+
 
 
 
@@ -1744,7 +1724,7 @@ const ScrollAnimation = () => {
             Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
           </p>
           <div className="about-features">
-            <button className="learn-more">
+            <button className="learn-more" onClick={() => window.location.href = '/our-services'}>
               <span className="circle">
                 <span className="icon arrow"></span>
               </span>
@@ -1762,7 +1742,7 @@ const ScrollAnimation = () => {
 
         <div className="mobile-cards">
           <div className="cards-container">
-            <div className="card" id="mobile-card-1">
+            <div className={`card ${flippedCards.has('mobile-card-1') ? 'flipped' : ''}`} id="mobile-card-1">
               <div className="card-wrapper">
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
@@ -1797,7 +1777,7 @@ const ScrollAnimation = () => {
               </div>
             </div>
 
-            <div className="card" id="mobile-card-2">
+            <div className={`card ${flippedCards.has('mobile-card-2') ? 'flipped' : ''}`} id="mobile-card-2">
               <div className="card-wrapper">
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
@@ -1812,7 +1792,7 @@ const ScrollAnimation = () => {
                   </div>
                   <div className="flip-card-back">
                     <div className="card-title">
-                      <span>Deploy 1232323</span>
+                      <span>Deploy</span>
                       <span>02</span>
                     </div>
                     <div className="card-copy">
@@ -1832,7 +1812,7 @@ const ScrollAnimation = () => {
               </div>
             </div>
 
-            <div className="card" id="mobile-card-3">
+            <div className={`card ${flippedCards.has('mobile-card-3') ? 'flipped' : ''}`} id="mobile-card-3">
               <div className="card-wrapper">
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
@@ -1989,3 +1969,4 @@ const ScrollAnimation = () => {
 };
 
 export default ScrollAnimation;
+
