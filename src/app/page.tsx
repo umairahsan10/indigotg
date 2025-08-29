@@ -20,7 +20,7 @@ import HeroGlobe from "./components/HeroGlobe";
 
 export default function Home() {
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden homepage-slow-scroll">
       <BackgroundMusic audioSrc="/music/bg_music.mp3" />
 
       {/* <Hero />
