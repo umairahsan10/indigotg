@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 const OfficeMap = dynamic(() => import("../components/OfficeMap"), { ssr: false });
 import Image from "next/image";
 import GetInTouchForm from "../components/GetInTouchForm";
+import Link from "next/link";
 
 export default function GetInTouch() {
   const contactSectionRef = useRef<HTMLDivElement>(null);
@@ -99,52 +100,60 @@ export default function GetInTouch() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {/* 24hr Customer Support Helpline */}
-            <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
-                <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                </svg>
+            <Link href="tel:+44012914358">
+              <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden cursor-pointer">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
+                  <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2 text-center relative z-10">24hr Customer Support Helpline</h3>
+                <p className="text-base sm:text-lg font-bold text-blue-900 text-center mb-2 underline relative z-10">+44 (0) 1291 435800</p>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2 text-center relative z-10">24hr Customer Support Helpline</h3>
-              <p className="text-base sm:text-lg font-bold text-blue-900 text-center mb-2 underline relative z-10">+44 (0) 1291 435800</p>
-            </div>
+            </Link>
 
             {/* Customer Support Enquiries */}
-            <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
-                <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
+            <Link href="mailto:support@indigotg.com">
+              <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden cursor-pointer">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
+                  <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3 sm:mb-4 text-center relative z-10">Customer Support Enquiries</h3>
+                <p className="text-sm sm:text-base text-blue-900 font-semibold text-center underline relative z-10">support@indigotg.com</p>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3 sm:mb-4 text-center relative z-10">Customer Support Enquiries</h3>
-              <p className="text-sm sm:text-base text-blue-900 font-semibold text-center underline relative z-10">support@indigotg.com</p>
-            </div>
+            </Link>
 
             {/* General Sales Enquiries */}
-            <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
-                <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
+            <Link href="mailto:sales@indigotg.com">
+              <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden cursor-pointer">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
+                  <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3 sm:mb-4 text-center relative z-10">General Sales Enquiries</h3>
+                <p className="text-sm sm:text-base text-blue-900 font-semibold text-center underline relative z-10">sales@indigotg.com</p>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3 sm:mb-4 text-center relative z-10">General Sales Enquiries</h3>
-              <p className="text-sm sm:text-base text-blue-900 font-semibold text-center underline relative z-10">sales@indigotg.com</p>
-            </div>
+            </Link>
 
             {/* Sub-contractor Enquiries */}
-            <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
-                <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
+            <Link href="mailto:resourcing@indigotg.com">
+              <div className="contact-card bg-blue-50 rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden cursor-pointer">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto relative z-10">
+                  <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3 sm:mb-4 text-center relative z-10">Sub-contractor Enquiries</h3>
+                <p className="text-sm sm:text-base text-blue-900 font-semibold text-center underline relative z-10">resourcing@indigotg.com</p>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-3 sm:mb-4 text-center relative z-10">Sub-contractor Enquiries</h3>
-              <p className="text-sm sm:text-base text-blue-900 font-semibold text-center underline relative z-10">resourcing@indigotg.com</p>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
-
+      
       {/* Main Content Section */}
       <div className="py-20" ref={mainContentRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

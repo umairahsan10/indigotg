@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import './who-we-are.css';
@@ -17,7 +18,7 @@ export default function WhoWeAre() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isTrainPaused, setIsTrainPaused] = useState(false);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
-  const stackAreaRef = useRef<HTMLDivElement>(null);
+  const stackAreaRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
