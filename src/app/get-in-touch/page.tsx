@@ -67,7 +67,7 @@ export default function GetInTouch() {
   return (
     <div className="min-h-screen bg-white ">
       {/* Hero Section */}
-      <div className="relative overflow-hidden text-white" style={{ backgroundImage: 'url(/get-in-touch/img-6.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} ref={heroSectionRef}>
+      <div className="relative overflow-hidden text-white" style={{ backgroundImage: 'url(/get-in-touch/img-6.png)', backgroundSize: 'cover', backgroundPosition: '80% center', backgroundRepeat: 'no-repeat' }} ref={heroSectionRef}>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-32 min-h-screen flex items-center">
           <div className="text-left">
             <div className="hero-content">
