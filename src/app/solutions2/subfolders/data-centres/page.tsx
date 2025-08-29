@@ -50,6 +50,14 @@ export default function DataCentresPage() {
       <style jsx global>{`
         .font-roboto {
           font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+          font-display: swap;
+        }
+
+        /* Prevent layout shift for hero text */
+        .hero-text {
+          min-height: 6rem;
+          line-height: 1.6;
+          font-display: swap;
         }
 
         /* Animation Classes */
@@ -306,12 +314,12 @@ export default function DataCentresPage() {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
                   Data Centres
                 </h1>
-                <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
+                <p className="hero-text max-w-4xl text-sm md:text-base lg:text-lg leading-relaxed font-roboto whitespace-normal break-words">
                   Indigo partners closely with clients to tailor data centre engineering services to their specific infrastructure needs. We offer an extensive range of design, deployment, and support solutions focused on maximising the availability of high-performance data centre equipment, while optimising for cost, energy efficiency, and overall performance.
                 </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   JOIN THE TEAM
-                </button>
+                </a>
               </div>
             </div>
 
@@ -399,44 +407,44 @@ export default function DataCentresPage() {
                 <p className="text-lg md:text-xl lg:text-2xl text-[#140079] leading-relaxed font-roboto font-medium">
                   Our solutions ensure uninterrupted critical services
                 </p>
-                <ul className="space-y-3 lg:space-y-4 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start justify-center lg:justify-start group">
+                <ul className="space-y-3 lg:space-y-4 text-base md:text-lg lg:text-xl text-[#140079] font-roboto text-left">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/equipment-racking-and-stacking-server-builds/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Racking, stacking and server builds</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/structured-cabling-installation-and-test/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Colocation and containerisation</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/hot-and-cold-aisle-containment-services/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Hot and cold aisle containment</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/structured-cabling-installation-and-test/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Structured cabling</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/cross-connects-and-meet-me-room-mmr-services/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Cross connects and MMR</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/digitisation/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Digitisation and asset inventory</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/network-monitoring-service/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Remote monitoring</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/smart-hands/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Remote Hands – Break fix, spares and repair</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/operations-and-maintenance/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Maintenance and upgrades</a>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start group">
+                  <li className="flex items-start justify-start group">
                     <span className="text-[#140079] font-bold mr-3 text-lg lg:text-xl">•</span>
                     <a href="https://www.indigotg.com/services/decommissioning/" className="transition-all duration-300 cursor-pointer hover:text-yellow-500 underline decoration-[#140079] decoration-2 underline-offset-4 hover:decoration-yellow-500" target="_blank" rel="noopener noreferrer">Equipment disposal and certification</a>
                   </li>
