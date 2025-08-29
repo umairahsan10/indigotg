@@ -141,37 +141,62 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
 };
 
 // Helper functions to detect when resources are ready
+
+/** Wait until all images AND any that appear within a short observation window are loaded */
 const waitForImages = (): Promise<void> => {
   return new Promise((resolve) => {
-    const images = Array.from(document.querySelectorAll('img'));
-    
-    if (images.length === 0) {
-      // No images to wait for, but add a small delay for consistency
-      setTimeout(resolve, 200);
-      return;
-    }
+    const pending = new Set<HTMLImageElement>();
 
-    let loadedCount = 0;
-    const totalImages = images.length;
-
-    const checkComplete = () => {
-      loadedCount++;
-      if (loadedCount >= totalImages) {
-        resolve();
-      }
+    const inspectImage = (img: HTMLImageElement) => {
+      if (img.complete) return; // already done
+      pending.add(img);
+      const handler = () => {
+        pending.delete(img);
+        img.removeEventListener('load', handler);
+        img.removeEventListener('error', handler);
+        if (pending.size === 0 && !observerActive) {
+          resolve();
+        }
+      };
+      img.addEventListener('load', handler);
+      img.addEventListener('error', handler);
     };
 
-    images.forEach((img) => {
-      if (img.complete) {
-        checkComplete();
-      } else {
-        img.addEventListener('load', checkComplete);
-        img.addEventListener('error', checkComplete); // Don't wait for failed images
-      }
+    // initial scan
+    Array.from(document.querySelectorAll('img')).forEach(inspectImage);
+
+    // observe for new images for 1 second after last mutation
+    let observerActive = true;
+    let lastMutation = Date.now();
+    const observer = new MutationObserver((mutations) => {
+      lastMutation = Date.now();
+      mutations.forEach((m) => {
+        m.addedNodes.forEach((n) => {
+          if (n instanceof HTMLImageElement) inspectImage(n);
+          // also search within element subtree
+          if (n instanceof HTMLElement) {
+            n.querySelectorAll?.('img').forEach((img) => inspectImage(img as HTMLImageElement));
+          }
+        });
+      });
     });
-    
-    // Fallback: if images take too long, resolve anyway
-    setTimeout(resolve, 3000); // Max 3 seconds wait for images
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    const interval = setInterval(() => {
+      if (Date.now() - lastMutation > 1000) {
+        // no mutations for 1s
+        observerActive = false;
+        observer.disconnect();
+        if (pending.size === 0) resolve();
+        clearInterval(interval);
+      }
+    }, 300);
+
+    // safety timeout
+    setTimeout(() => {
+      observer.disconnect();
+      resolve();
+    }, 7000);
   });
 };
 
