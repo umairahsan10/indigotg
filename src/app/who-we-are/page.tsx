@@ -999,6 +999,15 @@ export default function WhoWeAre() {
             min-height: 200px !important;
             max-height: 250px !important;
           }
+
+          /* iPhone SE specific hero image sizing */
+          .hero-section-small .image-container {
+            margin-top: 2rem !important;
+            min-height: 150px !important;
+            max-height: 200px !important;
+            width: 80% !important;
+            margin: 0 auto !important;
+          }
           
           /* Reduce the stats labels text size specifically for iPhone SE */
           .hero-section-small .stats-section .text-xs {
