@@ -261,9 +261,9 @@ export default function FixedLinePage() {
                 <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   Indigo offers a full range of design, deployment, and support engineering services for modern digital infrastructure providers. Their expertise spans from planning fibre-to-the-home/premise solutions to delivering and sustaining high-availability, mission-critical fixed-line networks.
                 </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   JOIN THE TEAM
-                </button>
+                </a>
               </div>
             </div>
 
@@ -339,9 +339,9 @@ export default function FixedLinePage() {
                 </h2>
                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Download our Fibre Services Infographic which shows where we worked, how many homes we have designed for, and much more.                </p>
-                <button className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="/solutions/line/IND-76-Fibre-Services-Infographic-A4.pdf" download className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   Download Now
-                </button>
+                </a>
               </div>
 
               {/* Right Section - Infographic */}
@@ -469,39 +469,39 @@ export default function FixedLinePage() {
                 <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Pre-planning</a>
+                    <a href="https://www.indigotg.com/services/preventative-maintenance/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Pre-planning</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Surveying</a>
+                    <a href="https://www.indigotg.com/services/site-survey-and-audit/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Surveying</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Planning and Design (HLD/LLD)</a>
+                    <a href="https://www.indigotg.com/services/fibre-access-pop-design-and-planning/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Planning and Design (HLD/LLD)</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Route Proving</a>
+                    <a href="https://www.indigotg.com/services/fibre-access-lld-services/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Route Proving</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Passive and Active equipment build</a>
+                    <a href="https://www.indigotg.com/services/passive-build/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Passive and Active equipment build</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Operations and maintenance</a>
+                    <a href="https://www.indigotg.com/services/operations-and-maintenance/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Operations and maintenance</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Spare parts management</a>
+                    <a href="https://www.indigotg.com/services/spare-parts-management-service/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Spare parts management</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Remote network monitoring</a>
+                    <a href="https://www.indigotg.com/services/network-monitoring-service/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Remote network monitoring</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Network upgrades</a>
+                    <a href="https://www.indigotg.com/services/project-programme-management/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Network upgrades</a>
                   </li>
                 </ul>
               </div>

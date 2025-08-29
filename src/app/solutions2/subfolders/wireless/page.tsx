@@ -347,9 +347,9 @@ export default function WirelessPage() {
                 </h1>
                 <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   Indigo has been providing wireless solutions to network operators for 25 years, from the first generation of mobile to emerging 5G technologies. In a fast-changing market with spiraling demand for high-speed data, we deliver a range of design, deploy and support services to assure the resiliency and reliability of your networks.                </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   JOIN THE TEAM
-                </button>
+                </a>
               </div>
             </div>
 

@@ -263,9 +263,9 @@ export default function NetworkPage() {
                 <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
                   We work efficiently to minimize outage times to keep society collaborating. We monitor, maintain, and upgrade services around the clock, deploying our operations and multi-vendor engineers within hours or the next day to provide expert on-site support.
                 </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   JOIN THE TEAM
-                </button>
+                </a>
               </div>
             </div>
 
@@ -391,62 +391,62 @@ export default function NetworkPage() {
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-roboto font-bold text-[#140079] leading-tight">
                   Our Network Services Include
                 </h2>
-                <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
+                <ul className="space-y-2 lg:space-y-3 text-sm md:text-base lg:text-lg text-[#140079] font-roboto">
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Site survey and audit</a>
+                    <a href="https://www.indigotg.com/services/site-acquisition-survey/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Site survey and audit</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Logistics and warehousing</a>
+                    <a href="https://www.indigotg.com/services/logistics-and-warehousing/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Logistics and warehousing</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Design, commissioning and project coordination (Fibre, FTTX, OSP)</a>
+                    <a href="https://www.indigotg.com/services/project-programme-management/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Project management and project co-ordination (PMO/ PSO)</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Site access</a>
+                    <a href="https://www.indigotg.com/services/site-access/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Site access</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Power supply and visual install</a>
+                    <a href="https://www.indigotg.com/services/electrical-installation-services/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Power supply, electrical install</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Site survey, network audits and transmission (radio and fibre)</a>
+                    <a href="https://www.indigotg.com/services/site-acquisition-survey/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Site surveys, network audits and transmission design and planning</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Fibre characterisation and testing</a>
+                    <a href="https://www.indigotg.com/services/fibre-characterisation-and-link-testing/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Fibre characterisation and link testing</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Active equipment installation & commissioning, decommissioning and migrations</a>
+                    <a href="https://www.indigotg.com/services/active-equipment-ic/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Active equipment installation & commissioning, decommissioning and migrations</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Config, Build, Provision and Operate (Documentation & testing)</a>
+                    <a href="https://www.indigotg.com/services/circuit-patching/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Card Infills, Patching and Upgrades Documentation & Testing</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">NOC Remote network monitoring</a>
+                    <a href="https://www.indigotg.com/services/network-monitoring-service/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">NOC Remote network monitoring</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">NOC Proactive and reactive (on-site support)</a>
+                    <a href="https://www.indigotg.com/services/project-programme-management/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">NOC Provisioning and configuration management</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">End to end network testing</a>
+                    <a href="https://www.indigotg.com/services/network-optimisation/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">End-to-end network testing</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">24/7/365 maintenance and monitoring services</a>
+                    <a href="https://www.indigotg.com/services/operations-and-maintenance/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">First Line maintenance and maintenance services</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Spare parts management service (SPMS)</a>
+                    <a href="https://www.indigotg.com/services/spare-parts-management-service/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Spare parts management service (SPMS)</a>
                   </li>
                 </ul>
                 <div className="h-8 lg:h-12"></div>

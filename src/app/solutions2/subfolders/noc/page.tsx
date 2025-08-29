@@ -283,9 +283,9 @@ export default function NOCPage() {
                   Our NOC Services minimize outage times and keeps society collaborating. Fully staffed 24x7x365.
 
                 </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="/get-in-touch" className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   Get in Touch
-                </button>
+                </a>
               </div>
             </div>
 
@@ -399,40 +399,40 @@ export default function NOCPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-4 lg:space-y-8 text-content order-1 lg:order-2 text-center lg:text-left">
-                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef3} className="space-y-4 lg:space-y-8 text-content order-1 lg:order-2 text-left lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight text-center lg:text-left">
                   Core Services
                 </h2>
                 <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span><strong>Basic 1st Line Support</strong> – Log and pass</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span><strong>1st Line Technical Support</strong> – Log, triage, escalate and pass</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span><strong>1st and 2nd Line Full NOC Services</strong> – Log, triage, dispatch, resolve, escalate</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Deliver monthly service reporting</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Service Commissioning and Provisioning</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Capacity Management</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>24/7 Support, OOH Support, Ad-Hoc Support</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Consultative Services</span>
                   </li>
@@ -447,39 +447,39 @@ export default function NOCPage() {
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Text Content */}
-              <div ref={textRef4} className="space-y-4 lg:space-y-3 text-content order-1 text-center lg:text-left">
-                <h2 className="text-2xl md:text-3xl lg:text-5xl mb-6 lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+              <div ref={textRef4} className="space-y-4 lg:space-y-3 text-content order-1 text-left lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl mb-6 lg:text-5xl font-roboto font-bold text-[#140079] leading-tight text-center lg:text-left">
                   Optional Services
                 </h2>
-                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto text-center lg:text-left">
                   Additional services can be tailored to meet your specific customer needs and requirements.
                 </p>
                 <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>First and Second technical support with escalation to vendor third line</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Monitor and assist with resolution of network elements</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Coordinate and assist with repairs for network elements (RMA process)</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Provide escalations to backhaul providers</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Escalations to suppliers (build contractors)</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Manage and communicate planned engineering works</span>
                   </li>
-                  <li className="flex items-start justify-center lg:justify-start">
+                  <li className="flex items-start justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
                     <span>Bespoke monthly reporting</span>
                   </li>
@@ -555,9 +555,9 @@ export default function NOCPage() {
                   We're ISO accredited and work to ITILv4 standards. Find out more about <a href="#" className="text-[#140079] hover:text-yellow-500 transition-all duration-300 cursor-pointer underline">our certifications</a>.
                 </p>
                 {/*vacancies pr jaye ga button and responsiblities certifications*/}
-                <button className="mt-6 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer" className="mt-6 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   Join the team
-                </button>
+                </a>
               </div>
 
               {/* Right Section - Image */}
