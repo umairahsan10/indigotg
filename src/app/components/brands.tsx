@@ -12,6 +12,7 @@ interface CompanyStory {
   industry: string;
   size: string;
   region: string;
+  link: string; // Added link property
 }
 
 const companyStories: CompanyStory[] = [
@@ -24,7 +25,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    link: "http://indigotg.com/wp-content/uploads/2025/03/Indigo-Lightspeed-Success-Story.pdf"
   },
   {
     id: 2,
@@ -35,7 +37,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Technology",
     size: "Mid-market",
-    region: "Europe"
+    region: "Europe",
+    link: "https://www.indigotg.com/success-story/ogi/"
   },
   {
     id: 3,
@@ -46,7 +49,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    link: "https://www.indigotg.com/success-story/cellnex/"
   },
   {
     id: 4,
@@ -57,7 +61,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Technology",
     size: "Mid-market",
-    region: "Europe"
+    region: "Europe",
+    link: "https://www.indigotg.com/success-story/netomnia/"
   },
   {
     id: 5,
@@ -68,7 +73,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Technology",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    link: "https://www.indigotg.com/success-story/rm/"
   },
   {
     id: 6,
@@ -79,7 +85,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    link: "/newsPage" // Placeholder for actual link
   },
   {
     id: 7,
@@ -90,7 +97,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    link: "/newsPage"// Placeholder for actual link
   },
   {
     id: 8,
@@ -101,7 +109,8 @@ const companyStories: CompanyStory[] = [
     category: "Success Stories",
     industry: "Telecommunications",
     size: "Enterprise",
-    region: "Europe"
+    region: "Europe",
+    link: "/newsPage"// Placeholder for actual link
   },
 ];
 
@@ -146,7 +155,10 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
             </span>
           </div>
 
-          <button
+          <a
+            href={story.link}
+            target="_blank"
+            rel="noopener noreferrer"
             className={`
               px-3 py-1.5 md:px-4 md:py-2 rounded-full 
               flex items-center gap-1 md:gap-2 
@@ -156,11 +168,12 @@ const StoryCard = ({ story }: { story: CompanyStory }) => {
               hover:shadow-[-1px_-1px_5px_rgba(255,_255,_255,_0.6),_1px_1px_5px_rgba(0,_0,_0,_0.3),inset_-2px_-2px_5px_rgba(255,_255,_255,_1),inset_2px_2px_4px_rgba(0,_0,_0,_0.3)]
               hover:text-blue-200
               text-xs md:text-sm font-medium
+              cursor-pointer
             `}
             style={{ fontFamily: 'var(--font-geist-sans)' }}
           >
             <span>Read Story</span>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -181,7 +194,7 @@ export const BrandsSection = () => {
           {/* First row - Right to Left */}
           <div className="flex gap-3 md:gap-4 overflow-hidden">
             <div className="company-logos-scroll flex gap-3 md:gap-4">
-              {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
+              {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
                 <StoryCard story={story} key={`row1-${story.id}-${index}`} />
               ))}
             </div>
@@ -190,7 +203,7 @@ export const BrandsSection = () => {
           {/* Second row - Left to Right */}
           <div className="flex gap-3 md:gap-4 overflow-hidden">
             <div className="company-logos-scroll-reverse flex gap-3 md:gap-4">
-              {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
+              {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
                 <StoryCard story={story} key={`row2-${story.id}-${index}`} />
               ))}
             </div>
@@ -200,15 +213,15 @@ export const BrandsSection = () => {
         <style jsx>{`
           @keyframes scrollLeft {
             from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
+            to { transform: translateX(-20%); }
           }
           @keyframes scrollRight {
-            from { transform: translateX(-50%); }
+            from { transform: translateX(-20%); }
             to { transform: translateX(0); }
           }
-          .company-logos-scroll { animation: scrollLeft 40s linear infinite; }
+          .company-logos-scroll { animation: scrollLeft 60s linear infinite; }
           .company-logos-scroll:hover { animation-play-state: paused; }
-          .company-logos-scroll-reverse { animation: scrollRight 50s linear infinite; }
+          .company-logos-scroll-reverse { animation: scrollRight 70s linear infinite; }
           .company-logos-scroll-reverse:hover { animation-play-state: paused; }
         `}</style>
       </div>

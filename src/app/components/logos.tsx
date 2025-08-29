@@ -28,11 +28,8 @@ export const LogosSection = () => {
             {[...new Array(4)].fill(0).map((_, idx) => (
               <div key={idx} className="flex gap-8 md:gap-12 pr-8 md:pr-12 flex-shrink-0">
                 {brands.map((brand, brandIdx) => (
-                  <a
+                  <div
                     key={`${idx}-${brandIdx}`}
-                    href={brand.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="inline-block hover:scale-110 transition-transform duration-300 flex-shrink-0"
                   >
                     <div className="relative h-32 w-32 sm:h-36 sm:w-36 md:h-28 md:w-[180px] lg:h-36 lg:w-[240px]">
@@ -45,7 +42,7 @@ export const LogosSection = () => {
                         priority={idx === 0}
                       />
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             ))}
