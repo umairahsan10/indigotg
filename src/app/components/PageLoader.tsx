@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import TriangleLoader from "./TriangleLoader";
 import LoadingBar from "./LoadingBar";
 import BlocksTransition from "./BlocksTransition";
+import { useLoaderController } from "./LoaderContext";
 
 interface PageLoaderProps {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ type LoadingPhase = 'triangle' | 'loading' | 'blocks' | 'complete';
 
 const PageLoader = ({ children }: PageLoaderProps) => {
   const pathname = usePathname();
+  const { sealRegistrations, waitForRegisteredPromises } = useLoaderController();
   const [phase, setPhase] = useState<LoadingPhase>('triangle');
   const [isVisible, setIsVisible] = useState(false);
   const [triangleComplete, setTriangleComplete] = useState(false);
@@ -58,8 +60,14 @@ const PageLoader = ({ children }: PageLoaderProps) => {
       setPhase('loading');
     }, 800); // Fixed triangle duration - ALWAYS wait this long
 
+    // seal registration window shortly after mount (500ms) so components must register quickly
+    const sealTimer = setTimeout(() => {
+      sealRegistrations();
+    }, 500);
+
     return () => {
       clearTimeout(triangleTimer);
+      clearTimeout(sealTimer); // Clear the new seal timer on unmount
       // Clean up loading class if component unmounts
       if (typeof document !== 'undefined') {
         document.body.classList.remove('loading');
@@ -78,12 +86,11 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     };
   }, [pathname]); // Re-run on every route change
 
-  const handleLoadingComplete = () => {
+  const handleLoadingComplete = async () => {
+    // Wait for all component promises
+    await waitForRegisteredPromises();
     // Move to blocks transition
     setPhase('blocks');
-    
-    // Make page content visible BEFORE blocks transition starts
-    // This eliminates the gap between transition and page display
     setIsVisible(true);
   };
 
