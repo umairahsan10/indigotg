@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/solutions',
-        destination: '/solutions2',
+        destination: '/solutions',
       },
       {
         source: '/solutions/fixedline',
