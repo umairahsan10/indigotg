@@ -4,13 +4,19 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import CTASection from '../cta';
 
-export default function NetworkPage() {
+export default function FixedLinePage() {
   const textRef1 = useRef<HTMLDivElement>(null);
   const imageRef1 = useRef<HTMLDivElement>(null);
   const textRef2 = useRef<HTMLDivElement>(null);
   const imageRef2 = useRef<HTMLDivElement>(null);
   const textRef3 = useRef<HTMLDivElement>(null);
   const imageRef3 = useRef<HTMLDivElement>(null);
+  const textRef4 = useRef<HTMLDivElement>(null);
+  const imageRef4 = useRef<HTMLDivElement>(null);
+  const textRef5 = useRef<HTMLDivElement>(null);
+  const imageRef5 = useRef<HTMLDivElement>(null);
+  const textRef6 = useRef<HTMLDivElement>(null);
+  const imageRef6 = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,7 +41,7 @@ export default function NetworkPage() {
       }
     );
 
-    const refs = [textRef1, imageRef1, textRef2, imageRef2, textRef3, imageRef3];
+    const refs = [textRef1, imageRef1, textRef2, imageRef2, textRef3, imageRef3, textRef4, imageRef4, textRef5, imageRef5, textRef6, imageRef6];
     refs.forEach(ref => {
       if (ref.current) observer.observe(ref.current);
     });
@@ -180,14 +186,6 @@ export default function NetworkPage() {
         .text-content.animate-in li:nth-child(4) { animation: fadeInLine 0.4s ease-out 1.1s both; }
         .text-content.animate-in li:nth-child(5) { animation: fadeInLine 0.4s ease-out 1.2s both; }
         .text-content.animate-in li:nth-child(6) { animation: fadeInLine 0.4s ease-out 1.3s both; }
-        .text-content.animate-in li:nth-child(7) { animation: fadeInLine 0.4s ease-out 1.4s both; }
-        .text-content.animate-in li:nth-child(8) { animation: fadeInLine 0.4s ease-out 1.5s both; }
-        .text-content.animate-in li:nth-child(9) { animation: fadeInLine 0.4s ease-out 1.6s both; }
-        .text-content.animate-in li:nth-child(10) { animation: fadeInLine 0.4s ease-out 1.7s both; }
-        .text-content.animate-in li:nth-child(11) { animation: fadeInLine 0.4s ease-out 1.8s both; }
-        .text-content.animate-in li:nth-child(12) { animation: fadeInLine 0.4s ease-out 1.9s both; }
-        .text-content.animate-in li:nth-child(13) { animation: fadeInLine 0.4s ease-out 2.0s both; }
-        .text-content.animate-in li:nth-child(14) { animation: fadeInLine 0.4s ease-out 2.1s both; }
 
         /* Directional image animations */
         .image-content.image-left {
@@ -241,8 +239,8 @@ export default function NetworkPage() {
           {/* Background Image - Full Width */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/solutions/network.png"
-              alt="Network Services Background"
+              src="/solutions/card-images-1.png"
+              alt="Fixed Line Background"
               fill
               style={{ objectFit: 'cover' }}
               priority
@@ -258,14 +256,14 @@ export default function NetworkPage() {
                   SOLUTIONS
                 </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-roboto">
-                  Network Services
+                  Fixed Line
                 </h1>
                 <p className="text-base md:text-lg lg:text-xl leading-relaxed font-roboto">
-                  We work efficiently to minimize outage times to keep society collaborating. We monitor, maintain, and upgrade services around the clock, deploying our operations and multi-vendor engineers within hours or the next day to provide expert on-site support.
+                  Indigo offers a full range of design, deployment, and support engineering services for modern digital infrastructure providers. Their expertise spans from planning fibre-to-the-home/premise solutions to delivering and sustaining high-availability, mission-critical fixed-line networks.
                 </p>
-                <button className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto">
+                <a href="https://jobs.indigotg.com/vacancies/vacancy-search-results.aspx" target="_blank" rel="noopener noreferrer" className="mt-8 bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
                   JOIN THE TEAM
-                </button>
+                </a>
               </div>
             </div>
 
@@ -294,23 +292,23 @@ export default function NetworkPage() {
                 </li>
                 <li className="text-[#140079]">•</li>
                 <li className="text-[#140079]">
-                  Network Services
+                  Fixed Line
                 </li>
               </ol>
             </nav>
           </div>
         </section>
 
-        {/* First Section - Global Footprint */}
-        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-white">
+        {/* Survey, Design and Planning Section */}
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef1} className="relative image-content image-left order-1 flex justify-center">
-                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
+              <div ref={imageRef1} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full"  >
                   <Image
-                    src="/solutions/net/n1.png"
-                    alt="Network Operations Center"
+                    src="/solutions/line/l1.png"
+                    alt="Survey, Design and Planning"
                     width={700}
                     height={400}
                     className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
@@ -319,33 +317,124 @@ export default function NetworkPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef1} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+              <div ref={textRef1} className="space-y-4 lg:space-y-6 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+                  Survey, Design and Planning
+                </h2>
                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Through a powerful combination of survey, design and planning expertise, we have developed a unique solution encompassing high level designs, surveying, low level designs, bill of quantities, civils/cabling maps and hazard identification to meet the growing demand for fixed line connectivity, driven by governments that want to support evolving digital economies.            </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                  With a global footprint in over 60 countries and as an experienced fibre services provider, Indigo has developed an integrated services solution to assist telecommunications operators and service providers in meeting the growing demand for high-speed connectivity                </p>
+        {/* Experienced Fibre Services Section */}
+        <section className="min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left Section - Text Content */}
+              <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-1 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+                  Experienced Fibre Services
+                </h2>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Download our Fibre Services Infographic which shows where we worked, how many homes we have designed for, and much more.                </p>
+                <a href="/solutions/line/IND-76-Fibre-Services-Infographic-A4.pdf" download className="bg-yellow-500 hover:bg-white hover:border-2 hover:border-yellow-500 text-white hover:text-yellow-500 px-9 py-2 rounded-full text-lg font-semibold transition-all duration-300 font-roboto inline-block">
+                  Download Now
+                </a>
+              </div>
+
+              {/* Right Section - Infographic */}
+              <div ref={imageRef2} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
+                  <Image
+                    src="/solutions/line/l2.png"
+                    alt="Experienced Fibre Services"
+                    width={700}
+                    height={400}
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* End to End Planning Section */}
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left Section - Image */}
+              <div ref={imageRef3} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
+                  <Image
+                    src="/solutions/line/l3.png"
+                    alt="End to End Planning"
+                    width={700}
+                    height={400}
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Right Section - Text Content */}
+              <div ref={textRef3} className="space-y-4 lg:space-y-6 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+                  End to End Planning
+                </h2>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  Whether offering a "decoupled" design service or providing integrated design and deploy services, we work closely with digital infrastructure companies to roll out fixed lines in both urban and rural communities. We manage the deployment of the passive and active equipment, in addition to providing wayleave and consenting services to not only accelerate the customer connection time, but also to increase the amount of connections.                </p>
+              </div>
+            </div>  
+          </div>
+        </section>
+
+        {/* Equipment Install and Decommissioning Section */}
+        <section className="min-h-[120vh] md:min-h-[90vh] space-y-4 flex items-center mb-10 bg-gradient-to-r from-blue-200 to-red-200">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left Section - Text Content */}
+              <div ref={textRef4} className="space-y-3 text-content order-1 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+                  Equipment Install and Decommissioning
+                </h2>
+                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                  With a global footprint in over 90 countries and as
+                  partner to most of the world's top brands, we have developed an integrated services solution to assist telecommunications operators and service providers in meeting the growing demand for high speed connectivity.                </p>
                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   We offer tried and tested network de-installation/de-commissioning solutions to safeguard any interruption to existing traffic on the network.
-
                 </p>
                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
                   Our highly skilled and fully accredited multi-vendor field engineers work hand in hand with our Prince 2 project management teams to ensure deployments are delivered right first time, to budget and customer quality requirements.
-
                 </p>
+              </div>
+
+              {/* Right Section - Image */}
+              <div ref={imageRef4} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
+                  <Image
+                    src="/solutions/line/l4.png"
+                    alt="Equipment Install and Decommissioning"
+                    width={700}
+                    height={400}
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Second Section - Network Operations Centre */}
-        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-gray-300 to-gray-200">
+        {/* Maintenance and Support Section */}
+        <section className="min-h-[90vh] flex items-center mb-10 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Section - Image */}
-              <div ref={imageRef2} className="relative image-content image-right order-1 flex justify-center">
+              <div ref={imageRef5} className="relative image-content image-left order-2 lg:order-1 flex justify-center">
                 <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
                   <Image
-                    src="/solutions/net/n2.png"
-                    alt="Network Operations Center Staff"
+                    src="/solutions/line/l5.png"
+                    alt="Maintenance and Support"
                     width={700}
                     height={400}
                     className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
@@ -354,109 +443,87 @@ export default function NetworkPage() {
               </div>
 
               {/* Right Section - Text Content */}
-              <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
+              <div ref={textRef5} className="space-y-4 lg:space-y-6 text-content order-1 lg:order-2 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-roboto font-bold text-[#140079] leading-tight">
+                  Maintenance and Support of Fixed Line Networks
+                </h2>
                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Our purpose-built Network Operations Centre (NOC) is the single point of contact for all reactive and proactive support and maintenance requirements.
-                </p>
+                  Our purpose-built Network Operations Centre (NOC) is the single point of contact for all reactive and proactive support and maintenance requirements. Fully staffed 24x7x365, our NOC support staff manage the dispatch of the field service engineers and can jointly control the escalation to second/third line support or fibre providers in conjunction with owning the spares parts management process.                </p>
                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Fully staffed 24x7x365, our NOC support staff manage the dispatch of the field service engineers and can jointly control the escalation to second/third line support in conjunction with owning the spares parts management process.
-                </p>
-                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Should engineers have to be dispatched to your site, our rapid response and global footprint means that we are always available to provide on-site support to meet 2 hour, 4 hour or pre-arranged time to site service level agreements.
+                  Should engineers have to be dispatched to site, our rapid response and global footprint means that we are always available to provide on-site support to meet 2 hour, 4 hour or pre-arranged time to site service level agreements.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Third Section - Network Services Include */}
-        <section className="min-h-[140vh] md:min-h-[120vh] flex items-center mb-0 bg-white">
+        {/* Our Fixed Line Services Include Section */}
+        <section className="min-h-[90vh] flex items-center mb-0 bg-gradient-to-r from-blue-200 to-red-200">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Left Section - Image */}
-              <div ref={imageRef3} className="relative image-content image-left order-1 flex justify-center">
-                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
-                  <Image
-                    src="/solutions/net/n3.png"
-                    alt="Indigo Field Engineers"
-                    width={700}
-                    height={400}
-                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Right Section - Text Content */}
-              <div ref={textRef3} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-roboto font-bold text-[#140079] leading-tight">
-                  Our Network Services Include
+              {/* Left Section - Text Content */}
+              <div ref={textRef6} className="text-content order-1 text-center lg:text-left">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl mb-4 font-roboto font-bold text-[#140079] leading-tight">
+                  Our fixed line services include:
                 </h2>
                 <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Site survey and audit</a>
+                    <a href="https://www.indigotg.com/services/preventative-maintenance/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Pre-planning</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Logistics and warehousing</a>
+                    <a href="https://www.indigotg.com/services/site-survey-and-audit/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Surveying</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Design, commissioning and project coordination (Fibre, FTTX, OSP)</a>
+                    <a href="https://www.indigotg.com/services/fibre-access-pop-design-and-planning/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Planning and Design (HLD/LLD)</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Site access</a>
+                    <a href="https://www.indigotg.com/services/fibre-access-lld-services/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Route Proving</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Power supply and visual install</a>
+                    <a href="https://www.indigotg.com/services/passive-build/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Passive and Active equipment build</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Site survey, network audits and transmission (radio and fibre)</a>
+                    <a href="https://www.indigotg.com/services/operations-and-maintenance/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Operations and maintenance</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Fibre characterisation and testing</a>
+                    <a href="https://www.indigotg.com/services/spare-parts-management-service/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Spare parts management</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Active equipment installation & commissioning, decommissioning and migrations</a>
+                    <a href="https://www.indigotg.com/services/network-monitoring-service/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Remote network monitoring</a>
                   </li>
                   <li className="flex items-start justify-center lg:justify-start">
                     <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Config, Build, Provision and Operate (Documentation & testing)</a>
-                  </li>
-                  <li className="flex items-start justify-center lg:justify-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">NOC Remote network monitoring</a>
-                  </li>
-                  <li className="flex items-start justify-center lg:justify-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">NOC Proactive and reactive (on-site support)</a>
-                  </li>
-                  <li className="flex items-start justify-center lg:justify-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">End to end network testing</a>
-                  </li>
-                  <li className="flex items-start justify-center lg:justify-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">24/7/365 maintenance and monitoring services</a>
-                  </li>
-                  <li className="flex items-start justify-center lg:justify-start">
-                    <span className="text-[#140079] font-bold mr-3">•</span>
-                    <a href="#" className="transition-all duration-300 cursor-pointer">Spare parts management service (SPMS)</a>
+                    <a href="https://www.indigotg.com/services/project-programme-management/" target="_blank" rel="noopener noreferrer" className="transition-all duration-300 cursor-pointer underline hover:text-yellow-500">Network upgrades</a>
                   </li>
                 </ul>
-                <div className="h-8 lg:h-12"></div>
+              </div>
+
+              {/* Right Section - Image */}
+              <div ref={imageRef6} className="relative image-content image-right order-2 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
+                  <Image
+                    src="/solutions/line/l6.png"
+                    alt="Fixed Line Services"
+                    width={700}
+                    height={400}
+                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <CTASection filename="network" />
+        <CTASection filename="fixed-line" />
       </div>
     </>
   );

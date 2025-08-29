@@ -15,31 +15,31 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/solutions',
-        destination: '/solutions2',
+        destination: '/solutions',
       },
       {
         source: '/solutions/fixedline',
-        destination: '/solutions2/subfolders/fixedline',
+        destination: '/solutions/subfolders/fixedline',
       },
       {
         source: '/solutions/subsea',
-        destination: '/solutions2/subfolders/subsea',
+        destination: '/solutions/subfolders/subsea',
       },
       {
         source: '/solutions/wireless',
-        destination: '/solutions2/subfolders/wireless',
+        destination: '/solutions/subfolders/wireless',
       },
       {
         source: '/solutions/noc',
-        destination: '/solutions2/subfolders/noc',
+        destination: '/solutions/subfolders/noc',
       },
       {
         source: '/solutions/data-centres',
-        destination: '/solutions2/subfolders/data-centres',
+        destination: '/solutions/subfolders/data-centres',
       },
       {
         source: '/solutions/network',
-        destination: '/solutions2/subfolders/network',
+        destination: '/solutions/subfolders/network',
       },
     ];
   },

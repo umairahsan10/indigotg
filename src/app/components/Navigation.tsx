@@ -48,7 +48,7 @@ const Navigation = () => {
       ]
     },
     {
-      href: '/solutions2',
+      href: '/solutions',
       label: 'Solutions',
       hasDropdown: true,
       dropdownItems: [
@@ -196,7 +196,7 @@ const Navigation = () => {
   const isDarkHeroPage = [
     '/',
     '/our-services',
-    '/solutions2',
+    '/solutions',
     '/get-in-touch',
     '/newsPage',
     '/success-stories',
@@ -210,7 +210,10 @@ const Navigation = () => {
     '/resources',
     '/partner-portal',
     '/customer-support',
-    '/responsibilities'
+    '/responsibilities',
+    '/our-services/design',
+    '/our-services/deploy',
+    '/our-services/support',
   ].includes(pathname);
 
   const handleMenuToggle = () => {

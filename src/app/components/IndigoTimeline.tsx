@@ -43,6 +43,8 @@ const IndigoTimeline = () => {
   const newSectionRef = useRef<HTMLDivElement>(null);
   const typewriterTextRef = useRef<HTMLSpanElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
+  const yearsRef = useRef<HTMLSpanElement>(null);
+  const overlayTextRef = useRef<HTMLDivElement>(null);
   
   const [gsapLoaded, setGsapLoaded] = useState(false);
   const [confettiTriggered, setConfettiTriggered] = useState(false);
@@ -57,12 +59,22 @@ const IndigoTimeline = () => {
   const hasTriggeredAnimationsRef = useRef(false);
   const [animationsRunning, setAnimationsRunning] = useState(false);
   const [sectionLocked, setSectionLocked] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   // Ref to store ScrollTrigger instance so we can disable / kill it from anywhere
   const scrollTriggerRef = useRef<any>(null);
+  const mobileTriggeredRef = useRef(false);
+  const lockedScrollPosition = useRef<number>(0);
 
   // Mount effect to prevent hydration issues
   useEffect(() => {
     setIsMounted(true);
+    // detect mobile on mount and on resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Scroll prevention functions
@@ -117,6 +129,40 @@ const IndigoTimeline = () => {
      }, 60);
   };
 
+  // NEW: Animate number into final heading and restore original text
+  const finalizeHeadingAnimation = () => {
+    if (!window.gsap || !numberRef.current || !typewriterTextRef.current || !overlayTextRef.current) return;
+    
+    const tl = window.gsap.timeline({ defaults: { ease: "power3.out" } });
+    // Zoom the "25" toward screen then fade out together with typewriter text
+    tl.to(numberRef.current, { scale: 4, opacity: 0, duration: 0.6, ease: "power3.in" })
+      .to([typewriterTextRef.current, yearsRef.current], { opacity: 0, duration: 0.4 }, "<")
+      // Fade in the overlay text section (duplicate of original text)
+      .to(overlayTextRef.current, { opacity: 1, duration: 0.7 }, ">-0.1")
+      .call(() => {
+        if (isMobile) {
+          // Reset section positioning
+          window.gsap.set(sectionRef.current, { position: 'relative', top: 'auto', left: 'auto', right: 'auto', zIndex: 'auto' });
+          
+          // Momentum-safe scroll correction: after re-enabling scroll, check if the
+          // viewport slipped below the section (due to wheel momentum) and only
+          // correct that extra distance – keeps view stable when no overscroll.
+          requestAnimationFrame(() => {
+            if (!sectionRef.current) return;
+            const sectionHeight = sectionRef.current.offsetHeight;
+            const drift = window.pageYOffset - lockedScrollPosition.current;
+            const excess = drift - sectionHeight; // amount scrolled past the section
+            if (excess > 0) {
+              window.scrollBy(0, -excess);
+            }
+          });
+          
+          setSectionLocked(false);
+          enableScroll();
+        }
+      });
+  };
+
   const startCountAnimation = () => {
     if (countAnimationStartedRef.current) return;
     
@@ -151,6 +197,8 @@ const IndigoTimeline = () => {
            clearInterval(countIntervalRef.current);
            countIntervalRef.current = null;
          }
+         // Trigger final heading merge animation
+         finalizeHeadingAnimation();
 
          // Kill the ScrollTrigger instance (this also removes pinning) before
          // we re-enable scroll so there is no chance of it snapping elements.
@@ -159,7 +207,20 @@ const IndigoTimeline = () => {
            scrollTriggerRef.current = null;
          }
 
-         // Re-enable scrolling when all animations complete
+          // Reset section positioning and re-enable scrolling when all animations complete
+          window.gsap.set(sectionRef.current, { position: 'relative', top: 'auto', left: 'auto', right: 'auto', zIndex: 'auto' });
+          
+          // Momentum-safe correction (desktop path)
+          requestAnimationFrame(() => {
+            if (!sectionRef.current) return;
+            const sectionHeight = sectionRef.current.offsetHeight;
+            const drift = window.pageYOffset - lockedScrollPosition.current;
+            const excess = drift - sectionHeight;
+            if (excess > 0) {
+              window.scrollBy(0, -excess);
+            }
+          });
+          
          setAnimationsRunning(false);
          setSectionLocked(false);
          enableScroll();
@@ -276,31 +337,53 @@ const IndigoTimeline = () => {
            ease: "power3.out"
          }, "-=0.3");
 
-      // Main scroll-triggered transition
-      // Create the ScrollTrigger and store it in a ref so other callbacks can reach it
-      scrollTriggerInstance = window.ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=800vh", // Much longer animation height
-        scrub: 0.3, // Faster scrub value for quicker animations
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onEnter: () => {
-          // Lock the section when it comes to screen
+       if (isMobile) {
+         const triggerMobileSequence = () => {
+           if (mobileTriggeredRef.current || !sectionRef.current) return;
+           const rect = sectionRef.current.getBoundingClientRect();
+                    if (rect.top <= 0) {
+           mobileTriggeredRef.current = true;
           setSectionLocked(true);
+           
+           // Capture current scroll position before locking
+           lockedScrollPosition.current = window.pageYOffset || document.documentElement.scrollTop;
           disableScroll();
 
-          // Freeze ScrollTrigger updates while we run our manual autoplay so it
-          // can no longer override our transforms and cause a snap-back frame.
-          if (scrollTriggerInstance) {
-            scrollTriggerInstance.disable();
-          }
-          
-           // Automatically complete the video transition with EXACT same motion
-           // Use the same mathematical formulas as the scroll-based animation
+           // Snap section to top immediately to prevent overshoot
+           window.gsap.set(sectionRef.current, { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 });
+
+             window.gsap.to(textContainerRef.current, { opacity: 0, duration: 0.5 });
+             window.gsap.to(newSectionRef.current, { opacity: 1, duration: 0.5 });
+             setVideoTransitionComplete(true);
+             startTypewriterAnimation();
+             window.removeEventListener('scroll', triggerMobileSequence);
+           }
+         };
+
+         window.addEventListener('scroll', triggerMobileSequence, { passive: true });
+         // call once in case already at top
+         triggerMobileSequence();
+         return; // Skip ScrollTrigger for mobile
+       }
+
+             // Desktop: Use manual scroll detection like mobile for consistent behavior
+       const triggerDesktopSequence = () => {
+         if (mobileTriggeredRef.current || !sectionRef.current) return;
+         const rect = sectionRef.current.getBoundingClientRect();
+         if (rect.top <= 0) {
+           mobileTriggeredRef.current = true;
+           setSectionLocked(true);
+           
+           // Capture current scroll position before locking
+           lockedScrollPosition.current = window.pageYOffset || document.documentElement.scrollTop;
+           disableScroll();
+
+           // Snap section to top immediately to prevent overshoot
+           window.gsap.set(sectionRef.current, { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 });
+
+           // Start video transition animation immediately
            let progress = 0;
-           const duration = 1200; // 1.5 seconds total (half the time)
+           const duration = 1200;
            const startTime = Date.now();
           
           const animateTransition = () => {
@@ -381,117 +464,13 @@ const IndigoTimeline = () => {
           
           // Start the animation loop
           requestAnimationFrame(animateTransition);
-        },
-        onUpdate: (self: any) => {
-          // Skip scroll-based animation only during initial automatic transition
-          // Allow it when scrolling back up for proper reverse animation
-          if (hasTriggeredAnimationsRef.current && sectionLocked) return;
-          
-          const progress = self.progress;
-          
-          // Calculate viewport dimensions
-          const vw = window.innerWidth;
-          const vh = window.innerHeight;
-          
-                     // Video movement: from left to center-left side (same size)
-           const videoX = progress * (vw * 0.45); // Move to center-left (between previous 50% and new 40%)
-           const videoY = progress * (vh * 0.1); // Land a bit below for smooth transition
-          const videoScale = 1; // Keep same size
-          
-          // Curling effect: video deforms during transition
-          const curlIntensity = Math.sin(progress * Math.PI) * 12; // Bell curve for curl
-          const skewX = curlIntensity;
-          const skewY = curlIntensity * 0.3;
-          const rotateZ = curlIntensity * 0.4;
-          
-          // Apply curl effect with CSS transforms
-          const borderRadius = 16 - (curlIntensity * 0.6); // Reduce border radius during curl
-          
-          window.gsap.set(videoRef.current, {
-            x: videoX,
-            y: videoY,
-            scale: videoScale,
-            zIndex: 10,
-            transformOrigin: "center center"
-          });
+           window.removeEventListener('scroll', triggerDesktopSequence);
+         }
+       };
 
-          // Apply curling effect to inner video container
-          window.gsap.set(videoInnerRef.current, {
-            skewX: skewX,
-            skewY: skewY,
-            rotateZ: rotateZ,
-            borderRadius: `${borderRadius}px`,
-            transformStyle: "preserve-3d"
-          });
-
-          // Heading fade out
-          const headingOpacity = Math.max(0, 1 - (progress * 2));
-          
-          window.gsap.set(headingRef.current, {
-            opacity: headingOpacity
-          });
-
-          // Description fade out quickly
-          const descriptionOpacity = Math.max(0, 1 - (progress * 3));
-          
-          window.gsap.set(descriptionRef.current, {
-            opacity: descriptionOpacity
-          });
-
-          // Button fade out after description
-          const buttonOpacity = Math.max(0, 1 - ((progress - 0.1) * 3));
-          
-          window.gsap.set(buttonRef.current, {
-            opacity: buttonOpacity
-          });
-
-          // Text container fade out
-          const containerOpacity = Math.max(0, 1 - (progress * 2));
-          
-          window.gsap.set(textContainerRef.current, {
-            opacity: containerOpacity
-          });
-
-          // New section appears when video transition is nearly complete with smooth fade
-          const newSectionOpacity = progress >= 0.95 ? Math.min(1, (progress - 0.95) * 20) : 0;
-          
-          window.gsap.set(newSectionRef.current, {
-            opacity: newSectionOpacity,
-            x: 0 // No horizontal movement
-          });
-
-          // Update thumbnail opacity during scroll-scrub too
-          if (thumbnailRef.current) {
-            const thumbOpacityScrub = 1 - Math.min(progress * 1.2, 1);
-            thumbnailRef.current.style.opacity = String(thumbOpacityScrub);
-
-            if (progress >= 0.95) {
-              thumbnailRef.current.style.display = "none";
-            } else {
-              thumbnailRef.current.style.display = "block";
-            }
-          }
-
-          // Reset animations when scrolling backwards below 85% (with some buffer)
-          // Note: Video transition motion continues automatically after screen lock
-          if (progress < 0.85 && hasTriggeredAnimationsRef.current) {
-            // Only reset if we're scrolling back up significantly
-            // This allows the video transition to work in reverse
-            if (progress < 0.5) {
-              resetAllAnimations();
-            } else {
-              // Unlock section when scrolling back up to allow reverse animation
-              setSectionLocked(false);
-              enableScroll();
-            }
-          }
-
-
-        }
-      });
-
-      // Keep a reference accessible to other functions
-      scrollTriggerRef.current = scrollTriggerInstance;
+       window.addEventListener('scroll', triggerDesktopSequence, { passive: true });
+       // call once in case already at top
+       triggerDesktopSequence();
     };
 
     if (isMounted) {
@@ -661,7 +640,7 @@ const IndigoTimeline = () => {
   return (
     <section 
       ref={sectionRef}
-      className="h-screen bg-white relative overflow-hidden"
+      className="h-screen bg-white relative overflow-hidden pt-24 md:pt-32 lg:pt-0"
     >
       {/* Background overlay that appears during transition */}
       <div 
@@ -709,7 +688,7 @@ const IndigoTimeline = () => {
           </div>
 
           {/* Right Section - Text Content */}
-          <div ref={textContainerRef} className="space-y-8 text-content relative z-10">
+          <div ref={textContainerRef} className="space-y-6 text-content relative z-10 ">
             <h2 
               ref={headingRef}
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#140079] leading-tight tracking-tight"
@@ -725,7 +704,7 @@ const IndigoTimeline = () => {
             </p>
             
             {/* Animated Button */}
-            <div ref={buttonRef} className="pt-4">
+            <div ref={buttonRef}>
               <Link href="/news" className="inline-block">
                 <button className="learn-more group">
                   <span className="circle">
@@ -742,9 +721,9 @@ const IndigoTimeline = () => {
       {/* New Section - Celebrating Indigo with Typewriter Animation */}
               <div 
           ref={newSectionRef}
-          className="absolute left-8 top-1/2 transform -translate-y-24 z-20 opacity-0"
+        className="absolute left-1/2 lg:left-8 top-1/2 transform -translate-x-1/2 lg:-translate-x-0 -translate-y-24 z-20 opacity-0 mt-32 lg:mt-0"
         >
-        <div className="space-y-12">
+        <div className="space-y-12 ">
           {/* Heading Section */}
           <div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-[#140079] leading-normal font-roboto">
@@ -769,12 +748,30 @@ const IndigoTimeline = () => {
                 >
                   {isMounted ? currentNumber : 0}
                 </span>
-                <span className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
+                <span ref={yearsRef} className="text-lg md:text-xl lg:text-2xl font-bold text-[#140079] tracking-widest font-roboto">
                   YEARS
                 </span>
               </div>
             </div>
           )}
+
+          {/* Overlay original text section to appear after celebration */}
+          <div ref={overlayTextRef} className="space-y-6 opacity-0 absolute inset-0 -translate-y-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#140079] leading-tight tracking-tight">
+              Celebrating 25 years
+            </h2>
+            <p className="text-lg md:text-xl text-[#140079] leading-relaxed font-light max-w-2xl">
+              Throughout the last 25 years, we've seen our business grow and expand, all while staying true to our core values. We've been humbled by the trust, support and loyalty of our customers, old and new, and we look forward to many more years of creating beautiful, lasting memories for you.
+            </p>
+            <div>
+              <Link href="/news" className="inline-block">
+                <button className="learn-more group">
+                  <span className="circle"><span className="icon arrow"></span></span>
+                  <span className="button-text">Watch more videos</span>
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 

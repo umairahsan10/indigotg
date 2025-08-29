@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import CTASection from '../solutions2/subfolders/cta';
+import CTASection from '../solutions/subfolders/cta';
 
 export default function Resources() {
   const textRef1 = useRef<HTMLDivElement>(null);
@@ -390,9 +390,6 @@ export default function Resources() {
             {/* Left Div - Content */}
             <div className="flex items-center justify-center px-8 lg:px-16">
               <div className="text-white max-w-2xl">
-                <p className="text-sm md:text-base text-gray-300 mb-4">
-                  RESOURCES
-                </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight hero-heading">
                   Resources
                 </h1>

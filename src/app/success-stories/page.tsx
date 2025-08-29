@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useTransform, useScroll } from "framer-motion";
 import Lenis from 'lenis';
 import { FiSend, FiArrowUpRight } from "react-icons/fi";
+import Link from 'next/link';
 
 interface CompanyStory {
   id: number;
@@ -620,7 +621,7 @@ const HorizontalScrollCarousel = () => {
   }
 
   return (
-    <section className="relative min-h-screen bg-[#141414] py-16 md:py-24 lg:py-32 overflow-x-hidden">
+    <section className="overflow-x-hidden relative min-h-screen bg-[#141414] py-16 md:py-24 lg:py-32 overflow-x-hidden">
       <div className="container mx-auto flex flex-col items-center text-center px-4 md:px-6 lg:px-8">
         <h2 className={`mb-6 md:mb-8 font-roboto text-3xl md:text-4xl lg:text-6xl font-semibold text-white tracking-wide`}>Success Stories</h2>
 
@@ -628,7 +629,7 @@ const HorizontalScrollCarousel = () => {
           {/* First row - Left to Right */}
           <div className="flex gap-3 md:gap-4 overflow-hidden">
             <div className="company-logos-scroll flex gap-3 md:gap-4">
-              {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
+              {[...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup, ...firstGroup].map((story, index) => (
                 <StoryCard story={story} key={`row1-${story.id}-${index}`} />
               ))}
             </div>
@@ -637,7 +638,7 @@ const HorizontalScrollCarousel = () => {
           {/* Second row - Right to Left */}
           <div className="flex gap-3 md:gap-4 overflow-hidden">
             <div className="company-logos-scroll-reverse flex gap-3 md:gap-4">
-              {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
+              {[...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup, ...secondGroup].map((story, index) => (
                 <StoryCard story={story} key={`row2-${story.id}-${index}`} />
               ))}
             </div>
@@ -646,7 +647,7 @@ const HorizontalScrollCarousel = () => {
           {/* Third row - Left to Right */}
           <div className="flex gap-3 md:gap-4 overflow-hidden">
             <div className="company-logos-scroll flex gap-3 md:gap-4">
-              {[...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup].map((story, index) => (
+              {[...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup, ...thirdGroup].map((story, index) => (
                 <StoryCard story={story} key={`row3-${story.id}-${index}`} />
               ))}
             </div>
@@ -655,23 +656,29 @@ const HorizontalScrollCarousel = () => {
 
         <style jsx>{`
           @keyframes scrollLeft {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 1px)); }
           }
           @keyframes scrollRight {
-            from { transform: translateX(-50%); }
-            to { transform: translateX(0); }
+            0% { transform: translateX(calc(-50% - 1px)); }
+            100% { transform: translateX(0); }
           }
           .company-logos-scroll { 
-            animation: scrollLeft 80s linear infinite; 
+            animation: scrollLeft 120s linear infinite; 
             width: max-content;
+            will-change: transform;
           }
-          .company-logos-scroll:hover { animation-play-state: paused; }
+          .company-logos-scroll:hover { 
+            animation-play-state: paused; 
+          }
           .company-logos-scroll-reverse { 
-            animation: scrollRight 100s linear infinite; 
+            animation: scrollRight 140s linear infinite; 
             width: max-content;
+            will-change: transform;
           }
-          .company-logos-scroll-reverse:hover { animation-play-state: paused; }
+          .company-logos-scroll-reverse:hover { 
+            animation-play-state: paused; 
+          }
         `}</style>
       </div>
     </section>
@@ -810,12 +817,14 @@ export default function SuccessStories() {
             <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-geist-sans)' }}>
               If you want to know more about how we can design, build and support your network and infrastructure, get in touch.
             </p>
-            <button className="bg-blue-900 hover:bg-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold transition-all duration-200 hover:scale-105 flex items-center gap-2 mx-auto shadow-lg rounded-lg" style={{ fontFamily: 'var(--font-geist-sans)' }}>
-              Contact us
-              <svg width="16" height="16" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
+            <Link href="/get-in-touch">
+              <button className="bg-blue-900 hover:bg-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold transition-all duration-200 hover:scale-105 flex items-center gap-2 mx-auto shadow-lg rounded-lg" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+                Contact us
+                <svg width="16" height="16" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </Link>
           </div>
         </div>
       </section>

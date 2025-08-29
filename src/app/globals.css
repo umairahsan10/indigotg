@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent scroll restoration flicker */
+html {
+  scroll-behavior: auto !important;
+}
+
+/* Hide content until positioned correctly */
+body {
+  visibility: hidden;
+}
+
+body.loaded {
+  visibility: visible;
+}
+
 /* Custom Animations */
 @keyframes fadeIn {
   from {

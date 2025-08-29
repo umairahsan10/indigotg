@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/footer";
 import ScrollToTop from "./components/ScrollToTop";
 import PageLoader from "./components/PageLoader";
+import ScrollRestorationFix from "./components/ScrollRestorationFix";
 // import CustomCursor from "./components/CustomCursor";
 
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         {/* <CustomCursor /> */}
         <ScrollToTop />
+        <ScrollRestorationFix />
         <Navigation />
         <PageLoader>
           <main id="page-content" style={{ position: 'relative', zIndex: 1 }}>

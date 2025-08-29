@@ -1751,7 +1751,7 @@ export default function OurServices2() {
           {/* Mobile: Vertical layout, Desktop: Grid layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto" ref={advancedServicesGridRef}>
             {/* Fixed Line Card */}
-            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[280px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-4.jpg")',
@@ -1769,27 +1769,27 @@ export default function OurServices2() {
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Fixed Line
                 </h3>
-                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
+                <p className="text-white/90 text-xs md:text-base lg:text-lg mb-2 md:mb-4 max-w-md">
                   Expert end-to-end connections from pre-planning to upgrades
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-1 md:gap-2">
-                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs text-orange-300 uppercase tracking-wide font-semibold">
                       End-to-End
                     </span>
-                    <span className="text-xs md:text-sm text-yellow-200">
+                    <span className="text-xs text-yellow-200">
                       Solutions
                     </span>
                   </div>
-                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <a href="/solutions/fixedline" className="px-3 md:px-4 lg:px-6 py-1.5 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl inline-block">
                     Learn More
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Subsea Card */}
-            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[280px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-5.jpg")',
@@ -1807,27 +1807,27 @@ export default function OurServices2() {
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Subsea
                 </h3>
-                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
+                <p className="text-white/90 text-xs md:text-base lg:text-lg mb-2 md:mb-4 max-w-md">
                   Systems Operator Support for Submarine Networks
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-1 md:gap-2">
-                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs text-orange-300 uppercase tracking-wide font-semibold">
                       Submarine
                     </span>
-                    <span className="text-xs md:text-sm text-yellow-200">
+                    <span className="text-xs text-yellow-200">
                       Networks
                     </span>
                   </div>
-                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <a href="/solutions/subsea" className="px-3 md:px-4 lg:px-6 py-1.5 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl inline-block">
                     Learn More
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Data Centres Card */}
-            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[280px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-6.jpg")',
@@ -1845,27 +1845,27 @@ export default function OurServices2() {
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Data Centres
                 </h3>
-                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
+                <p className="text-white/90 text-xs md:text-base lg:text-lg mb-2 md:mb-4 max-w-md">
                   Comprehensive solutions for leading edge and legacy infrastructure
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-1 md:gap-2">
-                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs text-orange-300 uppercase tracking-wide font-semibold">
                       Leading Edge
                     </span>
-                    <span className="text-xs md:text-sm text-yellow-200">
+                    <span className="text-xs text-yellow-200">
                       Infrastructure
                     </span>
                   </div>
-                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <a href="/solutions/data-centres" className="px-3 md:px-4 lg:px-6 py-1.5 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl inline-block">
                     Learn More
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Wireless Card */}
-            <div className="group relative h-[350px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
+            <div className="group relative h-[280px] md:h-[400px] overflow-hidden bg-white rounded-3xl shadow-2xl border-0 hover:shadow-3xl transition-all duration-300 hover:-translate-y-2">
               <div
                 style={{
                   backgroundImage: 'url("/services/img-7.jpg")',
@@ -1883,21 +1883,21 @@ export default function OurServices2() {
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
                   Wireless
                 </h3>
-                <p className="text-white/90 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-md">
+                <p className="text-white/90 text-xs md:text-base lg:text-lg mb-2 md:mb-4 max-w-md">
                   Resilient and reliable wireless services for next-generation networks
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-1 md:gap-2">
-                    <span className="text-xs md:text-sm text-orange-300 uppercase tracking-wide font-semibold">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs text-orange-300 uppercase tracking-wide font-semibold">
                       Next-Gen
                     </span>
-                    <span className="text-xs md:text-sm text-yellow-200">
+                    <span className="text-xs text-yellow-200">
                       Networks
                     </span>
                   </div>
-                  <button className="px-3 md:px-4 lg:px-6 py-2 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <a href="/solutions/wireless" className="px-3 md:px-4 lg:px-6 py-1.5 md:py-2 lg:py-3 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-black text-xs md:text-sm font-semibold hover:from-orange-300 hover:to-yellow-300 transition-all duration-200 shadow-lg hover:shadow-xl inline-block">
                     Learn More
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -1920,9 +1920,9 @@ export default function OurServices2() {
             Let&apos;s discuss how our services can help transform your business and drive growth.
           </p>
           <div className="flex justify-center">
-            <button className="bg-gradient-to-r from-orange-400 to-yellow-400 text-black px-6 md:px-8 py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg hover:from-orange-300 hover:to-yellow-300 transition-all duration-300 transform hover:scale-105">
+            <a href="/get-in-touch" className="bg-gradient-to-r from-orange-400 to-yellow-400 text-black px-6 md:px-8 py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg hover:from-orange-300 hover:to-yellow-300 transition-all duration-300 transform hover:scale-105 inline-block">
               Get in Touch with Indigo
-            </button>
+            </a>
           </div>
         </div>
       </section>

@@ -80,7 +80,7 @@ function horizontalLoop(items: HTMLElement[], config?: HorizontalLoopConfig): gs
 }
 
 // Main component
-export default function Solutions2() {
+export default function Solutions() {
 
   useEffect(() => {
     gsap.registerPlugin(SplitText, ScrollTrigger);

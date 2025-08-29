@@ -68,7 +68,8 @@ const BlocksTransition = ({ onComplete }: BlocksTransitionProps) => {
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 99999
+        zIndex: 99999,
+        backgroundColor: "#140079"
       }}
     />
   );
