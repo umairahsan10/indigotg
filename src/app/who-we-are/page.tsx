@@ -344,13 +344,13 @@ export default function WhoWeAre() {
                     boxShadow: '0 10px 25px rgba(20, 0, 121, 0.15)',
                   }}
                 >
-                  <div className="sub text-xl sm:text-2xl md:text-3xl lg:text-3xl font-semibold mb-1 sm:mb-2 md:mb-3 lg:mb-4 text-white/80">
+                  <div className="sub">
                     {item.num}
                   </div>
-                  <div className="content text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold leading-tight text-white flex lg:flex-1 items-start lg:items-center">
+                  <div className="content">
                     {item.title}
                   </div>
-                  <div className="desc text-sm sm:text-base md:text-lg lg:text-lg text-white/70 mt-1 sm:mt-2 md:mt-3 lg:mt-4 leading-relaxed">
+                  <div className="desc">
                     {item.desc}
                   </div>
                 </div>
@@ -717,6 +717,28 @@ export default function WhoWeAre() {
           justify-content: flex-start;
           text-align: left;
         }
+
+        /* Card internal content styling - Desktop perfect styling */
+        .stack-area .pillar-card .sub {
+          font-size: 32px;
+          font-weight: 600;
+          margin-bottom: 16px;
+          color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .stack-area .pillar-card .content {
+          font-size: 36px;
+          font-weight: 700;
+          line-height: 1.1;
+          margin-bottom: 8px;
+          color: white;
+        }
+        
+        .stack-area .pillar-card .desc {
+          font-size: 18px;
+          line-height: 1.5;
+          color: rgba(255, 255, 255, 0.7);
+        }
         
         /* Responsive text scaling for wider screens when cards are away */
         @media (min-width: 1440px) {
@@ -838,7 +860,7 @@ export default function WhoWeAre() {
           .stack-area .pillar-card {
             width: 350px;
             height: 350px;
-            top: calc(70% - 175px);
+            top: calc(100% - 175px);
             left: calc(50% - 175px);
             padding: 35px;
           }
@@ -1047,15 +1069,17 @@ export default function WhoWeAre() {
           }
           
           .stack-area h3 {
-            font-size: 1.5rem !important;
+            font-size: 2rem !important;
             line-height: 1.2 !important;
             margin-bottom: 1rem !important;
+            padding: 1rem !important;
           }
           
           .stack-area .sub-title {
             font-size: 0.75rem !important;
             line-height: 1.4 !important;
             margin-bottom: 2rem !important;
+            padding: 1rem !important;
           }
           
           .stack-area .pillar-cards {
@@ -1066,24 +1090,29 @@ export default function WhoWeAre() {
           .stack-area .pillar-card {
             width: 100% !important;
             max-width: 320px !important;
-            padding: 1rem !important;
+            padding: 2rem !important;
             margin-bottom: 1rem !important;
           }
           
           .stack-area .pillar-card .sub {
-            font-size: 1.25rem !important;
-            margin-bottom: 0.75rem !important;
+            font-size: 32px !important;
+            font-weight: 600 !important;
+            margin-bottom: -18px !important;
+            color: rgba(255, 255, 255, 0.8) !important;
           }
           
           .stack-area .pillar-card .content {
-            font-size: 1.25rem !important;
-            line-height: 1.2 !important;
+            font-size: 36px !important;
+            font-weight: 700 !important;
+            line-height: 1.1 !important;
+            margin-bottom: 6px !important;
+            color: white !important;
           }
           
           .stack-area .pillar-card .desc {
-            font-size: 0.75rem !important;
-            line-height: 1.4 !important;
-            margin-top: 0.75rem !important;
+            font-size: 18px !important;
+            line-height: 1.5 !important;
+            color: rgba(255, 255, 255, 0.7) !important;
           }
 
           .certifications-section-small {
