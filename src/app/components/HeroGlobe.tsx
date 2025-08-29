@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useLenisScrollLock } from "../hooks/useLenisScrollLock";
 // @ts-ignore
 import createGlobe from "cobe";
 import TextFlip from './globeTextFlip';
@@ -62,10 +63,22 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
   const [isLocked, setIsLocked] = useState(false);
   const accumulatedScroll = useRef(0);
   const maxExpansion = 100; // Total scroll needed for full expansion
-  const lockReleaseThreshold = 40; // Release lock at 30% progress (much earlier)
+  const lockReleaseThreshold = 40; // Release lock at 40% progress
   const isInView = useRef(false);
   const originalScrollY = useRef(0);
   const lastRealScrollY = useRef(0);
+  
+  // Use the scroll lock hook
+  const { lock, unlock, isLocked: scrollLocked } = useLenisScrollLock({
+    onLock: () => {
+      console.log('🎉 Celebration section locked - scroll blocked');
+      setIsLocked(true);
+    },
+    onUnlock: () => {
+      console.log('🎉 Celebration section unlocked - scroll resumed');
+      setIsLocked(false);
+    }
+  });
   
   const phiRef = useRef(0);
   const thetaRef = useRef(theta);
@@ -83,16 +96,17 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
           if (!hasCompleted) {
             // First time entering - store original position and start locking
             originalScrollY.current = window.scrollY;
-            setIsLocked(true);
+            console.log('🎯 HeroGlobe section entered view - locking scroll at position:', originalScrollY.current);
+            lock(); // Use the new scroll lock hook
           } else {
             // Coming back after completion - track real scroll position
             lastRealScrollY.current = window.scrollY;
           }
         } else {
-          setIsLocked(false);
+          // Section is out of view - no need to lock
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.01, rootMargin: '-200px 0px' } // Trigger extremely early and add very large margin
     );
 
     if (containerRef.current) {
@@ -100,24 +114,12 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
     }
 
     return () => observer.disconnect();
-  }, [hasCompleted]);
+  }, [hasCompleted, lock]);
 
-  // Handle scroll events
+  // Handle wheel events for globe expansion (only when locked)
   useEffect(() => {
-    const handleScroll = (e: Event) => {
-      if (!isInView.current || hasCompleted) return;
-      
-      e.preventDefault();
-      e.stopPropagation();
-      
-      // Prevent actual page scroll
-      window.scrollTo(0, originalScrollY.current);
-      
-      return false;
-    };
-
     const handleWheel = (e: WheelEvent) => {
-      if (!isInView.current || hasCompleted) return;
+      if (!isInView.current || hasCompleted || !scrollLocked) return;
       
       e.preventDefault();
       e.stopPropagation();
@@ -130,12 +132,12 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
       const progress = accumulatedScroll.current / maxExpansion;
       setExpansionProgress(progress);
       
-      // Release lock early when threshold is reached (30% progress)
+      // Release lock early when threshold is reached (40% progress)
       if (progress >= (lockReleaseThreshold / 100) && !hasCompleted) {
         setHasCompleted(true);
         // Small delay before allowing scroll
         setTimeout(() => {
-          window.scrollTo(0, originalScrollY.current);
+          unlock(); // Use the new scroll lock hook to unlock
         }, 300);
       }
       
@@ -143,7 +145,7 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isInView.current || hasCompleted) return;
+      if (!isInView.current || hasCompleted || !scrollLocked) return;
       
       if (['ArrowDown', 'ArrowUp', ' ', 'PageDown', 'PageUp'].includes(e.key)) {
         e.preventDefault();
@@ -164,7 +166,7 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
         if (progress >= (lockReleaseThreshold / 100) && !hasCompleted) {
           setHasCompleted(true);
           setTimeout(() => {
-            window.scrollTo(0, originalScrollY.current);
+            unlock(); // Use the new scroll lock hook to unlock
           }, 300);
         }
         
@@ -172,24 +174,83 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
       }
     };
 
-    // Add event listeners with capture to intercept early
-    window.addEventListener('scroll', handleScroll, { capture: true, passive: false });
-    window.addEventListener('wheel', handleWheel, { capture: true, passive: false });
-    window.addEventListener('keydown', handleKeyDown, { capture: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll, { capture: true });
-      window.removeEventListener('wheel', handleWheel, { capture: true });
-      window.removeEventListener('keydown', handleKeyDown, { capture: true });
-    };
-  }, [hasCompleted, maxExpansion, lockReleaseThreshold]);
+    // Add event listeners only when scroll is locked
+    if (scrollLocked) {
+      // Combined wheel handler that allows globe expansion but prevents page scroll
+      const combinedWheelHandler = (e: WheelEvent) => {
+        if (!isInView.current || hasCompleted || !scrollLocked) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Accumulate scroll for globe expansion
+        accumulatedScroll.current = Math.max(0, 
+          Math.min(maxExpansion, accumulatedScroll.current + e.deltaY)
+        );
+        
+        const progress = accumulatedScroll.current / maxExpansion;
+        setExpansionProgress(progress);
+        
+        // Release lock early when threshold is reached (40% progress)
+        if (progress >= (lockReleaseThreshold / 100) && !hasCompleted) {
+          setHasCompleted(true);
+          // Small delay before allowing scroll
+          setTimeout(() => {
+            unlock(); // Use the new scroll lock hook to unlock
+          }, 300);
+        }
+        
+        return false;
+      };
+      
+      window.addEventListener('wheel', combinedWheelHandler, { capture: true, passive: false });
+      window.addEventListener('keydown', handleKeyDown, { capture: true });
+      
+      // Add continuous scroll position reset during lock
+      const resetScrollPosition = () => {
+        if (window.scrollY !== originalScrollY.current) {
+          console.log('🔄 Resetting scroll position to:', originalScrollY.current);
+          window.scrollTo(0, originalScrollY.current);
+        }
+      };
+      
+      // Reset position every frame during lock
+      const scrollResetInterval = setInterval(resetScrollPosition, 16); // 60fps
+      
+      // Add aggressive scroll prevention to stop any scroll events from reaching Lenis
+      const preventAllScroll = (e: Event) => {
+        if (e.type === 'scroll' || e.type === 'touchmove') {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          window.scrollTo(0, originalScrollY.current);
+          return false;
+        }
+      };
+      
+      // Add multiple event listeners to catch all possible scroll events
+      window.addEventListener('scroll', preventAllScroll, { capture: true, passive: false });
+      window.addEventListener('touchmove', preventAllScroll, { capture: true, passive: false });
+      
+      return () => {
+        window.removeEventListener('wheel', combinedWheelHandler, { capture: true });
+        window.removeEventListener('keydown', handleKeyDown, { capture: true });
+        window.removeEventListener('scroll', preventAllScroll, { capture: true });
+        window.removeEventListener('touchmove', preventAllScroll, { capture: true });
+        clearInterval(scrollResetInterval);
+      };
+    }
+  }, [hasCompleted, maxExpansion, lockReleaseThreshold, scrollLocked, unlock]);
 
   // Reset when component unmounts
   useEffect(() => {
     return () => {
-      document.body.style.overflow = '';
+      // Clean up any remaining scroll locks
+      if (scrollLocked) {
+        unlock();
+      }
     };
-  }, []);
+  }, [scrollLocked, unlock]);
 
   // Globe initialization
   useEffect(() => {
@@ -399,6 +460,26 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
           }}>
             <TextFlip />
           </div>
+          
+          {/* Scroll Lock Indicator */}
+          {scrollLocked && (
+            <div style={{
+              position: "absolute",
+              bottom: "-4rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+              color: "#140079",
+              fontSize: "1rem",
+              fontWeight: "500",
+              fontFamily: "'Roboto', sans-serif",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              padding: "0.5rem 1rem",
+              borderRadius: "2rem",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            }}>
+              🔒 Scroll locked - Use wheel to expand globe
+            </div>
+          )}
         </div>
         
         <canvas

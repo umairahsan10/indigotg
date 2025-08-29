@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -88,8 +89,65 @@ const Navigation = () => {
     gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
     CustomEase.create("hop", ".87,0,.13,1");
 
-    // Initialize Lenis
-    lenisRef.current = new Lenis();
+    // Initialize Lenis with homepage-specific settings
+    const isHomepage = pathname === '/';
+    lenisRef.current = new Lenis({
+      duration: isHomepage ? 0.5 : 1.2, // Even faster scroll animation on homepage
+      easing: (t) => 1 - Math.pow(1 - t, 3), // Locomotive-style smooth easing
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: isHomepage ? 2.8 : 1.2, // More scroll per wheel turn on homepage
+      touchMultiplier: 2,
+      infinite: false,
+    });
+    // Expose globally so sections (e.g., celebration lock) can control
+    if (typeof window !== 'undefined' && lenisRef.current) {
+      (window as any).lenis = lenisRef.current;
+    }
+
+    // Add global scroll speed limiter for homepage to prevent fast scrolling
+    if (isHomepage) {
+      let lastWheelTime = 0;
+      let lastWheelDelta = 0;
+      const minWheelInterval = 50; // Minimum 50ms between wheel events (allows faster smooth scrolling)
+      const maxWheelDelta = 100; // Maximum wheel delta per event (allows faster normal scrolling)
+      
+      const limitScrollSpeed = (e: WheelEvent) => {
+        const now = Date.now();
+        
+        // Prevent events that are too close together (but allow smooth scrolling)
+        if (now - lastWheelTime < minWheelInterval) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+        
+        // Prevent events with too large delta (only block extreme fast scrolling)
+        if (Math.abs(e.deltaY) > maxWheelDelta) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+        
+        // Prevent rapid direction changes (but allow normal direction changes)
+        if (Math.abs(lastWheelDelta) > 0 && Math.sign(e.deltaY) !== Math.sign(lastWheelDelta)) {
+          if (now - lastWheelTime < 60) { // 60ms cooldown for direction changes
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+        }
+        
+        lastWheelTime = now;
+        lastWheelDelta = e.deltaY;
+      };
+      
+      window.addEventListener('wheel', limitScrollSpeed, { capture: true, passive: false });
+      
+      // Store the listener for cleanup
+      (window as any)._scrollSpeedLimiter = limitScrollSpeed;
+    }
     if (lenisRef.current) {
       // Sync GSAP ScrollTrigger with Lenis scroll events
       lenisRef.current.on("scroll", (e: any) => {
@@ -189,8 +247,14 @@ const Navigation = () => {
         clearTimeout(navHideTimeoutRef.current);
       }
       window.removeEventListener('resize', checkMobile);
+      
+      // Clean up scroll speed limiter
+      if ((window as any)._scrollSpeedLimiter) {
+        window.removeEventListener('wheel', (window as any)._scrollSpeedLimiter, { capture: true });
+        delete (window as any)._scrollSpeedLimiter;
+      }
     };
-  }, []);
+  }, [pathname]);
 
   // Determine if current page has a dark hero section
   const isDarkHeroPage = [
