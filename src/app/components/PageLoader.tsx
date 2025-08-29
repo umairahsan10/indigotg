@@ -110,14 +110,31 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     // Make page visible immediately to prevent black screen
     setIsVisible(true);
     
-    // Scroll to top immediately after page is visible
-    // No delays to prevent black screen
-    scrollToTop();
+    // Check if we're on a services subpage that has complex scroll animations
+    const isServicesSubpage = pathname.includes('/our-services/') && 
+                             (pathname.includes('/design') || 
+                              pathname.includes('/deploy') || 
+                              pathname.includes('/support'));
     
-    // Double-check scroll position after a bit more time
-    setTimeout(() => {
+    if (isServicesSubpage) {
+      // For services subpages, add longer delay to ensure animations are ready
+      setTimeout(() => {
+        scrollToTop();
+      }, 300);
+      
+      // Double-check scroll position after animations settle
+      setTimeout(() => {
+        scrollToTop();
+      }, 600);
+    } else {
+      // For other pages, scroll to top immediately
       scrollToTop();
-    }, 100);
+      
+      // Double-check scroll position after a bit more time
+      setTimeout(() => {
+        scrollToTop();
+      }, 100);
+    }
     
     // Fallback: Ensure footer is visible after loading completes
     setTimeout(() => {

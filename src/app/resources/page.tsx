@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import CTASection from '../solutions2/subfolders/cta';
+import CTASection from '../solutions/subfolders/cta';
 
 export default function Resources() {
   const textRef1 = useRef<HTMLDivElement>(null);

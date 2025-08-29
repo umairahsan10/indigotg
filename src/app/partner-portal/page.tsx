@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import CTASection from '../solutions2/subfolders/cta';
+import CTASection from '../solutions/subfolders/cta';
 
 export default function PartnerPortalPage() {
   const textRef1 = useRef<HTMLDivElement>(null);

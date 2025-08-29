@@ -171,7 +171,7 @@ export default function ConnectedSolutions() {
       {/* View All Solutions Button */}
       <div className="max-w-6xl mx-auto text-center">
         <a 
-          href="/solutions2" 
+          href="/solutions" 
           className="inline-flex items-center px-6 py-3 lg:px-8 lg:py-4 bg-[#04048b] text-white font-semibold rounded-xl border-2 border-[#04048b] hover:bg-white hover:text-[#04048b] transition-all duration-300 hover:shadow-lg hover:scale-105 transform text-sm lg:text-base"
         >
           View all Solutions
