@@ -1590,7 +1590,7 @@ export default function OurServices2() {
     },
     {
       quote: "Professional deployment services with certified engineers who implement your solutions with precision and attention to every detail.",
-      name: "Professional Deployment",
+      name: "Deploy",
       designation: "Certified Implementation & Setup",
       src: "/services/img-2.jpg"
     },

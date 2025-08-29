@@ -423,41 +423,41 @@ export default function WirelessPage() {
           </div>
         </section>
 
-        {/* Second Section - Partners in Business Strategy */}
-        <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-purple-200 to-orange-100">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Left Section - Image */}
-              <div ref={imageRef2} className="relative image-content image-right order-1 flex justify-center">
-                <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
-                  <Image
-                    src="/solutions/card-images-4.jpg"
-                    alt="Telecommunications Tower"
-                    width={700}
-                    height={400}
-                    className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
-                  />
-                </div>
-              </div>
+         {/* Second Section - Partners in Business Strategy */}
+         <section className="min-h-[120vh] md:min-h-[90vh] flex items-center mb-10 bg-gradient-to-r from-purple-200 to-orange-100">
+           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+               {/* Left Section - Text Content */}
+               <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-2 lg:order-1 text-center lg:text-left">
+                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                   We make it our business to stay ahead of the curve of next-generation wireless networks and services which are delivered by a highly qualified team of mobile engineers, working to best-in-class industry standards.
 
-              {/* Right Section - Text Content */}
-              <div ref={textRef2} className="space-y-4 lg:space-y-6 text-content order-2 text-center lg:text-left">
-                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
-                  We make it our business to stay ahead of the curve of next-generation wireless networks and services which are delivered by a highly qualified team of mobile engineers, working to best-in-class industry standards.
+                 </p>
+                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                   Our purpose-built centralised Network Operations Centre (NOC) is the single point of contact for all reactive and proactive wireless support and maintenance requirements. Our NOC support staff manage the dispatch of the field service engineers 24x7x365, whether related to a rigging fault, test error or fault diagnosis. Our field service engineers also provide first line maintenance on ground level equipment to ensure end-to-end service delivery.
 
-                </p>
-                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Our purpose-built centralised Network Operations Centre (NOC) is the single point of contact for all reactive and proactive wireless support and maintenance requirements. Our NOC support staff manage the dispatch of the field service engineers 24x7x365, whether related to a rigging fault, test error or fault diagnosis. Our field service engineers also provide first line maintenance on ground level equipment to ensure end-to-end service delivery.
+                 </p>
+                 <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
+                   Our rapid response and global footprint means that we are always available to provide on-site support to meet the 2 hour, 4 hour or pre-arranged time to site service level agreement.
 
-                </p>
-                <p className="text-base md:text-lg lg:text-xl text-[#140079] leading-relaxed font-roboto">
-                  Our rapid response and global footprint means that we are always available to provide on-site support to meet the 2 hour, 4 hour or pre-arranged time to site service level agreement.
+                 </p>
+               </div>
 
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+               {/* Right Section - Image */}
+               <div ref={imageRef2} className="relative image-content image-left order-1 lg:order-2 flex justify-center">
+                 <div className="relative rounded-2xl overflow-hidden image-shadow w-[90%] lg:w-full">
+                   <Image
+                     src="/solutions/card-images-4.jpg"
+                     alt="Telecommunications Tower"
+                     width={700}
+                     height={400}
+                     className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover"
+                   />
+                 </div>
+               </div>
+             </div>
+           </div>
+         </section>
 
         {/* Third Section - Wireless Services Include */}
         <section className="min-h-[100vh] md:min-h-[90vh] flex items-center mb-0 bg-white">
@@ -487,61 +487,61 @@ export default function WirelessPage() {
                 <div className="grid grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-8">
                   <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Survey and Design</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Town Planning</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Passive Build</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Logistics and Warehousing</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Active Build</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Site Acceptance</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Network Integration</span>
                     </li>
                   </ul>
                   <ul className="space-y-2 lg:space-y-3 text-base md:text-lg lg:text-xl text-[#140079] font-roboto">
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Project Management</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Site Access</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Network Optimisation</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Operations & Maintenance</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Network Monitoring</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Network Upgrades</span>
                     </li>
                     <li className="flex items-start justify-center lg:justify-start hover:text-yellow-500 transition-all duration-300">
-                      <span className="text-[#140079] font-bold mr-3">•</span>
+                      <span className="text-[#140079] font-bold mr-3 hidden lg:inline">•</span>
                       <span>Global Spare Parts Management</span>
                     </li>
                   </ul>
