@@ -177,15 +177,28 @@ const waitForImages = (): Promise<void> => {
 
 const waitForGSAPComponents = (): Promise<void> => {
   return new Promise((resolve) => {
-    // Wait a bit for GSAP components to initialize
-    // Add a fallback timeout to prevent getting stuck
-    const timeout = setTimeout(resolve, 500);
-    
-    // Try to detect if GSAP is actually being used
+    const fallback = setTimeout(resolve, 1000);
+
     if (typeof window !== 'undefined' && (window as any).gsap) {
-      // GSAP is available, wait a bit longer for components
-      clearTimeout(timeout);
-      setTimeout(resolve, 800);
+      const gsap = (window as any).gsap;
+      if (gsap.ScrollTrigger) {
+        // Refresh scroll calculations then wait a bit
+        gsap.ScrollTrigger.refresh(true);
+        setTimeout(() => {
+          clearTimeout(fallback);
+          resolve();
+        }, 400);
+      } else {
+        // Wait until ScrollTrigger gets registered
+        const interval = setInterval(() => {
+          if (gsap.ScrollTrigger) {
+            clearInterval(interval);
+            clearTimeout(fallback);
+            gsap.ScrollTrigger.refresh(true);
+            setTimeout(resolve, 400);
+          }
+        }, 100);
+      }
     }
   });
 };
@@ -250,21 +263,26 @@ const waitForVideos = (): Promise<void> => {
     };
 
     videos.forEach((video) => {
-      // If the video is already sufficiently buffered
-      if (video.readyState >= 3) {
+      const isReady = () => video.readyState >= 4; // HAVE_ENOUGH_DATA
+
+      if (isReady()) {
         check();
       } else {
         const handler = () => {
-          video.removeEventListener('canplaythrough', handler);
-          video.removeEventListener('error', handler);
-          check();
+          if (isReady()) {
+            video.removeEventListener('canplaythrough', handler);
+            video.removeEventListener('loadeddata', handler);
+            video.removeEventListener('error', handler);
+            check();
+          }
         };
-        video.addEventListener('canplaythrough', handler, { once: true });
-        video.addEventListener('error', handler, { once: true });
+        video.addEventListener('canplaythrough', handler);
+        video.addEventListener('loadeddata', handler);
+        video.addEventListener('error', handler);
       }
     });
 
-    // Fallback timeout – don’t wait forever on slow connections
-    setTimeout(resolve, 5000);
+    // Fallback timeout – don’t wait forever on very slow connections
+    setTimeout(resolve, 8000);
   });
 };

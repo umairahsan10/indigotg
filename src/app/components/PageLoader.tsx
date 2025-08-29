@@ -113,6 +113,8 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     // Scroll to top immediately after page is visible
     // No delays to prevent black screen
     scrollToTop();
+    // Wait a frame then scroll again to ensure stability
+    requestAnimationFrame(() => scrollToTop());
     
     // Double-check scroll position after a bit more time
     setTimeout(() => {
