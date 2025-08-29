@@ -1724,7 +1724,7 @@ const ScrollAnimation = () => {
             Our Support engineers are available 24x7x365 to monitor, maintain, and upgrade systems. With swift deployment of our operations and multi-vendor engineers within hours or the next day, we deliver expert on-site support.
           </p>
           <div className="about-features">
-            <button className="learn-more">
+            <button className="learn-more" onClick={() => window.location.href = '/our-services'}>
               <span className="circle">
                 <span className="icon arrow"></span>
               </span>
