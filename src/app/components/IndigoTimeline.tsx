@@ -144,11 +144,18 @@ const IndigoTimeline = () => {
           // Reset section positioning
           window.gsap.set(sectionRef.current, { position: 'relative', top: 'auto', left: 'auto', right: 'auto', zIndex: 'auto' });
           
-          // Set scroll to current section position before enabling scroll
-          if (sectionRef.current) {
-            const sectionTop = sectionRef.current.offsetTop;
-            window.scrollTo(0, sectionTop);
-          }
+          // Momentum-safe scroll correction: after re-enabling scroll, check if the
+          // viewport slipped below the section (due to wheel momentum) and only
+          // correct that extra distance – keeps view stable when no overscroll.
+          requestAnimationFrame(() => {
+            if (!sectionRef.current) return;
+            const sectionHeight = sectionRef.current.offsetHeight;
+            const drift = window.pageYOffset - lockedScrollPosition.current;
+            const excess = drift - sectionHeight; // amount scrolled past the section
+            if (excess > 0) {
+              window.scrollBy(0, -excess);
+            }
+          });
           
           setSectionLocked(false);
           enableScroll();
@@ -203,8 +210,16 @@ const IndigoTimeline = () => {
           // Reset section positioning and re-enable scrolling when all animations complete
           window.gsap.set(sectionRef.current, { position: 'relative', top: 'auto', left: 'auto', right: 'auto', zIndex: 'auto' });
           
-          // Set scroll to current section position using stored position
-          window.scrollTo(0, lockedScrollPosition.current);
+          // Momentum-safe correction (desktop path)
+          requestAnimationFrame(() => {
+            if (!sectionRef.current) return;
+            const sectionHeight = sectionRef.current.offsetHeight;
+            const drift = window.pageYOffset - lockedScrollPosition.current;
+            const excess = drift - sectionHeight;
+            if (excess > 0) {
+              window.scrollBy(0, -excess);
+            }
+          });
           
          setAnimationsRunning(false);
          setSectionLocked(false);
