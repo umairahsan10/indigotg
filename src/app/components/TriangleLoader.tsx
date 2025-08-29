@@ -41,7 +41,8 @@ const TriangleLoader = () => {
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[99999] bg-white flex items-center justify-center"
+      className="fixed inset-0 z-[99999] flex items-center justify-center"
+      style={{ backgroundColor: "#140079" }}
     >
       <div className="logo-container">
         <Logo ref={logoRef} />
