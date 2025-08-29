@@ -34,26 +34,30 @@ const LoadingBar = ({ onComplete }: LoadingBarProps) => {
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[99999] bg-white flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center"
+      style={{ backgroundColor: "#140079" }}
     >
       <div className="logo-container mb-8">
         <Logo ref={logoRef} />
       </div>
       
       <div className="progress-container w-80 max-w-md">
-        <div className="progress-bar bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
+        <div className="progress-bar bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
           <div 
             ref={progressBarRef}
-            className="progress-fill bg-blue-600 h-full rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${progress}%` }}
+            className="progress-fill h-full rounded-full transition-all duration-300 ease-out"
+            style={{ 
+              width: `${progress}%`,
+              backgroundColor: "#140079"
+            }}
           />
         </div>
         
         <div className="progress-text text-center">
-          <div className="text-lg font-semibold text-gray-800 mb-2">
+          <div className="text-lg font-semibold text-white mb-2">
             {progress}%
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-white">
             {message}
           </div>
         </div>

@@ -153,7 +153,7 @@ const PageLoader = ({ children }: PageLoaderProps) => {
       <div 
         className={`page-content-wrapper ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         style={{ 
-          background: 'white',
+          background: '#140079',
           minHeight: '100vh',
           position: 'relative',
           zIndex: 1,
