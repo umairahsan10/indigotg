@@ -63,7 +63,7 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     // seal registration window shortly after mount (500ms) so components must register quickly
     const sealTimer = setTimeout(() => {
       sealRegistrations();
-    }, 500);
+    }, 2000);
 
     return () => {
       clearTimeout(triangleTimer);
