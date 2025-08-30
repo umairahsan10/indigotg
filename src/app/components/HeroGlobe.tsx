@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 // @ts-ignore
 import createGlobe from "cobe";
 import TextFlip from './globeTextFlip';
+import { gsap } from "gsap";
+import { useRegisterLoaderPromise } from "./LoaderContext";
 
 // Utility function to convert a hex color string to a normalized RGB array
 const hexToRgbNormalized = (hex: string): [number, number, number] => {
@@ -327,6 +329,26 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
     glowColor,
   ]);
 
+  // Register promise for background video readiness
+  const { registerLoaderPromise } = useRegisterLoaderPromise();
+  const bgVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (!bgVideoRef.current) return;
+    const promise = new Promise<void>((res) => {
+      if (bgVideoRef.current?.readyState >= 4) {
+        res();
+      } else {
+        const handler = () => {
+          bgVideoRef.current?.removeEventListener("canplaythrough", handler);
+          res();
+        };
+        bgVideoRef.current?.addEventListener("canplaythrough", handler, { once: true });
+      }
+    });
+    registerLoaderPromise(promise);
+  }, []);
+
   // Calculate current size and scale based on expansion progress
   // Reduce the scaling factors to make the expansion more subtle
   const currentScale = 1 + (expansionProgress * 0.8); // Scale from 1 to 1.8 (reduced from 2.5)
@@ -349,6 +371,7 @@ const HeroGlobe: React.FC<HeroGlobeProps> = ({
       >
         {/* Background Video */}
         <video
+          ref={bgVideoRef}
           autoPlay
           loop
           muted
