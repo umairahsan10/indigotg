@@ -218,6 +218,7 @@ const waitForVideos = (urls: string[]): Promise<void> => {
     return new Promise<void>((resolve) => {
       const video = document.createElement('video');
       video.src = url;
+      video.crossOrigin = 'anonymous';
       video.preload = 'auto';
       video.muted = true;
       video.setAttribute('muted', '');
@@ -229,8 +230,8 @@ const waitForVideos = (urls: string[]): Promise<void> => {
       // Hide but keep in DOM so the buffered data is retained
       Object.assign(video.style, {
         position: 'fixed',
-        width: '0',
-        height: '0',
+        width: '1px',
+        height: '1px',
         opacity: '0',
         pointerEvents: 'none',
       });
@@ -239,11 +240,19 @@ const waitForVideos = (urls: string[]): Promise<void> => {
         resolve();
       };
 
-      // Resolve when first frame is ready (loadeddata) which fires earlier than canplaythrough but guarantees we have frame to show
-      if (video.readyState >= 2) {
+      // Resolve when browser can begin playback (readyState >= 3 / canplay)
+      const ready = () => video.readyState >= 3;
+
+      if (ready()) {
         done();
       } else {
-        video.addEventListener('loadeddata', done, { once: true });
+        const onCanPlay = () => done();
+        video.addEventListener('canplay', onCanPlay, { once: true });
+        // fallback: also listen for canplaythrough if earlier doesn't fire
+        video.addEventListener('canplaythrough', onCanPlay, { once: true });
+        video.addEventListener('loadeddata', () => {
+          if (ready()) done();
+        }, { once: true });
         video.addEventListener('error', done, { once: true });
 
         // Fallback timeout (15 s)
