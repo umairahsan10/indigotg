@@ -3,6 +3,11 @@ import { useEffect, useState, useRef } from 'react';
 interface ResourceLoaderOptions {
   onProgress?: (progress: number, message: string) => void;
   onComplete?: () => void;
+  /**
+   * Optional list of video URLs that must reach `canplaythrough` before loading completes.
+   * Used by the home-page hero so we don’t expose video logic on every route.
+   */
+  videoUrls?: string[];
 }
 
 export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
@@ -73,7 +78,19 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
         setProgress(90);
         options.onProgress?.(90, 'Preparing 3D components...');
 
-        // Phase 4: Final preparation
+        // Phase 4 (optional): Wait for specified videos to buffer enough for playback
+        if (options.videoUrls && options.videoUrls.length > 0) {
+          if (!mountedRef.current) return;
+          setMessage('Preparing media...');
+          setProgress(92);
+          options.onProgress?.(92, 'Preparing media...');
+
+          await waitForVideos(options.videoUrls);
+
+          setProgress(95);
+          options.onProgress?.(95, 'Preparing media...');
+        }
+        // Phase 5: Final preparation
         if (!mountedRef.current) return;
         setMessage('Finalizing...');
         setProgress(95); // Ensure progress moves
@@ -191,4 +208,41 @@ const waitForFinalPreparation = (): Promise<void> => {
     // Final preparation time
     setTimeout(resolve, 300);
   });
+};
+
+// Wait until all provided video URLs fire `canplaythrough` or 15 s elapse.
+const waitForVideos = (urls: string[]): Promise<void> => {
+  if (urls.length === 0) return Promise.resolve();
+
+  const promises = urls.map((url) => {
+    return new Promise<void>((resolve) => {
+      const video = document.createElement('video');
+      video.src = url;
+      video.preload = 'auto';
+      video.muted = true;
+      video.playsInline = true;
+
+      const cleanup = () => {
+        video.remove();
+      };
+
+      const done = () => {
+        cleanup();
+        resolve();
+      };
+
+      // Resolve when enough media is buffered
+      video.addEventListener('canplaythrough', done, { once: true });
+      video.addEventListener('error', done, { once: true });
+
+      // Fallback timeout (15 s)
+      setTimeout(done, 15000);
+
+      // Start loading
+      // Append off-DOM to initiate network request in Safari/iOS
+      document.body.appendChild(video);
+    });
+  });
+
+  return Promise.all(promises).then(() => undefined);
 };

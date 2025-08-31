@@ -7,15 +7,18 @@ import { useResourceLoader } from "../hooks/useResourceLoader";
 
 interface LoadingBarProps {
   onComplete?: () => void;
+  /** URLs of videos that must preload before loader completes (home page only) */
+  videoUrls?: string[];
 }
 
-const LoadingBar = ({ onComplete }: LoadingBarProps) => {
+const LoadingBar = ({ onComplete, videoUrls }: LoadingBarProps) => {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Use real resource detection
   const { progress, message, isComplete } = useResourceLoader({
+    videoUrls,
     onComplete: () => {
       // Small delay for smooth transition and to ensure loading bar is visible
       setTimeout(() => {
