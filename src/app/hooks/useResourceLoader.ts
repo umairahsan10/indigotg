@@ -250,6 +250,12 @@ const waitForVideos = (urls: string[]): Promise<void> => {
         setTimeout(done, 15000);
       }
 
+      // Register globally for later reuse by HeroSlider
+      const globalKey = '__preloadedVideos';
+      const w = window as any;
+      if (!w[globalKey]) w[globalKey] = {};
+      w[globalKey][url] = video;
+
       // Append to DOM to trigger network request
       document.body.appendChild(video);
     });

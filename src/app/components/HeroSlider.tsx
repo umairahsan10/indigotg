@@ -1411,20 +1411,38 @@ const HeroSlider = () => {
         pointer-events: none;
       `;
 
-      const video = document.createElement('video');
-      video.src = slideData.image;
+      // Try to reuse preloaded video if available
+      const preloadedMap = (window as any)['__preloadedVideos'] as Record<string, HTMLVideoElement> | undefined;
+      let video: HTMLVideoElement;
+      if (preloadedMap && preloadedMap[slideData.image]) {
+        video = preloadedMap[slideData.image];
+      } else {
+        video = document.createElement('video');
+        video.src = slideData.image;
+        video.muted = true;
+        video.setAttribute('muted', '');
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        video.loop = true;
+        video.autoplay = true;
+      }
+
       video.style.cssText = `
         width: 100%;
         height: 100%;
         object-fit: cover;
         pointer-events: none;
       `;
-      video.loop = true;
-      video.muted = true;
-      video.playsInline = true;
-      video.autoplay = true;
 
-      videoOverlay.appendChild(video);
+      // Ensure the video is attached only once
+      if (!video.parentElement) {
+        videoOverlay.appendChild(video);
+      } else {
+        // Move the element to the new overlay container
+        video.parentElement.removeChild(video);
+        videoOverlay.appendChild(video);
+      }
+
       if (sliderRef.current) {
         (sliderRef.current as HTMLElement).appendChild(videoOverlay);
       }
