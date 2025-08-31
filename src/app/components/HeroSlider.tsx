@@ -1437,11 +1437,17 @@ const HeroSlider = () => {
       // Ensure the video is attached only once
       if (!video.parentElement) {
         videoOverlay.appendChild(video);
-      } else {
-        // Move the element to the new overlay container
+      } else if (video.parentElement !== videoOverlay) {
         video.parentElement.removeChild(video);
         videoOverlay.appendChild(video);
       }
+
+      // Ensure playback starts (some browsers pause when element is detached)
+      try {
+        video.currentTime = 0;
+        const playPromise = video.play();
+        if (playPromise) playPromise.catch(() => {});
+      } catch {}
 
       if (sliderRef.current) {
         (sliderRef.current as HTMLElement).appendChild(videoOverlay);
