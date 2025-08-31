@@ -220,26 +220,37 @@ const waitForVideos = (urls: string[]): Promise<void> => {
       video.src = url;
       video.preload = 'auto';
       video.muted = true;
+      video.setAttribute('muted', '');
       video.playsInline = true;
+      video.setAttribute('playsinline', '');
+      video.autoplay = true;
+      video.setAttribute('autoplay', '');
 
-      const cleanup = () => {
-        video.remove();
-      };
+      // Hide but keep in DOM so the buffered data is retained
+      Object.assign(video.style, {
+        position: 'fixed',
+        width: '0',
+        height: '0',
+        opacity: '0',
+        pointerEvents: 'none',
+      });
 
       const done = () => {
-        cleanup();
         resolve();
       };
 
-      // Resolve when enough media is buffered
-      video.addEventListener('canplaythrough', done, { once: true });
-      video.addEventListener('error', done, { once: true });
+      // Resolve when first frame is ready (loadeddata) which fires earlier than canplaythrough but guarantees we have frame to show
+      if (video.readyState >= 2) {
+        done();
+      } else {
+        video.addEventListener('loadeddata', done, { once: true });
+        video.addEventListener('error', done, { once: true });
 
-      // Fallback timeout (15 s)
-      setTimeout(done, 15000);
+        // Fallback timeout (15 s)
+        setTimeout(done, 15000);
+      }
 
-      // Start loading
-      // Append off-DOM to initiate network request in Safari/iOS
+      // Append to DOM to trigger network request
       document.body.appendChild(video);
     });
   });
