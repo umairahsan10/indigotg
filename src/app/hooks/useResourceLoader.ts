@@ -3,6 +3,11 @@ import { useEffect, useState, useRef } from 'react';
 interface ResourceLoaderOptions {
   onProgress?: (progress: number, message: string) => void;
   onComplete?: () => void;
+  /**
+   * Optional list of video URLs that must reach `canplaythrough` before loading completes.
+   * Used by the home-page hero so we don’t expose video logic on every route.
+   */
+  videoUrls?: string[];
 }
 
 export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
@@ -73,7 +78,19 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
         setProgress(90);
         options.onProgress?.(90, 'Preparing 3D components...');
 
-        // Phase 4: Final preparation
+        // Phase 4 (optional): Wait for specified videos to buffer enough for playback
+        if (options.videoUrls && options.videoUrls.length > 0) {
+          if (!mountedRef.current) return;
+          setMessage('Preparing media...');
+          setProgress(92);
+          options.onProgress?.(92, 'Preparing media...');
+
+          await waitForVideos(options.videoUrls);
+
+          setProgress(95);
+          options.onProgress?.(95, 'Preparing media...');
+        }
+        // Phase 5: Final preparation
         if (!mountedRef.current) return;
         setMessage('Finalizing...');
         setProgress(95); // Ensure progress moves
@@ -191,4 +208,67 @@ const waitForFinalPreparation = (): Promise<void> => {
     // Final preparation time
     setTimeout(resolve, 300);
   });
+};
+
+// Wait until all provided video URLs fire `canplaythrough` or 15 s elapse.
+const waitForVideos = (urls: string[]): Promise<void> => {
+  if (urls.length === 0) return Promise.resolve();
+
+  const promises = urls.map((url) => {
+    return new Promise<void>((resolve) => {
+      const video = document.createElement('video');
+      video.src = url;
+      video.crossOrigin = 'anonymous';
+      video.preload = 'auto';
+      video.muted = true;
+      video.setAttribute('muted', '');
+      video.playsInline = true;
+      video.setAttribute('playsinline', '');
+      video.autoplay = true;
+      video.setAttribute('autoplay', '');
+
+      // Hide but keep in DOM so the buffered data is retained
+      Object.assign(video.style, {
+        position: 'fixed',
+        width: '1px',
+        height: '1px',
+        opacity: '0',
+        pointerEvents: 'none',
+      });
+
+      const done = () => {
+        resolve();
+      };
+
+      // Resolve when browser can begin playback (readyState >= 3 / canplay)
+      const ready = () => video.readyState >= 3;
+
+      if (ready()) {
+        done();
+      } else {
+        const onCanPlay = () => done();
+        video.addEventListener('canplay', onCanPlay, { once: true });
+        // fallback: also listen for canplaythrough if earlier doesn't fire
+        video.addEventListener('canplaythrough', onCanPlay, { once: true });
+        video.addEventListener('loadeddata', () => {
+          if (ready()) done();
+        }, { once: true });
+        video.addEventListener('error', done, { once: true });
+
+        // Fallback timeout (15 s)
+        setTimeout(done, 15000);
+      }
+
+      // Register globally for later reuse by HeroSlider
+      const globalKey = '__preloadedVideos';
+      const w = window as any;
+      if (!w[globalKey]) w[globalKey] = {};
+      w[globalKey][url] = video;
+
+      // Append to DOM to trigger network request
+      document.body.appendChild(video);
+    });
+  });
+
+  return Promise.all(promises).then(() => undefined);
 };

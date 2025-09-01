@@ -163,7 +163,19 @@ const PageLoader = ({ children }: PageLoaderProps) => {
     <>
       {/* Show loading overlays during loading phases */}
       {phase === 'triangle' && <TriangleLoader />}
-      {phase === 'loading' && <LoadingBar onComplete={handleLoadingComplete} />}
+      {phase === 'loading' && (
+        <LoadingBar
+          onComplete={handleLoadingComplete}
+          videoUrls={pathname === '/' ? [
+            '/home/video1.mp4',
+            '/home/globe_video2.mp4',
+            '/home/subsea_video.mp4',
+            '/home/218489.mp4',
+            '/home/video5.mp4',
+            '/home/video8.mp4',
+          ] : undefined}
+        />
+      )}
       {phase === 'blocks' && <BlocksTransition onComplete={handleBlocksComplete} />}
       
       {/* Always render page content - ensure it's fully visible for animations */}

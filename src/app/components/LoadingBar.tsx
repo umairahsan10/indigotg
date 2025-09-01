@@ -4,25 +4,33 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Logo from "./Logo";
 import { useResourceLoader } from "../hooks/useResourceLoader";
+import { useVideoPreloader } from "../hooks/useVideoPreloader";
 
 interface LoadingBarProps {
   onComplete?: () => void;
+  /** URLs of videos that must preload before loader completes (home page only) */
+  videoUrls?: string[];
 }
 
-const LoadingBar = ({ onComplete }: LoadingBarProps) => {
+const LoadingBar = ({ onComplete, videoUrls }: LoadingBarProps) => {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Use real resource detection
-  const { progress, message, isComplete } = useResourceLoader({
-    onComplete: () => {
-      // Small delay for smooth transition and to ensure loading bar is visible
-      setTimeout(() => {
-        onComplete?.();
-      }, 500); // Increased delay for better UX
+  const { progress, message, isComplete } = useResourceLoader({ videoUrls });
+
+  // If we were given videoUrls we also wait for actual <video> elements with the
+  // data attribute to be able to play through.
+  const isVideoLoading = videoUrls ? useVideoPreloader("video[data-hero-video]") : false;
+
+  // Trigger onComplete when everything is ready
+  useEffect(() => {
+    if (isComplete && !isVideoLoading) {
+      const t = setTimeout(() => onComplete?.(), 300); // small delay for UX
+      return () => clearTimeout(t);
     }
-  });
+  }, [isComplete, isVideoLoading, onComplete]);
 
   useEffect(() => {
     if (!containerRef.current || !logoRef.current) return;
