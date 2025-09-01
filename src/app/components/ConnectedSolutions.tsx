@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRegisterLoaderPromise } from "./LoaderContext";
 import useTilt from "../hooks/useTilt";
 import { orbitron } from "../fonts";
 
@@ -44,6 +45,7 @@ const cards: Card[] = [
 // Basic hover scale handled via CSS
 
 export default function ConnectedSolutions() {
+  const { registerLoaderPromise } = useRegisterLoaderPromise();
   const sectionRef = useRef<HTMLElement | null>(null);
   const bgRef = useRef<SVGSVGElement | null>(null);
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
@@ -62,6 +64,22 @@ export default function ConnectedSolutions() {
     if (!bgRef.current) return;
     const dots = bgRef.current.querySelectorAll(".dot");
 
+    // loader promise for this section
+    let resolved = false;
+    let promiseResolveFn: () => void = () => {};
+    const promise = new Promise<void>((res) => {
+      promiseResolveFn = res;
+      setTimeout(res, 2000); // fallback after 2s
+    });
+    const ready = () => {
+      if (!resolved) {
+        resolved = true;
+        promiseResolveFn();
+      }
+    };
+
+    registerLoaderPromise(promise);
+
     // Simple infinite horizontal movement via GSAP timeline
     const tl = gsap.timeline({ repeat: -1 });
     dots.forEach((dot, i) => {
@@ -76,9 +94,8 @@ export default function ConnectedSolutions() {
       onEnter: () => gsap.to(tl, { timeScale: 1.1, duration: 0.6 }),
       onLeaveBack: () => gsap.to(tl, { timeScale: 0.8, duration: 0.6 }),
       onEnterBack: () => gsap.to(tl, { timeScale: 1, duration: 0.6 }),
+      onRefresh: () => ready(),
     });
-
-    
 
     return () => {
       tl.kill();
