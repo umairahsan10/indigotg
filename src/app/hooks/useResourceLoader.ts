@@ -220,7 +220,7 @@ const waitForVideos = (): Promise<void> => {
       try {
         const url = new URL(src, window.location.href);
         const path = url.pathname;
-        const poster = path.replace(/\.(mp4|webm|ogg)$/i, '.jpg');
+        const poster = path.replace(/\.(mp4|webm|ogg)$/i, '.png');
         return poster;
       } catch {
         return null;
