@@ -20,6 +20,15 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
     setProgress(0);
     setMessage('Initializing...');
     setIsComplete(false);
+
+    // Detect if this is the very first visit to the homepage in this browser (no reload yet)
+    let isHomeFirstLoad = false;
+    try {
+      const pathname = window.location.pathname;
+      if (pathname === '/' && !localStorage.getItem('homeFirstLoadDone')) {
+        isHomeFirstLoad = true;
+      }
+    } catch {}
     
     // Ensure progress starts moving immediately
     const initialProgress = setTimeout(() => {
@@ -43,52 +52,77 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
           }
         }, 10000); // 10 second global timeout
 
-        // Phase 1: Wait for images to load (or skip if none)
+        // Phase 1: Wait for web fonts to load
+        if (!mountedRef.current) return;
+        setMessage('Loading fonts...');
+        setProgress(10);
+        options.onProgress?.(10, 'Loading fonts...');
+
+        await waitForFonts();
+        setProgress(25);
+        options.onProgress?.(25, 'Loading fonts...');
+
+        // Phase 2: Wait for images to load (or skip if none)
         if (!mountedRef.current) return;
         setMessage('Loading images...');
-        setProgress(10); // Start with some progress
-        options.onProgress?.(10, 'Loading images...');
+        setProgress(30);
+        options.onProgress?.(30, 'Loading images...');
         
         await waitForImages();
-        setProgress(40);
-        options.onProgress?.(40, 'Loading images...');
+        setProgress(50);
+        options.onProgress?.(50, 'Loading images...');
 
-        // Phase 2: Wait for GSAP components
+        // Phase 3: Wait for videos first frame
+        if (!mountedRef.current) return;
+        setMessage('Loading videos...');
+        setProgress(55);
+        options.onProgress?.(55, 'Loading videos...');
+
+        await waitForVideos();
+        setProgress(65);
+        options.onProgress?.(65, 'Loading videos...');
+
+        // Phase 4: Wait for GSAP components
         if (!mountedRef.current) return;
         setMessage('Initializing animations...');
-        setProgress(50); // Ensure progress moves
-        options.onProgress?.(50, 'Initializing animations...');
-        
-        await waitForGSAPComponents();
         setProgress(70);
         options.onProgress?.(70, 'Initializing animations...');
+        
+        await waitForGSAPComponents();
+        setProgress(80);
+        options.onProgress?.(80, 'Initializing animations...');
 
-        // Phase 3: Wait for 3D components
+        // Phase 5: Wait for 3D components
         if (!mountedRef.current) return;
         setMessage('Preparing 3D components...');
-        setProgress(80); // Ensure progress moves
-        options.onProgress?.(80, 'Preparing 3D components...');
+        setProgress(85);
+        options.onProgress?.(85, 'Preparing 3D components...');
         
         await waitFor3DComponents();
-        setProgress(90);
-        options.onProgress?.(90, 'Preparing 3D components...');
+        setProgress(92);
+        options.onProgress?.(92, 'Preparing 3D components...');
 
-        // Phase 4: Final preparation
+        // Phase 6: Final preparation
         if (!mountedRef.current) return;
         setMessage('Finalizing...');
-        setProgress(95); // Ensure progress moves
-        options.onProgress?.(95, 'Finalizing...');
-        
+        setProgress(96);
+        options.onProgress?.(96, 'Finalizing...');
+
         await waitForFinalPreparation();
         setProgress(100);
         options.onProgress?.(100, 'Finalizing...');
 
-        // Ensure minimum loading time (at least 1.5 seconds total)
+        // Ensure minimum loading time
         const elapsed = Date.now() - startTimeRef.current;
-        const minLoadingTime = 1500; // 1.5 seconds minimum
+        const minLoadingTime = isHomeFirstLoad ? 25000 : 1500; // 15s for first home visit
         
         if (elapsed < minLoadingTime) {
           await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsed));
+        }
+
+        // Mark that the first homepage load has completed
+        if (isHomeFirstLoad) {
+          try { localStorage.setItem('homeFirstLoadDone', 'true'); } catch {}
         }
 
         // Clear the global timeout since we completed successfully
@@ -152,6 +186,70 @@ const waitForImages = (): Promise<void> => {
     
     // Fallback: if images take too long, resolve anyway
     setTimeout(resolve, 3000); // Max 3 seconds wait for images
+  });
+};
+
+const waitForFonts = (): Promise<void> => {
+  // Use the standard FontFaceSet API when available; falls back instantly otherwise
+  const fontSet = (document as any).fonts;
+  if (fontSet && typeof fontSet.ready === 'object' && typeof fontSet.ready.then === 'function') {
+    return fontSet.ready as Promise<void>;
+  }
+  return Promise.resolve();
+};
+
+const waitForVideos = (): Promise<void> => {
+  return new Promise((resolve) => {
+    const videos = Array.from(document.querySelectorAll('video'));
+    if (videos.length === 0) {
+      setTimeout(resolve, 200); // No videos to wait for, but add a small delay
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalVideos = videos.length;
+
+    const checkComplete = () => {
+      loadedCount++;
+      if (loadedCount >= totalVideos) {
+        resolve();
+      }
+    };
+
+    const derivePoster = (src: string): string | null => {
+      try {
+        const url = new URL(src, window.location.href);
+        const path = url.pathname;
+        const poster = path.replace(/\.(mp4|webm|ogg)$/i, '.png');
+        return poster;
+      } catch {
+        return null;
+      }
+    };
+
+    videos.forEach(video => {
+      // Attach fallback poster if none provided
+      if (!video.poster) {
+        const custom = video.getAttribute('data-poster');
+        const fallback = custom || derivePoster(video.currentSrc || video.src);
+        if (fallback) {
+          // Preload image so it appears immediately
+          const img = new Image();
+          img.src = fallback;
+          video.poster = fallback;
+        }
+      }
+
+      if (video.readyState >= 1) { // HAVE_CURRENT_DATA or higher
+        checkComplete();
+      } else {
+        video.addEventListener('loadeddata', checkComplete, { once: true });
+        video.addEventListener('error', checkComplete, { once: true });
+      }
+    });
+
+    // Fallback: if videos take too long, resolve anyway
+    setTimeout(resolve, 10000); // Max 10 seconds wait for videos
   });
 };
 
