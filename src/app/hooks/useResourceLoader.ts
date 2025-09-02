@@ -20,6 +20,15 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
     setProgress(0);
     setMessage('Initializing...');
     setIsComplete(false);
+
+    // Detect if this is the very first visit to the homepage in this browser (no reload yet)
+    let isHomeFirstLoad = false;
+    try {
+      const pathname = window.location.pathname;
+      if (pathname === '/' && !localStorage.getItem('homeFirstLoadDone')) {
+        isHomeFirstLoad = true;
+      }
+    } catch {}
     
     // Ensure progress starts moving immediately
     const initialProgress = setTimeout(() => {
@@ -103,12 +112,17 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
         setProgress(100);
         options.onProgress?.(100, 'Finalizing...');
 
-        // Ensure minimum loading time (at least 1.5 seconds total)
+        // Ensure minimum loading time
         const elapsed = Date.now() - startTimeRef.current;
-        const minLoadingTime = 1500; // 1.5 seconds minimum
+        const minLoadingTime = isHomeFirstLoad ? 15000 : 1500; // 15s for first home visit
         
         if (elapsed < minLoadingTime) {
           await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsed));
+        }
+
+        // Mark that the first homepage load has completed
+        if (isHomeFirstLoad) {
+          try { localStorage.setItem('homeFirstLoadDone', 'true'); } catch {}
         }
 
         // Clear the global timeout since we completed successfully
