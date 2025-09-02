@@ -43,42 +43,62 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
           }
         }, 10000); // 10 second global timeout
 
-        // Phase 1: Wait for images to load (or skip if none)
+        // Phase 1: Wait for web fonts to load
+        if (!mountedRef.current) return;
+        setMessage('Loading fonts...');
+        setProgress(10);
+        options.onProgress?.(10, 'Loading fonts...');
+
+        await waitForFonts();
+        setProgress(25);
+        options.onProgress?.(25, 'Loading fonts...');
+
+        // Phase 2: Wait for images to load (or skip if none)
         if (!mountedRef.current) return;
         setMessage('Loading images...');
-        setProgress(10); // Start with some progress
-        options.onProgress?.(10, 'Loading images...');
+        setProgress(30);
+        options.onProgress?.(30, 'Loading images...');
         
         await waitForImages();
-        setProgress(40);
-        options.onProgress?.(40, 'Loading images...');
+        setProgress(50);
+        options.onProgress?.(50, 'Loading images...');
 
-        // Phase 2: Wait for GSAP components
+        // Phase 3: Wait for videos first frame
+        if (!mountedRef.current) return;
+        setMessage('Loading videos...');
+        setProgress(55);
+        options.onProgress?.(55, 'Loading videos...');
+
+        await waitForVideos();
+        setProgress(65);
+        options.onProgress?.(65, 'Loading videos...');
+
+        // Phase 4: Wait for GSAP components
         if (!mountedRef.current) return;
         setMessage('Initializing animations...');
-        setProgress(50); // Ensure progress moves
-        options.onProgress?.(50, 'Initializing animations...');
-        
-        await waitForGSAPComponents();
         setProgress(70);
         options.onProgress?.(70, 'Initializing animations...');
+        
+        await waitForGSAPComponents();
+        setProgress(80);
+        options.onProgress?.(80, 'Initializing animations...');
 
-        // Phase 3: Wait for 3D components
+        // Phase 5: Wait for 3D components
         if (!mountedRef.current) return;
         setMessage('Preparing 3D components...');
-        setProgress(80); // Ensure progress moves
-        options.onProgress?.(80, 'Preparing 3D components...');
+        setProgress(85);
+        options.onProgress?.(85, 'Preparing 3D components...');
         
         await waitFor3DComponents();
-        setProgress(90);
-        options.onProgress?.(90, 'Preparing 3D components...');
+        setProgress(92);
+        options.onProgress?.(92, 'Preparing 3D components...');
 
-        // Phase 4: Final preparation
+        // Phase 6: Final preparation
         if (!mountedRef.current) return;
         setMessage('Finalizing...');
-        setProgress(95); // Ensure progress moves
-        options.onProgress?.(95, 'Finalizing...');
-        
+        setProgress(96);
+        options.onProgress?.(96, 'Finalizing...');
+
         await waitForFinalPreparation();
         setProgress(100);
         options.onProgress?.(100, 'Finalizing...');
@@ -152,6 +172,47 @@ const waitForImages = (): Promise<void> => {
     
     // Fallback: if images take too long, resolve anyway
     setTimeout(resolve, 3000); // Max 3 seconds wait for images
+  });
+};
+
+const waitForFonts = (): Promise<void> => {
+  // Use the standard FontFaceSet API when available; falls back instantly otherwise
+  const fontSet = (document as any).fonts;
+  if (fontSet && typeof fontSet.ready === 'object' && typeof fontSet.ready.then === 'function') {
+    return fontSet.ready as Promise<void>;
+  }
+  return Promise.resolve();
+};
+
+const waitForVideos = (): Promise<void> => {
+  return new Promise((resolve) => {
+    const videos = Array.from(document.querySelectorAll('video'));
+    if (videos.length === 0) {
+      setTimeout(resolve, 200); // No videos to wait for, but add a small delay
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalVideos = videos.length;
+
+    const checkComplete = () => {
+      loadedCount++;
+      if (loadedCount >= totalVideos) {
+        resolve();
+      }
+    };
+
+    videos.forEach(video => {
+      if (video.readyState >= 1) { // Check for 'HAVE_CURRENT_DATA' or higher
+        checkComplete();
+      } else {
+        video.addEventListener('loadedmetadata', checkComplete);
+        video.addEventListener('error', checkComplete);
+      }
+    });
+
+    // Fallback: if videos take too long, resolve anyway
+    setTimeout(resolve, 10000); // Max 10 seconds wait for videos
   });
 };
 
