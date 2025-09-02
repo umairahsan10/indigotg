@@ -216,12 +216,35 @@ const waitForVideos = (): Promise<void> => {
       }
     };
 
+    const derivePoster = (src: string): string | null => {
+      try {
+        const url = new URL(src, window.location.href);
+        const path = url.pathname;
+        const poster = path.replace(/\.(mp4|webm|ogg)$/i, '.jpg');
+        return poster;
+      } catch {
+        return null;
+      }
+    };
+
     videos.forEach(video => {
-      if (video.readyState >= 1) { // Check for 'HAVE_CURRENT_DATA' or higher
+      // Attach fallback poster if none provided
+      if (!video.poster) {
+        const custom = video.getAttribute('data-poster');
+        const fallback = custom || derivePoster(video.currentSrc || video.src);
+        if (fallback) {
+          // Preload image so it appears immediately
+          const img = new Image();
+          img.src = fallback;
+          video.poster = fallback;
+        }
+      }
+
+      if (video.readyState >= 1) { // HAVE_CURRENT_DATA or higher
         checkComplete();
       } else {
-        video.addEventListener('loadedmetadata', checkComplete);
-        video.addEventListener('error', checkComplete);
+        video.addEventListener('loadeddata', checkComplete, { once: true });
+        video.addEventListener('error', checkComplete, { once: true });
       }
     });
 
