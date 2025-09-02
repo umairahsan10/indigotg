@@ -114,7 +114,7 @@ export const useResourceLoader = (options: ResourceLoaderOptions = {}) => {
 
         // Ensure minimum loading time
         const elapsed = Date.now() - startTimeRef.current;
-        const minLoadingTime = isHomeFirstLoad ? 15000 : 1500; // 15s for first home visit
+        const minLoadingTime = isHomeFirstLoad ? 25000 : 1500; // 15s for first home visit
         
         if (elapsed < minLoadingTime) {
           await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsed));
